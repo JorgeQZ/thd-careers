@@ -5,7 +5,7 @@ function vacantes_cpt(){
         'vacantes',
         array(
             'labels' => array(
-                'name' => 'Vacantes',
+                'name' => 'Todas las vacantes',
                 'singular_name' =>'Vacante',
             ),
             'hierarchical'        => false,
@@ -30,8 +30,6 @@ function vacantes_cpt(){
         )
     );
 }
-
-
 
 add_action('init', 'vacantes_taxonomy');
 function vacantes_taxonomy(){

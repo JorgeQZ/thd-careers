@@ -1,5 +1,13 @@
 <?php
 get_header();
-echo 'hi';
 ?>
+
+
+<pre>
+    <?php
+
+
+
+    ?>
+</pre>
 <?php get_footer(); ?>
