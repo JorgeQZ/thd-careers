@@ -4,8 +4,7 @@
  */
 
 get_header();
-
-echo get_the_post_thumbnail( );
+echo get_the_post_thumbnail();
 $tax_name = "categorias_vacantes";
 $term = get_field($tax_name);
 
@@ -32,8 +31,9 @@ if($query->have_posts()):
                 $query->the_post();
                 ?>
                 <li>
-                    hello
                     <?php
+                    echo get_the_title().'</br>';
+                    echo get_the_id().'</br>';
                     echo get_field('ubicacion').'<br>';
                     echo get_field('tipo_de_jornada');
                     ?>
