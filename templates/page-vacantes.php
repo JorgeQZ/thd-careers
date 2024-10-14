@@ -4,7 +4,10 @@
  */
 
 get_header();
-echo get_the_post_thumbnail();
+// echo get_the_post_thumbnail();
+// echo '<br>';
+the_content();
+
 $tax_name = "categorias_vacantes";
 $term = get_field($tax_name);
 
@@ -30,14 +33,14 @@ if($query->have_posts()):
             while($query->have_posts()):
                 $query->the_post();
                 ?>
-                <li>
+                <!-- <li>
                     <?php
-                    echo get_the_title().'</br>';
-                    echo get_the_id().'</br>';
-                    echo get_field('ubicacion').'<br>';
-                    echo get_field('tipo_de_jornada');
+                    // echo get_the_title().'</br>';
+                    // echo get_the_id().'</br>';
+                    // echo get_field('ubicacion').'<br>';
+                    // echo get_field('tipo_de_jornada');
                     ?>
-                </li>
+                </li> -->
                 <?php
             endwhile;
             ?>

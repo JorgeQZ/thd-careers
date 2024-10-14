@@ -16,6 +16,11 @@ require_once("inc/users/fields.php");
 require_once("inc/users/roles.php");
 
 /**
+ * Map
+ */
+require_once("inc/map/conf.php");
+
+/**
  * General Setup
  */
 
