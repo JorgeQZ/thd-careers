@@ -31,7 +31,9 @@ if($query->have_posts()):
                 $query->the_post();
                 ?>
                 <li>
+                    <a href="<?php echo the_permalink( ); ?>">echo the_permalink( );</a>
                     <?php
+
                     echo get_the_title().'</br>';
                     echo get_the_id().'</br>';
                     echo get_field('ubicacion').'<br>';
