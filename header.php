@@ -7,3 +7,10 @@
     <?php wp_head(); ?>
 </head>
 <body>
+
+<header>
+    <?php
+    wp_nav_menu( 'primary_menu' );
+    ?>
+</header>
+<div class="main-content">
