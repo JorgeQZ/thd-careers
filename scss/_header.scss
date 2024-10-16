@@ -1,0 +1,19 @@
+header {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    background-color: orangered;
+
+    ul {
+        display: flex;
+
+        li {
+            padding: 10px;
+            list-style: none;
+
+            a {
+                color: white;
+            }
+        }
+    }
+}
