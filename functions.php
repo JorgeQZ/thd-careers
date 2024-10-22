@@ -16,6 +16,11 @@ require_once("inc/users/fields.php");
 require_once("inc/users/roles.php");
 
 /**
+ * Postulaciones
+ */
+require_once get_template_directory() . '/inc/postulaciones/conf.php';
+
+/**
  * General Setup
  */
 
