@@ -4,6 +4,13 @@
  */
 
 get_header();
+?>
+<style>
+    header{
+        display: none;
+    }
+</style>
+<?php
 echo get_the_post_thumbnail();
 $tax_name = "categorias_vacantes";
 $term = get_field($tax_name);

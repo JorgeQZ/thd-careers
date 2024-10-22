@@ -3,7 +3,8 @@
     $user = wp_get_current_user();
     $role = $user->roles[0];
     $current_user_id = get_current_user_id();
-    $table = get_field('tiendas', 'option');
+    $table = get_field('catalogo_de_tiendas', 'option');
+
     switch($role):
         case 'administrator':
             return $table;
@@ -29,8 +30,9 @@
             $stores = [];
             if($table):
                 foreach($table as $row):
-                    if($row['numero_de_tienda'] == $users_store)
+                    if($row['numero_de_tienda'] == $users_store){
                         array_push($stores , $row);
+                    }
                 endforeach;
                 return $stores;
             endif;
