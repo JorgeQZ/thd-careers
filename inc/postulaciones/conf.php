@@ -40,7 +40,7 @@ add_action( 'init', 'registrar_postulaciones_post_type' );
 add_filter('acf/load_field', 'disable_message_load_fields');
 
 function disable_message_load_fields( $field ) {
-    $fields_to_disable = ['Nombre', 'Correo', 'Apellidopaterno', 'Apellidomaterno']; // Lista de campos que deseas hacer readonly
+    $fields_to_disable = ['Nombre', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'vacante']; // Lista de campos que deseas hacer readonly
 
     if (in_array($field['name'], $fields_to_disable)) {
         $field['readonly'] = 1;
@@ -77,21 +77,28 @@ function validar_estado_postulacion( $post_id ) {
 }
 add_action('acf/save_post', 'validar_estado_postulacion', 20);
 
-// Agregar una nueva columna para mostrar el valor del campo Estado en la tabla del post-type 'postulaciones'
-function agregar_columna_estado_postulaciones($columns) {
-    $columns['acf_estado'] = __('Estado'); // Título de la columna
+// Agregar nuevas columnas para mostrar los campos 'Estado' y 'Vacante' en la tabla del post-type 'postulaciones'
+function agregar_columnas_postulaciones($columns) {
+    $columns['acf_estado'] = __('Estado'); // Título de la columna 'Estado'
+    $columns['acf_vacante'] = __('Vacante'); // Título de la columna 'Vacante'
     return $columns;
 }
-add_filter('manage_postulaciones_posts_columns', 'agregar_columna_estado_postulaciones');
+add_filter('manage_postulaciones_posts_columns', 'agregar_columnas_postulaciones');
 
-// Mostrar el valor del campo Estado en la nueva columna
-function mostrar_valor_estado_postulaciones($column, $post_id) {
+// Mostrar los valores de los campos 'Estado' y 'Vacante' en sus respectivas columnas
+function mostrar_valores_columnas_postulaciones($column, $post_id) {
     if ($column == 'acf_estado') {
-        $estado = get_field('Estado', $post_id); // Obtiene el valor del campo 'Estado'
-        echo esc_html($estado); // Imprime el valor en la tabla
+        $estado = get_field('Estado', $post_id); // Obtener el valor del campo 'Estado'
+        echo esc_html($estado); // Mostrar el valor en la tabla
+    }
+
+    if ($column == 'acf_vacante') {
+        $vacante = get_field('vacante', $post_id); // Obtener el valor del campo 'Vacante'
+        echo esc_html($vacante); // Mostrar el valor en la tabla
     }
 }
-add_action('manage_postulaciones_posts_custom_column', 'mostrar_valor_estado_postulaciones', 10, 2);
+add_action('manage_postulaciones_posts_custom_column', 'mostrar_valores_columnas_postulaciones', 10, 2);
+
 
 // Cambiar el estado a "Visto" al hacer clic en "Editar" una postulación
 function cambiar_estado_al_abrir_edicion() {

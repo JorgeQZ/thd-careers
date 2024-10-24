@@ -45,6 +45,9 @@ Template Name: Postulaciones
             update_field('Correo', $correo, $postulacion_id);
             update_field('Estado', 'Postulado', $postulacion_id);
 
+            // Guardar el título del post actual en el campo 'vacante'
+            update_field('vacante', get_the_title(get_queried_object_id()), $postulacion_id);
+
             // Manejar la subida del archivo CV
             if (!empty($_FILES['acf_postulacion_cv']['name'])) {
                 if (!function_exists('wp_handle_upload')) {
@@ -148,6 +151,9 @@ Template Name: Postulaciones
             <label for="acf_postulacion_correo">Correo:</label>
             <input type="text" id="acf_postulacion_correo" name="acf_postulacion_correo" value="<?php echo esc_attr($mail); ?>" required>
         </div>
+
+        <br>
+        <br>
 
         <div class="contenedor-boton">
             <input type="submit" value="Enviar Postulación">
