@@ -1,0 +1,16 @@
+.contenedor {
+    padding: 10px 0px;
+
+    input {
+        margin-top: 5px;
+    }
+}
+
+.contenedor.contenedor-apellidos {
+    display: flex;
+    gap: 20px;
+}
+
+form button {
+    margin: 15px 0px;
+}
