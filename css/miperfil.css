@@ -1,0 +1,17 @@
+.contenedor {
+  padding: 10px 0px;
+}
+.contenedor input {
+  margin-top: 5px;
+}
+
+.contenedor.contenedor-apellidos {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+}
+
+form button {
+  margin: 15px 0px;
+}
