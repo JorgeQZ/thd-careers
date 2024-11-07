@@ -56,6 +56,7 @@ function careers_roles(){
 		)
 	);
 
+
 	add_role(
 		'rh_tienda',
 		'RH Tienda',
@@ -63,12 +64,12 @@ function careers_roles(){
 			'read' => true,
 			'moderate_comments' => false,
 			'manage_options' => false,
-			'edit_pages' => true,
+			'edit_pages' => false,
 
 			/** POSTS */
 			'delete_posts' => true,
-			'delete_published_posts' => true,
-			'delete_others_posts' => true,
+			'delete_published_posts' => false,
+			'delete_others_posts' => false,
 			'delete_private_posts' => true,
 			'edit_private_posts' => true,
 			'read_private_posts' => true,
@@ -76,7 +77,7 @@ function careers_roles(){
 			'edit_published_posts' => true,
 			'edit_others_posts' => true,
 			'create_posts' => true,
-			'publish_posts' => true,
+			'publish_posts' => false,
 
 			/** Categories */
 			'manage_categories' => true,
@@ -89,6 +90,24 @@ function careers_roles(){
 	remove_role( 'contributor' );
 }
 add_action( 'admin_init', 'careers_roles' );
+
+function actualizar_rol_para_no_publicar() {
+    $rolTienda = get_role('rh_tienda');
+    if ($rolTienda) {
+        $rolTienda->remove_cap('publish_posts');
+        $rolTienda->remove_cap('delete_others_posts');
+        $rolTienda->remove_cap('edit_others_posts');
+        $rolTienda->remove_cap('manage_categories');
+    }
+
+	$rolDistrito = get_role('rh_distrito');
+    if ($rolDistrito) {
+		$rolDistrito->add_cap('publish_posts');
+		$rolDistrito->add_cap('delete_others_posts');
+		$rolDistrito->add_cap('edit_others_posts');
+    }
+}
+add_action('init', 'actualizar_rol_para_no_publicar');
 
 add_action('init', 'update_role_name');
 function update_role_name(){
@@ -122,5 +141,36 @@ function restrict_admin_access_for_general_users() {
     }
 }
 add_action('admin_init', 'restrict_admin_access_for_general_users');
+
+
+add_action('admin_menu', function() {
+	if (current_user_can('rh_tienda')) {
+		remove_menu_page('edit.php');
+		remove_menu_page('tools.php');
+		remove_menu_page('edit-comments.php');
+		remove_menu_page('edit.php?post_type=page');
+		remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
+		remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
+	}
+
+
+	if (current_user_can('rh_distrito')) {
+		remove_menu_page('edit.php');
+		remove_menu_page('tools.php');
+		remove_menu_page('edit-comments.php');
+		remove_menu_page('edit.php?post_type=page');
+		remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
+		remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
+	}
+});
+
+function hide_acf_options_page_for_specific_role() {
+    // Check if the user has the restricted role
+    if (current_user_can('rh_tienda')) {
+        // Replace 'acf-options-page-slug' with the actual slug of the ACF options page you want to hide
+        remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
+    }
+}
+add_action('admin_menu', 'hide_acf_options_page_for_specific_role', 99);
 
 ?>

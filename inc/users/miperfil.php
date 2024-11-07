@@ -144,6 +144,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Establecer mensaje de éxito en la sesión.
         $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
     }
+
+    if (isset($_POST['grado_escolaridad'])) {
+        $grado_escolaridad = sanitize_text_field($_POST['grado_escolaridad']);
+        update_field('grado_escolaridad_general', $grado_escolaridad, 'user_' . $user_id); // Guardar en ACF.
+
+        // Establecer mensaje de éxito en la sesión.
+        $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
+    }
+
+    if (isset($_POST['estado_civil'])) {
+        $estado_civil = sanitize_text_field($_POST['estado_civil']);
+        update_field('estado_civil_general', $estado_civil, 'user_' . $user_id); // Guardar en ACF.
+
+        // Establecer mensaje de éxito en la sesión.
+        $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
+    }
+
+    if (isset($_POST['nacionalidad'])) {
+        $nacionalidad = sanitize_text_field($_POST['nacionalidad']);
+        update_field('nacionalidad_general', $nacionalidad, 'user_' . $user_id); // Guardar en ACF.
+
+        // Establecer mensaje de éxito en la sesión.
+        $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
+    }
 }
 
 // Obtener el valor actual del campo ACF.
@@ -164,6 +188,9 @@ $instagram_actual = get_field('instagram_general', 'user_' . $user_id);
 $telefono_celular_actual = get_field('telefono_celular_general', 'user_' . $user_id);
 $telefono_fijo_actual = get_field('telefono_fijo_general', 'user_' . $user_id);
 $correo2_actual = get_field('correo_general_2', 'user_' . $user_id);
+$grado_escolaridad_actual = get_field('grado_escolaridad_general', 'user_' . $user_id);
+$estado_civil_actual = get_field('estado_civil_general', 'user_' . $user_id);
+$nacionalidad_actual = get_field('nacionalidad_general', 'user_' . $user_id);
 
 // Verificar si la fecha existe y convertirla al formato `Y-m-d`.
 if ($fecha_de_nacimiento_actual) {

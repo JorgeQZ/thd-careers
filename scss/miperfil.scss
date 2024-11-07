@@ -3,14 +3,29 @@
 
     input {
         margin-top: 5px;
+        width: 454px;
+    }
+
+    select {
+        width: 219px;
     }
 }
 
-.contenedor.contenedor-apellidos {
+.contenedor.contenedor-doscampos {
     display: flex;
     gap: 20px;
+
+    input {
+        width: 213px;
+    }
 }
 
 form button {
     margin: 15px 0px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

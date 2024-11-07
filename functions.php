@@ -34,4 +34,15 @@ require_once("inc/users/roles.php");
 	}
 endif;
 add_action( 'after_setup_theme', 'careers_setup' );
+
+
+
+function careers_styles() {
+  wp_enqueue_style( 'generals', get_template_directory_uri(  ).'/css/generals.css');
+
+	// if (is_page_template('page-miperfil.php')) {
+		wp_enqueue_style( 'miperfil', get_template_directory_uri() . '/css/miperfil.css' );
+	// }
+}
+add_action( 'wp_enqueue_scripts', 'careers_styles' );
 ?>
