@@ -45,8 +45,30 @@ Template Name: Postulaciones
             update_field('Correo', $correo, $postulacion_id);
             update_field('Estado', 'Postulado', $postulacion_id);
 
-            // Guardar el título del post actual en el campo 'vacante'
-            update_field('vacante', get_the_title(get_queried_object_id()), $postulacion_id);
+            // Obtener el ID del post principal actual
+            $post_id = get_queried_object_id();
+
+            // Guardar el título del post en el campo 'vacante' de la postulación
+            update_field('vacante_vacante', get_the_title(get_queried_object_id()), $postulacion_id);
+
+            // Obtener el valor del campo ACF 'ubicacion' del post principal
+            $ubicacion = get_field('ubicacion', $post_id);
+
+            // Obtener el valor del campo 'extra_data' del post principal
+            $extra_data = get_field('extra_data', $post_id);
+
+            // Obtener el valor del campo ACF 'data_tienda' del post principal
+            $numero_tienda = $extra_data['data_tienda'];
+
+            // Guardar la 'ubicacion' en el campo 'ubicacion_vacante' de la postulación si tiene valor
+            if (!empty($ubicacion)) {
+                update_field('ubicacion_vacante', $ubicacion, $postulacion_id);
+            }
+
+            // Guardar el numero de tienda en el campo 'numero_de_tienda_vacante' de la postulación si tiene valor
+            if (!empty($numero_tienda)) {
+                update_field('numero_de_tienda_vacante', $numero_tienda, $postulacion_id);
+            }
 
             // Manejar la subida del archivo CV
             if (!empty($_FILES['acf_postulacion_cv']['name'])) {
