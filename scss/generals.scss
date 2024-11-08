@@ -6,6 +6,7 @@ html,
 body {
     padding: 0;
     margin: 0;
+    font-family: $ff-roman;
 }
 
 // Tamaños
@@ -15,7 +16,11 @@ body {
 
     margin: 0 auto;
     box-sizing: border-box;
-    background-color: red;
+}
+
+
+h1 {
+    font-family: $ff-cn;
 }
 
 // Header

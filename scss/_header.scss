@@ -1,6 +1,6 @@
 header {
     background-color: $dark_grey;
-    padding: 35px 80px;
+    padding: 15px 80px;
     width: 100%;
     box-sizing: border-box;
 
@@ -21,15 +21,15 @@ header {
             .site-title {
                 color: white;
                 margin: 0 10px;
-                // font-size: 15px;
+                font-size: 15px;
                 line-height: 1;
                 text-transform: uppercase;
                 font-family: $ff-cn;
-
+                margin-bottom: -5px;
 
                 strong {
                     line-height: 1;
-                    // font-size: 21px;
+                    font-size: 21px;
                     font-family: $ff-hvcn;
                 }
             }

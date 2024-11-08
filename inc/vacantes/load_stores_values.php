@@ -26,19 +26,15 @@
                 return $stores;
             endif;
             break;
-        case 'rh_tienda':
-
+        case 'rh_general':
             $field = 'tienda';
             $users_store = get_user_meta($current_user_id, $field, true);
-            echo $users_store;
+
             $stores = [];
             if($table):
                 foreach($table as $row):
 
                     if($row['numero_de_tienda'] === $users_store){
-                        echo '<pre>';
-                        print_r($row);
-                        echo '</pre>';
                         array_push($stores , $row);
                     }
                 endforeach;

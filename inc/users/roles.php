@@ -58,8 +58,8 @@ function careers_roles(){
 
 
 	add_role(
-		'rh_tienda',
-		'RH Tienda',
+		'rh_general',
+		'RH General',
 		array(
 			'read' => true,
 			'moderate_comments' => false,
@@ -75,29 +75,32 @@ function careers_roles(){
 			'read_private_posts' => true,
 			'edit_posts' => true,
 			'edit_published_posts' => true,
-			'edit_others_posts' => true,
+			'edit_others_posts' => false,
 			'create_posts' => true,
 			'publish_posts' => false,
 
 			/** Categories */
-			'manage_categories' => true,
+			'manage_categories' => false,
 			'upload_files' => true,
 		)
 	);
 
+
+
 	remove_role( 'author' );
 	remove_role( 'editor' );
 	remove_role( 'contributor' );
+	remove_role( 'rh_tienda' );
 }
 add_action( 'admin_init', 'careers_roles' );
 
 function actualizar_rol_para_no_publicar() {
-    $rolTienda = get_role('rh_tienda');
-    if ($rolTienda) {
-        $rolTienda->remove_cap('publish_posts');
-        $rolTienda->remove_cap('delete_others_posts');
-        $rolTienda->remove_cap('edit_others_posts');
-        $rolTienda->remove_cap('manage_categories');
+    $rh_general = get_role('rh_general');
+    if ($rh_general) {
+        $rh_general->remove_cap('publish_posts');
+        $rh_general->remove_cap('delete_others_posts');
+        $rh_general->remove_cap('edit_others_posts');
+        $rh_general->remove_cap('manage_categories');
     }
 
 	$rolDistrito = get_role('rh_distrito');
@@ -144,7 +147,7 @@ add_action('admin_init', 'restrict_admin_access_for_general_users');
 
 
 add_action('admin_menu', function() {
-	if (current_user_can('rh_tienda')) {
+	if (current_user_can('rh_general')) {
 		remove_menu_page('edit.php');
 		remove_menu_page('tools.php');
 		remove_menu_page('edit-comments.php');
@@ -166,7 +169,7 @@ add_action('admin_menu', function() {
 
 function hide_acf_options_page_for_specific_role() {
     // Check if the user has the restricted role
-    if (current_user_can('rh_tienda')) {
+    if (current_user_can('rh_general')) {
         // Replace 'acf-options-page-slug' with the actual slug of the ACF options page you want to hide
         remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
     }
