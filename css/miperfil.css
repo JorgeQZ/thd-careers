@@ -46,14 +46,9 @@
   font-style: normal;
   font-display: swap;
 }
-input {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border: 1px solid grey;
-  border-radius: 0px;
-  padding: 0 5px;
-  height: 30px;
+form {
+  max-width: 466px;
+  margin: 0 auto;
 }
 
 .contenedor {
@@ -63,6 +58,13 @@ input {
 .contenedor input {
   margin-top: 5px;
   width: 454px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 1px solid grey;
+  border-radius: 0px;
+  padding: 0 5px;
+  height: 30px;
 }
 .contenedor select {
   width: 219px;
@@ -96,6 +98,7 @@ body {
 }
 
 .act-datos {
+  margin-top: 20px !important;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;

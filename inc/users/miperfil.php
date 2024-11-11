@@ -168,6 +168,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Establecer mensaje de éxito en la sesión.
         $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
     }
+
+    if (isset($_POST['pregunta1'])) {
+        $pregunta1 = sanitize_text_field($_POST['pregunta1']);
+        update_field('ar1', $pregunta1, 'user_' . $user_id); // Guardar en ACF.
+
+        // Establecer mensaje de éxito en la sesión.
+        $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
+    }
+
+    if (isset($_POST['pregunta2'])) {
+        $pregunta2 = sanitize_text_field($_POST['pregunta2']);
+        update_field('ar2', $pregunta2, 'user_' . $user_id); // Guardar en ACF.
+
+        // Establecer mensaje de éxito en la sesión.
+        $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
+    }
+
+    if (isset($_POST['otro_detalle'])) {
+        $otro_detalle = sanitize_textarea_field($_POST['otro_detalle']);
+        update_field('otroar2', $otro_detalle, 'user_' . $user_id); // Guardar en ACF.
+        $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
+    }
 }
 
 // Obtener el valor actual del campo ACF.
@@ -191,6 +213,9 @@ $correo2_actual = get_field('correo_general_2', 'user_' . $user_id);
 $grado_escolaridad_actual = get_field('grado_escolaridad_general', 'user_' . $user_id);
 $estado_civil_actual = get_field('estado_civil_general', 'user_' . $user_id);
 $nacionalidad_actual = get_field('nacionalidad_general', 'user_' . $user_id);
+$pregunta1_actual = get_field('ar1', 'user_' . $user_id);
+$pregunta2_actual = get_field('ar2', 'user_' . $user_id);
+$otroar2_actual = get_field('otroar2', 'user_' . $user_id);
 
 // Verificar si la fecha existe y convertirla al formato `Y-m-d`.
 if ($fecha_de_nacimiento_actual) {
