@@ -1,8 +1,7 @@
-<?php
-get_header();
+<?php get_header(); ?>
 
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/home.css">
 
-the_content( );
+<?php the_content(); ?>
 
-get_footer();
-?>
+<?php get_footer(); ?>
