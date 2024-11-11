@@ -8,6 +8,8 @@
   */
 require_once("inc/vacantes/conf.php");
 require_once("inc/vacantes/load_stores_values.php");
+require_once("inc/vacantes/catalogo_vacantes.php");
+require_once("inc/vacantes/mis_vacantes.php");
 
 /**
  * Users

@@ -7,7 +7,6 @@
     $role = $user->roles[0];
     $current_user_id = get_current_user_id();
     $table = get_field('catalogo_de_tiendas', 'option');
-
     switch($role):
         case 'administrator':
             return $table;
@@ -27,13 +26,15 @@
                 return $stores;
             endif;
             break;
-        case 'rh_tienda':
+        case 'rh_general':
             $field = 'tienda';
             $users_store = get_user_meta($current_user_id, $field, true);
+
             $stores = [];
             if($table):
                 foreach($table as $row):
-                    if($row['numero_de_tienda'] == $users_store){
+
+                    if($row['numero_de_tienda'] === $users_store){
                         array_push($stores , $row);
                     }
                 endforeach;
@@ -81,7 +82,7 @@ add_action('acf/save_post', 'fill_extra_data', 20);
 function fill_extra_data($post_id){
 
      // Evitar revisiones, autosaves y guardados automáticos.
-     if ( wp_is_post_revision( $post_id ) || defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+     if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
         return;
     }
     // Verifica que es el Custom Post Type específico (reemplaza 'tu_cpt' con el nombre de tu CPT).

@@ -62,4 +62,49 @@ function vacantes_taxonomy(){
   );
 }
 
+// Añade la columna de "Autor" en el Custom Post Type
+add_filter('manage_vacantes_posts_columns', 'add_author_column');
+function add_author_column($columns) {
+  $columns['author'] = 'Autor'; // Añade la columna de autor con el título "Autor"
+  return $columns;
+}
+
+// Muestra el autor en la columna de "Autor" en el Custom Post Type
+add_action('manage_vacantes_posts_custom_column', 'display_author_table_column', 10, 2);
+function display_author_table_column($column, $post_id) {
+  if ($column == 'author') {
+      // Obtener el nombre del autor
+      $author = get_the_author_meta('display_name', get_post_field('post_author', $post_id));
+
+      // Mostrar el nombre del autor
+      echo esc_html($author);
+  }
+}
+
+
+// Agregar campo de autor en tabla de Vacantes
+add_filter('manage_vacantes_posts_columns', 'add_store_column');
+function add_store_column($columns) {
+  $columns['acf_field'] = 'Tienda';
+  return $columns;
+}
+
+// Añade la columna tienda a la tabla de vacantes
+add_action('manage_vacantes_posts_custom_column', 'display_store_table_column', 10, 2);
+function display_store_table_column($column, $post_id) {
+  if ($column == 'acf_field') {
+      $num_tienda = get_field('extra_data_data_tienda', $post_id);
+      echo getStoreByCode($num_tienda);
+  }
+}
+
+// Agregar campo de Tienda en tabla de Vacantes
+function getStoreByCode($store_code){
+  $table = get_field('catalogo_de_tiendas', 'option');
+  foreach($table as $store){
+    if($store['numero_de_tienda'] == $store_code){
+      return $store['numero_de_tienda'].'.- '.$store['nombre_de_tienda'].' <br><br><small>('.$store['ubicacion'].')</small>';
+    }
+  }
+}
 ?>
