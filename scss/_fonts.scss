@@ -83,3 +83,17 @@ $ff-ltcn: 'Helvetica Neue LT Std LtCn';
 }
 
 $ff-blkcn: 'Helvetica Neue LT Std BlkCn';
+
+
+@font-face {
+    font-family: 'Helvetica Neue LT Std BdCn';
+    src: url('../fonts/HelveticaNeueLTStd-BdCn.eot');
+    src: url('../fonts/HelveticaNeueLTStd-BdCn.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/HelveticaNeueLTStd-BdCn.woff') format('woff'),
+        url('../fonts/HelveticaNeueLTStd-BdCn.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+$ff-bdcn: 'Helvetica Neue LT Std BdCn';
+
