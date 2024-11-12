@@ -31,7 +31,7 @@ if (isset($_SESSION['mensaje_exito'])) {
     </form>
 
     <?php if ($mensaje_exito): ?>
-        <div class="mensaje-exito" id="mensajeExito"><?php echo esc_html($mensaje_exito); ?></div>
+    <div class="mensaje-exito" id="mensajeExito"><?php echo esc_html($mensaje_exito); ?></div>
     <?php endif; ?>
 
     <form method="POST" action="" enctype="multipart/form-data">
@@ -86,7 +86,8 @@ if (isset($_SESSION['mensaje_exito'])) {
         <div class="contenedor">
             <label for="numero_interiorexterior">Número interior/exterior</label>
             <br>
-            <input type="text" name="numero_interiorexterior" value="<?php echo esc_attr($numero_interiorexterior_actual); ?>">
+            <input type="text" name="numero_interiorexterior"
+                value="<?php echo esc_attr($numero_interiorexterior_actual); ?>">
         </div>
 
         <div class="contenedor">
@@ -156,16 +157,16 @@ if (isset($_SESSION['mensaje_exito'])) {
     </form>
 
     <script>
-        // Mostrar el mensaje por 5 segundos.
-        document.addEventListener('DOMContentLoaded', function () {
-            const mensaje = document.getElementById('mensajeExito');
-            if (mensaje) {
-                mensaje.style.display = 'block';
-                setTimeout(() => {
-                    mensaje.style.display = 'none';
-                }, 5000); // 5 segundos
-            }
-        });
+    // Mostrar el mensaje por 5 segundos.
+    document.addEventListener('DOMContentLoaded', function() {
+        const mensaje = document.getElementById('mensajeExito');
+        if (mensaje) {
+            mensaje.style.display = 'block';
+            setTimeout(() => {
+                mensaje.style.display = 'none';
+            }, 5000); // 5 segundos
+        }
+    });
     </script>
 
 </body>

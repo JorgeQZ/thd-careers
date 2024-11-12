@@ -6,9 +6,9 @@
 get_header();
 ?>
 <style>
-    header{
-        display: none;
-    }
+header {
+    display: none;
+}
 </style>
 <?php
 echo get_the_post_thumbnail();
@@ -31,29 +31,29 @@ $query = new WP_Query($args);
 
 if($query->have_posts()):
     ?>
-    <div>
-        <ul>
-            <?php
+<div>
+    <ul>
+        <?php
             while($query->have_posts()):
                 $query->the_post();
                 ?>
-                <li>
-                    <a href="<?php echo the_permalink( ); ?>">echo the_permalink( );</a>
-                    <?php
+        <li>
+            <a href="<?php echo the_permalink( ); ?>">echo the_permalink( );</a>
+            <?php
 
                     echo get_the_title().'</br>';
                     echo get_the_id().'</br>';
                     echo get_field('ubicacion').'<br>';
                     echo get_field('tipo_de_jornada');
                     ?>
-                </li>
-                <?php
+        </li>
+        <?php
             endwhile;
             ?>
 
-        </ul>
-    </div>
-    <?php
+    </ul>
+</div>
+<?php
 else:
     echo 'No hay vacantes en esta categoría';
 endif;

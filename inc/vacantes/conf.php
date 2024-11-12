@@ -107,4 +107,51 @@ function getStoreByCode($store_code){
     }
   }
 }
+
+add_action('acf/input/admin_head', 'disable_acf_fields_for_roles');
+
+function disable_acf_fields_for_roles() {
+    // Verificar si el usuario actual tiene los roles especificados
+    if (current_user_can('rh_distrito') || current_user_can('rh_general')) {
+        ?>
+<style>
+/* Deshabilitar todos los campos de ACF */
+.acf-field input,
+.acf-field textarea,
+.acf-field select {
+    pointer-events: none !important;
+    background-color: #e9ecef !important;
+    /* Color de fondo para indicar que está deshabilitado */
+    opacity: 0.5;
+    /* Opacidad para enfatizar que está deshabilitado */
+}
+
+/* Deshabilitar la barra de herramientas del editor WYSIWYG */
+.acf-field .acf-editor-wrap .mce-toolbar,
+.acf-field .acf-editor-wrap .mce-statusbar {
+    display: none !important;
+}
+
+/* Ocultar el botón "Añadir objeto" */
+.acf-field .acf-editor-wrap .mce-toolbar .mce-btn button.insert-media,
+.acf-field .acf-editor-wrap .wp-media-buttons .button.add_media {
+    display: none !important;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    <?php if (current_user_can('rh_distrito') || current_user_can('rh_general')): ?>
+    // Poner el editor TinyMCE en modo solo lectura
+    if (typeof tinymce !== 'undefined') {
+        for (const editor of tinymce.editors) {
+            editor.setMode('readonly'); // Configurar como solo lectura
+        }
+    }
+    <?php endif; ?>
+});
+</script>
+<?php
+    }
+}
+
 ?>

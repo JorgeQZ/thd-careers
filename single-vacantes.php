@@ -2,9 +2,9 @@
 get_header();
 ?>
 <style>
-    header{
-        display: none;
-    }
+header {
+    display: none;
+}
 </style>
 <?php
 the_title();
