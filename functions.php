@@ -15,6 +15,8 @@ require_once("inc/vacantes/load_stores_values.php");
 require_once("inc/users/fields.php");
 require_once("inc/users/roles.php");
 
+require get_template_directory() . '/patterns/custom-pattern.php';
+
 /**
  * General Setup
  */
@@ -43,6 +45,11 @@ function careers_styles() {
 	// if (is_page_template('page-miperfil.php')) {
 		wp_enqueue_style( 'miperfil', get_template_directory_uri() . '/css/miperfil.css' );
 	// }
+
+  if (is_page('Inicio')) {
+		wp_enqueue_style( 'home', get_template_directory_uri() . '/css/home.css' );
+    wp_enqueue_style( 'frontpage', get_template_directory_uri() . '/css/frontpage.css' );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'careers_styles' );
 ?>

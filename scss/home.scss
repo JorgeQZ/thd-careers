@@ -1,9 +1,243 @@
+@import "fonts";
+
 .titulo1 {
+    font-family: $ff-blkcn;
+    padding: 110px 0px;
+
     span {
         color: #0e0e0e;
     }
 }
 
 .titulo2 {
-    color: #0e0e0e;
+    font-family: $ff-blkcn;
+    margin-top: 70px;
+
+    span {
+        color: #f96302;
+    }
+}
+
+.boton1s2 {
+    border: #d2d2d2 solid;
+    padding: 80px 60px;
+    transition: all 0.3s;
+}
+
+.boton1s2:hover {
+    background-color: #f96302;
+
+    .imgcamion-s2 img {
+        content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/camionblanco.png');
+    }
+
+    .imgoficina-s2 img {
+        content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/oficinablanca.png');
+    }
+
+    .imgtienda-s2 img {
+        content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/tiendablanca.png');
+    }
+
+    .titulos-s2 {
+        color: white !important;
+    }
+
+    .descripciones-s2 {
+        color: white !important;
+    }
+
+    .flechablanca-s2 {
+        img {
+            display: block;
+            position: absolute;
+            top: 850px;
+            margin-left: -25px;
+        }
+    }
+}
+
+.columna-s2 {
+    gap: 20px;
+}
+
+.divimgs-s2 {
+    height: 93px;
+}
+
+.titulos-s2 {
+    font-family: $ff-blkcn;
+    margin: 0;
+    margin-top: 30px;
+}
+
+.descripciones-s2 {
+    font-family: $ff-ltcn;
+    font-size: 15px;
+    padding-top: 5px;
+    margin: 0;
+}
+
+.flechablanca-s2 {
+    img {
+        display: none
+    }
+}
+
+.pila2home {
+    padding: 100px 0px;
+}
+
+.pilawrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.titulo1-s3 {
+    color: white !important;
+    font-family: $ff-blkcn;
+}
+
+.titulo2-s3 {
+    font-family: $ff-bdcn;
+    margin: 0;
+    margin-top: 20px;
+}
+
+.fondo-s3 {
+    padding-top: 130px;
+    padding-bottom: 110px;
+}
+
+.imgs-s3 {
+    border: solid #d2d2d2;
+    position: relative;
+    overflow: hidden;
+}
+
+.imgs-s3::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(255, 102, 0, 0.8) 0%, rgba(255, 102, 0, 0) 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.imgs-s3:hover::before {
+    opacity: 1;
+}
+
+.flechablanca-s3 {
+    display: none;
+}
+
+.subpila-s3 {
+    position: relative;
+    transition: all 0.3s;
+}
+
+.subpila-s3:hover {
+    .flechablanca-s3 {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        bottom: 30px;
+        left: 30px;
+    }
+}
+
+@media (max-width: 1135px) and (min-width: 982px) {
+    .boton1s2 {
+        padding: 50px 25px;
+    }
+
+    .boton1s2:hover .flechablanca-s2 img {
+        display: block;
+        position: absolute;
+        top: 865px;
+        margin-left: -5px;
+    }
+}
+
+@media (max-width: 981px) and (min-width: 965px) {
+    .boton1s2 {
+        padding: 50px 25px;
+    }
+
+    .boton1s2:hover .flechablanca-s2 img {
+        display: block;
+        position: absolute;
+        top: 885px;
+        margin-left: -5px;
+    }
+}
+
+@media (max-width: 1300px) and (min-width: 780px) {
+    .pilawrapper {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+}
+
+@media (max-width: 781px) {
+    .columnageneral-s3 {
+        max-width: 528px;
+        margin: 0 auto;
+    }
+
+    .pilawrapper {
+        margin-left: 80px;
+        margin-right: 65px;
+    }
+
+    .titulo1 {
+        font-size: 33px !important;
+        text-align: center;
+    }
+
+    .titulo2 {
+        font-size: 33px !important;
+        text-align: center;
+    }
+
+    .div-s3 {
+        text-align: center;
+        align-items: center !important;
+
+        .subpila-s3:hover {
+            .flechablanca-s3 {
+                display: block;
+                position: absolute;
+                z-index: 1;
+                bottom: 30px;
+                left: 30px;
+            }
+        }
+    }
+}
+
+@media (max-width: 686px) {
+    .boton1s2 {
+        padding: 50px 30px;
+    }
+
+    .pilawrapper {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .boton1s2:hover .flechablanca-s2 img {
+        display: block;
+        position: absolute;
+        margin-top: 15px;
+        margin-left: -5px;
+        top: auto;
+    }
 }

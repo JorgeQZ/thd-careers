@@ -46,6 +46,14 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "Helvetica Neue LT Std BdCn";
+  src: url("../fonts/HelveticaNeueLTStd-BdCn.eot");
+  src: url("../fonts/HelveticaNeueLTStd-BdCn.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-BdCn.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-BdCn.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 form {
   max-width: 466px;
   margin: 0 auto;
@@ -84,7 +92,7 @@ form button {
   margin: 15px 0px;
 }
 
-body {
+.miperfil {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
