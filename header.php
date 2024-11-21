@@ -33,11 +33,11 @@
             </div>
 
             <nav class="menu-web">
-                <?php wp_nav_menu( 'primary_menu' ); ?>
+                <?php wp_nav_menu( array ( 'menu' => 'Header' ) ); ?>
             </nav>
         </div>
         <nav class="menu-wrapper">
-            <?php wp_nav_menu( 'primary_menu' ); ?>
+            <?php wp_nav_menu( array ( 'menu' => 'Header' ) ); ?>
         </nav>
     </div>
 </header>
