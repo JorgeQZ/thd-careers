@@ -9,6 +9,8 @@
     }
 }
 
+// SECCION 2
+
 .titulo2 {
     font-family: $ff-blkcn;
     margin-top: 70px;
@@ -18,70 +20,86 @@
     }
 }
 
-.boton1s2 {
-    border: #d2d2d2 solid;
-    padding: 80px 60px;
-    transition: all 0.3s;
-}
+.botones-s2 {
+    background-color: white;
 
-.boton1s2:hover {
-    background-color: #f96302;
+    a {
+        position: relative;
+        border-width: 1px;
+        height: 385px;
+        padding-top: 80px;
+        padding-bottom: 120px;
+        font-family: $ff-ltcn;
+        font-size: 16px;
+        padding-left: 50px;
+        padding-right: 50px;
+        transition: all 0.3s;
 
-    .imgcamion-s2 img {
-        content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/camionblanco.png');
+        img.wp-image-300 {
+            margin-bottom: 44px;
+        }
+
+        img.wp-image-306 {
+            margin-bottom: 50px;
+        }
+
+        img.wp-image-307 {
+            margin-bottom: 30px;
+        }
+
+        strong {
+            font-family: $ff-blkcn;
+        }
     }
 
-    .imgoficina-s2 img {
-        content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/oficinablanca.png');
-    }
-
-    .imgtienda-s2 img {
-        content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/tiendablanca.png');
-    }
-
-    .titulos-s2 {
+    a:hover {
+        background-color: #f96302;
         color: white !important;
-    }
+        border-width: 1px;
+        border: solid #d2d2d2;
 
-    .descripciones-s2 {
-        color: white !important;
-    }
+        img.wp-image-300 {
+            content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/tiendablanca.png');
+        }
 
-    .flechablanca-s2 {
-        img {
-            display: block;
-            position: absolute;
-            top: 850px;
-            margin-left: -25px;
+        img.wp-image-306 {
+            content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/camionblanco.png');
+        }
+
+        img.wp-image-307 {
+            content: url('http://localhost:8888/thd-careers/wp-content/uploads/2024/11/oficinablanca.png');
+        }
+
+        strong {
+            color: white !important;
+        }
+
+        mark {
+            color: white !important;
         }
     }
 }
 
-.columna-s2 {
-    gap: 20px;
-}
+.pilas-s2 {
+    transition: all 0.3s;
 
-.divimgs-s2 {
-    height: 93px;
-}
-
-.titulos-s2 {
-    font-family: $ff-blkcn;
-    margin: 0;
-    margin-top: 30px;
-}
-
-.descripciones-s2 {
-    font-family: $ff-ltcn;
-    font-size: 15px;
-    padding-top: 5px;
-    margin: 0;
-}
-
-.flechablanca-s2 {
-    img {
-        display: none
+    figure {
+        display: none;
+        position: absolute;
+        margin-top: 310px;
+        margin-left: 40px;
     }
+}
+
+.pilas-s2:hover {
+    figure {
+        display: block;
+        position: absolute;
+    }
+}
+
+.columna-general-s2 {
+    gap: 15px;
 }
 
 .pila2home {
@@ -128,6 +146,12 @@
     z-index: 1;
 }
 
+.subpila-s3:hover {
+    .imgs-s3::before {
+        opacity: 1;
+    }
+}
+
 .imgs-s3:hover::before {
     opacity: 1;
 }
@@ -151,6 +175,18 @@
     }
 }
 
+.botones-s3 {
+
+    a {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 97%;
+        opacity: 0;
+        z-index: 10;
+    }
+}
+
 @media (max-width: 1135px) and (min-width: 982px) {
     .boton1s2 {
         padding: 50px 25px;
@@ -161,6 +197,39 @@
         position: absolute;
         top: 865px;
         margin-left: -5px;
+    }
+}
+
+@media (max-width: 960px) and (min-width: 782px) {
+    .pilas-s2 {
+        figure {
+            margin-top: 335px;
+            margin-left: 12px;
+        }
+    }
+}
+
+@media (max-width: 781px) {
+    .botones-s2 {
+        a {
+            width: 391px;
+        }
+    }
+
+    .wp-container-core-group-is-layout-2 {
+        align-items: center !important;
+    }
+
+    .wp-container-core-group-is-layout-3 {
+        align-items: center !important;
+    }
+
+    .wp-container-core-group-is-layout-4 {
+        align-items: center !important;
+    }
+
+    .pilas-s2 figure {
+        margin-left: -270px;
     }
 }
 
@@ -181,6 +250,12 @@
     .pilawrapper {
         margin-left: 80px;
         margin-right: 80px;
+    }
+}
+
+@media (max-width: 781px) and (min-width: 501px) {
+    .titulo2 {
+        text-align: left !important;
     }
 }
 
@@ -239,5 +314,25 @@
         margin-top: 15px;
         margin-left: -5px;
         top: auto;
+    }
+}
+
+@media (max-width: 425px) and (min-width: 376px) {
+    .botones-s2 {
+        a {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 375px) {
+    .botones-s2 {
+        a {
+            width: 100%;
+        }
+    }
+
+    .pilas-s2 figure {
+        margin-left: -210px;
     }
 }

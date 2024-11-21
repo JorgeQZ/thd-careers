@@ -52,4 +52,17 @@ function careers_styles() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'careers_styles' );
+
+
+function my_custom_widgets_init() {
+    register_sidebar(array(
+        'name'          => 'Sidebar Principal',
+        'id'            => 'sidebar-principal',
+        'before_widget' => '<div class="widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+}
+add_action('widgets_init', 'my_custom_widgets_init');
 ?>
