@@ -15,7 +15,7 @@ require_once("inc/vacantes/load_stores_values.php");
 require_once("inc/users/fields.php");
 require_once("inc/users/roles.php");
 
-require get_template_directory() . '/patterns/custom-pattern.php';
+// require get_template_directory() . '/patterns/custom-pattern.php';
 
 /**
  * General Setup
