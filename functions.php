@@ -96,4 +96,17 @@ function filtrar_postulaciones_en_admin($query) {
   }
 }
 // add_action('pre_get_posts', 'filtrar_postulaciones_en_admin');
+
+function cargar_css_vacantes() {
+  if (is_singular('vacantes')) {
+      wp_enqueue_style(
+          'single-vacantes-css',
+          get_template_directory_uri() . '/css/singlevacantes.css',
+          array(),
+          '1.0.0',
+          'all'
+      );
+  }
+}
+add_action('wp_enqueue_scripts', 'cargar_css_vacantes');
 ?>
