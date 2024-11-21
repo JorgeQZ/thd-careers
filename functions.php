@@ -8,6 +8,8 @@
   */
 require_once("inc/vacantes/conf.php");
 require_once("inc/vacantes/load_stores_values.php");
+require_once("inc/vacantes/catalogo_vacantes.php");
+require_once("inc/vacantes/mis_vacantes.php");
 
 /**
  * Users
@@ -20,8 +22,6 @@ require_once get_template_directory() . '/inc/users/miperfil.php';
  * Postulaciones
  */
 require_once get_template_directory() . '/inc/postulaciones/conf.php';
-
-// require get_template_directory() . '/patterns/custom-pattern.php';
 
 /**
  * General Setup

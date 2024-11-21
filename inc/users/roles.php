@@ -97,9 +97,11 @@ add_action( 'admin_init', 'careers_roles' );
 function actualizar_rol_para_no_publicar() {
     $rh_general = get_role('rh_general');
     if ($rh_general) {
-        $rh_general->remove_cap('publish_posts');
-        $rh_general->remove_cap('delete_others_posts');
-        $rh_general->remove_cap('edit_others_posts');
+        $rh_general->add_cap('publish_posts');  // Permite publicar sus propios posts
+        $rh_general->add_cap('edit_posts');     // Permite editar sus propios posts
+
+        $rh_general->remove_cap('edit_others_posts'); // No puede editar los posts de otros
+        $rh_general->remove_cap('delete_others_posts'); // No puede eliminar posts de otros
         $rh_general->remove_cap('manage_categories');
     }
 

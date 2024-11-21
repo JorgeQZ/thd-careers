@@ -1,0 +1,11 @@
+#categorias_vacantes-all:before, .acf-field-wysiwyg .acf-input:before, .acf-field-checkbox:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: calc(100% + 13px);
+  background-color: white;
+  opacity: 0.5;
+  right: 0;
+  top: -13px;
+  z-index: 10;
+}
