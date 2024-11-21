@@ -95,5 +95,5 @@ function filtrar_postulaciones_en_admin($query) {
       }
   }
 }
-add_action('pre_get_posts', 'filtrar_postulaciones_en_admin');
+// add_action('pre_get_posts', 'filtrar_postulaciones_en_admin');
 ?>
