@@ -14,6 +14,12 @@ require_once("inc/vacantes/load_stores_values.php");
  */
 require_once("inc/users/fields.php");
 require_once("inc/users/roles.php");
+require_once get_template_directory() . '/inc/users/miperfil.php';
+
+/**
+ * Postulaciones
+ */
+require_once get_template_directory() . '/inc/postulaciones/conf.php';
 
 // require get_template_directory() . '/patterns/custom-pattern.php';
 
@@ -36,8 +42,6 @@ require_once("inc/users/roles.php");
 	}
 endif;
 add_action( 'after_setup_theme', 'careers_setup' );
-
-
 
 function careers_styles() {
   wp_enqueue_style( 'generals', get_template_directory_uri(  ).'/css/generals.css');
@@ -65,4 +69,31 @@ function my_custom_widgets_init() {
     ));
 }
 add_action('widgets_init', 'my_custom_widgets_init');
+
+
+function filtrar_postulaciones_en_admin($query) {
+  // Verificar que estamos en el área de administración, en la consulta principal y en el post-type 'postulaciones'
+  if (is_admin() && $query->is_main_query() && $query->get('post_type') === 'postulaciones') {
+
+      // Obtener el usuario actualmente logueado en el wp-admin
+      $current_user = wp_get_current_user();
+
+      // Verificar si el usuario tiene el campo 'tienda' con el valor '01'
+      $tienda = get_field('tienda', 'user_' . $current_user->ID);
+
+      if ($tienda === '01') {
+          // Modificar la consulta para mostrar solo los posts con el estado 'Visto'
+          $meta_query = [
+              [
+                  'key'     => 'estado', // Nombre del campo ACF
+                  'value'   => 'Visto',
+                  'compare' => '='
+              ]
+          ];
+
+          $query->set('meta_query', $meta_query);
+      }
+  }
+}
+add_action('pre_get_posts', 'filtrar_postulaciones_en_admin');
 ?>

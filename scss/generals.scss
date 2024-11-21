@@ -23,6 +23,16 @@ h1 {
     font-family: $ff-cn;
 }
 
+// Tamaños
+.container {
+    max-width: $max_width;
+    width: 100%;
+
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-color: red;
+}
+
 // Header
 @import "header";
 

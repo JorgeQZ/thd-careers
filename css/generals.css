@@ -146,6 +146,7 @@ header .container .site-info .site-title strong {
   font-family: "Helvetica Neue LT Std HvCn";
 }
 header .container .menu {
+header .container .menu {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
