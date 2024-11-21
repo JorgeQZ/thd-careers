@@ -40,11 +40,19 @@
 .footer-fondo-s2 {
     max-width: 1280px;
     margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 25px;
 
     a {
         font-family: $ff-roman;
         text-decoration: none;
         color: #333333;
+        transition: all 300ms;
+        line-height: 35px;
+    }
+
+    a:hover {
+        color: #f96302;
     }
 
     ul li::marker {
@@ -63,6 +71,14 @@
 
 .footer-p-s2 {
     font-family: $ff-bdcn;
+}
+
+.footer-p-2-s2 {
+    padding-top: 15px;
+}
+
+.footer-columna-4-s2 {
+    margin-top: 12.5px !important;
 }
 
 // SECCIÓN 3
