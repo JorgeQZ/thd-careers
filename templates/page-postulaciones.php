@@ -5,10 +5,8 @@ Template Name: Postulaciones
 
 ?>
 
-
-
-
-<h1><?php the_title(); ?></h1>
+<hr>
+<h1>Enviar una nueva Postulación</h1>
 
 <?php
     if (isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
@@ -121,7 +119,7 @@ Template Name: Postulaciones
     $apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
     $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
 
-    $cv = get_field('CV', 'user_' . $user_id); // Obtener el ID del archivo
+    $cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
     // Obtener la URL del archivo CV si existe
     $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
 
