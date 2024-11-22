@@ -86,7 +86,7 @@ Template Name: Postulaciones
                     wp_update_attachment_metadata($attachment_id, $attach_data);
 
                     update_field('CV', $attachment_id, $postulacion_id);
-                    echo '<div class="container"><p>¡Postulación enviada correctamente con el CV adjunto!</p></div>';
+                    echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
                 } else {
                     echo '<p>Hubo un error al subir el archivo: ' . $cv_file['error'] . '</p>';
                 }
