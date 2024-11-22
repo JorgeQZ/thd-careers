@@ -6,8 +6,9 @@ Template Name: Postulaciones
 ?>
 
 <hr>
-<h1>Enviar una nueva Postulación</h1>
-
+<div class="container">
+    <h1>Enviar una nueva Postulación</h1>
+</div>
 <?php
     if (isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
         !empty($_POST['acf_postulacion_nombre']) &&
