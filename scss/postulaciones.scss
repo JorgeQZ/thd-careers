@@ -1,7 +1,124 @@
+@import "fonts";
+@import "variables";
+
+.highlight-orange{
+    color: $orange;
+}
 .contenedor-boton {
     padding: 15px 0px;
 }
 
 .contenedor {
     padding: 1px 0px;
+}
+
+
+main{
+    padding: 0 20px;
+    padding-bottom: 60px;
+}
+
+.container{
+
+    .taxonomy{
+        font-family: $ff-roman;
+        width: fit-content;
+        padding-bottom: 2px;
+        border-bottom: 1px solid black;
+    }
+
+    .title{
+        font-family: $ff-hvcn;
+        font-size: 60px;
+        margin-top: 20px;
+        line-height: .9;
+        max-width: 475px;
+    }
+
+    .desc-video{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-top: 40px;
+        .column{
+            width: 50%;
+            .desc{
+                padding-right: 20px;
+                font-family: $ff-roman;
+                font-size: 14px;
+                line-height: 1.4;
+                font-weight: thin;
+                p{
+                    margin-top: 0;
+                }
+
+                strong{
+                    font-family: $ff-hvcn;
+                    font-size: 16px;
+
+                }
+                ul, ol{
+                    li{
+                        padding: 5px;
+                    }
+                }
+            }
+
+            iframe{
+                min-width: 300px;
+                max-width: 100%;
+            }
+
+            .title_b{
+                font-family: $ff-hvcn;
+                color: $orange;
+                font-size: 24px;
+                margin-top: 20px;
+            }
+
+            .benefit-item {
+                display: flex;
+                align-items: center;
+                margin: 25px 0;
+                font-size: 12px;
+                height: 35px;
+                line-height: 1;
+                justify-content: start;
+                text-transform: uppercase;
+
+                img{
+                    width: 35px;
+                    margin-right: 10px;
+                }
+            }
+
+
+        }
+    }
+
+    .button{
+        font-family: $ff-hvcn;
+        color: white;
+        background-color: $orange;
+        border: 2px solid $orange;
+        padding: 10px 20px;
+        padding-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 1;
+        text-transform: uppercase;
+    }
+}
+
+.form-post{
+    display: none;
+    opacity: 0;
+    transition: all 500ms ease-in;
+    &.fade-in{
+        opacity: 1;
+    }
 }

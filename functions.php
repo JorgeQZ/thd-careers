@@ -69,6 +69,35 @@ add_action('pre_get_posts', 'filtrar_postulaciones_en_admin');
 
 function careers_styles() {
   wp_enqueue_style( 'generals', get_template_directory_uri(  ).'/css/generals.css');
+
+
+  if(is_singular('vacantes')){
+    wp_enqueue_style( 'postulaciones', get_template_directory_uri(  ).'/css/postulaciones.css');
+  }
 }
 add_action( 'wp_enqueue_scripts', 'careers_styles' );
+
+
+function highlight_and_break_title($title) {
+    // Evitar afectar los títulos en el administrador
+    if (is_admin()) {
+        return $title;
+    }
+
+    // Lista de palabras clave a resaltar
+    $words_to_highlight = array(
+        'de' => '<span class="highlight-black">de</span><br>', // Incluye salto de línea después de "de"
+        'Centros' => '<span class="highlight-orange">Centros</span>',
+        'Logísticos' => '<span class="highlight-orange">Logísticos</span>',
+    );
+
+    // Reemplazar las palabras clave en el título
+    foreach ($words_to_highlight as $word => $replacement) {
+        $title = preg_replace('/\b' . preg_quote($word, '/') . '\b/i', $replacement, $title);
+    }
+
+    return $title;
+}
+add_filter('the_title', 'highlight_and_break_title');
+
 ?>
