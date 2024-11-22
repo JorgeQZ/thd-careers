@@ -94,7 +94,7 @@ function mostrar_valores_columnas_postulaciones($column, $post_id) {
 
     if ($column == 'acf_vacante') {
         $vacante = get_field('vacante_vacante', $post_id); // Obtener el valor del campo 'Vacante'
-        echo esc_html($vacante); // Mostrar el valor en la tabla
+        echo wp_strip_all_tags($vacante); // Mostrar el valor en la tabla
     }
 }
 add_action('manage_postulaciones_posts_custom_column', 'mostrar_valores_columnas_postulaciones', 10, 2);

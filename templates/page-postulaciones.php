@@ -5,11 +5,10 @@ Template Name: Postulaciones
 
 ?>
 
-
-
-
-<h1><?php the_title(); ?></h1>
-
+<hr>
+<div class="container">
+    <h1>Enviar una nueva Postulación</h1>
+</div>
 <?php
     if (isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
         !empty($_POST['acf_postulacion_nombre']) &&
@@ -87,7 +86,7 @@ Template Name: Postulaciones
                     wp_update_attachment_metadata($attachment_id, $attach_data);
 
                     update_field('CV', $attachment_id, $postulacion_id);
-                    echo '<p>¡Postulación enviada correctamente con el CV adjunto!</p>';
+                    echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
                 } else {
                     echo '<p>Hubo un error al subir el archivo: ' . $cv_file['error'] . '</p>';
                 }
