@@ -124,13 +124,19 @@ Template Name: Postulaciones
     $cv = get_field('CV', 'user_' . $user_id); // Obtener el ID del archivo
     // Obtener la URL del archivo CV si existe
     $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
+
+    // Autocompletar datos de mi perfil
+    $nombre_miperfil = get_field('nombre_general', 'user_' . get_current_user_id());
+    $apellido_paterno_miperfil = get_field('apellido_paterno_general', 'user_' . get_current_user_id());
+    $apellido_materno_miperfil = get_field('apellido_materno_general', 'user_' . get_current_user_id());
+    $correo_miperfil = get_field('correo_general', 'user_' . get_current_user_id());
     ?>
 
 <form method="POST" enctype="multipart/form-data">
     <div class="contenedor">
         <label for="acf_postulacion_nombre">Nombre:</label>
         <input type="text" id="acf_postulacion_nombre" name="acf_postulacion_nombre"
-            value="<?php echo esc_attr($nombre); ?>" required>
+            value="<?php echo esc_attr($nombre_miperfil); ?>" required>
     </div>
 
     <br>
@@ -138,7 +144,7 @@ Template Name: Postulaciones
     <div class="contenedor">
         <label for="acf_postulacion_apellidopaterno">Apellido Paterno:</label>
         <input type="text" id="acf_postulacion_apellidopaterno" name="acf_postulacion_apellidopaterno"
-            value="<?php echo esc_attr($apellido_paterno); ?>" required>
+            value="<?php echo esc_attr($apellido_paterno_miperfil); ?>" required>
     </div>
 
     <br>
@@ -146,7 +152,7 @@ Template Name: Postulaciones
     <div class="contenedor">
         <label for="acf_postulacion_apellidomaterno">Apellido Materno:</label>
         <input type="text" id="acf_postulacion_apellidomaterno" name="acf_postulacion_apellidomaterno"
-            value="<?php echo esc_attr($apellido_materno); ?>" required>
+            value="<?php echo esc_attr($apellido_materno_miperfil); ?>" required>
     </div>
 
     <br>
@@ -168,7 +174,7 @@ Template Name: Postulaciones
     <div class="contenedor">
         <label for="acf_postulacion_correo">Correo:</label>
         <input type="text" id="acf_postulacion_correo" name="acf_postulacion_correo"
-            value="<?php echo esc_attr($mail); ?>" required>
+            value="<?php echo esc_attr($correo_miperfil); ?>" required>
     </div>
 
     <br>

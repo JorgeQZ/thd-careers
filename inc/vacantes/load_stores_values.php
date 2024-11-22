@@ -42,6 +42,8 @@
             endif;
             break;
     endswitch;
+
+    return [];
 }
 
 
