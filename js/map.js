@@ -108,11 +108,11 @@ function add_markers(data) {
 
                 let totalItems = responseData.data.length;
                 let links = responseData.data.map(vacante =>
-                    `<li><a href="${vacante.url}" target="_blank">${vacante.title}</a></li>`
+                    `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`
                 ).join('');
                 circle.bindPopup(`
                     <div class="header">
-                    <strong>${nombre} (${totalItems} vacantes)</strong><br>
+                        <div class="title">  <strong>${nombre} (${totalItems} ${totalItems === 1 ? 'vacante' : 'vacantes'})</strong></div>
                     ${ubicacion}<br>
                     </div>
                     <ul>${links}</ul>
@@ -120,9 +120,13 @@ function add_markers(data) {
             } else {
 
                 circle.bindPopup(`
-                    <strong>${nombre}</strong><br>
-                    ${ubicacion}<br>
-                    <em>No hay vacantes relacionadas.</em>
+                      <div class="header">
+                        <div class="title"><strong>${nombre}</strong></div>
+                         ${ubicacion}<br>
+                    </div>
+                    <ul>
+                        <em>No hay vacantes relacionadas.</em>
+                    </ul>
                 `).openPopup();
             }
         }).catch(error => {
