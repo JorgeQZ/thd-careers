@@ -122,6 +122,6 @@ function highlight_and_break_title($title) {
 
     return $title;
 }
-add_filter('the_title', 'highlight_and_break_title');
+// add_filter('the_title', 'highlight_and_break_title');
 
 ?>

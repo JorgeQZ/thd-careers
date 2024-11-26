@@ -85,6 +85,8 @@
   padding-right: 50px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
+  border: solid #d2d2d2;
+  border-width: 1px;
 }
 .botones-s2 a img.wp-image-300 {
   margin-bottom: 44px;
@@ -102,7 +104,6 @@
   background-color: #f96302;
   color: white !important;
   border-width: 1px;
-  border: solid #d2d2d2;
 }
 .botones-s2 a:hover img.wp-image-300 {
   content: url("http://localhost:8888/thd-careers/wp-content/uploads/2024/11/tiendablanca.png");
