@@ -1,4 +1,5 @@
-let map = L.map('map').setView([25.683225574052216, -100.35669100732787], 16);
+let map = L.map('map').setView([23.634501, -102.552784], 5); // Coordenadas y zoom inicial para México
+
 let markers = new L.markerClusterGroup({
     animateAddingMarkers: true,
     polygonOptions: {
@@ -26,9 +27,9 @@ function getCircleStyle(tipo) {
     switch (tipo) {
         case "Centro Logístico":
             return {
-                color: "rgba(229, 229, 229, 0.8)",
+                color: "rgba(153, 153, 153, 0.8)",
                 radius: 15,
-                fillColor: "#e5e5e5",
+                fillColor: "rgba(153, 153, 153, 1)",
                 fillOpacity: 1,
                 weight: 10
             };

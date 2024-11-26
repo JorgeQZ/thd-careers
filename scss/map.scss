@@ -2,7 +2,11 @@
 @import "fonts";
 
 .leaflet-bottom.leaflet-right{
-display: none !important;
+    display: none !important;
+}
+
+.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive{
+    font-family: $ff-bdcn;
 }
 .leaflet-popup-close-button{
     span{
