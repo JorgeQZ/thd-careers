@@ -1,10 +1,10 @@
 <?php
+
 // Hook para añadir el submenú en el panel de administración
 add_action('admin_menu', 'seccion_catalogo_vacantes');
 
 function seccion_catalogo_vacantes() {
     // Verificar los roles de usuario permitidos
-    if (current_user_can('administrator') || current_user_can('rh_general') || current_user_can('rh_oat') || current_user_can('rh_distrito')) {
         add_menu_page(
             'Catálogo de Vacantes',         // Título de la página
             'Catálogo de Vacantes',         // Título del menú
@@ -12,9 +12,8 @@ function seccion_catalogo_vacantes() {
             'catalogo_vacantes',            // Slug único para la página
             'display_admin_vacantes',       // Función que muestra el contenido de la página
             'dashicons-clipboard',          // Icono para el menú
-            6
         );
-    }
+
 }
 
 // Incluir la clase WP_List_Table
