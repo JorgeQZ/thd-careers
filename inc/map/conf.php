@@ -18,7 +18,7 @@ function display_map()
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
 
-    $output = '<div id="map" style="height: 400px;"></div>';
+    $output = '<div id="map" style="height: 580px;"></div>';
 
     return $output; // Devuelve el contenido
 }
