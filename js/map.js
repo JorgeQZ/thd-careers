@@ -25,7 +25,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 
 function getCircleStyle(tipo) {
     switch (tipo) {
-        case "Centro Logístico":
+        case "Centros Logísticos":
             return {
                 color: "rgba(153, 153, 153, 0.8)",
                 radius: 15,
@@ -34,21 +34,24 @@ function getCircleStyle(tipo) {
                 weight: 10
             };
         case "Tienda":
-            return { color: "rgba(249, 99, 2, 0.8)",
+            return {
+                color: "rgba(249, 99, 2, 0.8)",
                 radius: 15,
                 fillColor: "#f96302",
                 fillOpacity: 1,
                 weight: 10
             };
         case "Oficina de Apoyo a tiendas":
-            return { color: "rgba(39, 39, 39, 0.8)",
+            return {
+                color: "rgba(39, 39, 39, 0.8)",
                 radius: 15,
                 fillColor: "#272727",
                 fillOpacity: 1,
                 weight: 10
             };
         default:
-            return { color: "rgba(0, 0, 255, 0.8)",
+            return {
+                color: "rgba(0, 0, 255, 0.8)",
                 radius: 15,
                 fillColor: "blue",
                 fillOpacity: 1,
@@ -67,7 +70,7 @@ fetch(map_vars.ajax_url, {
     })
 }).then(response => {
     if (!response.ok) {
-        throw new Error('Error de conexión.');
+        throw new Error(`HTTP error! Status: ${response.status}`);
     }
     return response.json();
 }).then(data => {
@@ -76,63 +79,74 @@ fetch(map_vars.ajax_url, {
 
 function add_markers(data) {
     data.forEach(element => {
-        console.log(element);
 
-        let coord = element.coordenadas.split(',').map(Number);
-        let tipo = element.tipo_de_negocio;
-        let nombre = element.nombre_de_tienda;
-        let ubicacion = element.ubicacion;
-        let numeroDeTienda = element.numero_de_tienda; // Obtener número de tienda
+        let coord = element.coordenadas ? element.coordenadas.split(',').map(Number) : null;
+        if (!coord || coord.length !== 2 || isNaN(coord[0]) || isNaN(coord[1])) {
+            console.error('Coordenadas inválidas:', element.coordenadas);
+            return;
+        }
 
 
-        let style = getCircleStyle(tipo);
-        let circle = L.circleMarker(coord, style).bindPopup('Cargando información...');
 
-        markers.addLayer(circle);
 
-        fetch(map_vars.ajax_url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
-                'action': 'get_related_vacantes',
-                'numero_de_tienda': numeroDeTienda
-            })
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la consulta de vacantes.');
-            }
-            return response.json();
-        }).then(responseData => {
-            if (responseData.success && responseData.data.length > 0) {
 
-                let totalItems = responseData.data.length;
-                let links = responseData.data.map(vacante =>
-                    `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`
-                ).join('');
-                circle.bindPopup(`
-                    <div class="header">
-                        <div class="title">  <strong>${nombre} (${totalItems} ${totalItems === 1 ? 'vacante' : 'vacantes'})</strong></div>
-                    ${ubicacion}<br>
-                    </div>
-                    <ul>${links}</ul>
-                `).openPopup();
-            } else {
+        if (coord[0] != 0 && coord[1] != 0) {
+            let tipo = element.tipo_de_negocio;
+            let nombre = element.nombre_de_tienda;
+            let ubicacion = element.ubicacion;
+            let numeroDeTienda = element.numero_de_tienda; // Obtener número de tienda
 
-                circle.bindPopup(`
-                      <div class="header">
-                        <div class="title"><strong>${nombre}</strong></div>
-                         ${ubicacion}<br>
-                    </div>
-                    <ul>
-                        <em>No hay vacantes relacionadas.</em>
-                    </ul>
-                `).openPopup();
-            }
-        }).catch(error => {
-            console.error('Error al cargar las vacantes:', error);
-        });
+
+            let style = getCircleStyle(tipo);
+            let circle = L.circleMarker(coord, style).bindPopup('Cargando información...');
+
+            markers.addLayer(circle);
+
+
+            fetch(map_vars.ajax_url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'action': 'get_related_vacantes',
+                    'numero_de_tienda': numeroDeTienda
+                })
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la consulta de vacantes.');
+                }
+                return response.json();
+            }).then(responseData => {
+                if (responseData.success && responseData.data.length > 0) {
+
+                    let totalItems = responseData.data.length;
+                    let links = responseData.data.map(vacante =>
+                        `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`
+                    ).join('');
+                    circle.bindPopup(`
+                        <div class="header">
+                            <div class="title">  <strong>${nombre} (${totalItems} ${totalItems === 1 ? 'vacante' : 'vacantes'})</strong></div>
+                        ${ubicacion}<br>
+                        </div>
+                        <ul>${links}</ul>
+                    `).openPopup();
+                } else {
+
+                    circle.bindPopup(`
+                        <div class="header">
+                            <div class="title"><strong>${nombre}</strong></div>
+                            ${ubicacion}<br>
+                        </div>
+                        <ul>
+                            <em>No hay vacantes relacionadas.</em>
+                        </ul>
+                    `).openPopup();
+                }
+            }).catch(error => {
+                console.error('Error al cargar las vacantes:', error);
+            });
+        }
     });
     map.addLayer(markers);
 }

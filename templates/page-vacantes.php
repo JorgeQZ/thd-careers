@@ -4,14 +4,6 @@
  */
 
 get_header();
-<<<<<<< HEAD
-?>
-<style>
-header {
-    display: none;
-}
-</style>
-<?php
 echo get_the_post_thumbnail();
 $tax_name = "categorias_vacantes";
 $term = get_field($tax_name);
@@ -58,9 +50,6 @@ if($query->have_posts()):
 else:
     echo 'No hay vacantes en esta categoría';
 endif;
-=======
-the_content();
->>>>>>> Map-Leaflet
 
 get_footer();
 ?>
