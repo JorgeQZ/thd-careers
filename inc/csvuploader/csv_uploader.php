@@ -77,12 +77,13 @@ function process_csv_to_repeater()
                 $repeater_data[] = [
                     'numero_de_tienda' => $entry['numero_de_tienda'] ?? '-',
                     'nombre_de_tienda' => $entry['nombre_de_tienda'] ?? '-',
-                    'ubicacion' => $entry['ubicacion'] ?? '-',
+                    'ubicacion' => '------',
                     'coordenadas' => (isset($entry['latitud']) && isset($entry['longitud']))
                     ? $entry['latitud'] . ', ' . $entry['longitud']
                     : '',
                     'distrito' => $entry['id_distrito'] ?? '-',
                     'tipo_de_negocio' => $entry['tipo_de_negocio'] ?? 'Tienda',
+                    'correo' => $entry['correo'] ?? '-',
                 ];
             }
 
