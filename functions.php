@@ -24,6 +24,11 @@ require_once get_template_directory() . '/inc/users/miperfil.php';
 require_once get_template_directory() . '/inc/postulaciones/conf.php';
 
 /**
+ * Map
+ */
+require_once("inc/map/conf.php");
+
+/**
  * General Setup
  */
 

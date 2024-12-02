@@ -1,0 +1,75 @@
+@import "variables";
+@import "fonts";
+
+.leaflet-bottom.leaflet-right{
+    display: none !important;
+}
+
+.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive{
+    font-family: $ff-bdcn;
+}
+.leaflet-popup-close-button{
+    span{
+        transition: all 300ms;
+
+    }
+    &:hover{
+        span{
+            color: $orange;
+        }
+    }
+}
+.leaflet-popup-content-wrapper{
+    padding: 0;
+    .leaflet-popup-content{
+        margin: 0 ;
+        padding-bottom: 5px;
+
+        .header{
+            background-color: $dark_grey;
+            color: white;
+            padding: 10px;
+            font-family: $ff-roman;
+            .title{
+                font-size: 16px;
+                font-family: $ff-hvcn;
+                margin-bottom: 5px;
+            }
+        }
+
+        ul{
+            padding: 0px 5px;
+            li{
+                box-sizing: content-box;
+                list-style: none;
+                transition: all 300ms;
+                background-color: #fff;
+                &:nth-child(odd){
+                    background-color: $ligth_grey;
+                }
+
+                a{
+                    text-decoration: none;
+                    text-transform: capitalize;
+                    font-family: $ff-mdcn;
+                    letter-spacing: 1px;
+                    color: $orange;
+                    padding: 5px 10px;
+                    display: flex;
+
+                    justify-content: space-between;
+                    transition: all 300ms;
+                }
+
+                &:hover{
+
+                    a{
+                        background-color: $dark_grey;
+                        color: white;
+                    }
+
+                }
+            }
+        }
+    }
+}

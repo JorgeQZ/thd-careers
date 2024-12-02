@@ -4,6 +4,7 @@
  */
 
 get_header();
+<<<<<<< HEAD
 ?>
 <style>
 header {
@@ -57,6 +58,9 @@ if($query->have_posts()):
 else:
     echo 'No hay vacantes en esta categoría';
 endif;
+=======
+the_content();
+>>>>>>> Map-Leaflet
 
 get_footer();
 ?>
