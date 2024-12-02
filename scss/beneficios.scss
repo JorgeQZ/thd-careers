@@ -1,0 +1,109 @@
+@import "fonts";
+
+// SECCIÓN 1
+
+.contenedor-beneficios {
+    margin: 0 auto;
+    max-width: 1280px;
+}
+
+.p1-beneficios {
+    font-family: $ff-blkcn;
+    margin-top: 90px !important;
+}
+
+.p2-beneficios {
+    font-family: $ff-roman;
+    font-size: 23.4px;
+    padding-bottom: 12px;
+}
+
+// TABS
+
+.contenedor-tabs {
+    margin: 0 auto !important;
+}
+
+.columnas-tabs {
+    gap: 100px;
+    padding-bottom: 30px;
+}
+
+.botones-tabs {
+    a {
+        width: 360px;
+        height: 360px;
+        text-align: left;
+        font-family: $ff-blkcn;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 50px;
+
+        strong {
+            font-size: 70px;
+            line-height: 50px;
+        }
+    }
+}
+
+.botones-tabs.tab2 {
+    strong {
+        margin-top: 28px;
+    }
+}
+
+.contenido-tab {
+    display: none;
+}
+
+.contenido-tab.active {
+    display: block;
+}
+
+@media (max-width: 1280px) and (min-width: 769px) {
+    .contenedor-beneficios {
+        padding: 0px 80px 0px 80px;
+    }
+
+    .columnas-tabs {
+        gap: 20px;
+    }
+}
+
+// TABLET
+
+@media (max-width: 768px) and (min-width: 501px) {
+    .contenedor-beneficios {
+        padding: 0px 80px 0px 80px;
+    }
+
+    .p1-beneficios {
+        font-size: 30px !important;
+    }
+
+    .p2-beneficios {
+        font-size: 17px !important;
+    }
+}
+
+// MÓVIL
+
+@media (max-width: 500px) {
+    .contenedor-beneficios {
+        align-items: center !important;
+        width: 95%;
+
+        p {
+            text-align: center;
+        }
+    }
+
+    .p1-beneficios {
+        font-size: 20px !important;
+    }
+
+    .p2-beneficios {
+        font-size: 15px !important;
+    }
+}

@@ -116,8 +116,8 @@ function cambiar_estado_al_abrir_edicion() {
             // Solo cambiar a 'Visto' si el estado actual no es 'Aceptado' o 'Rechazado'
             if ($estado_actual !== 'Aceptado' && $estado_actual !== 'Rechazado') {
                 update_field('Estado', 'Visto', $post_id); // Cambiar el estado a 'Visto'
-                // Llamar a la función de correo inmediatamente después de cambiar el estado
-                enviar_correo_cambio_estado($post_id);
+                // // Llamar a la función de correo inmediatamente después de cambiar el estado
+                // enviar_correo_cambio_estado($post_id);
             }
         }
     }
@@ -139,50 +139,110 @@ function custom_phpmailer_smtp( $phpmailer ) {
 
 add_action( 'phpmailer_init', 'custom_phpmailer_smtp' );
 
+// // Función para enviar correo cuando el estado cambie
+// function enviar_correo_cambio_estado( $post_id ) {
+//     // Verifica si el post type es 'postulaciones' y no es un autosave
+//     if ( get_post_type($post_id) != 'postulaciones' || wp_is_post_autosave($post_id) ) {
+//         return;
+//     }
+
+//     // Obtener el nuevo estado del campo ACF
+//     $nuevo_estado = get_field('Estado', $post_id);
+
+//     // Asegurarse de que el estado no esté vacío y eliminar posibles espacios en blanco
+//     $nuevo_estado = trim( $nuevo_estado );
+
+//     // Verifica si el nuevo estado está correctamente
+//     if (!$nuevo_estado) {
+//         error_log('El nuevo estado no se ha establecido correctamente.');
+//         return;
+//     }
+
+//     // Obtener el estado anterior para compararlo
+//     $estado_anterior = get_post_meta( $post_id, '_estado_anterior', true );
+
+//     // Asegurarse de que el estado anterior también esté limpio de espacios en blanco
+//     $estado_anterior = trim( $estado_anterior );
+
+//     // Si el estado ha cambiado o el estado anterior está vacío (es la primera vez que se guarda)
+//     if ( $nuevo_estado && $nuevo_estado !== $estado_anterior ) {
+//         // Obtener el nombre de la persona
+//         $nombre_postulante = get_field('Nombre', $post_id);
+//         $correo = get_field('Correo', $post_id);
+
+//         // Configura los detalles del correo
+//         $to = 'javiertrevino@akevia.mx, ' . esc_html($correo); // Dirección de correo a la que se enviará la notificación
+//         $subject = 'Cambio de estado en la postulación de ' . esc_html($nombre_postulante); // Asunto del correo con el nombre de la persona
+//         $message = 'El estado de la postulación de ' . esc_html($nombre_postulante) . ' ha cambiado a: ' . esc_html($nuevo_estado); // Mensaje del correo
+//         $headers = array('Content-Type: text/html; charset=UTF-8'); // Cabeceras del correo
+
+//         // Enviar el correo
+//         wp_mail( $to, $subject, $message, $headers );
+
+//         // Actualiza el estado anterior en el meta para futuras comparaciones
+//         update_post_meta( $post_id, '_estado_anterior', $nuevo_estado );
+//     }
+// }
+
+// // Hook para ejecutar la función al guardar el post manualmente desde el backend
+// add_action('acf/save_post', 'enviar_correo_cambio_estado', 20);
+
 // Función para enviar correo cuando el estado cambie
-function enviar_correo_cambio_estado( $post_id ) {
-    // Verifica si el post type es 'postulaciones' y no es un autosave
-    if ( get_post_type($post_id) != 'postulaciones' || wp_is_post_autosave($post_id) ) {
-        return;
-    }
+// function enviar_correo_cambio_estado( $post_id ) {
+//     // Verifica si el post type es 'postulaciones' y no es un autosave
+//     if ( get_post_type($post_id) != 'postulaciones' || wp_is_post_autosave($post_id) ) {
+//         return;
+//     }
 
-    // Obtener el nuevo estado del campo ACF
-    $nuevo_estado = get_field('Estado', $post_id);
+//     // Obtener el nuevo estado del campo ACF
+//     $nuevo_estado = get_field('Estado', $post_id);
 
-    // Asegurarse de que el estado no esté vacío y eliminar posibles espacios en blanco
-    $nuevo_estado = trim( $nuevo_estado );
+//     // Asegurarse de que el estado no esté vacío y eliminar posibles espacios en blanco
+//     $nuevo_estado = trim( $nuevo_estado );
 
-    // Verifica si el nuevo estado está correctamente
-    if (!$nuevo_estado) {
-        error_log('El nuevo estado no se ha establecido correctamente.');
-        return;
-    }
+//     // Verifica si el nuevo estado está correctamente
+//     if ( !$nuevo_estado ) {
+//         error_log( 'El nuevo estado no se ha establecido correctamente.' );
+//         return;
+//     }
 
-    // Obtener el estado anterior para compararlo
-    $estado_anterior = get_post_meta( $post_id, '_estado_anterior', true );
+//     // Obtener el estado anterior para compararlo
+//     $estado_anterior = get_post_meta( $post_id, '_estado_anterior', true );
 
-    // Asegurarse de que el estado anterior también esté limpio de espacios en blanco
-    $estado_anterior = trim( $estado_anterior );
+//     // Asegurarse de que el estado anterior también esté limpio de espacios en blanco
+//     $estado_anterior = trim( $estado_anterior );
 
-    // Si el estado ha cambiado o el estado anterior está vacío (es la primera vez que se guarda)
-    if ( $nuevo_estado && $nuevo_estado !== $estado_anterior ) {
-        // Obtener el nombre de la persona
-        $nombre_postulante = get_field('Nombre', $post_id);
-        $correo = get_field('Correo', $post_id);
+//     // Si el estado ha cambiado o el estado anterior está vacío (es la primera vez que se guarda)
+//     if ( $nuevo_estado && $nuevo_estado !== $estado_anterior ) {
+//         // Obtener los datos del postulante
+//         $nombre_postulante = get_field('Nombre', $post_id);
+//         $apellido_paterno = get_field('Apellidopaterno', $post_id);
+//         $apellido_materno = get_field('Apellidomaterno', $post_id);
+//         $correo_postulante = get_field('Correo', $post_id);
 
-        // Configura los detalles del correo
-        $to = 'javiertrevino@akevia.mx, ' . esc_html($correo); // Dirección de correo a la que se enviará la notificación
-        $subject = 'Cambio de estado en la postulación de ' . esc_html($nombre_postulante); // Asunto del correo con el nombre de la persona
-        $message = 'El estado de la postulación de ' . esc_html($nombre_postulante) . ' ha cambiado a: ' . esc_html($nuevo_estado); // Mensaje del correo
-        $headers = array('Content-Type: text/html; charset=UTF-8'); // Cabeceras del correo
+//         // Configura los detalles del correo
+//         $to = 'javiertrevino@akevia.mx'; // Dirección de correo a la que se enviará la notificación
+//         $subject = 'Cambio de estado en la postulación de ' . esc_html( $nombre_postulante ); // Asunto del correo
+//         $message = 'El estado de la postulación de ' . esc_html( $nombre_postulante ) . ' ha cambiado a: ' . esc_html( $nuevo_estado ); // Mensaje del correo inicial
 
-        // Enviar el correo
-        wp_mail( $to, $subject, $message, $headers );
+//         // Si el estado es "Postulado", agrega la información del postulante al correo
+//         if ( $nuevo_estado === 'Postulado' ) {
+//             $message .= '<br><br><strong>Información del postulante:</strong>';
+//             $message .= '<br><strong>Nombre:</strong> ' . esc_html( $nombre_postulante );
+//             $message .= '<br><strong>Apellido Paterno:</strong> ' . esc_html( $apellido_paterno );
+//             $message .= '<br><strong>Apellido Materno:</strong> ' . esc_html( $apellido_materno );
+//             $message .= '<br><strong>Correo:</strong> ' . esc_html( $correo_postulante );
+//         }
 
-        // Actualiza el estado anterior en el meta para futuras comparaciones
-        update_post_meta( $post_id, '_estado_anterior', $nuevo_estado );
-    }
-}
+//         $headers = array( 'Content-Type: text/html; charset=UTF-8' ); // Cabeceras del correo
 
-// Hook para ejecutar la función al guardar el post manualmente desde el backend
-add_action('acf/save_post', 'enviar_correo_cambio_estado', 20);
+//         // Enviar el correo
+//         wp_mail( $to, $subject, $message, $headers );
+
+//         // Actualiza el estado anterior en el meta para futuras comparaciones
+//         update_post_meta( $post_id, '_estado_anterior', $nuevo_estado );
+//     }
+// }
+
+// // Hook para ejecutar la función al guardar el post manualmente desde el backend
+// add_action( 'acf/save_post', 'enviar_correo_cambio_estado', 20 );
