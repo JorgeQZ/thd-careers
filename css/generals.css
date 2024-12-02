@@ -189,6 +189,7 @@ header .container .menu .sub-menu {
   top: 18px;
   right: 85px;
   padding: 0px 0;
+  z-index: 100000;
 }
 header .container .menu .sub-menu .menu-item {
   margin-left: 0;
