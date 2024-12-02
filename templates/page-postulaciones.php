@@ -46,20 +46,33 @@ Template Name: Postulaciones
             // Obtener el valor del campo ACF 'ubicacion' del post principal
             $ubicacion = get_field('ubicacion', $post_id);
 
+            $label = $ubicacion['label'];
+
+            // Decodificar los caracteres especiales
+            $label_decoded = htmlspecialchars_decode($label, ENT_QUOTES);
+
             // Obtener el valor del campo 'extra_data' del post principal
             $extra_data = get_field('extra_data', $post_id);
 
             // Obtener el valor del campo ACF 'data_tienda' del post principal
             $numero_tienda = $extra_data['data_tienda'];
 
+            // Obtener el valor del campo ACF 'data_distrito' del post principal
+            $numero_distrito = $extra_data['data_distrito'];
+
             // Guardar la 'ubicacion' en el campo 'ubicacion_vacante' de la postulación si tiene valor
             if (!empty($ubicacion)) {
-                update_field('ubicacion_vacante', $ubicacion, $postulacion_id);
+                update_field('ubicacion_vacante', $label_decoded, $postulacion_id);
             }
 
             // Guardar el numero de tienda en el campo 'numero_de_tienda_vacante' de la postulación si tiene valor
             if (!empty($numero_tienda)) {
                 update_field('numero_de_tienda_vacante', $numero_tienda, $postulacion_id);
+            }
+
+            // Guardar el numero de distrito en el campo 'numero_de_distrito_vacante' de la postulación si tiene valor
+            if (!empty($numero_distrito)) {
+                update_field('distrito_vacante', $numero_distrito, $postulacion_id);
             }
 
             // Manejar la subida del archivo CV
@@ -103,8 +116,8 @@ Template Name: Postulaciones
                 }
             }
 
-            // Enviar notificación por correo después de cambiar el estado
-            enviar_correo_cambio_estado($postulacion_id);
+            // // Enviar notificación por correo después de cambiar el estado
+            // enviar_correo_cambio_estado($postulacion_id);
         } else {
             echo '<p>Hubo un error al enviar la postulación.</p>';
         }
@@ -112,18 +125,18 @@ Template Name: Postulaciones
     ?>
 
 <?php
-    $user_id = get_current_user_id(); // Obtener el ID del usuario actual
-    $user_data = get_userdata($user_id); // Obtener la información del usuario
+$user_id = get_current_user_id(); // Obtener el ID del usuario actual
+$user_data = get_userdata($user_id); // Obtener la información del usuario
 
-    $nombre = $user_data ? $user_data->first_name : ''; // Obtener el nombre del usuario
-    $mail = $user_data ? $user_data->user_email : ''; // Obtener el nombre del usuario
-    $apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
-    $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
+$nombre = $user_data ? $user_data->first_name : ''; // Obtener el nombre del usuario
+$mail = $user_data ? $user_data->user_email : ''; // Obtener el nombre del usuario
+$apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
+$apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
 
-    $cv = get_field('CV', 'user_' . $user_id); // Obtener el ID del archivo
-    // Obtener la URL del archivo CV si existe
-    $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
-    ?>
+$cv = get_field('CV', 'user_' . $user_id); // Obtener el ID del archivo
+// Obtener la URL del archivo CV si existe
+$cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
+?>
 
 <form method="POST" enctype="multipart/form-data">
     <div class="contenedor">

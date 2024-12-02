@@ -55,6 +55,10 @@ function careers_styles() {
     wp_enqueue_style( 'frontpage', get_template_directory_uri() . '/css/frontpage.css' );
 	}
 
+  if (is_page('Beneficios')) {
+		wp_enqueue_style( 'beneficios', get_template_directory_uri() . '/css/beneficios.css' );
+	}
+
   if(is_singular('vacantes')){
     wp_enqueue_style( 'postulaciones', get_template_directory_uri(  ).'/css/postulaciones.css');
   }
