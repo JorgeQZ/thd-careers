@@ -126,8 +126,9 @@ Template Name: Postulaciones
                 }
             }
 
-            // // Enviar notificación por correo después de cambiar el estado
-            // enviar_correo_cambio_estado($postulacion_id);
+            // Enviar notificación por correo después de cambiar el estado
+            enviar_correo_cambio_estado($postulacion_id);
+
         } else {
             echo '<p>Hubo un error al enviar la postulación.</p>';
         }
