@@ -93,11 +93,11 @@ function fill_extra_data($post_id)
         return;
     }
 
-    // Verificar si el usuario actual tiene el rol de admin.
-    $current_user = wp_get_current_user();
-    if (in_array('administrator', $current_user->roles)) {
-        return; // Salir de la función si el usuario es admin.
-    }
+    // // Verificar si el usuario actual tiene el rol de admin.
+    // $current_user = wp_get_current_user();
+    // if (in_array('administrator', $current_user->roles)) {
+    //     return; // Salir de la función si el usuario es admin.
+    // }
 
     // Obtener el valor del campo ACF 'ubicacion'.
     $ubicacion = get_field('ubicacion', $post_id);
@@ -110,7 +110,7 @@ function fill_extra_data($post_id)
         if (count($ubicacion_exploded) >= 2) {
             $data_tienda = $ubicacion_exploded[0];
             $data_distrito = $ubicacion_exploded[1];
-            $data_correo = $ubicacion_exploded[2] . '-' . $ubicacion_exploded[3];
+            $data_correo = $ubicacion_exploded[2] . '' . $ubicacion_exploded[3];
 
             $extra_data = array(
                 'data_tienda' => $data_tienda,

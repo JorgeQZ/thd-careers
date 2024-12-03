@@ -18,6 +18,7 @@ Template Name: Postulaciones
         $correo = sanitize_text_field($_POST['acf_postulacion_correo']);
         $apellidopaterno = sanitize_text_field($_POST['acf_postulacion_apellidopaterno']);
         $apellidomaterno = sanitize_text_field($_POST['acf_postulacion_apellidomaterno']);
+        $telefono = sanitize_text_field($_POST['acf_postulacion_telefono']);
 
         // Crear la nueva postulación en el post-type 'postulaciones'
         $nueva_postulacion = array(
@@ -36,6 +37,7 @@ Template Name: Postulaciones
             update_field('Apellidomaterno', $apellidomaterno, $postulacion_id);
             update_field('Correo', $correo, $postulacion_id);
             update_field('Estado', 'Postulado', $postulacion_id);
+            update_field('Telefono', $telefono, $postulacion_id);
 
             // Obtener el ID del post principal actual
             $post_id = get_queried_object_id();
@@ -60,6 +62,9 @@ Template Name: Postulaciones
             // Obtener el valor del campo ACF 'data_distrito' del post principal
             $numero_distrito = $extra_data['data_distrito'];
 
+            // Obtener el valor del campo ACF 'data_correo' del post principal
+            $correo_rh = $extra_data['data_correo'];
+
             // Guardar la 'ubicacion' en el campo 'ubicacion_vacante' de la postulación si tiene valor
             if (!empty($ubicacion)) {
                 update_field('ubicacion_vacante', $label_decoded, $postulacion_id);
@@ -73,6 +78,11 @@ Template Name: Postulaciones
             // Guardar el numero de distrito en el campo 'numero_de_distrito_vacante' de la postulación si tiene valor
             if (!empty($numero_distrito)) {
                 update_field('distrito_vacante', $numero_distrito, $postulacion_id);
+            }
+
+            // Guardar el numero de distrito en el campo 'numero_de_distrito_vacante' de la postulación si tiene valor
+            if (!empty($correo_rh)) {
+                update_field('correo_vacante', $correo_rh, $postulacion_id);
             }
 
             // Manejar la subida del archivo CV
@@ -136,6 +146,8 @@ $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar e
 $cv = get_field('CV', 'user_' . $user_id); // Obtener el ID del archivo
 // Obtener la URL del archivo CV si existe
 $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
+
+$telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
 ?>
 
 <form method="POST" enctype="multipart/form-data">
@@ -181,6 +193,14 @@ $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
         <label for="acf_postulacion_correo">Correo:</label>
         <input type="text" id="acf_postulacion_correo" name="acf_postulacion_correo"
             value="<?php echo esc_attr($mail); ?>" required>
+    </div>
+
+    <br>
+
+    <div class="contenedor">
+        <label for="acf_postulacion_telefono">Teléfono:</label>
+        <input type="text" id="acf_postulacion_telefono" name="acf_postulacion_telefono"
+            value="<?php echo esc_attr($telefono_rellenar); ?>" required>
     </div>
 
     <br>

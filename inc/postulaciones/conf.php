@@ -40,7 +40,7 @@ add_action( 'init', 'registrar_postulaciones_post_type' );
 add_filter('acf/load_field', 'disable_message_load_fields');
 
 function disable_message_load_fields( $field ) {
-    $fields_to_disable = ['Nombre', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante']; // Lista de campos que deseas hacer readonly
+    $fields_to_disable = ['Nombre', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante']; // Lista de campos que deseas hacer readonly
 
     if (in_array($field['name'], $fields_to_disable)) {
         $field['readonly'] = 1;
