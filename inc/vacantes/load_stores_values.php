@@ -93,7 +93,7 @@ function fill_extra_data($post_id)
         return;
     }
 
-    // // Verificar si el usuario actual tiene el rol de admin.
+    // Verificar si el usuario actual tiene el rol de admin.
     // $current_user = wp_get_current_user();
     // if (in_array('administrator', $current_user->roles)) {
     //     return; // Salir de la función si el usuario es admin.

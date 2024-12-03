@@ -17,17 +17,10 @@ function display_map()
         'theme_uri' => get_template_directory_uri(),
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
-    ?>
-<style>
-#map {
-    height: 580px;
-}
-</style>
 
-<div id="map"></div>
+    $output = '<div id="map" style="height: 580px;"></div>';
 
-<?php
+    return $output; // Devuelve el contenido
 }
 
 add_shortcode('map_thd', 'display_map');
-?>
