@@ -131,8 +131,8 @@ function custom_phpmailer_smtp( $phpmailer ) {
     $phpmailer->isSMTP();
     $phpmailer->Host       = 'mail.akevia.mx'; // Servidor SMTP de tu dominio
     $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
-    $phpmailer->Username   = 'javiertrevino@akevia.mx'; // Tu correo de dominio propio
-    $phpmailer->Password   = 'Akevia09'; // Contraseña de tu correo
+    $phpmailer->Username   = 'javiertrevino@akevia.mx'; // Correo
+    $phpmailer->Password   = 'Akevia09'; // Contraseña del correo
     $phpmailer->SMTPSecure = 'ssl'; // Método de encriptación ('ssl' o 'tls')
     $phpmailer->Port       = 465; // Puerto SMTP (587 para TLS o 465 para SSL)
 }
