@@ -53,8 +53,10 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
             <div class="contenedor dedos">
                 <div>
                     <label for="fecha_de_nacimiento">Fecha de nacimiento</label>
-                    <input type="date" name="fecha_de_nacimiento"
-                        value="<?php echo esc_attr($fecha_de_nacimiento_actual); ?>">
+                    <div class="custom-date-input">
+                        <input type="date" name="fecha_de_nacimiento" value="<?php echo esc_attr($fecha_de_nacimiento_actual); ?>">
+                        <span class="icon-calendar"></span>
+                    </div>
                 </div>
                 <div>
                     <label for="nacionalidad">Nacionalidad</label>
@@ -63,9 +65,13 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
             </div>
 
             <div class="contenedor">
-                <div>
+                <div class="custom-file">
                     <label for="cv">CV</label>
-                    <input type="file">
+                    <div class="file-wrapper">
+                        <!-- <label>CV</label> -->
+                        <input type="file">
+                        <span class="icon-attachment"></span>
+                    </div>
                 </div>
             </div>
 

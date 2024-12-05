@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: "Helvetica Neue LT Std";
   src: url("../fonts/HelveticaNeueLTStd-Roman.eot");
@@ -81,6 +82,69 @@
   background-color: white;
   color: #f96302;
   border-width: 2px;
+}
+
+.custom-file {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px 0;
+}
+.custom-file label {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #b2b2b2;
+  margin-bottom: 5px;
+}
+.custom-file .file-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0px;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-right: 40px;
+  /* Espacio para el ícono */
+}
+.custom-file .file-wrapper input[type=file] {
+  opacity: 0;
+  /* Oculta completamente el input */
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  /* Hace clickeable todo el contenedor */
+}
+.custom-file .file-wrapper .icon-attachment {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("../imgs/attach-file.svg");
+  /* Ruta al ícono */
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.custom-file .file-wrapper:hover {
+  border-color: #f96302;
+  /* Color del borde al pasar el mouse */
 }
 
 form {
@@ -174,9 +238,15 @@ form .contenedor-form .contenedor div select {
   width: 100%;
   border: solid thin;
   border-radius: 3px;
-  height: 35px;
+  height: 42px;
   margin-top: 10px;
   max-width: 400px;
+  padding-left: 10px;
+  -moz-appearance: none;
+       appearance: none;
+  -webkit-appearance: none;
+  background: url("../imgs/down-arrow.svg") no-repeat right -5px center;
+  background-size: 45px 45px;
 }
 
 @media (max-width: 1300px) and (min-width: 801px) {
