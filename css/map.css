@@ -54,6 +54,14 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "Helvetica Neue LT Std Bd";
+  src: url("../fonts/HelveticaNeueLTStd-Bd.eot");
+  src: url("../fonts/HelveticaNeueLTStd-Bd.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-Bd.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-Bd.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 .leaflet-bottom.leaflet-right {
   display: none !important;
 }
@@ -100,7 +108,7 @@
   background-color: #fff;
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content ul li:nth-child(odd) {
-  background-color: #e5e5e5;
+  background-color: #a6a6a6;
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content ul li a {
   text-decoration: none;

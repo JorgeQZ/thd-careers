@@ -1,0 +1,70 @@
+.content {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    .column {
+        width: 50%;
+        min-height: 30px;
+        letter-spacing: 2px;
+        font-family: $ff-roman;
+
+
+        .img-gallery-cont {
+            margin-left: 20px;
+            display: flex;
+            /* Cambia el display a flex para alinear mejor las imágenes */
+            position: relative;
+            /* Para posicionar las imágenes con más precisión */
+            justify-content: center;
+            /* Centra las imágenes horizontalmente */
+            align-items: start;
+            /* Alinea las imágenes verticalmente */
+            width: 100%;
+            /* Ajusta según tus necesidades */
+            height: 500px;
+
+            img {
+                width: 100%;
+            }
+
+            .galery-1 {
+
+                position: absolute;
+                /* Permite posicionar con respecto al contenedor */
+                top: 0;
+                /* Ajusta la posición superior */
+                left: 0;
+                /* Ajusta la posición izquierda */
+                // transform: translate(50px, 50px);
+                /* Ajusta según sea necesario */
+                z-index: 5;
+                /* Controla la superposición */
+
+                img {
+                    max-width: 300px;
+                }
+
+            }
+
+            .galery-2 {
+
+                position: absolute;
+                bottom: 0;
+                /* Ajusta la posición superior */
+                right: 0;
+                /* Ajusta la posición izquierda */
+                z-index: 10;
+                /* Controla la superposición */
+                // transform: rotate(-3deg);
+                /* Agrega un poco de rotación si es necesario */
+
+                img {
+                    max-width: 300px;
+                }
+
+            }
+        }
+
+    }
+}

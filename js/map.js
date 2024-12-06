@@ -21,6 +21,9 @@ let markers = new L.markerClusterGroup({
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 19,
+    minZoom: 5,
+
+
 }).addTo(map);
 
 function getCircleStyle(tipo) {

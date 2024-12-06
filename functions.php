@@ -29,9 +29,15 @@ require_once get_template_directory() . '/inc/postulaciones/conf.php';
 require_once "inc/map/conf.php";
 
 /**
- * Map
+ * CSV Uploader
  */
 require_once "inc/csvuploader/csv_uploader.php";
+
+
+/**
+ * CSV Uploader
+ */
+require_once "patterns/block-paterrns.php";
 
 /**
  * General Setup
@@ -57,6 +63,7 @@ add_action('after_setup_theme', 'careers_setup');
 function careers_styles()
 {
     wp_enqueue_style('generals', get_template_directory_uri() . '/css/generals.css');
+    wp_enqueue_script('generals', get_template_directory_uri() . '/js/generals.js');
 
     // if (is_page_template('page-miperfil.php')) {
     wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/miperfil.css');
@@ -69,6 +76,10 @@ function careers_styles()
 
     if (is_page('Beneficios')) {
         wp_enqueue_style('beneficios', get_template_directory_uri() . '/css/beneficios.css');
+    }
+
+    if (is_page_template('templates/page-vacantes.php')) {
+        wp_enqueue_style('vacantes', get_template_directory_uri() . '/css/vacantes.css');
     }
 
     if (is_singular('vacantes')) {
