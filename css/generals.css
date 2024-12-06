@@ -357,7 +357,7 @@ header .container .menu .sub-menu a:hover {
   font-size: 10px;
 }
 .footer-fondo-s2 .menu {
-  margin-left: -30px;
+  margin-left: -45px;
 }
 
 .widgettitle {
@@ -413,5 +413,15 @@ header .container .menu .sub-menu a:hover {
   }
   .footer-fondo-s2 .menu {
     margin-left: -55px;
+  }
+  .wp-container-core-group-is-layout-11 {
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
+  .wp-container-core-group-is-layout-13 {
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
   }
 }
