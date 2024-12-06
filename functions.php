@@ -65,9 +65,9 @@ function careers_styles()
     wp_enqueue_style('generals', get_template_directory_uri() . '/css/generals.css');
     wp_enqueue_script('generals', get_template_directory_uri() . '/js/generals.js');
 
-    // if (is_page_template('page-miperfil.php')) {
-    wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/miperfil.css');
-    // }
+    if (is_page('Mi Perfil')) {
+        wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/miperfil.css');
+    }
 
     if (is_page('Inicio')) {
         wp_enqueue_style('home', get_template_directory_uri() . '/css/home.css');

@@ -1,73 +1,360 @@
 @import "variables";
 @import "fonts";
 
-form {
-    max-width: 466px;
-    margin: 0 auto;
-}
-
-.contenedor {
-    padding: 10px 0px;
-    margin-bottom: 5px;
-
-    input {
-        margin-top: 5px;
-        width: 454px;
-        appearance: none;
-        border: 1px solid grey;
-        border-radius: 0px;
-        padding: 0 5px;
-        height: 30px;
-    }
-
-    select {
-        width: 219px;
-    }
-}
-
-.contenedor.contenedor-doscampos {
-    display: flex;
-    gap: 20px;
-
-    input {
-        width: 213px;
-    }
-}
-
-form button {
-    margin: 15px 0px;
-}
-
 .miperfil {
+    padding-top: 30px;
+}
+
+.custom-date-input {
+    padding-top: 0px !important;
+
+    input {
+        height: 37px !important;
+        padding: 0px 10px !important;
+    }
+}
+
+.icon-calendar {
+    background-image: url('../imgs/calendario-icon.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    right: 10px;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 20px;
+    pointer-events: none;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.custom-date-input {
+    position: relative;
+}
+
+.cerrar-sesion {
+    margin-bottom: 30px;
+    padding-top: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 15px;
+    font-family: $ff-bdcn;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    color: white;
+    background-color: #f96302;
+    border: #f96302 solid;
+    border-width: 2px;
+    transition: all 300ms;
+    cursor: pointer;
+    width: 179px;
+}
+
+.cerrar-sesion:hover {
+    background-color: white;
+    color: #f96302;
+    border-width: 2px;
+}
+
+.custom-file {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
 
-.act-datos {
-    margin-top: 20px !important;
-    appearance: none;
-    background-color: $orange;
-    margin: 0 auto;
-    padding: 10px;
-    display: block;
-    border: none;
-    color: white;
-    font-family: $ff-mdcn;
-    font-size: 20px;
-    line-height: 1;
-    cursor: pointer;
-    border: 1px solid $orange;
-    transition: all 300ms;
+    label {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #b2b2b2;
+        margin-bottom: 5px;
+    }
 
-    &:hover {
-        background-color: white;
-        color: $orange;
+    .file-wrapper {
+        position: relative;
+        width: 100%;
+        height: 0px;
+        border: 1px solid;
+        border-radius: 5px;
+        // background-color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding-right: 40px;
+        /* Espacio para el ícono */
+
+        input[type="file"] {
+            opacity: 0;
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .icon-attachment {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-image: url('../imgs/attach-file.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    }
+
+    .file-wrapper:hover {
+        border-color: #f96302;
+        /* Color del borde al pasar el mouse */
     }
 }
 
-h1 {
-    line-height: 1;
-    margin-top: 50px;
-    margin-bottom: 10px;
+form {
+    margin: 0 auto;
+    max-width: 1280px;
+
+    h1 {
+        font-family: $ff-blkcn;
+        color: #f96302;
+        margin-bottom: 0;
+    }
+
+    .h1-top {
+        padding-top: 0;
+        margin-top: 0;
+    }
+
+    label {
+        font-family: $ff-roman;
+        color: #b2b2b2;
+    }
+
+    p {
+        font-family: $ff-roman;
+        color: #b2b2b2;
+    }
+
+    .act-datos {
+        margin: 20px 0px;
+        padding-top: 20px;
+        padding-left: 25px;
+        padding-right: 25px;
+        padding-bottom: 15px;
+        font-family: $ff-bdcn;
+        font-size: 15px;
+        letter-spacing: 0.5px;
+        color: white;
+        background-color: #f96302;
+        border: #f96302 solid;
+        border-width: 2px;
+        transition: all 300ms;
+        cursor: pointer;
+    }
+
+    .act-datos:hover {
+        background-color: white;
+        color: #f96302;
+        border-width: 2px;
+    }
+
+    .contenedor-form {
+        input {
+            width: 100%;
+            border: solid thin;
+            border-radius: 3px;
+            height: 35px;
+            margin-top: 10px;
+            max-width: 400px;
+        }
+
+        .contenedor.detres {
+            gap: 40px;
+        }
+
+        .contenedor.dedos {
+            width: 100%;
+            gap: 40px;
+
+            div {
+                width: 400px;
+            }
+
+            select {
+                width: 400px;
+            }
+
+            input {
+                width: 381px;
+            }
+        }
+
+        .contenedor {
+            display: flex;
+
+            div {
+                width: 100%;
+                padding: 20px 0px;
+                flex-direction: column;
+                display: flex;
+
+                label {
+                    font-family: $ff-roman;
+                    color: #b2b2b2;
+                }
+
+                select {
+                    width: 100%;
+                    border: solid thin;
+                    border-radius: 3px;
+                    height: 42px;
+                    margin-top: 10px;
+                    max-width: 400px;
+                    padding-left: 10px; // Espacio para el ícono
+                    appearance: none;
+                    -webkit-appearance: none;
+                    background: url('../imgs/down-arrow.svg') no-repeat right -5px center;
+                    background-size: 45px 45px; // Ajusta el tamaño del SVG
+                }
+            }
+        }
+    }
+
+}
+
+// MÓVIL
+
+@media (max-width: 1300px) and (min-width: 801px) {
+    .miperfil {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+
+    // form .contenedor-form .contenedor {
+    //     flex-direction: column;
+    // }
+
+    // form .contenedor-form .contenedor.detres {
+    //     gap: 0px;
+    // }
+
+    // form .contenedor-form .contenedor.dedos {
+    //     gap: 0px;
+    // }
+}
+
+@media (max-width: 800px) and (min-width: 501px) {
+    .icon-calendar {
+        right: 8px;
+        top: 45%;
+        transform: translateY(-50%);
+        width: 15px;
+        height: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    form .contenedor-form .contenedor {
+        flex-direction: column;
+    }
+
+    form .contenedor-form .contenedor.detres {
+        gap: 0px;
+    }
+
+    form .contenedor-form .contenedor.dedos {
+        gap: 0px;
+    }
+
+    .ajustesr {
+        padding: 0px 80px;
+    }
+
+    .custom-date-input {
+        padding-top: 0px !important;
+
+        input {
+            height: 37px !important;
+            padding: 0px 12px !important;
+        }
+    }
+
+    .input-nacionalidad {
+        width: 400px !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .icon-calendar {
+        right: -2px;
+        top: 45%;
+        transform: translateY(-50%);
+        width: 15px;
+        height: 20px;
+    }
+
+    form .contenedor-form .contenedor div {
+        margin: 0 auto;
+    }
+
+    .miperfil {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+
+    form .contenedor-form .contenedor {
+        flex-direction: column;
+    }
+
+    form .contenedor-form .contenedor.detres {
+        gap: 0px;
+    }
+
+    form .contenedor-form .contenedor.dedos {
+        gap: 0px;
+    }
+
+    form .h1-top {
+        text-align: center;
+    }
+
+    form .contenedor-form .contenedor.dedos div {
+        width: 100%;
+    }
+
+    form .contenedor-form .contenedor.dedos input {
+        width: 100%;
+    }
+
+    form .contenedor-form .contenedor.dedos select {
+        width: 100%;
+    }
+
+    form h1 {
+        text-align: center;
+    }
+
+    form .act-datos {
+        width: 100%;
+    }
+
+    .cerrar-sesion {
+        width: 100%;
+    }
+
+    .custom-date-input {
+        padding-top: 0px !important;
+
+        input {
+            height: 37px !important;
+            padding: 0px 3.3px !important;
+        }
+    }
 }

@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 @font-face {
   font-family: "Helvetica Neue LT Std";
   src: url("../fonts/HelveticaNeueLTStd-Roman.eot");
@@ -6,6 +8,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Helvetica Neue LT Std HvCn";
   src: url("../fonts/HelveticaNeueLTStd-HvCn.eot");
@@ -14,6 +17,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Helvetica Neue LT Std Cn";
   src: url("../fonts/HelveticaNeueLTStd-Cn.eot");
@@ -22,6 +26,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Helvetica Neue LT Std MdCn";
   src: url("../fonts/HelveticaNeueLTStd-MdCn.eot");
@@ -30,6 +35,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Helvetica Neue LT Std LtCn";
   src: url("../fonts/HelveticaNeueLTStd-LtCn.eot");
@@ -38,6 +44,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Helvetica Neue LT Std BlkCn";
   src: url("../fonts/HelveticaNeueLTStd-BlkCn.eot");
@@ -46,6 +53,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Helvetica Neue LT Std BdCn";
   src: url("../fonts/HelveticaNeueLTStd-BdCn.eot");
@@ -54,6 +62,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Helvetica Neue LT Std Bd";
   src: url("../fonts/HelveticaNeueLTStd-Bd.eot");
@@ -62,83 +71,379 @@
   font-style: normal;
   font-display: swap;
 }
-form {
-  max-width: 466px;
-  margin: 0 auto;
-}
-
-.contenedor {
-  padding: 10px 0px;
-  margin-bottom: 5px;
-}
-.contenedor input {
-  margin-top: 5px;
-  width: 454px;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border: 1px solid grey;
-  border-radius: 0px;
-  padding: 0 5px;
-  height: 30px;
-}
-.contenedor select {
-  width: 219px;
-}
-
-.contenedor.contenedor-doscampos {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 20px;
-}
-.contenedor.contenedor-doscampos input {
-  width: 213px;
-}
-
-form button {
-  margin: 15px 0px;
-}
 
 .miperfil {
+  padding-top: 30px;
+}
+
+.custom-date-input {
+  padding-top: 0px !important;
+}
+
+.custom-date-input input {
+  height: 37px !important;
+  padding: 0px 10px !important;
+}
+
+.icon-calendar {
+  background-image: url("../imgs/calendario-icon.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  right: 10px;
+  top: 45%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 15px;
+  height: 20px;
+  pointer-events: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.custom-date-input {
+  position: relative;
+}
+
+.cerrar-sesion {
+  margin-bottom: 30px;
+  padding-top: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  font-family: "Helvetica Neue LT Std BdCn";
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  color: white;
+  background-color: #f96302;
+  border: #f96302 solid;
+  border-width: 2px;
+  -webkit-transition: all 300ms;
+  transition: all 300ms;
+  cursor: pointer;
+  width: 179px;
+}
+
+.cerrar-sesion:hover {
+  background-color: white;
+  color: #f96302;
+  border-width: 2px;
+}
+
+.custom-file {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px 0;
 }
 
-.act-datos {
-  margin-top: 20px !important;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background-color: #f96302;
-  margin: 0 auto;
-  padding: 10px;
-  display: block;
-  border: none;
-  color: white;
-  font-family: "Helvetica Neue LT Std MdCn";
-  font-size: 20px;
-  line-height: 1;
+.custom-file label {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #b2b2b2;
+  margin-bottom: 5px;
+}
+
+.custom-file .file-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0px;
+  border: 1px solid;
+  border-radius: 5px;
   cursor: pointer;
-  border: 1px solid #f96302;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-right: 40px;
+  /* Espacio para el ícono */
+}
+
+.custom-file .file-wrapper input[type=file] {
+  opacity: 0;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.custom-file .file-wrapper .icon-attachment {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("../imgs/attach-file.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.custom-file .file-wrapper:hover {
+  border-color: #f96302;
+  /* Color del borde al pasar el mouse */
+}
+
+form {
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+form h1 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  color: #f96302;
+  margin-bottom: 0;
+}
+
+form .h1-top {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+form label {
+  font-family: "Helvetica Neue LT Std";
+  color: #b2b2b2;
+}
+
+form p {
+  font-family: "Helvetica Neue LT Std";
+  color: #b2b2b2;
+}
+
+form .act-datos {
+  margin: 20px 0px;
+  padding-top: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  font-family: "Helvetica Neue LT Std BdCn";
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  color: white;
+  background-color: #f96302;
+  border: #f96302 solid;
+  border-width: 2px;
   -webkit-transition: all 300ms;
   transition: all 300ms;
-}
-.act-datos:hover {
-  background-color: white;
-  color: #f96302;
+  cursor: pointer;
 }
 
-h1 {
-  line-height: 1;
-  margin-top: 50px;
-  margin-bottom: 10px;
+form .act-datos:hover {
+  background-color: white;
+  color: #f96302;
+  border-width: 2px;
+}
+
+form .contenedor-form input {
+  width: 100%;
+  border: solid thin;
+  border-radius: 3px;
+  height: 35px;
+  margin-top: 10px;
+  max-width: 400px;
+}
+
+form .contenedor-form .contenedor.detres {
+  gap: 40px;
+}
+
+form .contenedor-form .contenedor.dedos {
+  width: 100%;
+  gap: 40px;
+}
+
+form .contenedor-form .contenedor.dedos div {
+  width: 400px;
+}
+
+form .contenedor-form .contenedor.dedos select {
+  width: 400px;
+}
+
+form .contenedor-form .contenedor.dedos input {
+  width: 381px;
+}
+
+form .contenedor-form .contenedor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+form .contenedor-form .contenedor div {
+  width: 100%;
+  padding: 20px 0px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+form .contenedor-form .contenedor div label {
+  font-family: "Helvetica Neue LT Std";
+  color: #b2b2b2;
+}
+
+form .contenedor-form .contenedor div select {
+  width: 100%;
+  border: solid thin;
+  border-radius: 3px;
+  height: 42px;
+  margin-top: 10px;
+  max-width: 400px;
+  padding-left: 10px;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background: url("../imgs/down-arrow.svg") no-repeat right -5px center;
+  background-size: 45px 45px;
+}
+
+@media (max-width: 1300px) and (min-width: 801px) {
+  .miperfil {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+@media (max-width: 800px) and (min-width: 501px) {
+  .icon-calendar {
+    right: 8px;
+    top: 45%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 15px;
+    height: 20px;
+  }
+
+  form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  form .contenedor-form .contenedor {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  form .contenedor-form .contenedor.detres {
+    gap: 0px;
+  }
+
+  form .contenedor-form .contenedor.dedos {
+    gap: 0px;
+  }
+
+  .ajustesr {
+    padding: 0px 80px;
+  }
+
+  .custom-date-input {
+    padding-top: 0px !important;
+  }
+
+  .custom-date-input input {
+    height: 37px !important;
+    padding: 0px 12px !important;
+  }
+
+  .input-nacionalidad {
+    width: 400px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .icon-calendar {
+    right: -2px;
+    top: 45%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 15px;
+    height: 20px;
+  }
+
+  form .contenedor-form .contenedor div {
+    margin: 0 auto;
+  }
+
+  .miperfil {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  form .contenedor-form .contenedor {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  form .contenedor-form .contenedor.detres {
+    gap: 0px;
+  }
+
+  form .contenedor-form .contenedor.dedos {
+    gap: 0px;
+  }
+
+  form .h1-top {
+    text-align: center;
+  }
+
+  form .contenedor-form .contenedor.dedos div {
+    width: 100%;
+  }
+
+  form .contenedor-form .contenedor.dedos input {
+    width: 100%;
+  }
+
+  form .contenedor-form .contenedor.dedos select {
+    width: 100%;
+  }
+
+  form h1 {
+    text-align: center;
+  }
+
+  form .act-datos {
+    width: 100%;
+  }
+
+  .cerrar-sesion {
+    width: 100%;
+  }
+
+  .custom-date-input {
+    padding-top: 0px !important;
+  }
+
+  .custom-date-input input {
+    height: 37px !important;
+    padding: 0px 3.3px !important;
+  }
 }
