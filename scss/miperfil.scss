@@ -5,6 +5,34 @@
     padding-top: 30px;
 }
 
+.custom-date-input {
+    padding-top: 0px !important;
+
+    input {
+        height: 37px !important;
+        padding: 0px 10px !important;
+    }
+}
+
+.icon-calendar {
+    background-image: url('../imgs/calendario-icon.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    right: 10px;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 20px;
+    pointer-events: none;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.custom-date-input {
+    position: relative;
+}
+
 .cerrar-sesion {
     margin-bottom: 30px;
     padding-top: 20px;
@@ -58,14 +86,12 @@
 
         input[type="file"] {
             opacity: 0;
-            /* Oculta completamente el input */
             position: absolute;
             top: -10px;
             left: 0;
             width: 100%;
             height: 100%;
             cursor: pointer;
-            /* Hace clickeable todo el contenedor */
         }
 
         .icon-attachment {
@@ -76,7 +102,6 @@
             width: 20px;
             height: 20px;
             background-image: url('../imgs/attach-file.svg');
-            /* Ruta al ícono */
             background-repeat: no-repeat;
             background-size: contain;
         }
@@ -163,7 +188,7 @@ form {
             }
 
             input {
-                width: 400px;
+                width: 381px;
             }
         }
 
@@ -222,6 +247,14 @@ form {
 }
 
 @media (max-width: 800px) and (min-width: 501px) {
+    .icon-calendar {
+        right: 8px;
+        top: 45%;
+        transform: translateY(-50%);
+        width: 15px;
+        height: 20px;
+    }
+
     form {
         display: flex;
         flex-direction: column;
@@ -243,9 +276,30 @@ form {
     .ajustesr {
         padding: 0px 80px;
     }
+
+    .custom-date-input {
+        padding-top: 0px !important;
+
+        input {
+            height: 37px !important;
+            padding: 0px 12px !important;
+        }
+    }
+
+    .input-nacionalidad {
+        width: 400px !important;
+    }
 }
 
 @media (max-width: 500px) {
+    .icon-calendar {
+        right: -2px;
+        top: 45%;
+        transform: translateY(-50%);
+        width: 15px;
+        height: 20px;
+    }
+
     form .contenedor-form .contenedor div {
         margin: 0 auto;
     }
@@ -293,5 +347,14 @@ form {
 
     .cerrar-sesion {
         width: 100%;
+    }
+
+    .custom-date-input {
+        padding-top: 0px !important;
+
+        input {
+            height: 37px !important;
+            padding: 0px 3.3px !important;
+        }
     }
 }

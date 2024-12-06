@@ -56,6 +56,31 @@
         color: #f96302;
     }
 
+    ul {
+        list-style: none;
+        /* Elimina los marcadores predeterminados */
+        padding-left: 30px;
+        /* Opcional, elimina el padding por defecto */
+    }
+
+    ul li {
+        position: relative;
+        padding-left: 25px;
+        /* Espacio para el marcador personalizado */
+    }
+
+    ul li::before {
+        content: '•';
+        /* Puedes usar un símbolo o una imagen */
+        position: absolute;
+        left: 18px;
+        top: 13px;
+        font-size: 6px;
+        /* Tamaño del marcador */
+        color: black;
+        /* Color del marcador */
+    }
+
     ul li::marker {
         font-size: 10px;
     }
@@ -110,6 +135,22 @@
     .footer-fondo-s3 {
         padding: 20px 40px;
         padding-top: 30px;
+    }
+
+    .wp-container-core-group-is-layout-2 {
+        align-items: center !important;
+    }
+
+    .wp-container-core-group-is-layout-4 {
+        align-items: center !important;
+    }
+
+    .footer-fondo-s2 {
+        text-align: center;
+    }
+
+    .footer-fondo-s2 .menu {
+        margin-left: -55px;
     }
 
 }

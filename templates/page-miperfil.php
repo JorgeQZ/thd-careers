@@ -60,7 +60,7 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
                 </div>
                 <div>
                     <label for="nacionalidad">Nacionalidad</label>
-                    <input type="text" name="nacionalidad" value="<?php echo esc_attr($nacionalidad_actual); ?>">
+                    <input class="input-nacionalidad" type="text" name="nacionalidad" value="<?php echo esc_attr($nacionalidad_actual); ?>">
                 </div>
             </div>
 

@@ -331,6 +331,28 @@ header .container .menu .sub-menu a:hover {
 .footer-fondo-s2 a:hover {
   color: #f96302;
 }
+.footer-fondo-s2 ul {
+  list-style: none;
+  /* Elimina los marcadores predeterminados */
+  padding-left: 30px;
+  /* Opcional, elimina el padding por defecto */
+}
+.footer-fondo-s2 ul li {
+  position: relative;
+  padding-left: 25px;
+  /* Espacio para el marcador personalizado */
+}
+.footer-fondo-s2 ul li::before {
+  content: "•";
+  /* Puedes usar un símbolo o una imagen */
+  position: absolute;
+  left: 18px;
+  top: 13px;
+  font-size: 6px;
+  /* Tamaño del marcador */
+  color: black;
+  /* Color del marcador */
+}
 .footer-fondo-s2 ul li::marker {
   font-size: 10px;
 }
@@ -375,5 +397,21 @@ header .container .menu .sub-menu a:hover {
   .footer-fondo-s3 {
     padding: 20px 40px;
     padding-top: 30px;
+  }
+  .wp-container-core-group-is-layout-2 {
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
+  .wp-container-core-group-is-layout-4 {
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
+  .footer-fondo-s2 {
+    text-align: center;
+  }
+  .footer-fondo-s2 .menu {
+    margin-left: -55px;
   }
 }
