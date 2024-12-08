@@ -45,13 +45,13 @@ Template Name: Postulaciones
             // Guardar el título del post en el campo 'vacante' de la postulación
             update_field('vacante_vacante', get_the_title(get_queried_object_id()), $postulacion_id);
 
-            // Obtener el valor del campo ACF 'ubicacion' del post principal
-            $ubicacion = get_field('ubicacion', $post_id);
+            // // Obtener el valor del campo ACF 'ubicacion' del post principal
+            // $ubicacion = get_field('ubicacion', $post_id);
 
-            $label = $ubicacion['label'];
+            // $label = $ubicacion['label'];
 
-            // Decodificar los caracteres especiales
-            $label_decoded = htmlspecialchars_decode($label, ENT_QUOTES);
+            // // Decodificar los caracteres especiales
+            // $label_decoded = htmlspecialchars_decode($label, ENT_QUOTES);
 
             // Obtener el valor del campo 'extra_data' del post principal
             $extra_data = get_field('extra_data', $post_id);
@@ -67,7 +67,7 @@ Template Name: Postulaciones
 
             // Guardar la 'ubicacion' en el campo 'ubicacion_vacante' de la postulación si tiene valor
             if (!empty($ubicacion)) {
-                update_field('ubicacion_vacante', $label_decoded, $postulacion_id);
+                update_field('ubicacion_vacante', $ubicacion, $postulacion_id);
             }
 
             // Guardar el numero de tienda en el campo 'numero_de_tienda_vacante' de la postulación si tiene valor
@@ -116,11 +116,11 @@ Template Name: Postulaciones
             } else {
                 // Si no se sube un nuevo CV, usar el CV del perfil del usuario
                 $user_id = get_current_user_id();
-                $cv_perfil = get_field('CV', 'user_' . $user_id); // Obtener el CV del usuario
+                $cv_perfil = get_field('cv_general', 'user_' . $user_id); // Obtener el CV del usuario
 
                 if ($cv_perfil) {
                     update_field('CV', $cv_perfil, $postulacion_id);
-                    echo '<p>¡Postulación enviada con el CV del perfil del usuario!</p>';
+                    echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
                 } else {
                     echo '<p>No se ha subido un CV y tampoco hay uno guardado en el perfil.</p>';
                 }
@@ -144,70 +144,76 @@ $mail = $user_data ? $user_data->user_email : ''; // Obtener el nombre del usuar
 $apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
 $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
 
-$cv = get_field('CV', 'user_' . $user_id); // Obtener el ID del archivo
+$cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
 // Obtener la URL del archivo CV si existe
 $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
 
+$nombre_rellenar = get_field('nombre_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+$apellido_paterno_rellenar = get_field('apellido_paterno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+$apellido_materno_rellenar = get_field('apellido_materno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+$correo_rellenar = get_field('correo_general', 'user_' . $user_id); // Usar el nombre exacto del campo
 $telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
 ?>
 
-<form method="POST" enctype="multipart/form-data">
-    <div class="contenedor">
-        <label for="acf_postulacion_nombre">Nombre:</label>
-        <input type="text" id="acf_postulacion_nombre" name="acf_postulacion_nombre"
-            value="<?php echo esc_attr($nombre); ?>" required>
-    </div>
+<div class="container">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="contenedor">
+            <label for="acf_postulacion_nombre">Nombre:</label>
+            <input type="text" id="acf_postulacion_nombre" name="acf_postulacion_nombre"
+                value="<?php echo esc_attr($nombre_rellenar); ?>" required>
+        </div>
 
-    <br>
+        <br>
 
-    <div class="contenedor">
-        <label for="acf_postulacion_apellidopaterno">Apellido Paterno:</label>
-        <input type="text" id="acf_postulacion_apellidopaterno" name="acf_postulacion_apellidopaterno"
-            value="<?php echo esc_attr($apellido_paterno); ?>" required>
-    </div>
+        <div class="contenedor">
+            <label for="acf_postulacion_apellidopaterno">Apellido Paterno:</label>
+            <input type="text" id="acf_postulacion_apellidopaterno" name="acf_postulacion_apellidopaterno"
+                value="<?php echo esc_attr($apellido_paterno_rellenar); ?>" required>
+        </div>
 
-    <br>
+        <br>
 
-    <div class="contenedor">
-        <label for="acf_postulacion_apellidomaterno">Apellido Materno:</label>
-        <input type="text" id="acf_postulacion_apellidomaterno" name="acf_postulacion_apellidomaterno"
-            value="<?php echo esc_attr($apellido_materno); ?>" required>
-    </div>
+        <div class="contenedor">
+            <label for="acf_postulacion_apellidomaterno">Apellido Materno:</label>
+            <input type="text" id="acf_postulacion_apellidomaterno" name="acf_postulacion_apellidomaterno"
+                value="<?php echo esc_attr($apellido_materno_rellenar); ?>" required>
+        </div>
 
-    <br>
+        <br>
 
-    <div class="contenedor">
-        <label for="acf_postulacion_cv">Sube tu CV:</label>
+        <div class="contenedor">
+            <label for="acf_postulacion_cv">Sube tu CV:</label>
 
-        <?php if ($cv_url): ?>
-        <p>CV Actual: <a href="<?php echo esc_url($cv_url); ?>" target="_blank">Ver archivo</a></p>
-        <?php else: ?>
-        <p>No hay un CV subido aún.</p>
-        <?php endif; ?>
+            <?php if ($cv_url): ?>
+            <p>CV Actual: <a href="<?php echo esc_url($cv_url); ?>" target="_blank">Ver archivo</a></p>
+            <?php else: ?>
+            <p>No hay un CV subido aún.</p>
+            <?php endif; ?>
 
-        <input type="file" id="acf_postulacion_cv" name="acf_postulacion_cv">
-    </div>
+            <input type="file" id="acf_postulacion_cv" name="acf_postulacion_cv">
+        </div>
 
-    <br>
+        <br>
 
-    <div class="contenedor">
-        <label for="acf_postulacion_correo">Correo:</label>
-        <input type="text" id="acf_postulacion_correo" name="acf_postulacion_correo"
-            value="<?php echo esc_attr($mail); ?>" required>
-    </div>
+        <div class="contenedor">
+            <label for="acf_postulacion_correo">Correo:</label>
+            <input type="text" id="acf_postulacion_correo" name="acf_postulacion_correo"
+                value="<?php echo esc_attr($correo_rellenar); ?>" required>
+        </div>
 
-    <br>
+        <br>
 
-    <div class="contenedor">
-        <label for="acf_postulacion_telefono">Teléfono:</label>
-        <input type="text" id="acf_postulacion_telefono" name="acf_postulacion_telefono"
-            value="<?php echo esc_attr($telefono_rellenar); ?>" required>
-    </div>
+        <div class="contenedor">
+            <label for="acf_postulacion_telefono">Teléfono:</label>
+            <input type="text" id="acf_postulacion_telefono" name="acf_postulacion_telefono"
+                value="<?php echo esc_attr($telefono_rellenar); ?>" required>
+        </div>
 
-    <br>
-    <br>
+        <br>
+        <br>
 
-    <div class="contenedor-boton">
-        <input type="submit" value="Enviar Postulación">
-    </div>
-</form>
+        <div class="contenedor-boton">
+            <input type="submit" value="Enviar Postulación">
+        </div>
+    </form>
+</div>

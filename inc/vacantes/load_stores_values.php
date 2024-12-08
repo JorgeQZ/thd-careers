@@ -47,9 +47,26 @@ case 'rh_general':
     endswitch;
 }
 
-/**
- * Opciones de ubicación mostradas segun el rol del user
- */
+// /**
+//  * Opciones de ubicación mostradas segun el rol del user
+//  */
+// add_filter('acf/load_field/name=ubicacion', 'load_values_values_catalogo');
+// function load_values_values_catalogo($field)
+// {
+//     static $is_executing = false;
+//     if ($is_executing) {
+//         return $field;
+//     }
+//     $is_executing = true;
+//     $stores = load_stores_data();
+//     $field['required'] = true;
+//     foreach ($stores as $store) {
+//         $field['choices'][$store['numero_de_tienda'] . '-' . $store['distrito'] . '-' . $store['correo']] = $store['nombre_de_tienda'] . " (" . $store['ubicacion'] . ")";
+//     }
+
+//     return $field;
+// }
+
 add_filter('acf/load_field/name=ubicacion', 'load_values_values_catalogo');
 function load_values_values_catalogo($field)
 {
@@ -58,10 +75,18 @@ function load_values_values_catalogo($field)
         return $field;
     }
     $is_executing = true;
+
     $stores = load_stores_data();
-    $field['required'] = true;
-    foreach ($stores as $store) {
-        $field['choices'][$store['numero_de_tienda'] . '-' . $store['distrito'] . '-' . $store['correo']] = $store['nombre_de_tienda'] . " (" . $store['ubicacion'] . ")";
+
+    // Asegúrate de que $stores sea un array antes de usar foreach
+    if (is_array($stores)) {
+        $field['required'] = true;
+        foreach ($stores as $store) {
+            $field['choices'][$store['numero_de_tienda'] . '-' . $store['distrito'] . '-' . $store['correo']] = $store['nombre_de_tienda'] . " (" . $store['ubicacion'] . ")";
+        }
+    } else {
+        // Manejar el caso donde $stores no es un array
+        error_log('load_stores_data no devolvió un array.');
     }
 
     return $field;
