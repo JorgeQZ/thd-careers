@@ -193,7 +193,7 @@ body.admin-bar {
   text-transform: uppercase;
   line-height: 1;
   position: relative;
-  z-index: 10;
+  z-index: 1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
