@@ -17,14 +17,14 @@
                     $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
                     if (has_custom_logo()):
                 ?>
-                <div class="site-info">
+                <a class="site-info" href="<?php echo home_url(); ?>">
                     <img class="main-logo" src="<?php echo esc_url($logo[0]) ?>"
                         alt="<?php echo get_bloginfo('name') ?>'">
                     <div class="site-title">
                         Construyendo <br>
                         <strong>Carreras</strong>
                     </div>
-                </div>
+                </a>
                 <?php endif;?>
 
                 <!-- Ícono de hamburguesa -->

@@ -14,12 +14,19 @@ if ($current_post_id) {
 }
 ?>
 <!-- Banner con el titulo de la página -->
-<div class="header sticky" style="background-color: <?php echo getColorCat($term_name);?>; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>)">
+<div class="banner" id="vacante-banner" style="background-color: <?php echo getColorCat($term_name);?>; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>)">
     <div class="container">
-        <div class="term"><?php echo $term_name; ?> </div>
-        <div class="title"> <?php the_title(); ?> </div>
+        <div class="title-cont">
+            <div class="term"><?php echo $term_name; ?> </div>
+            <div class="title"> <?php the_title(); ?> </div>
+        </div>
+        <div class="button" id="open-form">
+            Postulate aquí
+        </div>
     </div>
 </div><!-- Banner con el titulo de la página -->
+
+
 <main>
     <div class="container">
         <div class="desc-video">
@@ -57,10 +64,6 @@ if ($current_post_id) {
                     ?>
                 </div>
             </div>
-        </div>
-
-        <div class="button" id="open-form">
-            Postulate aquí
         </div>
     </div>
 

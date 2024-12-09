@@ -5,45 +5,53 @@
 function load_stores_data()
 {
     $user = wp_get_current_user();
-    $role = $user->roles[0];
+    if($user->ID !== 0){
+        $role = $user->roles[0];
+    }else{
+        $role = "general";
+    }
+
     $current_user_id = get_current_user_id();
     $table = get_field('catalogo_de_tiendas', 'option');
     switch ($role):
-case 'administrator':
-    return $table;
-    break;
-case 'rh_oat':
-    return $table;
-    break;
-case 'rh_distrito':
-    $field = 'distrito';
-    $users_district = get_user_meta($current_user_id, $field, true);
-    $stores = [];
-    if ($table):
-        foreach ($table as $row):
-            if ($row['distrito'] == $users_district) {
-                    array_push($stores, $row);
-            }
+        case 'administrator':
+            return $table;
+            break;
+        case 'general':
+            return $table;
+            break;
+        case 'rh_oat':
+            return $table;
+            break;
+        case 'rh_distrito':
+            $field = 'distrito';
+            $users_district = get_user_meta($current_user_id, $field, true);
+            $stores = [];
+            if ($table):
+                foreach ($table as $row):
+                    if ($row['distrito'] == $users_district) {
+                            array_push($stores, $row);
+                    }
 
-        endforeach;
-        return $stores;
-    endif;
-    break;
-case 'rh_general':
-    $field = 'tienda';
-    $users_store = get_user_meta($current_user_id, $field, true);
+                endforeach;
+                return $stores;
+            endif;
+            break;
+        case 'rh_general':
+            $field = 'tienda';
+            $users_store = get_user_meta($current_user_id, $field, true);
 
-    $stores = [];
-    if ($table):
-        foreach ($table as $row):
+            $stores = [];
+            if ($table):
+                foreach ($table as $row):
 
-            if ($row['numero_de_tienda'] === $users_store) {
-                array_push($stores, $row);
-            }
-        endforeach;
-        return $stores;
-    endif;
-    break;
+                    if ($row['numero_de_tienda'] === $users_store) {
+                        array_push($stores, $row);
+                    }
+                endforeach;
+                return $stores;
+            endif;
+            break;
     endswitch;
 }
 

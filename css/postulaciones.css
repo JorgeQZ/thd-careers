@@ -62,6 +62,15 @@
   font-style: normal;
   font-display: swap;
 }
+body.admin-bar {
+  --sticky-offset: 32px;
+}
+@media (max-width: 782px) {
+  body.admin-bar {
+    --sticky-offset: 46px;
+  }
+}
+
 .highlight-orange {
   color: #f96302;
 }
@@ -124,7 +133,7 @@
   max-width: 600px;
 }
 
-.header {
+.banner {
   height: 200px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -137,8 +146,11 @@
           justify-content: start;
   padding: 0 80px;
   position: relative;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
-.header:before {
+.banner:before {
   content: "";
   width: 100%;
   height: 100%;
@@ -148,41 +160,95 @@
   left: 0;
   opacity: 0.8;
 }
-.header.sticky {
+.banner.sticky {
   height: unset;
   padding-top: 10px;
   padding-bottom: 10px;
+  position: fixed;
+  top: calc(var(--sticky-offset, 0) + var(--header-height, 0px));
+  -webkit-box-shadow: 0 0 20px 10px white;
+          box-shadow: 0 0 20px 10px white;
 }
-.header.sticky:before {
+.banner.sticky:before {
   opacity: 1;
 }
-.header.sticky .container .term {
+.banner.sticky .container {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.banner.sticky .container .title-cont .term {
   display: none;
 }
-.header.sticky .container .title {
+.banner.sticky .container .title-cont .title {
   font-size: 28px;
 }
-.header .container {
+.banner.sticky .container .button {
+  margin: 0;
+}
+.banner .container {
   color: white;
   font-family: "Helvetica Neue LT Std BlkCn";
   font-size: 60px;
   text-transform: uppercase;
   line-height: 1;
   position: relative;
-  z-index: 10px;
+  z-index: 10;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
-.header .container .term {
+.banner .container .title-cont .term {
   font-size: 16px;
   font-family: "Helvetica Neue LT Std";
   text-decoration: underline;
   text-transform: capitalize;
 }
-.header .container .title {
+.banner .container .title-cont .title {
   font-family: "Helvetica Neue LT Std HvCn";
   font-size: 40px;
   margin-top: 10px;
   line-height: 1.1;
-  width: 50%;
+  width: 80%;
+  -webkit-transition: none;
+  transition: none;
+}
+.banner .container .button {
+  font-family: "Helvetica Neue LT Std BdCn";
+  color: #f96302;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 13px 20px;
+  padding-top: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid #fff;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-top: 50px;
+}
+.banner .container .button:hover {
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: #f96302;
 }
 
 .container .desc-video {
@@ -197,38 +263,38 @@
           flex-direction: row;
   margin-top: 40px;
 }
-.container .desc-video .column .column {
+.container .desc-video .column {
   width: 50%;
 }
-.container .desc-video .column .column .desc .desc {
+.container .desc-video .column .desc {
   padding-right: 20px;
   font-family: "Helvetica Neue LT Std";
   font-size: 14px;
   line-height: 1.4;
   font-weight: thin;
 }
-.container .desc-video .column .column .desc .desc p p {
+.container .desc-video .column .desc p {
   margin-top: 0;
 }
-.container .desc-video .column .column .desc .desc p strong strong {
+.container .desc-video .column .desc strong {
   font-family: "Helvetica Neue LT Std HvCn";
   font-size: 16px;
 }
-.container .desc-video .column .column .desc .desc p strong ul li,
-.container .desc-video .column .column .desc .desc p strong ol li {
+.container .desc-video .column .desc ul li,
+.container .desc-video .column .desc ol li {
   padding: 5px;
 }
-.container .desc-video .column .column .desc .desc p iframe iframe {
+.container .desc-video .column iframe {
   min-width: 300px;
   max-width: 100%;
 }
-.container .desc-video .column .column .desc .desc p iframe .title_b {
+.container .desc-video .column .title_b {
   font-family: "Helvetica Neue LT Std HvCn";
   color: #f96302;
   font-size: 24px;
   margin-top: 20px;
 }
-.container .desc-video .column .column .desc .desc p iframe .benefit-item {
+.container .desc-video .column .benefit-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -244,47 +310,17 @@
           justify-content: start;
   text-transform: uppercase;
 }
-.container .desc-video .column .column .desc .desc p iframe .benefit-item img {
+.container .desc-video .column .benefit-item img {
   width: 35px;
   margin-right: 10px;
 }
-.container .desc-video .column .column .desc .desc .button {
-  font-family: "Helvetica Neue LT Std HvCn";
-  color: white;
-  background-color: #f96302;
-  border: 2px solid #f96302;
-  padding: 10px 20px;
-  padding-top: 12px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  text-transform: uppercase;
-  margin-bottom: 50px;
-  -webkit-transition: all 300ms;
-  transition: all 300ms;
-}
-.container .desc-video .column .column .desc .desc .button:hover {
-  background-color: white;
-  color: #f96302;
-}
-.container .desc-video .column .column .desc .form-post {
+
+.form-post {
   display: none;
   opacity: 0;
   -webkit-transition: all 500ms ease-in;
   transition: all 500ms ease-in;
 }
-.container .desc-video .column .column .desc .form-post.fade-in {
+.form-post.fade-in {
   opacity: 1;
 }

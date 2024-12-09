@@ -2,22 +2,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Funciones para el header
     const header = document.getElementById("header");
+    const banner = document.getElementById("vacante-banner");
     const adminBar = document.getElementById("wpadminbar");
     const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
-    const headerHeight = header.offsetHeight;
-    let isSticky;
+
+    let isHeaderSticky = false;
+    let isBannerSticky = false;
+
+    const updateHeaderHeight = () => {
+        const updatedHeaderHeight = header.offsetHeight;
+        document.documentElement.style.setProperty("--header-height", `40px`);
+    };
+
+    updateHeaderHeight();
 
     window.addEventListener("scroll", () => {
         const scrollTop = window.scrollY;
 
-        if (scrollTop > headerHeight - adminBarHeight && !isSticky) {
+        // Sticky para el header
+        if (scrollTop > header.offsetHeight - adminBarHeight && !isHeaderSticky) {
             header.classList.add("sticky");
-            isSticky = true;
-        } else if (scrollTop <= headerHeight - adminBarHeight && isSticky) {
+            isHeaderSticky = true;
+            updateHeaderHeight(); // Actualizar altura al cambiar a sticky
+        } else if (scrollTop <= header.offsetHeight - adminBarHeight && isHeaderSticky) {
             header.classList.remove("sticky");
-            isSticky = false;
+            isHeaderSticky = false;
+            updateHeaderHeight(); // Actualizar altura al salir de sticky
+        }
+
+        // Sticky para el banner (si existe)
+        if (banner) {
+            if (scrollTop > banner.offsetHeight + header.offsetHeight - adminBarHeight && !isBannerSticky) {
+                banner.classList.add("sticky");
+                isBannerSticky = true;
+            } else if (scrollTop <= banner.offsetHeight + header.offsetHeight - adminBarHeight && isBannerSticky) {
+                banner.classList.remove("sticky");
+                isBannerSticky = false;
+            }
         }
     });
+
+    window.addEventListener("resize", updateHeaderHeight);
+
     // Funciones para el header
 
     // Funciones de filtros en la secciones vacantes
