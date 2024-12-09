@@ -8,7 +8,7 @@ function load_stores_data()
     if($user->ID !== 0){
         $role = $user->roles[0];
     }else{
-        $role = "general";
+        $role = "subscriber";
     }
 
     $current_user_id = get_current_user_id();
@@ -17,7 +17,7 @@ function load_stores_data()
         case 'administrator':
             return $table;
             break;
-        case 'general':
+        case 'subscriber':
             return $table;
             break;
         case 'rh_oat':
