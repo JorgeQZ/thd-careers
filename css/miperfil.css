@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 @font-face {
   font-family: "Helvetica Neue LT Std";
   src: url("../fonts/HelveticaNeueLTStd-Roman.eot");
@@ -8,7 +7,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Helvetica Neue LT Std HvCn";
   src: url("../fonts/HelveticaNeueLTStd-HvCn.eot");
@@ -17,7 +15,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Helvetica Neue LT Std Cn";
   src: url("../fonts/HelveticaNeueLTStd-Cn.eot");
@@ -26,7 +23,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Helvetica Neue LT Std MdCn";
   src: url("../fonts/HelveticaNeueLTStd-MdCn.eot");
@@ -35,7 +31,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Helvetica Neue LT Std LtCn";
   src: url("../fonts/HelveticaNeueLTStd-LtCn.eot");
@@ -44,7 +39,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Helvetica Neue LT Std BlkCn";
   src: url("../fonts/HelveticaNeueLTStd-BlkCn.eot");
@@ -53,7 +47,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Helvetica Neue LT Std BdCn";
   src: url("../fonts/HelveticaNeueLTStd-BdCn.eot");
@@ -62,7 +55,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Helvetica Neue LT Std Bd";
   src: url("../fonts/HelveticaNeueLTStd-Bd.eot");
@@ -71,15 +63,16 @@
   font-style: normal;
   font-display: swap;
 }
-
 .miperfil {
   padding-top: 30px;
+}
+.miperfil input {
+  padding-left: 10px;
 }
 
 .custom-date-input {
   padding-top: 0px !important;
 }
-
 .custom-date-input input {
   height: 37px !important;
   padding: 0px 10px !important;
@@ -93,7 +86,7 @@
   right: 10px;
   top: 45%;
   -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+          transform: translateY(-50%);
   width: 15px;
   height: 20px;
   pointer-events: none;
@@ -136,20 +129,18 @@
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   width: 100%;
   max-width: 400px;
   margin: 10px 0;
 }
-
 .custom-file label {
   font-family: Arial, sans-serif;
   font-size: 14px;
   color: #b2b2b2;
   margin-bottom: 5px;
 }
-
 .custom-file .file-wrapper {
   position: relative;
   width: 100%;
@@ -161,12 +152,11 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding-right: 40px;
   /* Espacio para el ícono */
 }
-
 .custom-file .file-wrapper input[type=file] {
   opacity: 0;
   position: absolute;
@@ -176,20 +166,18 @@
   height: 100%;
   cursor: pointer;
 }
-
 .custom-file .file-wrapper .icon-attachment {
   position: absolute;
   right: 10px;
   top: 50%;
   -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+          transform: translateY(-50%);
   width: 20px;
   height: 20px;
   background-image: url("../imgs/attach-file.svg");
   background-repeat: no-repeat;
   background-size: contain;
 }
-
 .custom-file .file-wrapper:hover {
   border-color: #f96302;
   /* Color del borde al pasar el mouse */
@@ -199,28 +187,23 @@ form {
   margin: 0 auto;
   max-width: 1280px;
 }
-
 form h1 {
   font-family: "Helvetica Neue LT Std BlkCn";
   color: #f96302;
   margin-bottom: 0;
 }
-
 form .h1-top {
   padding-top: 0;
   margin-top: 0;
 }
-
 form label {
   font-family: "Helvetica Neue LT Std";
   color: #b2b2b2;
 }
-
 form p {
   font-family: "Helvetica Neue LT Std";
   color: #b2b2b2;
 }
-
 form .act-datos {
   margin: 20px 0px;
   padding-top: 20px;
@@ -238,13 +221,11 @@ form .act-datos {
   transition: all 300ms;
   cursor: pointer;
 }
-
 form .act-datos:hover {
   background-color: white;
   color: #f96302;
   border-width: 2px;
 }
-
 form .contenedor-form input {
   width: 100%;
   border: solid thin;
@@ -253,51 +234,42 @@ form .contenedor-form input {
   margin-top: 10px;
   max-width: 400px;
 }
-
 form .contenedor-form .contenedor.detres {
   gap: 40px;
 }
-
 form .contenedor-form .contenedor.dedos {
   width: 100%;
   gap: 40px;
 }
-
 form .contenedor-form .contenedor.dedos div {
   width: 400px;
 }
-
 form .contenedor-form .contenedor.dedos select {
   width: 400px;
 }
-
 form .contenedor-form .contenedor.dedos input {
   width: 381px;
 }
-
 form .contenedor-form .contenedor {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-
 form .contenedor-form .contenedor div {
   width: 100%;
   padding: 20px 0px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-
 form .contenedor-form .contenedor div label {
   font-family: "Helvetica Neue LT Std";
   color: #b2b2b2;
 }
-
 form .contenedor-form .contenedor div select {
   width: 100%;
   border: solid thin;
@@ -307,7 +279,7 @@ form .contenedor-form .contenedor div select {
   max-width: 400px;
   padding-left: 10px;
   -moz-appearance: none;
-  appearance: none;
+       appearance: none;
   -webkit-appearance: none;
   background: url("../imgs/down-arrow.svg") no-repeat right -5px center;
   background-size: 45px 45px;
@@ -319,129 +291,105 @@ form .contenedor-form .contenedor div select {
     padding-right: 80px;
   }
 }
-
 @media (max-width: 800px) and (min-width: 501px) {
   .icon-calendar {
     right: 8px;
     top: 45%;
     -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
+            transform: translateY(-50%);
     width: 15px;
     height: 20px;
   }
-
   form {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
     -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
-
   form .contenedor-form .contenedor {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
-
   form .contenedor-form .contenedor.detres {
     gap: 0px;
   }
-
   form .contenedor-form .contenedor.dedos {
     gap: 0px;
   }
-
   .ajustesr {
     padding: 0px 80px;
   }
-
   .custom-date-input {
     padding-top: 0px !important;
   }
-
   .custom-date-input input {
     height: 37px !important;
     padding: 0px 12px !important;
   }
-
   .input-nacionalidad {
     width: 400px !important;
   }
 }
-
 @media (max-width: 500px) {
   .icon-calendar {
     right: -2px;
     top: 45%;
     -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
+            transform: translateY(-50%);
     width: 15px;
     height: 20px;
   }
-
   form .contenedor-form .contenedor div {
     margin: 0 auto;
   }
-
   .miperfil {
     padding-left: 80px;
     padding-right: 80px;
   }
-
   form .contenedor-form .contenedor {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
-
   form .contenedor-form .contenedor.detres {
     gap: 0px;
   }
-
   form .contenedor-form .contenedor.dedos {
     gap: 0px;
   }
-
   form .h1-top {
     text-align: center;
   }
-
   form .contenedor-form .contenedor.dedos div {
     width: 100%;
   }
-
   form .contenedor-form .contenedor.dedos input {
     width: 100%;
   }
-
   form .contenedor-form .contenedor.dedos select {
     width: 100%;
   }
-
   form h1 {
     text-align: center;
   }
-
   form .act-datos {
     width: 100%;
   }
-
   .cerrar-sesion {
     width: 100%;
   }
-
   .custom-date-input {
     padding-top: 0px !important;
   }
-
   .custom-date-input input {
     height: 37px !important;
     padding: 0px 3.3px !important;

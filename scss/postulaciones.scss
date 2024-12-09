@@ -1,33 +1,74 @@
 @import "fonts";
 @import "variables";
 
-.highlight-orange{
+.highlight-orange {
     color: $orange;
 }
+
 .contenedor-boton {
     padding: 15px 0px;
+
+    input {
+        font-family: $ff-hvcn;
+        color: white;
+        background-color: $orange;
+        border: 2px solid $orange;
+        padding: 10px 20px;
+        padding-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 1;
+        text-transform: uppercase;
+        margin-bottom: 50px;
+        transition: all 300ms;
+    }
+
+    input:hover {
+        background-color: white;
+        color: #f96302;
+    }
 }
 
 .contenedor {
     padding: 1px 0px;
+    display: flex;
+    flex-direction: column;
+
+    label {
+        padding: 5px 0px;
+        color: #b2b2b2;
+    }
+
+    input {
+        border: solid thin;
+        border-radius: 3px;
+        height: 35px;
+        margin-top: 10px;
+        padding-left: 5px;
+        max-width: 600px;
+    }
 }
 
 
-main{
+main {
     padding: 60px 20px;
 
 }
 
-.container{
+.container {
 
-    .taxonomy{
+    .taxonomy {
         font-family: $ff-roman;
         width: fit-content;
         padding-bottom: 2px;
         border-bottom: 1px solid black;
     }
 
-    .title{
+    .title {
         font-family: $ff-hvcn;
         font-size: 60px;
         margin-top: 20px;
@@ -35,41 +76,46 @@ main{
         max-width: 475px;
     }
 
-    .desc-video{
+    .desc-video {
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
         margin-top: 40px;
-        .column{
+
+        .column {
             width: 50%;
-            .desc{
+
+            .desc {
                 padding-right: 20px;
                 font-family: $ff-roman;
                 font-size: 14px;
                 line-height: 1.4;
                 font-weight: thin;
-                p{
+
+                p {
                     margin-top: 0;
                 }
 
-                strong{
+                strong {
                     font-family: $ff-hvcn;
                     font-size: 16px;
 
                 }
-                ul, ol{
-                    li{
+
+                ul,
+                ol {
+                    li {
                         padding: 5px;
                     }
                 }
             }
 
-            iframe{
+            iframe {
                 min-width: 300px;
                 max-width: 100%;
             }
 
-            .title_b{
+            .title_b {
                 font-family: $ff-hvcn;
                 color: $orange;
                 font-size: 24px;
@@ -86,7 +132,7 @@ main{
                 justify-content: start;
                 text-transform: uppercase;
 
-                img{
+                img {
                     width: 35px;
                     margin-right: 10px;
                 }
@@ -96,7 +142,7 @@ main{
         }
     }
 
-    .button{
+    .button {
         font-family: $ff-hvcn;
         color: white;
         background-color: $orange;
@@ -112,14 +158,21 @@ main{
         line-height: 1;
         text-transform: uppercase;
         margin-bottom: 50px;
+        transition: all 300ms;
+    }
+
+    .button:hover {
+        background-color: white;
+        color: #f96302;
     }
 }
 
-.form-post{
+.form-post {
     display: none;
     opacity: 0;
     transition: all 500ms ease-in;
-    &.fade-in{
+
+    &.fade-in {
         opacity: 1;
     }
 }

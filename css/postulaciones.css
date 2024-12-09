@@ -69,9 +69,59 @@
 .contenedor-boton {
   padding: 15px 0px;
 }
+.contenedor-boton input {
+  font-family: "Helvetica Neue LT Std HvCn";
+  color: white;
+  background-color: #f96302;
+  border: 2px solid #f96302;
+  padding: 10px 20px;
+  padding-top: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 50px;
+  -webkit-transition: all 300ms;
+  transition: all 300ms;
+}
+.contenedor-boton input:hover {
+  background-color: white;
+  color: #f96302;
+}
 
 .contenedor {
   padding: 1px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.contenedor label {
+  padding: 5px 0px;
+  color: #b2b2b2;
+}
+.contenedor input {
+  border: solid thin;
+  border-radius: 3px;
+  height: 35px;
+  margin-top: 10px;
+  padding-left: 5px;
+  max-width: 600px;
 }
 
 main {
@@ -122,7 +172,8 @@ main {
   font-family: "Helvetica Neue LT Std HvCn";
   font-size: 16px;
 }
-.container .desc-video .column .desc ul li, .container .desc-video .column .desc ol li {
+.container .desc-video .column .desc ul li,
+.container .desc-video .column .desc ol li {
   padding: 5px;
 }
 .container .desc-video .column iframe {
@@ -179,6 +230,12 @@ main {
   line-height: 1;
   text-transform: uppercase;
   margin-bottom: 50px;
+  -webkit-transition: all 300ms;
+  transition: all 300ms;
+}
+.container .button:hover {
+  background-color: white;
+  color: #f96302;
 }
 
 .form-post {
