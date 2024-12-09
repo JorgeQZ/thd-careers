@@ -184,8 +184,11 @@ function enviar_correo_cambio_estado( $post_id ) {
     $to_vacante = $correo_vacante; // Dirección de correo de la vacante
     $subject_vacante = 'Nueva postulación para la vacante: ' . esc_html($vacante); // Asunto del correo
 
-    // Obtener el enlace de edición al post creado
     $link_edit_post = get_edit_post_link($post_id);
+
+    if (empty($link_edit_post)) {
+        $link_edit_post = admin_url('post.php?post=' . $post_id . '&action=edit');
+    }
 
     $message_vacante = '<p>Un candidato se ha postulado para la vacante: <strong>' . esc_html($vacante) . '</strong>.</p>';
     $message_vacante .= '<p><strong>Información del postulante:</strong></p>';

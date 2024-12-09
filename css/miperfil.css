@@ -66,6 +66,9 @@
 .miperfil {
   padding-top: 30px;
 }
+.miperfil input {
+  padding-left: 10px;
+}
 
 .custom-date-input {
   padding-top: 0px !important;
