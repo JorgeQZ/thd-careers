@@ -1,8 +1,20 @@
+// Ajuste para la barra de administración
+body.admin-bar {
+    --admin-bar-offset: 32px;
+
+    @media (max-width: 782px) {
+        --admin-bar-offset: 46px;
+    }
+}
+
 header {
     background-color: $dark_grey;
     padding: 35px 80px;
     width: 100%;
+    position: relative;
     box-sizing: border-box;
+
+    z-index: 10;
 
     .container {
         display: flex;
@@ -131,7 +143,26 @@ header {
         }
     }
 
+    &.sticky {
+        position: fixed;
+        top: var(--admin-bar-offset, 0);
+        left: 0;
+        padding: 10px 80px;
 
+        .site-info {
+            .main-logo {
+                height: 20px;
+            }
+
+            .site-title {
+                font-size: 8px;
+
+                strong {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
 }
 
 .hamburger-menu {

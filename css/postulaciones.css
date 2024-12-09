@@ -74,25 +74,67 @@
   padding: 1px 0px;
 }
 
-main {
-  padding: 60px 20px;
+.header {
+  height: 200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  padding: 0 80px;
+  position: relative;
+}
+.header:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+.header.sticky {
+  height: unset;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.header.sticky:before {
+  opacity: 1;
+}
+.header.sticky .container .term {
+  display: none;
+}
+.header.sticky .container .title {
+  font-size: 28px;
+}
+.header .container {
+  color: white;
+  font-family: "Helvetica Neue LT Std BlkCn";
+  font-size: 60px;
+  text-transform: uppercase;
+  line-height: 1;
+  position: relative;
+  z-index: 10px;
+}
+.header .container .term {
+  font-size: 16px;
+  font-family: "Helvetica Neue LT Std";
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+.header .container .title {
+  font-family: "Helvetica Neue LT Std HvCn";
+  font-size: 40px;
+  margin-top: 10px;
+  line-height: 1.1;
+  width: 50%;
 }
 
-.container .taxonomy {
-  font-family: "Helvetica Neue LT Std";
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding-bottom: 2px;
-  border-bottom: 1px solid black;
-}
-.container .title {
-  font-family: "Helvetica Neue LT Std HvCn";
-  font-size: 60px;
-  margin-top: 20px;
-  line-height: 0.9;
-  max-width: 475px;
-}
 .container .desc-video {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -122,7 +164,8 @@ main {
   font-family: "Helvetica Neue LT Std HvCn";
   font-size: 16px;
 }
-.container .desc-video .column .desc ul li, .container .desc-video .column .desc ol li {
+.container .desc-video .column .desc ul li,
+.container .desc-video .column .desc ol li {
   padding: 5px;
 }
 .container .desc-video .column iframe {

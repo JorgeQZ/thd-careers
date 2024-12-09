@@ -1,34 +1,27 @@
 <?php
 get_header();
-?>
 
-<?php
-    $current_post_id = get_the_ID();
-    if ($current_post_id) {
-        $current_post_type = get_post_type($current_post_id);
+$current_post_id = get_the_ID();
+if ($current_post_id) {
+    $current_post_type = get_post_type($current_post_id);
         $taxonomies = get_object_taxonomies($current_post_type, 'names');
         if (!empty($taxonomies)) {
             $taxonomy = $taxonomies[0];
             $terms = wp_get_post_terms($current_post_id, $taxonomy);
             $term = $terms[0];
+            $term_name = $term->name;
     }
-} else {
-    echo '<p>No se encontró un post actual.</p>';
 }
-    ?>
-
+?>
+<!-- Banner con el titulo de la página -->
+<div class="header sticky" style="background-color: <?php echo getColorCat($term_name);?>; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>)">
+    <div class="container">
+        <div class="term"><?php echo $term_name; ?> </div>
+        <div class="title"> <?php the_title(); ?> </div>
+    </div>
+</div><!-- Banner con el titulo de la página -->
 <main>
     <div class="container">
-        <div class="taxonomy">
-            <?php
-        echo $term->name;
-        ?>
-        </div>
-
-        <div class="title">
-            <?php the_title(); ?>
-        </div>
-
         <div class="desc-video">
             <div class="column">
                 <div class="desc">

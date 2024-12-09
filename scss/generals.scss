@@ -9,6 +9,10 @@ body {
     font-family: $ff-roman;
 }
 
+* {
+    transition: $transition_base;
+}
+
 // Tamaños
 .container {
     max-width: $max_width;

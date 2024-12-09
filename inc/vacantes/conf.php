@@ -20,6 +20,8 @@ function vacantes_cpt(){
             'publicly_queryable'  => true,
             'capability_type'     => 'post',
             'menu_position'       => 5,
+            'supports' => array('title', 'editor', 'thumbnail'), // Aquí se agrega 'thumbnail'
+
             'show_in_rest' => true,
             'rewrite' => array(
               'slug' => 'vacantes',

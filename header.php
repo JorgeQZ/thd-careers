@@ -8,17 +8,15 @@
     <title><?php bloginfo();?></title>
     <?php wp_head();?>
 </head>
-
-
-<body>
-
-    <header>
+<body <?php body_class( );?>>
+    <header id="header">
         <div>
             <div class="container">
                 <?php
-$custom_logo_id = get_theme_mod('custom_logo');
-$logo = wp_get_attachment_image_src($custom_logo_id, 'full');
-if (has_custom_logo()): ?>
+                    $custom_logo_id = get_theme_mod('custom_logo');
+                    $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+                    if (has_custom_logo()):
+                ?>
                 <div class="site-info">
                     <img class="main-logo" src="<?php echo esc_url($logo[0]) ?>"
                         alt="<?php echo get_bloginfo('name') ?>'">
