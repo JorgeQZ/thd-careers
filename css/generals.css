@@ -154,6 +154,7 @@ header .container .site-info {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  text-decoration: none;
 }
 header .container .site-info .main-logo {
   height: 50px;
