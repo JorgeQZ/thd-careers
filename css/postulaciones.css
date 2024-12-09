@@ -197,38 +197,38 @@
           flex-direction: row;
   margin-top: 40px;
 }
-.container .desc-video .column {
+.container .desc-video .column .column {
   width: 50%;
 }
-.container .desc-video .column .desc {
+.container .desc-video .column .column .desc .desc {
   padding-right: 20px;
   font-family: "Helvetica Neue LT Std";
   font-size: 14px;
   line-height: 1.4;
   font-weight: thin;
 }
-.container .desc-video .column .desc p {
+.container .desc-video .column .column .desc .desc p p {
   margin-top: 0;
 }
-.container .desc-video .column .desc strong {
+.container .desc-video .column .column .desc .desc p strong strong {
   font-family: "Helvetica Neue LT Std HvCn";
   font-size: 16px;
 }
-.container .desc-video .column .desc ul li,
-.container .desc-video .column .desc ol li {
+.container .desc-video .column .column .desc .desc p strong ul li,
+.container .desc-video .column .column .desc .desc p strong ol li {
   padding: 5px;
 }
-.container .desc-video .column iframe {
+.container .desc-video .column .column .desc .desc p iframe iframe {
   min-width: 300px;
   max-width: 100%;
 }
-.container .desc-video .column .title_b {
+.container .desc-video .column .column .desc .desc p iframe .title_b {
   font-family: "Helvetica Neue LT Std HvCn";
   color: #f96302;
   font-size: 24px;
   margin-top: 20px;
 }
-.container .desc-video .column .benefit-item {
+.container .desc-video .column .column .desc .desc p iframe .benefit-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -244,11 +244,11 @@
           justify-content: start;
   text-transform: uppercase;
 }
-.container .desc-video .column .benefit-item img {
+.container .desc-video .column .column .desc .desc p iframe .benefit-item img {
   width: 35px;
   margin-right: 10px;
 }
-.container .button {
+.container .desc-video .column .column .desc .desc .button {
   font-family: "Helvetica Neue LT Std HvCn";
   color: white;
   background-color: #f96302;
@@ -275,17 +275,16 @@
   -webkit-transition: all 300ms;
   transition: all 300ms;
 }
-.container .button:hover {
+.container .desc-video .column .column .desc .desc .button:hover {
   background-color: white;
   color: #f96302;
 }
-
-.form-post {
+.container .desc-video .column .column .desc .form-post {
   display: none;
   opacity: 0;
   -webkit-transition: all 500ms ease-in;
   transition: all 500ms ease-in;
 }
-.form-post.fade-in {
+.container .desc-video .column .column .desc .form-post.fade-in {
   opacity: 1;
 }
