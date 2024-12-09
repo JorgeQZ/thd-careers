@@ -165,7 +165,7 @@ body.admin-bar {
   padding-top: 10px;
   padding-bottom: 10px;
   position: fixed;
-  top: calc(var(--sticky-offset, 0) + var(--header-height, 0px));
+  top: calc(var(--sticky-offset, 0) + var(--header-height, 40px));
   -webkit-box-shadow: 0 0 20px 10px white;
           box-shadow: 0 0 20px 10px white;
 }

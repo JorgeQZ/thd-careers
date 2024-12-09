@@ -1,33 +1,40 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Funciones para el header
     const header = document.getElementById("header");
-    const banner = document.getElementById("vacante-banner");
+    const banner = document.querySelector(".banner");
     const adminBar = document.getElementById("wpadminbar");
-    const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
+
+    // Calcular la altura de la barra de administración si existe
+    const getAdminBarHeight = () => (adminBar ? adminBar.offsetHeight : 0);
 
     let isHeaderSticky = false;
     let isBannerSticky = false;
 
-    const updateHeaderHeight = () => {
-        const updatedHeaderHeight = header.offsetHeight;
+    // Función para actualizar variables dinámicas
+    const updateDynamicHeights = () => {
+        const headerHeight = header.offsetHeight;
+        const adminBarHeight = getAdminBarHeight();
+
         document.documentElement.style.setProperty("--header-height", `40px`);
+        document.documentElement.style.setProperty("--sticky-offset", `${adminBarHeight || 0}px`); // Si no hay wpadminbar, usar 40px como top fijo
     };
 
-    updateHeaderHeight();
+    // Actualizar variables al cargar la página
+    updateDynamicHeights();
 
     window.addEventListener("scroll", () => {
         const scrollTop = window.scrollY;
+        const adminBarHeight = getAdminBarHeight();
 
         // Sticky para el header
         if (scrollTop > header.offsetHeight - adminBarHeight && !isHeaderSticky) {
             header.classList.add("sticky");
             isHeaderSticky = true;
-            updateHeaderHeight(); // Actualizar altura al cambiar a sticky
+            updateDynamicHeights(); // Actualizar variables dinámicas
         } else if (scrollTop <= header.offsetHeight - adminBarHeight && isHeaderSticky) {
             header.classList.remove("sticky");
             isHeaderSticky = false;
-            updateHeaderHeight(); // Actualizar altura al salir de sticky
+            updateDynamicHeights(); // Actualizar variables dinámicas
         }
 
         // Sticky para el banner (si existe)
@@ -42,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    window.addEventListener("resize", updateHeaderHeight);
+    // Recalcular alturas dinámicas si la ventana cambia de tamaño
+    window.addEventListener("resize", updateDynamicHeights);
 
     // Funciones para el header
 
