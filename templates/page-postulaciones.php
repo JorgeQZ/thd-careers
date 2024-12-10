@@ -45,13 +45,13 @@ Template Name: Postulaciones
             // Guardar el título del post en el campo 'vacante' de la postulación
             update_field('vacante_vacante', get_the_title(get_queried_object_id()), $postulacion_id);
 
-            // // Obtener el valor del campo ACF 'ubicacion' del post principal
-            // $ubicacion = get_field('ubicacion', $post_id);
+            // Obtener el valor del campo ACF 'ubicacion' del post principal
+            $ubicacion = get_field('ubicacion', $post_id);
 
-            // $label = $ubicacion['label'];
+            $label = $ubicacion['label'];
 
-            // // Decodificar los caracteres especiales
-            // $label_decoded = htmlspecialchars_decode($label, ENT_QUOTES);
+            // Decodificar los caracteres especiales
+            $label_decoded = htmlspecialchars_decode($label, ENT_QUOTES);
 
             // Obtener el valor del campo 'extra_data' del post principal
             $extra_data = get_field('extra_data', $post_id);
@@ -67,7 +67,7 @@ Template Name: Postulaciones
 
             // Guardar la 'ubicacion' en el campo 'ubicacion_vacante' de la postulación si tiene valor
             if (!empty($ubicacion)) {
-                update_field('ubicacion_vacante', $ubicacion, $postulacion_id);
+                update_field('ubicacion_vacante', $label_decoded, $postulacion_id);
             }
 
             // Guardar el numero de tienda en el campo 'numero_de_tienda_vacante' de la postulación si tiene valor
@@ -213,7 +213,7 @@ $telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); 
         <br>
 
         <div class="contenedor-boton">
-            <input type="submit" value="Enviar Postulación">
+            <input type="submit" value="ENVIAR POSTULACIÓN">
         </div>
     </form>
 </div>

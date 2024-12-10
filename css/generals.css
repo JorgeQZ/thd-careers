@@ -107,7 +107,7 @@ header {
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  z-index: 10;
+  z-index: 11;
 }
 header .container {
   display: -webkit-box;
@@ -426,6 +426,30 @@ header.sticky .site-info .site-title strong {
   margin: 0 auto;
 }
 
+@media (min-width: 782px) and (max-width: 1300px) {
+  .footer-fondo-s2 {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  .imgs-redes {
+    width: 25px !important;
+  }
+}
+@media (min-width: 501px) and (max-width: 781px) {
+  .wp-block-columns {
+    -ms-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+  .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+    -ms-flex-preferred-size: 45% !important;
+        flex-basis: 45% !important;
+  }
+  .imgs-redes {
+    width: 25px !important;
+  }
+}
 @media (max-width: 500px) {
   .p-s1 {
     font-size: 33px !important;
