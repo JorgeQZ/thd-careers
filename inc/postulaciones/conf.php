@@ -91,6 +91,28 @@ function filtrar_postulaciones_por_tienda($query) {
 }
 add_action('pre_get_posts', 'filtrar_postulaciones_por_tienda');
 
+function filtrar_postulaciones_por_distrito($query) {
+    if ($query->is_main_query() && $query->get('post_type') === 'postulaciones') {
+        $current_user = wp_get_current_user();
+
+        // Verificar si el usuario tiene el rol de RH Distrital
+        if (in_array('rh_distrito', $current_user->roles)) {
+            $distrito = get_user_meta($current_user->ID, 'distrito', true);
+
+            if ($distrito) {
+                $query->set('meta_query', array(
+                    array(
+                        'key' => 'distrito_vacante',
+                        'value' => $distrito,
+                        'compare' => '='
+                    )
+                ));
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'filtrar_postulaciones_por_distrito');
+
 // function filtrar_postulaciones_por_tienda($query) {
 //     if (!is_admin() && $query->is_main_query() && $query->get('post_type') === 'postulaciones') {
 //         $current_user = wp_get_current_user();
