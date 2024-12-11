@@ -191,6 +191,9 @@ add_action('acf/save_post', 'validar_estado_postulacion', 20);
 function agregar_columnas_postulaciones($columns) {
     $columns['acf_estado'] = __('Estado'); // Título de la columna 'Estado'
     $columns['acf_vacante'] = __('Vacante'); // Título de la columna 'Vacante'
+    $columns['acf_n_de_tienda'] = __('N. de Tienda'); // Título de la columna 'N. de Tienda'
+    $columns['acf_n_de_distrito'] = __('N. de Distrito'); // Título de la columna 'N. de Distrito'
+    $columns['acf_ubicacion'] = __('Ubicación'); // Título de la columna 'Ubicación'
     return $columns;
 }
 add_filter('manage_postulaciones_posts_columns', 'agregar_columnas_postulaciones');
@@ -205,6 +208,21 @@ function mostrar_valores_columnas_postulaciones($column, $post_id) {
     if ($column == 'acf_vacante') {
         $vacante = get_field('vacante_vacante', $post_id); // Obtener el valor del campo 'Vacante'
         echo wp_strip_all_tags($vacante); // Mostrar el valor en la tabla
+    }
+
+    if ($column == 'acf_ubicacion') {
+        $ubicacion = get_field('ubicacion_vacante', $post_id); // Obtener el valor del campo 'Ubicacion'
+        echo wp_strip_all_tags($ubicacion); // Mostrar el valor en la tabla
+    }
+
+    if ($column == 'acf_n_de_tienda') {
+        $n_de_tienda = get_field('numero_de_tienda_vacante', $post_id); // Obtener el valor del campo 'N. de Tienda'
+        echo wp_strip_all_tags($n_de_tienda); // Mostrar el valor en la tabla
+    }
+
+    if ($column == 'acf_n_de_distrito') {
+        $n_de_distrito = get_field('distrito_vacante', $post_id); // Obtener el valor del campo 'N. de Distrito'
+        echo wp_strip_all_tags($n_de_distrito); // Mostrar el valor en la tabla
     }
 }
 add_action('manage_postulaciones_posts_custom_column', 'mostrar_valores_columnas_postulaciones', 10, 2);
