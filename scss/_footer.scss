@@ -107,6 +107,38 @@
     margin-top: 12.5px !important;
 }
 
+.pilas-iconos {
+    position: relative;
+    width: 35px;
+    overflow: hidden;
+
+    &:hover {
+        .iconos-hvr {
+            opacity: 1;
+        }
+
+        .imgs-redes {
+            opacity: 0;
+        }
+    }
+}
+
+.pilas-iconos a {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80%;
+    display: block;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.iconos-hvr {
+    opacity: 0;
+    position: absolute;
+}
+
 // SECCIÓN 3
 
 .footer-fondo-s3 {
@@ -133,6 +165,10 @@
     .imgs-redes {
         width: 25px !important;
     }
+
+    .pilas-iconos {
+        width: 25px;
+    }
 }
 
 // TABLET
@@ -151,6 +187,10 @@
 
     .imgs-redes {
         width: 25px !important;
+    }
+
+    .pilas-iconos {
+        width: 25px;
     }
 }
 
@@ -190,6 +230,10 @@
     }
 
     .wp-container-core-group-is-layout-13 {
+        align-items: center !important;
+    }
+
+    .wp-container-core-group-is-layout-12 {
         align-items: center !important;
     }
 

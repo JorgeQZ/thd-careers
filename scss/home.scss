@@ -85,6 +85,10 @@
 .pilas-s2 {
     transition: all 0.3s;
 
+    a {
+        width: 416px;
+    }
+
     figure {
         display: none;
         position: absolute;
@@ -186,6 +190,14 @@
         height: 97%;
         opacity: 0;
         z-index: 10;
+    }
+}
+
+@media (max-width: 1300px) {
+    .pilas-s2 {
+        a {
+            width: auto;
+        }
     }
 }
 
