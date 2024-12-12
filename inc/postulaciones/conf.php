@@ -227,7 +227,6 @@ function mostrar_valores_columnas_postulaciones($column, $post_id) {
 }
 add_action('manage_postulaciones_posts_custom_column', 'mostrar_valores_columnas_postulaciones', 10, 2);
 
-
 // Cambiar el estado a "Visto" al hacer clic en "Editar" una postulación
 function cambiar_estado_al_abrir_edicion() {
     global $pagenow;
