@@ -113,12 +113,16 @@
   margin-top: 28px;
 }
 
-.contenido-tab {
-  display: none;
+.wp-block-buttons.active a {
+  background-color: #f96302;
+  color: white !important;
 }
 
+.contenido-tab {
+  display: none !important;
+}
 .contenido-tab.active {
-  display: block;
+  display: block !important;
 }
 
 @media (max-width: 1280px) and (min-width: 769px) {
