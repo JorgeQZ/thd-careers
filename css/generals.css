@@ -524,6 +524,21 @@ header.sticky .site-info .site-title strong {
         -ms-flex-align: center !important;
             align-items: center !important;
   }
+  .wp-container-core-group-is-layout-9 {
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
+  .wp-container-core-group-is-layout-17 {
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
+  .pila-iconos-footer {
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
 }
 .content {
   display: -webkit-box;

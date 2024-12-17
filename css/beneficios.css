@@ -78,10 +78,6 @@
   padding-bottom: 12px;
 }
 
-.contenedor-tabs {
-  margin: 0 auto !important;
-}
-
 .columnas-tabs {
   gap: 100px;
   padding-bottom: 30px;
@@ -113,24 +109,230 @@
   margin-top: 28px;
 }
 
+.icono-boton {
+  position: relative;
+}
+.icono-boton img {
+  position: absolute;
+  top: -45px;
+  left: 315px;
+}
+
+.pico {
+  position: relative;
+  display: none;
+}
+.pico img {
+  position: absolute;
+  top: -107px;
+  left: 90px;
+}
+
 .wp-block-buttons.active a {
   background-color: #f96302;
   color: white !important;
+  -webkit-transition: unset;
+  transition: unset;
+}
+.wp-block-buttons.active + .icono-boton {
+  display: none;
+}
+.wp-block-buttons.active ~ .pico {
+  display: block;
 }
 
 .contenido-tab {
   display: none !important;
 }
 .contenido-tab.active {
+  margin-top: 120px;
   display: block !important;
 }
 
-@media (max-width: 1280px) and (min-width: 769px) {
+.contenido-tab.tab2-content {
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.tab2-p1 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  padding-bottom: 100px;
+  text-align: center;
+}
+
+.tab2-p2 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+}
+
+.tab2-p3 {
+  font-family: "Helvetica Neue LT Std";
+  margin-top: -25px !important;
+}
+
+.tab2-piladesc {
+  padding-left: 25px;
+}
+
+.tab2-fila {
+  margin: 0 auto !important;
+  width: 65%;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.tab2-fila.fila1 {
+  padding-left: 50px;
+}
+
+.tab2-fila.fila2 {
+  padding: 80px 0px;
+}
+
+.tab2-fila.fila3 {
+  padding-bottom: 80px;
+}
+
+.tab3-botones-tabs {
+  position: relative;
+}
+
+.icono-boton-tab3 {
+  position: relative;
+}
+.icono-boton-tab3 img {
+  position: absolute;
+  top: -35px;
+  left: 185px;
+}
+
+.tab3-botones-tabs a {
+  width: 100%;
+  height: 200px;
+}
+
+@media (max-width: 1440px) and (min-width: 1281px) {
+  .botones-tabs a {
+    width: 100%;
+  }
+  .icono-boton img {
+    left: 85%;
+  }
+  .pico img {
+    top: -10px;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+  }
   .contenedor-beneficios {
     padding: 0px 80px 0px 80px;
   }
   .columnas-tabs {
     gap: 20px;
+  }
+  .btn-tab3 {
+    width: 100%;
+  }
+}
+@media (max-width: 1280px) and (min-width: 1024px) {
+  .botones-tabs a {
+    width: 100%;
+  }
+  .icono-boton img {
+    left: 85%;
+  }
+  .pico img {
+    top: -10px;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+  }
+  .contenedor-beneficios {
+    padding: 0px 80px 0px 80px;
+  }
+  .columnas-tabs {
+    gap: 20px;
+  }
+  .tab2-fila {
+    width: 80%;
+  }
+  .tab2-img1 {
+    width: 600px;
+  }
+  .tab2-img2 {
+    width: 600px;
+  }
+  .tab2-img3 {
+    width: 600px;
+  }
+  .tab2-fila.fila1 {
+    padding-left: 0px;
+  }
+  .icono-boton-tab3 img {
+    left: 75%;
+  }
+  .btn-tab3 {
+    width: 100%;
+  }
+}
+@media (max-width: 1023px) and (min-width: 769px) {
+  .contenedor-tabs {
+    margin: 0 auto !important;
+  }
+  .p1-beneficios {
+    font-size: 40px !important;
+  }
+  .contenedor-beneficios {
+    padding: 0px 80px 0px 80px;
+  }
+  .columnas-tabs {
+    gap: 10px;
+  }
+  .pico img {
+    top: -42px;
+    left: 61px;
+    width: 80px !important;
+  }
+  .icono-boton img {
+    position: absolute;
+    top: -33px;
+    left: 165px;
+  }
+  .botones-tabs a {
+    width: 200px;
+    height: 200px;
+    padding-left: 25px;
+  }
+  .botones-tabs.tab2 strong {
+    margin-top: 15px;
+  }
+  .botones-tabs a {
+    font-size: 15px !important;
+  }
+  .botones-tabs a strong {
+    font-size: 30px !important;
+  }
+  .contenido-tab {
+    padding-top: 35px !important;
+  }
+  .tab2-p1 {
+    font-size: 25px !important;
+    padding-bottom: 80px;
+  }
+  .p2-beneficios {
+    font-size: 15px !important;
+  }
+  .tab2-fila {
+    width: 80%;
+  }
+  .tab2-fila.fila1 {
+    padding-left: 45px;
+  }
+  .tab2-p2 {
+    font-size: 25px !important;
+  }
+  .tab2-p3 {
+    font-size: 17px !important;
   }
 }
 @media (max-width: 768px) and (min-width: 501px) {
@@ -139,9 +341,94 @@
   }
   .p1-beneficios {
     font-size: 30px !important;
+    text-align: center;
   }
   .p2-beneficios {
     font-size: 17px !important;
+    text-align: center;
+  }
+  .wp-block-columns.is-not-stacked-on-mobile {
+    -ms-flex-wrap: nowrap !important;
+        flex-wrap: nowrap !important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .botones-tabs a {
+    width: 250px;
+    height: 250px;
+    padding-left: 35px;
+  }
+  .botones-tabs a {
+    font-size: 18px !important;
+  }
+  .botones-tabs a strong {
+    font-size: 38px !important;
+  }
+  .pico img {
+    position: absolute;
+    top: -46px;
+    left: 80px;
+    width: 86px !important;
+  }
+  .icono-boton img {
+    position: absolute;
+    top: -40px;
+    left: 210px;
+  }
+  .columnas-tabs {
+    gap: 50px;
+  }
+  .tab2-p1 {
+    font-size: 30px !important;
+    text-align: center;
+  }
+  .tab2-p2 {
+    font-size: 30px !important;
+    text-align: center;
+  }
+  .contenido-tab.tab2-content {
+    padding-top: 50px;
+  }
+  .tab2-fila.fila1 {
+    padding-left: 0px;
+  }
+  .tab2-p3 {
+    font-size: 17px !important;
+    text-align: center;
+    padding-top: 15px;
+  }
+  .tab2-fila {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 75%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .tab2-img1 img {
+    width: 250px !important;
+    padding-bottom: 30px;
+  }
+  .tab2-img2 img {
+    width: 250px !important;
+    padding-bottom: 30px;
+  }
+  .tab2-img3 img {
+    width: 250px !important;
+    padding-bottom: 30px;
+  }
+  .tab2-piladesc {
+    padding-left: 0px;
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
   }
 }
 @media (max-width: 500px) {
@@ -155,9 +442,91 @@
     text-align: center;
   }
   .p1-beneficios {
-    font-size: 20px !important;
+    font-size: 30px !important;
   }
   .p2-beneficios {
-    font-size: 15px !important;
+    font-size: 17px !important;
+  }
+  .wp-block-columns.is-not-stacked-on-mobile {
+    -ms-flex-wrap: nowrap !important;
+        flex-wrap: nowrap !important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .botones-tabs a {
+    width: 250px;
+    height: 250px;
+    padding-left: 35px;
+  }
+  .botones-tabs a {
+    font-size: 18px !important;
+  }
+  .botones-tabs a strong {
+    font-size: 38px !important;
+  }
+  .pico img {
+    position: absolute;
+    top: -46px;
+    left: 80px;
+    width: 86px !important;
+  }
+  .icono-boton img {
+    position: absolute;
+    top: -40px;
+    left: 210px;
+  }
+  .columnas-tabs {
+    gap: 50px;
+  }
+  .tab2-p1 {
+    font-size: 25px !important;
+    text-align: center;
+  }
+  .tab2-p2 {
+    font-size: 25px !important;
+  }
+  .contenido-tab.tab2-content {
+    padding-top: 50px;
+  }
+  .tab2-fila.fila1 {
+    padding-left: 0px;
+  }
+  .tab2-p3 {
+    font-size: 17px !important;
+    text-align: center;
+    padding-top: 15px;
+  }
+  .tab2-fila {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 75%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .tab2-img1 img {
+    width: 250px !important;
+    padding-bottom: 30px;
+  }
+  .tab2-img2 img {
+    width: 250px !important;
+    padding-bottom: 30px;
+  }
+  .tab2-img3 img {
+    width: 250px !important;
+    padding-bottom: 30px;
+  }
+  .tab2-piladesc {
+    padding-left: 0px;
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
   }
 }
