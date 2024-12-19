@@ -149,6 +149,14 @@
   display: block !important;
 }
 
+.contenido-tab3 {
+  display: none !important;
+}
+.contenido-tab3.active {
+  margin-top: 120px;
+  display: block !important;
+}
+
 .contenido-tab.tab2-content {
   margin: 0 auto;
   padding-top: 100px;
@@ -175,14 +183,10 @@
 
 .tab2-fila {
   margin: 0 auto !important;
-  width: 65%;
+  width: 50%;
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-}
-
-.tab2-fila.fila1 {
-  padding-left: 50px;
 }
 
 .tab2-fila.fila2 {
@@ -233,6 +237,19 @@
   .btn-tab3 {
     width: 100%;
   }
+  .wp-block-columns.is-not-stacked-on-mobile.tab3-columnas-tabs.is-layout-flex.wp-container-core-columns-is-layout-2.wp-block-columns-is-layout-flex {
+    gap: 10px;
+  }
+  .tab3-botones-tabs a {
+    font-family: "Helvetica Neue LT Std BlkCn";
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 215px;
+  }
 }
 @media (max-width: 1280px) and (min-width: 1024px) {
   .botones-tabs a {
@@ -253,26 +270,21 @@
   .columnas-tabs {
     gap: 20px;
   }
-  .tab2-fila {
-    width: 80%;
-  }
-  .tab2-img1 {
-    width: 600px;
-  }
-  .tab2-img2 {
-    width: 600px;
-  }
-  .tab2-img3 {
-    width: 600px;
-  }
   .tab2-fila.fila1 {
     padding-left: 0px;
+    width: 62%;
   }
   .icono-boton-tab3 img {
     left: 75%;
   }
   .btn-tab3 {
     width: 100%;
+  }
+  .wp-block-group.contenido-tab.tab3-content.is-vertical.is-layout-flex.wp-container-core-group-is-layout-10.wp-block-group-is-layout-flex.active {
+    margin: 0 auto;
+  }
+  .tab3-columnas-tabs {
+    gap: 10px;
   }
 }
 @media (max-width: 1023px) and (min-width: 769px) {
@@ -334,10 +346,42 @@
   .tab2-p3 {
     font-size: 17px !important;
   }
+  .tab3-columnas-tabs {
+    gap: 10px;
+  }
+  .tab3-botones-tabs a {
+    width: 115px;
+    height: 113px;
+    font-size: 12.2px !important;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .wp-block-group.contenido-tab.tab3-content.is-vertical.is-layout-flex.wp-container-core-group-is-layout-10.wp-block-group-is-layout-flex.active {
+    margin: 0 auto;
+  }
+  .icono-boton-tab3 img {
+    position: absolute;
+    top: -27px;
+    left: 90px;
+    width: 15px !important;
+  }
 }
 @media (max-width: 768px) and (min-width: 501px) {
   .contenedor-beneficios {
     padding: 0px 80px 0px 80px;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
   }
   .p1-beneficios {
     font-size: 30px !important;
@@ -429,6 +473,10 @@
     -webkit-box-align: center !important;
         -ms-flex-align: center !important;
             align-items: center !important;
+  }
+  .tab3-botones-tabs a {
+    width: 250px;
+    height: 250px;
   }
 }
 @media (max-width: 500px) {
@@ -528,5 +576,9 @@
     -webkit-box-align: center !important;
         -ms-flex-align: center !important;
             align-items: center !important;
+  }
+  .tab3-botones-tabs a {
+    width: 250px;
+    height: 250px;
   }
 }
