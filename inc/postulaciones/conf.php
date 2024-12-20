@@ -39,6 +39,116 @@ add_action( 'init', 'registrar_postulaciones_post_type' );
 
 add_filter('acf/load_field', 'disable_message_load_fields');
 
+function agregar_capacidades_postulaciones() {
+    // Obtén el rol RH General
+    $rol_rh_general = get_role('rh_general');
+
+    if ($rol_rh_general) {
+        // Agrega capacidades para editar, leer y publicar postulaciones
+        $rol_rh_general->add_cap('edit_postulaciones');         // Permite editar postulaciones propias
+        $rol_rh_general->add_cap('edit_others_postulaciones');  // Permite editar postulaciones de otros
+        $rol_rh_general->add_cap('publish_postulaciones');      // Permite publicar postulaciones
+        $rol_rh_general->add_cap('read_postulacion');           // Permite leer postulaciones
+        $rol_rh_general->add_cap('read_private_postulaciones'); // Permite leer postulaciones privadas
+        $rol_rh_general->add_cap('delete_postulaciones');       // Permite borrar postulaciones propias
+    }
+}
+add_action('init', 'agregar_capacidades_postulaciones');
+
+function ajustar_capacidades_postulaciones($caps, $cap, $user_id, $args) {
+    // Asegúrate de que el post type es "postulaciones"
+    if (!empty($args[0]) && get_post_type($args[0]) === 'postulaciones') {
+        if ($cap === 'edit_post') {
+            $caps = ['edit_posts'];
+        }
+        if ($cap === 'edit_others_posts') {
+            $caps = ['edit_others_posts'];
+        }
+    }
+    return $caps;
+}
+add_filter('map_meta_cap', 'ajustar_capacidades_postulaciones', 10, 4);
+
+function filtrar_postulaciones_por_tienda($query) {
+    if ($query->is_main_query() && $query->get('post_type') === 'postulaciones') {
+        $current_user = wp_get_current_user();
+
+        // Verificar si el usuario tiene el rol de RH General
+        if (in_array('rh_general', $current_user->roles)) {
+            $tienda = get_user_meta($current_user->ID, 'tienda', true);
+
+            if ($tienda) {
+                $query->set('meta_query', array(
+                    array(
+                        'key' => 'numero_de_tienda_vacante',
+                        'value' => $tienda,
+                        'compare' => '='
+                    )
+                ));
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'filtrar_postulaciones_por_tienda');
+
+function filtrar_postulaciones_por_distrito($query) {
+    if ($query->is_main_query() && $query->get('post_type') === 'postulaciones') {
+        $current_user = wp_get_current_user();
+
+        // Verificar si el usuario tiene el rol de RH Distrital
+        if (in_array('rh_distrito', $current_user->roles)) {
+            $distrito = get_user_meta($current_user->ID, 'distrito', true);
+
+            if ($distrito) {
+                $query->set('meta_query', array(
+                    array(
+                        'key' => 'distrito_vacante',
+                        'value' => $distrito,
+                        'compare' => '='
+                    )
+                ));
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'filtrar_postulaciones_por_distrito');
+
+// function filtrar_postulaciones_por_tienda($query) {
+//     if (!is_admin() && $query->is_main_query() && $query->get('post_type') === 'postulaciones') {
+//         $current_user = wp_get_current_user();
+//         $tienda = get_user_meta($current_user->ID, 'tienda', true);
+
+//         // echo '<div style="margin-left: 200px">';
+//         // echo '<pre>';
+
+//         // print_r($current_user);
+//         // echo $tienda;
+//         // echo '</pre>';
+//         // echo '</div>';
+
+//         if ($tienda) {
+
+//             $query->set('meta_query', array(
+//                 array(
+//                     'key' => 'numero_de_tienda_vacante',
+//                     'value' => $tienda,
+//                     'compare' => '='
+//                 )
+//             ));
+
+//             // echo '<hr>';
+//             // echo '<div style="margin-left: 200px">';
+//             // echo '<pre>';
+
+//             // print_r($query);
+
+//             // echo '</pre>';
+//             // echo '</div>';
+//         }
+//     }
+// }
+// add_action('pre_get_posts', 'filtrar_postulaciones_por_tienda');
+
 function disable_message_load_fields( $field ) {
     $fields_to_disable = ['Nombre', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante']; // Lista de campos que deseas hacer readonly
 
@@ -81,6 +191,9 @@ add_action('acf/save_post', 'validar_estado_postulacion', 20);
 function agregar_columnas_postulaciones($columns) {
     $columns['acf_estado'] = __('Estado'); // Título de la columna 'Estado'
     $columns['acf_vacante'] = __('Vacante'); // Título de la columna 'Vacante'
+    $columns['acf_n_de_tienda'] = __('N. de Tienda'); // Título de la columna 'N. de Tienda'
+    $columns['acf_n_de_distrito'] = __('N. de Distrito'); // Título de la columna 'N. de Distrito'
+    $columns['acf_ubicacion'] = __('Ubicación'); // Título de la columna 'Ubicación'
     return $columns;
 }
 add_filter('manage_postulaciones_posts_columns', 'agregar_columnas_postulaciones');
@@ -96,9 +209,23 @@ function mostrar_valores_columnas_postulaciones($column, $post_id) {
         $vacante = get_field('vacante_vacante', $post_id); // Obtener el valor del campo 'Vacante'
         echo wp_strip_all_tags($vacante); // Mostrar el valor en la tabla
     }
+
+    if ($column == 'acf_ubicacion') {
+        $ubicacion = get_field('ubicacion_vacante', $post_id); // Obtener el valor del campo 'Ubicacion'
+        echo wp_strip_all_tags($ubicacion); // Mostrar el valor en la tabla
+    }
+
+    if ($column == 'acf_n_de_tienda') {
+        $n_de_tienda = get_field('numero_de_tienda_vacante', $post_id); // Obtener el valor del campo 'N. de Tienda'
+        echo wp_strip_all_tags($n_de_tienda); // Mostrar el valor en la tabla
+    }
+
+    if ($column == 'acf_n_de_distrito') {
+        $n_de_distrito = get_field('distrito_vacante', $post_id); // Obtener el valor del campo 'N. de Distrito'
+        echo wp_strip_all_tags($n_de_distrito); // Mostrar el valor en la tabla
+    }
 }
 add_action('manage_postulaciones_posts_custom_column', 'mostrar_valores_columnas_postulaciones', 10, 2);
-
 
 // Cambiar el estado a "Visto" al hacer clic en "Editar" una postulación
 function cambiar_estado_al_abrir_edicion() {

@@ -134,6 +134,9 @@
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
+.pilas-s2 a {
+  width: 416px;
+}
 .pilas-s2 figure {
   display: none;
   position: absolute;
@@ -231,6 +234,11 @@
   z-index: 10;
 }
 
+@media (max-width: 1300px) {
+  .pilas-s2 a {
+    width: auto;
+  }
+}
 @media (max-width: 1135px) and (min-width: 982px) {
   .boton1s2 {
     padding: 50px 25px;
