@@ -9,6 +9,10 @@ body {
     font-family: $ff-roman;
 }
 
+p {
+    letter-spacing: 1px;
+}
+
 * {
     transition: $transition_base;
 }
@@ -23,12 +27,116 @@ body {
 }
 
 
-h1 {
-    font-family: $ff-cn;
+h1,
+h2,
+h3,
+h4 {
+    font-family: $ff-hvcn;
+    text-transform: uppercase;
 }
 
 main {
     padding: 35px 80px;
+}
+
+iframe {
+    width: 100%;
+    height: 480px;
+}
+
+
+.popup-cont {
+    position: fixed;
+    background-color: rgba(black, 0.5);
+    z-index: 99999;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    // display: none;
+
+
+    .container {
+        background-color: #fff;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        width: fit-content;
+        padding: 50px;
+        position: relative;
+
+        .close {
+            position: absolute;
+            color: #fff;
+            cursor: pointer;
+            background-color: $orange;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: -20px;
+            right: -20px;
+            font-size: 50px;
+            line-height: 1;
+            border-radius: 50%;
+            transform: rotateZ(45deg);
+        }
+
+        .title {
+            font-family: $ff-hvcn;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .desc {
+            max-width: 550px;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+
+        .img-cont {
+            background-color: $orange;
+            padding: 5px;
+            border-radius: 3px;
+
+            img {
+                margin: 0 auto;
+                max-height: 350px;
+                margin-bottom: -5px;
+            }
+        }
+
+        .button {
+            font-family: "Helvetica Neue LT Std BdCn";
+            color: white;
+            background-color: $orange;
+            border-radius: 2px;
+            padding: 13px 20px;
+            padding-top: 15px;
+            display: flex;
+            border: 1px solid $orange;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-top: 50px;
+
+            &:hover {
+                background-color: #fff;
+                color: $orange;
+            }
+        }
+    }
 }
 
 // Header

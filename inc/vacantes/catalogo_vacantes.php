@@ -12,6 +12,7 @@ function seccion_catalogo_vacantes() {
             'catalogo_vacantes',            // Slug único para la página
             'display_admin_vacantes',       // Función que muestra el contenido de la página
             'dashicons-clipboard',          // Icono para el menú
+            7
         );
 
 }

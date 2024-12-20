@@ -241,4 +241,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Ejecutar la función para marcar los ítems como 'active' al cargar la página
     markItemsAsActive();
+
+
+    // Funciones de la rueda de valores
+    const items_svg = document.querySelectorAll(".g-item");
+    const rueda_desc = document.querySelectorAll(".rueda-desc");
+    items_svg.forEach((item) => {
+        item.addEventListener('click', function () {
+
+            let selected_id = item.id;
+            items_svg.forEach((el) => {
+                el.classList.remove("active");
+                el.classList.add("unactive");
+            });
+
+            rueda_desc.forEach((el) => el.style.display = "none");
+
+            item.classList.remove('unactive');
+            item.classList.add('active');
+
+            let descToShow = document.querySelector(`.rueda-desc[data-id-item="${selected_id}"]`);
+            if (descToShow) {
+                descToShow.style.display = "block";
+            }
+        });
+    });
 });

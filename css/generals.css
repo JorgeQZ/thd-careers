@@ -70,6 +70,10 @@ body {
   font-family: "Helvetica Neue LT Std";
 }
 
+p {
+  letter-spacing: 1px;
+}
+
 * {
   -webkit-transition: all 300ms;
   transition: all 300ms;
@@ -83,12 +87,136 @@ body {
           box-sizing: border-box;
 }
 
-h1 {
-  font-family: "Helvetica Neue LT Std Cn";
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Helvetica Neue LT Std HvCn";
+  text-transform: uppercase;
 }
 
 main {
   padding: 35px 80px;
+}
+
+iframe {
+  width: 100%;
+  height: 480px;
+}
+
+.popup-cont {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99999;
+  width: 100%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  top: 0;
+}
+.popup-cont .container {
+  background-color: #fff;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 50px;
+  position: relative;
+}
+.popup-cont .container .close {
+  position: absolute;
+  color: #fff;
+  cursor: pointer;
+  background-color: #f96302;
+  width: 40px;
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  top: -20px;
+  right: -20px;
+  font-size: 50px;
+  line-height: 1;
+  border-radius: 50%;
+  -webkit-transform: rotateZ(45deg);
+          transform: rotateZ(45deg);
+}
+.popup-cont .container .title {
+  font-family: "Helvetica Neue LT Std HvCn";
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.popup-cont .container .desc {
+  max-width: 550px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+.popup-cont .container .img-cont {
+  background-color: #f96302;
+  padding: 5px;
+  border-radius: 3px;
+}
+.popup-cont .container .img-cont img {
+  margin: 0 auto;
+  max-height: 350px;
+  margin-bottom: -5px;
+}
+.popup-cont .container .button {
+  font-family: "Helvetica Neue LT Std BdCn";
+  color: white;
+  background-color: #f96302;
+  border-radius: 2px;
+  padding: 13px 20px;
+  padding-top: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid #f96302;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-top: 50px;
+}
+.popup-cont .container .button:hover {
+  background-color: #fff;
+  color: #f96302;
 }
 
 body.admin-bar {
@@ -107,7 +235,7 @@ header {
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  z-index: 10;
+  z-index: 1;
 }
 header .container {
   display: -webkit-box;

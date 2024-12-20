@@ -83,7 +83,6 @@ function display_author_table_column($column, $post_id) {
   }
 }
 
-
 // Agregar campo de autor en tabla de Vacantes
 add_filter('manage_vacantes_posts_columns', 'add_store_column');
 function add_store_column($columns) {
