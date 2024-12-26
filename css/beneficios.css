@@ -68,7 +68,7 @@ p {
 }
 
 .contenedor-principal {
-  padding: 100px 80px 10px 80px;
+  padding: 100px 80px 65px 80px;
   margin: 0 auto;
   max-width: 1280px;
 }
@@ -103,6 +103,25 @@ p {
       -ms-flex-align: center;
           align-items: center;
   cursor: pointer;
+  position: relative;
+  -webkit-transition: none;
+  transition: none;
+}
+
+.tab-s2:hover {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tab-s2:hover .p1-s2 {
+  color: white;
+}
+
+.tab-s2.active {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tab-s2.active .p1-s2 {
+  color: white;
 }
 
 .p1-s2 {
@@ -110,6 +129,103 @@ p {
   color: #a6a6a6;
   font-size: 36px;
   padding-left: 50px;
+}
+
+.plus {
+  display: block;
+  position: absolute;
+  width: 20px;
+  top: 320px;
+  bottom: 0;
+  right: 20px;
+}
+
+.tab-s2:hover .plus {
+  display: none;
+}
+
+.tab-s2.active .plus {
+  display: none;
+}
+
+.pico {
+  display: none;
+  position: absolute;
+  width: 160px;
+  top: 400px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.tab-s2.active .pico {
+  display: block;
+}
+
+.contenedor-s3 {
+  padding-top: 200px;
+}
+
+.titulo-tab3 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  font-size: 40px;
+  text-align: center;
+}
+
+.subtitulo-tab3 {
+  font-size: 21.8px;
+  margin: 0 auto;
+  padding: 50px 0 25px 0;
+  width: 640px;
+  text-align: center;
+  font-family: "Helvetica Neue LT Std";
+}
+
+.contenedor1-tab3 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 auto;
+  width: 780px;
+  padding: 35px 0;
+}
+
+.contenedor2-tab3 {
+  color: #272727;
+  padding-left: 60px;
+}
+
+.contenedor-img-tab3 {
+  min-width: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.img-tab3 {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.p1-tab3 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.p2-tab3 {
+  font-family: "Helvetica Neue LT Std";
+  font-size: 21.8px;
 }
 
 @media (max-width: 686px) {
