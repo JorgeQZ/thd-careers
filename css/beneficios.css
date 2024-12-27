@@ -228,10 +228,130 @@ p {
   font-size: 21.8px;
 }
 
+@media (max-width: 1150px) and (min-width: 901px) {
+  .p1-s1 {
+    font-size: 60px;
+  }
+  .p1-s2 {
+    font-size: 28px;
+    padding-left: 30px;
+  }
+  .tab-s2 {
+    height: 280px;
+  }
+  .plus {
+    top: 240px;
+  }
+  .pico {
+    top: 305px;
+  }
+}
+@media (max-width: 900px) and (min-width: 501px) {
+  .contenedor-principal {
+    padding-top: 100px !important;
+  }
+  .p1-s1 {
+    font-size: 50px;
+  }
+  .p2-s1 {
+    font-size: 18px;
+    padding-top: 30px;
+    padding-bottom: 23px;
+  }
+  .contenedor-s2 {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 130px;
+  }
+  .plus {
+    top: 280px;
+  }
+  .pico {
+    top: 350px;
+  }
+  .p1-s2 {
+    font-size: 33px;
+    padding-left: 40px;
+  }
+  .tab-s2 {
+    width: 320px;
+    margin: 0 auto;
+    height: 320px;
+  }
+}
 @media (max-width: 686px) {
   .contenedor-principal {
     margin: 0 auto;
     width: 90%;
-    padding: 0 0 0 0;
+    padding: 100px 0 0 0;
+  }
+}
+@media (max-width: 500px) and (min-width: 376px) {
+  .p1-s1 {
+    font-size: 40px;
+  }
+  .p2-s1 {
+    font-size: 16px;
+    padding: 30px 0px;
+  }
+  .contenedor-s2 {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 100px;
+    padding-top: 15px;
+  }
+  .plus {
+    top: 280px;
+  }
+  .pico {
+    top: 350px;
+  }
+  .p1-s2 {
+    font-size: 33px;
+    padding-left: 40px;
+  }
+  .tab-s2 {
+    width: 320px;
+    margin: 0 auto;
+    height: 320px;
+  }
+}
+@media (max-width: 375px) {
+  .contenedor-principal {
+    padding-top: 80px !important;
+  }
+  .p1-s1 {
+    font-size: 35px;
+  }
+  .p2-s1 {
+    font-size: 16px;
+    padding: 30px 0px;
+  }
+  .contenedor-s2 {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 100px;
+    padding-top: 10px;
+  }
+  .plus {
+    top: 240px;
+  }
+  .pico {
+    top: 305px;
+  }
+  .p1-s2 {
+    font-size: 30px;
+    padding-left: 30px;
+  }
+  .tab-s2 {
+    width: 280px;
+    margin: 0 auto;
+    height: 280px;
   }
 }
