@@ -165,11 +165,14 @@ p {
     // S1
 
     .p1-s1 {
-        font-size: 60px;
+        font-size: 50px;
+    }
+
+    .p2-s1 {
+        font-size: 18px;
     }
 
     // S2
-
 
     .p1-s2 {
         font-size: 28px;
@@ -186,6 +189,29 @@ p {
 
     .pico {
         top: 305px;
+    }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+    }
+
+    .titulo-tab3 {
+        font-size: 35px;
+    }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
     }
 }
 
@@ -233,6 +259,31 @@ p {
         margin: 0 auto;
         height: 320px;
     }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+    }
+
+    .titulo-tab3 {
+        font-size: 35px;
+    }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+        width: auto;
+        max-width: 640px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
+    }
 }
 
 // MÓVIL
@@ -241,7 +292,7 @@ p {
     .contenedor-principal {
         margin: 0 auto;
         width: 90%;
-        padding: 100px 0 0 0;
+        padding: 100px 0 40px 0;
     }
 }
 
@@ -283,6 +334,40 @@ p {
         width: 320px;
         margin: 0 auto;
         height: 320px;
+    }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0;
+    }
+
+    .contenedor2-tab3 {
+        padding-left: 0px;
+        text-align: center;
+    }
+
+    .titulo-tab3 {
+        font-size: 35px;
+    }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+        width: auto;
+        max-width: 640px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+        margin-top: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
     }
 
 }
@@ -329,6 +414,44 @@ p {
         width: 280px;
         margin: 0 auto;
         height: 280px;
+    }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0;
+    }
+
+    .contenedor2-tab3 {
+        padding-left: 0px;
+        text-align: center;
+    }
+
+    .titulo-tab3 {
+        font-size: 35px;
+    }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+        width: auto;
+        max-width: 640px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+        margin-top: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
+    }
+
+    .contenedor-img-tab3 {
+        min-width: auto;
     }
 
 }
