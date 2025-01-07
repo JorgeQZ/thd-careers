@@ -45,7 +45,106 @@ get_header();
     </div>
 
     <div class="contenido-tabs-s3">
-      <p>Tab 2</p>
+
+      <p class="titulo-tab2"> <?php echo wp_kses_post($tabs_beneficios['tab2-beneficios']['titulo-beneficios-tab2']); ?> </p>
+
+      <?php if (have_rows('tabs-beneficios')): ?>
+      <div class="subcontenedor-tab2">
+          <?php
+          while (have_rows('tabs-beneficios')): the_row();
+              if (have_rows('tab2-beneficios')):
+                  while (have_rows('tab2-beneficios')): the_row();
+
+                      if (have_rows('repetidor1-beneficios-tab2')):
+                          while (have_rows('repetidor1-beneficios-tab2')): the_row();
+
+                              if (have_rows('grupo1-beneficios-tabs2')):
+                                  while (have_rows('grupo1-beneficios-tabs2')): the_row();
+
+                                      // Crear el enlace de la tab
+                                      $titulo_subtab = get_sub_field('titulo-de-subtab-beneficios-tab2');
+                                      ?>
+                                      <a class="tab-tab2">
+                                          <p class="p1-tab2"><?php echo wp_kses_post($titulo_subtab); ?></p>
+                                          <img src="<?php echo get_template_directory_uri(); ?>/imgs/mas.png" class="plus-tab2" alt="icono-mas">
+                                          <img src="<?php echo get_template_directory_uri(); ?>/imgs/pico.png" class="pico-tab2" alt="pico">
+                                      </a>
+                                      <?php
+
+                                  endwhile;
+                              endif;
+
+                          endwhile;
+                      endif;
+
+                  endwhile;
+              endif;
+          endwhile;
+          ?>
+      </div>
+
+      <?php
+      // Crear subcontenedores de los rectángulos
+      while (have_rows('tabs-beneficios')): the_row();
+          if (have_rows('tab2-beneficios')):
+              while (have_rows('tab2-beneficios')): the_row();
+
+                  if (have_rows('repetidor1-beneficios-tab2')):
+                      while (have_rows('repetidor1-beneficios-tab2')): the_row();
+
+                          if (have_rows('grupo1-beneficios-tabs2')):
+                              while (have_rows('grupo1-beneficios-tabs2')): the_row();
+
+                                  // Crear un nuevo subcontenido-tab2 por cada grupo1-beneficios-tabs2
+                                  ?>
+                                  <div class="subcontenido-tab2">
+                                      <?php
+                                      if (have_rows('rectangulos-subtab-beneficios-tab2')):
+                                          while (have_rows('rectangulos-subtab-beneficios-tab2')): the_row();
+
+                                              if (have_rows('grupo2-beneficios-tab2')):
+                                                  while (have_rows('grupo2-beneficios-tab2')): the_row();
+
+                                                      $icono_rectangulo = get_sub_field('icono-rectangulo-beneficios-tab2');
+                                                      $icono_hover_rectangulo = get_sub_field('icono-hover-rectangulo-beneficios-tab2');
+                                                      $tam_icono_hover_rectangulo_beneficios_tab2 = get_sub_field('tam-icono-hover-rectangulo-beneficios-tab2');
+                                                      $titulo_rectangulo = get_sub_field('titulo-rectangulo-beneficios-tab2');
+                                                      $descripcion_rectangulo = get_sub_field('descripcion-rectangulo-beneficios-tab2');
+                                                      $tam_icono_rectangulo_beneficios_tab2 = get_sub_field('tam-icono-rectangulo-beneficios-tab2');
+                                                      ?>
+                                                      <div class="rectangulo-tab2">
+                                                          <?php if ($icono_rectangulo): ?>
+                                                              <img src="<?php echo esc_url($icono_rectangulo['url']); ?>" alt="<?php echo esc_attr($icono_rectangulo['alt']); ?>" class="img-rectangulo-tab2" style="width: <?php echo esc_attr($tam_icono_rectangulo_beneficios_tab2 ?: '40px'); ?>;">
+                                                          <?php endif; ?>
+                                                          <p class="titulo-rectangulo-tab2"><?php echo esc_html($titulo_rectangulo); ?></p>
+                                                          <p class="descripcion-rectangulo-tab2"><?php echo esc_html($descripcion_rectangulo); ?></p>
+                                                          <?php if ($icono_hover_rectangulo): ?>
+                                                          <img src="<?php echo esc_url($icono_hover_rectangulo['url']); ?>" alt="<?php echo esc_attr($icono_hover_rectangulo['alt']); ?>" class="img-hover-rectangulo-tab2" style="width: <?php echo esc_attr($tam_icono_hover_rectangulo_beneficios_tab2 ?: '75px'); ?>;">
+                                                          <?php endif; ?>
+                                                      </div>
+                                                      <?php
+
+                                                  endwhile;
+                                              endif;
+
+                                          endwhile;
+                                      endif;
+                                      ?>
+                                  </div>
+                                  <?php
+
+                              endwhile;
+                          endif;
+
+                      endwhile;
+                  endif;
+
+              endwhile;
+          endif;
+      endwhile;
+      ?>
+      <?php endif; ?>
+
     </div>
 
     <div class="contenido-tabs-s3">
@@ -124,6 +223,41 @@ get_header();
 
         // Mostrar el contenido correspondiente
         contents[index].style.display = "block";
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Seleccionar los tabs y los contenidos
+    const tabs = document.querySelectorAll(".tab-tab2");
+    const contents = document.querySelectorAll(".subcontenido-tab2");
+
+    // Mostrar el contenido del Tab 1 por defecto y marcarlo como activo
+    contents.forEach((content, index) => {
+      content.style.display = index === 0 ? "flex" : "none";
+    });
+    tabs[0].classList.add("active");
+
+    // Añadir eventos de clic a los tabs
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Remover la clase activa de todos los tabs
+        tabs.forEach(t => t.classList.remove("active"));
+
+        // Añadir la clase activa al tab actual
+        tab.classList.add("active");
+
+        // Ocultar todos los contenidos
+        contents.forEach(content => {
+          content.style.display = "none";
+        });
+
+        // Mostrar el contenido correspondiente
+        contents[index].style.display = "flex";
       });
     });
   });

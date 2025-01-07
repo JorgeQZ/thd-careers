@@ -19,6 +19,7 @@ Template Name: Postulaciones
         $apellidopaterno = sanitize_text_field($_POST['acf_postulacion_apellidopaterno']);
         $apellidomaterno = sanitize_text_field($_POST['acf_postulacion_apellidomaterno']);
         $telefono = sanitize_text_field($_POST['acf_postulacion_telefono']);
+        $pr1 = sanitize_text_field($_POST['pr1']);
 
         // Crear la nueva postulación en el post-type 'postulaciones'
         $nueva_postulacion = array(
@@ -38,6 +39,7 @@ Template Name: Postulaciones
             update_field('Correo', $correo, $postulacion_id);
             update_field('Estado', 'Postulado', $postulacion_id);
             update_field('Telefono', $telefono, $postulacion_id);
+            update_field('pr1-postulacion', $pr1, $postulacion_id);
 
             // Obtener el ID del post principal actual
             $post_id = get_queried_object_id();
@@ -207,6 +209,133 @@ $telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); 
             <label for="acf_postulacion_telefono">Teléfono:</label>
             <input type="text" id="acf_postulacion_telefono" name="acf_postulacion_telefono"
                 value="<?php echo esc_attr($telefono_rellenar); ?>" required>
+        </div>
+
+        <div class="seccion1">
+            <p class="p1-s1">¿Cómo te enteraste de nosotros?</p>
+
+            <label>
+                <input type="radio" name="pr1" value="Familia o amigo"> Familia o amigo
+            </label>
+
+            <label>
+                <input type="radio" name="pr1" value="Bolsa de empleo"> Bolsa de empleo
+            </label>
+
+            <label>
+                <input type="radio" name="pr1" value="Facebook"> Facebook
+            </label>
+
+            <label>
+                <input type="radio" name="pr1" value="Instagram"> Instagram
+            </label>
+
+            <label>
+                <input type="radio" name="pr1" value="LinkedIn"> LinkedIn
+            </label>
+
+            <label>
+                <input type="radio" name="pr1" value="Reclutador virtual EMI"> Reclutador virtual EMI
+            </label>
+        </div>
+
+        <div class="seccion2">
+            <p>Experiencia Laboral</p>
+
+            <p>Puesto 1</p>
+
+            <label>Puesto de trabajo</label>
+            <input type="text">
+
+            <label>Compañia</label>
+            <input type="text">
+
+            <label>Ubicación</label>
+            <input type="text">
+
+            <label> <input type="checkbox"> Actualmente trabajo aquí </label>
+
+            <label>Desde</label>
+            <input type="date">
+
+            <label>Hasta</label>
+            <input type="date">
+
+            <label>Descripción del rol</label>
+            <textarea name="" id=""></textarea>
+
+            <p>Puesto 2</p>
+
+            <label>Puesto de trabajo</label>
+            <input type="text">
+
+            <label>Compañia</label>
+            <input type="text">
+
+            <label>Ubicación</label>
+            <input type="text">
+
+            <label> <input type="checkbox"> Actualmente trabajo aquí </label>
+
+            <label>Desde</label>
+            <input type="date">
+
+            <label>Hasta</label>
+            <input type="date">
+
+            <label>Descripción del rol</label>
+            <textarea name="" id=""></textarea>
+        </div>
+
+        <div class="seccion3">
+            <p>Educación</p>
+
+            <label>Escuela o Universidad</label>
+            <input type="text">
+
+            <label>Titulo</label>
+            <input type="text">
+
+            <label for="grado_escolaridad">Elige tu grado de escolaridad:</label>
+            <select id="grado_escolaridad" name="grado_escolaridad">
+                <option value="">Escolaridad - Grado de estudios</option>
+                <option value="primaria">Primaria</option>
+                <option value="secundaria">Secundaria</option>
+                <option value="preparatoria">Preparatoria</option>
+                <option value="carrera_tecnica">Carrera técnica</option>
+                <option value="licenciatura">Licenciatura</option>
+                <option value="posgrado">Posgrado</option>
+                <option value="maestria">Maestría</option>
+                <option value="doctorado">Doctorado</option>
+            </select>
+        </div>
+
+        <div class="seccion4">
+            <p>Curriculum/CV</p>
+
+            <label for="acf_postulacion_cv">Sube tu CV:</label>
+
+            <?php if ($cv_url): ?>
+            <p>CV Actual: <a href="<?php echo esc_url($cv_url); ?>" target="_blank">Ver archivo</a></p>
+            <?php else: ?>
+            <p>No hay un CV subido aún.</p>
+            <?php endif; ?>
+
+            <input type="file" id="acf_postulacion_cv" name="acf_postulacion_cv">
+        </div>
+
+        <div class="seccion5">
+            <p>Preguntas de Aplicación</p>
+
+            <p>¿Actualmente trabajas o has trabajdo anteriormente en The Home Depot?</p>
+
+            <label>
+                <input type="radio" name="" value="Sí"> Sí
+            </label>
+
+            <label>
+                <input type="radio" name="" value="No"> No
+            </label>
         </div>
 
         <br>

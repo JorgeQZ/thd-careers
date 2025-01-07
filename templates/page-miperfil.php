@@ -30,7 +30,7 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
 
             <div class="contenedor detres">
                 <div>
-                    <label for="nombre">Nombre</label>
+                    <label for="nombre">Nombre(s)</label>
                     <input type="text" name="nombre" value="<?php echo esc_attr($nombre_actual); ?>">
                 </div>
                 <div>
@@ -64,17 +64,6 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
                 </div>
             </div>
 
-            <div class="contenedor">
-                <div class="custom-file">
-                    <label for="cv">CV</label>
-                    <div class="file-wrapper">
-                        <!-- <label>CV</label> -->
-                        <input type="file">
-                        <span class="icon-attachment"></span>
-                    </div>
-                </div>
-            </div>
-
             <div class="contenedor dedos">
                 <div>
                     <label for="grado_escolaridad">Elige tu grado de escolaridad:</label>
@@ -101,10 +90,56 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
                         <option value="">Seleccione su estado civil</option>
                         <option value="soltero" <?php selected($estado_civil_actual, 'soltero'); ?>>Soltero/a</option>
                         <option value="casado" <?php selected($estado_civil_actual, 'casado'); ?>>Casado/a</option>
-                        <option value="divorciado" <?php selected($estado_civil_actual, 'divorciado'); ?>>Divorciado/a
-                        </option>
+                        <option value="divorciado" <?php selected($estado_civil_actual, 'divorciado'); ?>>Divorciado/a</option>
                         <option value="viudo" <?php selected($estado_civil_actual, 'viudo'); ?>>Viudo/a</option>
                     </select>
+                </div>
+            </div>
+
+            <div class="contenedor-cdt">
+                <p>¿En qué Centro de Trabajo estás interesado(a)?</p>
+
+                <label>
+                    <input type="radio" name="pr1" value="Oficinas de apoyo a tiendas" <?php checked($pr1_actual, 'Oficinas de apoyo a tiendas'); ?>> Oficinas de apoyo a tiendas
+                </label>
+
+                <label>
+                    <input type="radio" name="pr1" value="Tiendas" <?php checked($pr1_actual, 'Tiendas'); ?>> Tiendas
+                </label>
+
+                <label>
+                    <input type="radio" name="pr1" value="Centros de Distribución" <?php checked($pr1_actual, 'Centros de Distribución'); ?>> Centros de Distribución
+                </label>
+
+                <div class="contenedor-cdt2" style="display: none;">
+                    <p>¿En qué área estás interesado(a)?</p>
+
+                    <label>
+                    <input type="radio" name="pr2" value="Operaciones" <?php checked($pr2_actual, 'Operaciones'); ?>> Operaciones
+                    </label>
+
+                    <label>
+                    <input type="radio" name="pr2" value="Recursos Humanos" <?php checked($pr2_actual, 'Recursos Humanos'); ?>> Recursos Humanos
+                    </label>
+
+                    <label>
+                    <input type="radio" name="pr2" value="Finanzas" <?php checked($pr2_actual, 'Finanzas'); ?>> Finanzas
+                    </label>
+
+                    <label>
+                    <input type="radio" name="pr2" value="Marketing" <?php checked($pr2_actual, 'Marketing'); ?>> Marketing
+                    </label>
+                </div>
+
+                <div class="contenedor">
+                    <div class="custom-file">
+                        <label for="cv">CV</label>
+                        <div class="file-wrapper">
+                            <!-- <label>CV</label> -->
+                            <input type="file">
+                            <span class="icon-attachment"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -112,19 +147,18 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
 
             <div class="contenedor detres">
                 <div>
-                    <label for="calle">Calle</label>
+                    <label for="calle">Calle y número interior</label>
                     <input type="text" name="calle" value="<?php echo esc_attr($calle_actual); ?>">
                 </div>
 
                 <div>
-                    <label for="numero_interiorexterior">Número interior/exterior</label>
-                    <input type="text" name="numero_interiorexterior"
-                        value="<?php echo esc_attr($numero_interiorexterior_actual); ?>">
+                    <label for="municipiociudad">Ciudad</label>
+                    <input type="text" name="municipiociudad" value="<?php echo esc_attr($municipiociudad_actual); ?>">
                 </div>
 
                 <div>
-                    <label for="colonia">Colonia</label>
-                    <input type="text" name="colonia" value="<?php echo esc_attr($colonia_actual); ?>">
+                    <label for="estado">Estado</label>
+                    <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
                 </div>
             </div>
 
@@ -135,11 +169,11 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
                 </div>
 
                 <div>
-                    <label for="municipiociudad">Municipio/Ciudad</label>
-                    <input type="text" name="municipiociudad" value="<?php echo esc_attr($municipiociudad_actual); ?>">
+                    <label for="municipiociudad">País</label>
+                    <input type="text" name="pais" value="<?php echo esc_attr($pais_actual); ?>">
                 </div>
 
-                <div>
+                <div style="visibility: hidden;">
                     <label for="estado">Estado</label>
                     <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
                 </div>
@@ -166,7 +200,7 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
 
             <div class="contenedor detres">
                 <div>
-                    <label for="telefono_celular">Teléfono Celular</label>
+                    <label for="telefono_celular">Celular</label>
                     <input type="text" name="telefono_celular" value="<?php echo esc_attr($telefono_celular_actual); ?>">
                 </div>
 
@@ -319,6 +353,23 @@ function mostrarSegundaPregunta(mostrar) {
         segundaPregunta.style.display = mostrar ? "block" : "none";
     }
 }
+</script>
+
+<script>
+    // Seleccionar los elementos necesarios
+    const radioButtons = document.querySelectorAll('input[name="pr1"]');
+    const contenedorCdt2 = document.querySelector('.contenedor-cdt2');
+
+    // Agregar un evento al cambiar la selección
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (radio.value === "Oficinas de apoyo a tiendas" && radio.checked) {
+                contenedorCdt2.style.display = "flex"; // Mostrar contenedor-cdt2
+            } else {
+                contenedorCdt2.style.display = "none"; // Ocultar contenedor-cdt2
+            }
+        });
+    });
 </script>
 
 

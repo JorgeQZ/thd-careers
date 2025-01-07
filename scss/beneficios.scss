@@ -106,6 +106,165 @@ p {
     padding-top: 200px;
 }
 
+// S3 - TAB 2
+
+.p1-tab2 {
+    font-family: $ff-blkcn;
+    color: #a6a6a6
+}
+
+.tab-tab2 {
+    border: solid #a6a6a6 1px;
+    border-radius: 2px;
+    width: 15.67%;
+    height: 178px;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: none;
+    margin-top: 60px;
+}
+
+.tab-tab2:hover {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-tab2 {
+        color: white;
+    }
+}
+
+.tab-tab2.active {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-tab2 {
+        color: white;
+    }
+}
+
+.subcontenedor-tab2 {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 100px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.titulo-tab2 {
+    font-family: $ff-blkcn;
+    font-size: 40px;
+    padding-bottom: 30px;
+}
+
+.plus-tab2 {
+    display: block;
+    position: absolute;
+    width: 15px;
+    top: 150px;
+    bottom: 0;
+    right: 15px;
+}
+
+.tab-tab2:hover .plus-tab2 {
+    display: none;
+}
+
+.tab-tab2.active .plus-tab2 {
+    display: none;
+}
+
+.pico-tab2 {
+    display: none;
+    position: absolute;
+    width: 70px;
+    top: 195px;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.tab-tab2.active .pico-tab2 {
+    display: block;
+}
+
+.p1-tab2 {
+    padding-left: 15px;
+    font-size: 17px;
+}
+
+.subcontenido-tab2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.rectangulo-tab2 {
+    background-color: #a6a6a6;
+    width: calc(25% - 11.3px);
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.rectangulo-tab2:hover {
+    justify-content: center;
+    background-color: #f96302;
+
+    .img-rectangulo-tab2 {
+        display: none;
+    }
+
+    .descripcion-rectangulo-tab2 {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        width: 90%;
+        z-index: 15;
+    }
+
+    .titulo-rectangulo-tab2 {
+        padding-bottom: 0px;
+        font-size: 20px;
+        text-align: center;
+        margin: 0 auto;
+        width: 95%;
+        z-index: 15;
+    }
+
+    .img-hover-rectangulo-tab2 {
+        display: block;
+        position: absolute;
+        width: 75px;
+    }
+}
+
+.img-rectangulo-tab2 {
+    width: 40px;
+}
+
+.img-hover-rectangulo-tab2 {
+    display: none;
+}
+
+.titulo-rectangulo-tab2 {
+    font-family: $ff-blkcn;
+    color: white;
+    font-size: 18px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    text-align: center;
+}
+
+.descripcion-rectangulo-tab2 {
+    font-size: 14px;
+    display: none;
+    color: white;
+}
+
 // S3 - TAB 3
 
 .titulo-tab3 {
@@ -191,6 +350,24 @@ p {
         top: 305px;
     }
 
+    // S3 - TAB 2
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
+    }
+
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 25%;
+    }
+
+    .rectangulo-tab2 {
+        width: calc(33.4% - 11.3px);
+    }
+
     // S3 - TAB 3
 
     .contenedor1-tab3 {
@@ -258,6 +435,28 @@ p {
         width: 320px;
         margin: 0 auto;
         height: 320px;
+    }
+
+    // S3 - TAB 2
+
+    .p1-tab2 {
+        padding-left: 10px;
+    }
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
+    }
+
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 30%;
+    }
+
+    .rectangulo-tab2 {
+        width: calc(50.5% - 11.3px);
     }
 
     // S3 - TAB 3
@@ -334,6 +533,28 @@ p {
         width: 320px;
         margin: 0 auto;
         height: 320px;
+    }
+
+    // S3 - TAB 2
+
+    .p1-tab2 {
+        padding-left: 10px;
+    }
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
+    }
+
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 47%;
+    }
+
+    .rectangulo-tab2 {
+        width: 100%;
     }
 
     // S3 - TAB 3
@@ -414,6 +635,28 @@ p {
         width: 280px;
         margin: 0 auto;
         height: 280px;
+    }
+
+    // S3 - TAB 2
+
+    .p1-tab2 {
+        padding-left: 10px;
+    }
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
+    }
+
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 47%;
+    }
+
+    .rectangulo-tab2 {
+        width: 100%;
     }
 
     // S3 - TAB 3
