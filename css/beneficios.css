@@ -166,6 +166,162 @@ p {
   padding-top: 200px;
 }
 
+.p1-tab1 {
+  font-size: 40px;
+  font-family: "Helvetica Neue LT Std BlkCn";
+  padding-bottom: 20px;
+}
+.p1-tab1 span {
+  color: #f96302;
+}
+
+.p2-tab1 {
+  font-size: 21.8px;
+}
+
+.tabs-tab1 {
+  border: solid #a6a6a6 1px;
+  border-radius: 2px;
+  width: 100%;
+  height: 363px;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  position: relative;
+  -webkit-transition: none;
+  transition: none;
+  text-decoration: none;
+}
+
+.tabs-tab1:hover {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tabs-tab1:hover .p3-tab1 {
+  color: white;
+}
+
+.tabs-tab1.active {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tabs-tab1.active .p3-tab1 {
+  color: white;
+}
+
+.plus-tab1 {
+  display: block;
+  position: absolute;
+  width: 20px;
+  top: 320px;
+  bottom: 0;
+  right: 20px;
+}
+
+.tabs-tab1:hover .plus-tab1 {
+  display: none;
+}
+
+.tabs-tab1.active .plus-tab1 {
+  display: none;
+}
+
+.pico-tab1 {
+  display: none;
+  position: absolute;
+  width: 160px;
+  top: 400px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.tabs-tab1.active .pico-tab1 {
+  display: block;
+}
+
+.contenedor-tabs-tab1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  padding-top: 25px;
+  padding-bottom: 200px;
+}
+
+.p3-tab1 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  color: #a6a6a6;
+  font-size: 25px;
+  padding-left: 50px;
+}
+
+.contenedor-contenido-tabs-tab1 {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.titulo-tab1-tab1 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  font-size: 40px;
+  padding-bottom: 20px;
+}
+
+.descripcion-tab1-tab1 {
+  color: #333333;
+  font-size: 21.8px;
+}
+
+.contenido-tab1-tab1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 50px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 30px;
+}
+
+.subcontenido-tab1-tab1 {
+  border: solid #a6a6a6 1px;
+  width: 22.8%;
+  height: 150px;
+  display: grid;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.subcontenido-tab1-tab1:hover {
+  background-color: #f96302;
+}
+.subcontenido-tab1-tab1:hover .titulo-contenido-tab1-tab1 {
+  display: none;
+}
+.subcontenido-tab1-tab1:hover .descripcion-contenido-tab1-tab1 {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.titulo-contenido-tab1-tab1 {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  color: #a6a6a6;
+  padding-top: 10px;
+  font-size: 30px;
+}
+
+.descripcion-contenido-tab1-tab1 {
+  display: none;
+  color: white;
+}
+
 .p1-tab2 {
   font-family: "Helvetica Neue LT Std BlkCn";
   color: #a6a6a6;

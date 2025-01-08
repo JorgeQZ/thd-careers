@@ -41,7 +41,146 @@ get_header();
   <div class="contenedor-s3">
 
     <div class="contenido-tabs-s3">
-      <p>Tab 1</p>
+      <p class="p1-tab1"> <?php echo wp_kses_post($tabs_beneficios['tab1-beneficios']['titulo-beneficios-tab1']); ?> </p>
+
+      <p class="p2-tab1">
+        <?php echo wp_kses_post($tabs_beneficios['tab1-beneficios']['descripcion-beneficios-tab1']); ?>
+      </p>
+
+      <div class="contenedor-tabs-tab1">
+        <a href="" class="tabs-tab1">
+          <p class="p3-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab1']['titulotab-beneficios-tab1-tab1']); ?> </p>
+          <img src="<?php echo get_template_directory_uri(); ?>/imgs/mas.png" class="plus-tab1" alt="icono-mas">
+          <img src="<?php echo get_template_directory_uri(); ?>/imgs/pico.png" class="pico-tab1" alt="pico">
+        </a>
+
+        <a href="" class="tabs-tab1">
+          <p class="p3-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab2']['titulotab-beneficios-tab1-tab2']); ?> </p>
+          <img src="<?php echo get_template_directory_uri(); ?>/imgs/mas.png" class="plus-tab1" alt="icono-mas">
+          <img src="<?php echo get_template_directory_uri(); ?>/imgs/pico.png" class="pico-tab1" alt="pico">
+        </a>
+
+        <a href="" class="tabs-tab1">
+          <p class="p3-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab3']['titulotab-beneficios-tab1-tab3']); ?> </p>
+          <img src="<?php echo get_template_directory_uri(); ?>/imgs/mas.png" class="plus-tab1" alt="icono-mas">
+          <img src="<?php echo get_template_directory_uri(); ?>/imgs/pico.png" class="pico-tab1" alt="pico">
+        </a>
+      </div>
+
+      <div class="contenedor-contenido-tabs-tab1">
+        <p class="titulo-tab1-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab1']['titulo-beneficios-tab1-tab1']); ?> </p>
+        <p class="descripcion-tab1-tab1"> <?php echo nl2br(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab1']['descripcion-beneficios-tab1-tab1']); ?> </p>
+
+        <div class="contenido-tab1-tab1">
+          <?php
+          if (have_rows('tabs-beneficios')) :
+              while (have_rows('tabs-beneficios')) : the_row();
+                  if (have_rows('tab1-beneficios')) :
+                      while (have_rows('tab1-beneficios')) : the_row();
+                          if (have_rows('grupo-1-beneficios-tab1')) :
+                              while (have_rows('grupo-1-beneficios-tab1')) : the_row();
+                                  if (have_rows('grupo-1-beneficios-tab1-tab1')) :
+                                      while (have_rows('grupo-1-beneficios-tab1-tab1')) : the_row();
+                                          if (have_rows('repetidor-beneficios-tab1-tab1')) :
+                                              while (have_rows('repetidor-beneficios-tab1-tab1')) : the_row();
+                                                  $titulo = get_sub_field('grupo-2-beneficios-tab1-tab1')['titulo-contenedor-beneficios-tab1-tab1'];
+                                                  $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab1')['descripcion-contenedor-beneficios-tab1-tab1'];
+                                                  ?>
+                                                  <div class="subcontenido-tab1-tab1">
+                                                      <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
+                                                      <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
+                                                  </div>
+                                                  <?php
+                                              endwhile;
+                                          endif;
+                                      endwhile;
+                                  endif;
+                              endwhile;
+                          endif;
+                      endwhile;
+                  endif;
+              endwhile;
+          endif;
+          ?>
+        </div>
+
+      </div>
+
+      <div class="contenedor-contenido-tabs-tab1">
+        <p class="titulo-tab1-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab2']['titulo-beneficios-tab1-tab2']); ?> </p>
+        <p class="descripcion-tab1-tab1"> <?php echo nl2br(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab2']['descripcion-beneficios-tab1-tab2']); ?> </p>
+
+        <div class="contenido-tab1-tab1">
+          <?php
+          if (have_rows('tabs-beneficios')) :
+              while (have_rows('tabs-beneficios')) : the_row();
+                  if (have_rows('tab1-beneficios')) :
+                      while (have_rows('tab1-beneficios')) : the_row();
+                          if (have_rows('grupo-1-beneficios-tab1')) :
+                              while (have_rows('grupo-1-beneficios-tab1')) : the_row();
+                                  if (have_rows('grupo-1-beneficios-tab1-tab2')) :
+                                      while (have_rows('grupo-1-beneficios-tab1-tab2')) : the_row();
+                                          if (have_rows('repetidor-beneficios-tab1-tab2')) :
+                                              while (have_rows('repetidor-beneficios-tab1-tab2')) : the_row();
+                                                  $titulo = get_sub_field('grupo-2-beneficios-tab1-tab2')['titulo-contenedor-beneficios-tab1-tab2'];
+                                                  $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab2')['descripcion-contenedor-beneficios-tab1-tab2'];
+                                                  ?>
+                                                  <div class="subcontenido-tab1-tab1">
+                                                      <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
+                                                      <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
+                                                  </div>
+                                                  <?php
+                                              endwhile;
+                                          endif;
+                                      endwhile;
+                                  endif;
+                              endwhile;
+                          endif;
+                      endwhile;
+                  endif;
+              endwhile;
+          endif;
+          ?>
+        </div>
+      </div>
+
+      <div class="contenedor-contenido-tabs-tab1">
+        <p class="titulo-tab1-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab3']['titulo-beneficios-tab1-tab3']); ?> </p>
+        <p class="descripcion-tab1-tab1"> <?php echo nl2br(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab3']['descripcion-beneficios-tab1-tab3']); ?> </p>
+
+        <div class="contenido-tab1-tab1">
+          <?php
+          if (have_rows('tabs-beneficios')) :
+              while (have_rows('tabs-beneficios')) : the_row();
+                  if (have_rows('tab1-beneficios')) :
+                      while (have_rows('tab1-beneficios')) : the_row();
+                          if (have_rows('grupo-1-beneficios-tab1')) :
+                              while (have_rows('grupo-1-beneficios-tab1')) : the_row();
+                                  if (have_rows('grupo-1-beneficios-tab1-tab3')) :
+                                      while (have_rows('grupo-1-beneficios-tab1-tab3')) : the_row();
+                                          if (have_rows('repetidor-beneficios-tab1-tab3')) :
+                                              while (have_rows('repetidor-beneficios-tab1-tab3')) : the_row();
+                                                  $titulo = get_sub_field('grupo-2-beneficios-tab1-tab3')['titulo-contenedor-beneficios-tab1-tab3'];
+                                                  $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab3')['descripcion-contenedor-beneficios-tab1-tab3'];
+                                                  ?>
+                                                  <div class="subcontenido-tab1-tab1">
+                                                      <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
+                                                      <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
+                                                  </div>
+                                                  <?php
+                                              endwhile;
+                                          endif;
+                                      endwhile;
+                                  endif;
+                              endwhile;
+                          endif;
+                      endwhile;
+                  endif;
+              endwhile;
+          endif;
+          ?>
+        </div>
+      </div>
     </div>
 
     <div class="contenido-tabs-s3">
@@ -233,6 +372,41 @@ get_header();
     // Seleccionar los tabs y los contenidos
     const tabs = document.querySelectorAll(".tab-tab2");
     const contents = document.querySelectorAll(".subcontenido-tab2");
+
+    // Mostrar el contenido del Tab 1 por defecto y marcarlo como activo
+    contents.forEach((content, index) => {
+      content.style.display = index === 0 ? "flex" : "none";
+    });
+    tabs[0].classList.add("active");
+
+    // Añadir eventos de clic a los tabs
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Remover la clase activa de todos los tabs
+        tabs.forEach(t => t.classList.remove("active"));
+
+        // Añadir la clase activa al tab actual
+        tab.classList.add("active");
+
+        // Ocultar todos los contenidos
+        contents.forEach(content => {
+          content.style.display = "none";
+        });
+
+        // Mostrar el contenido correspondiente
+        contents[index].style.display = "flex";
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Seleccionar los tabs y los contenidos
+    const tabs = document.querySelectorAll(".tabs-tab1");
+    const contents = document.querySelectorAll(".contenedor-contenido-tabs-tab1");
 
     // Mostrar el contenido del Tab 1 por defecto y marcarlo como activo
     contents.forEach((content, index) => {
