@@ -325,7 +325,7 @@ get_header();
                                           // Crear el enlace de la tab
                                           $titulo_subtab = get_sub_field('titulo-de-subtab-beneficios-tab2');
                                           ?>
-                                          <a class="tab-tab2">
+                                          <a class="tab-tab2-movil">
                                               <p class="p1-tab2"><?php echo wp_kses_post($titulo_subtab); ?></p>
                                               <img src="<?php echo get_template_directory_uri(); ?>/imgs/mas.png" class="plus-tab2" alt="icono-mas">
                                               <img src="<?php echo get_template_directory_uri(); ?>/imgs/pico.png" class="pico-tab2" alt="pico">
@@ -358,7 +358,7 @@ get_header();
 
                                       // Crear un nuevo subcontenido-tab2 por cada grupo1-beneficios-tabs2
                                       ?>
-                                      <div class="subcontenido-tab2">
+                                      <div class="subcontenido-tab2-movil">
                                           <?php
                                           if (have_rows('rectangulos-subtab-beneficios-tab2')):
                                               while (have_rows('rectangulos-subtab-beneficios-tab2')): the_row();
@@ -836,6 +836,41 @@ get_header();
     // Seleccionar los tabs y los contenidos
     const tabs = document.querySelectorAll(".tab-tab2");
     const contents = document.querySelectorAll(".subcontenido-tab2");
+
+    // Mostrar el contenido del Tab 1 por defecto y marcarlo como activo
+    contents.forEach((content, index) => {
+      content.style.display = index === 0 ? "flex" : "none";
+    });
+    tabs[0].classList.add("active");
+
+    // Añadir eventos de clic a los tabs
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Remover la clase activa de todos los tabs
+        tabs.forEach(t => t.classList.remove("active"));
+
+        // Añadir la clase activa al tab actual
+        tab.classList.add("active");
+
+        // Ocultar todos los contenidos
+        contents.forEach(content => {
+          content.style.display = "none";
+        });
+
+        // Mostrar el contenido correspondiente
+        contents[index].style.display = "flex";
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Seleccionar los tabs y los contenidos
+    const tabs = document.querySelectorAll(".tab-tab2-movil");
+    const contents = document.querySelectorAll(".subcontenido-tab2-movil");
 
     // Mostrar el contenido del Tab 1 por defecto y marcarlo como activo
     contents.forEach((content, index) => {
