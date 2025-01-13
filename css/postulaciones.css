@@ -266,3 +266,49 @@ body.admin-bar {
 .form-post.fade-in {
   opacity: 1;
 }
+
+.contenedorgeneralcampos input {
+  width: 400px;
+  height: 35px;
+}
+.contenedorgeneralcampos select {
+  width: 407px;
+  height: 41px;
+}
+.contenedorgeneralcampos label {
+  color: #b2b2b2;
+}
+.contenedorgeneralcampos .seccion .titulo {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  color: #f96302;
+  margin: 0;
+  font-size: 32px;
+}
+.contenedorgeneralcampos .campos {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.contenedorgeneralcampos .campos div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 33%;
+          flex: 0 1 33%;
+}
+.contenedorgeneralcampos .campos::after {
+  content: "";
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 33%;
+          flex: 0 1 33%;
+}

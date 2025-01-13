@@ -7,10 +7,6 @@ Template Name: Postulaciones
 
 <hr>
 
-<div class="container">
-    <h1>Enviar una nueva Postulación</h1>
-</div>
-
 <?php
     if (isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
         !empty($_POST['acf_postulacion_nombre']) &&
@@ -137,29 +133,72 @@ Template Name: Postulaciones
             echo '<p>Hubo un error al enviar la postulación.</p>';
         }
     }
-    ?>
+?>
 
 <?php
+    $user_id = get_current_user_id(); // Obtener el ID del usuario actual
+    $user_data = get_userdata($user_id); // Obtener la información del usuario
 
-$user_id = get_current_user_id(); // Obtener el ID del usuario actual
-$user_data = get_userdata($user_id); // Obtener la información del usuario
+    $nombre = $user_data ? $user_data->first_name : ''; // Obtener el nombre del usuario
+    $mail = $user_data ? $user_data->user_email : ''; // Obtener el nombre del usuario
+    $apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
 
-$nombre = $user_data ? $user_data->first_name : ''; // Obtener el nombre del usuario
-$mail = $user_data ? $user_data->user_email : ''; // Obtener el nombre del usuario
-$apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
-$apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
+    // Obtener la URL del archivo CV si existe
+    $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
 
-$cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
-// Obtener la URL del archivo CV si existe
-$cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
-
-$nombre_rellenar = get_field('nombre_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$apellido_paterno_rellenar = get_field('apellido_paterno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$apellido_materno_rellenar = get_field('apellido_materno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$correo_rellenar = get_field('correo_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $nombre_rellenar = get_field('nombre_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $apellido_paterno_rellenar = get_field('apellido_paterno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $apellido_materno_rellenar = get_field('apellido_materno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $correo_rellenar = get_field('correo_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
 ?>
 
 <div class="container">
+
+    <div class="contenedorgeneralcampos">
+        <div class="seccion">
+
+            <p class="titulo">Titulo 1</p>
+
+            <div class="campos">
+
+                <div>
+                    <label>Nombre(s)</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Apellido Paterno</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Apellido Materno</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Correo</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>¿Cómo te enteraste de nosotros?</label>
+                    <select>
+                        <option>Seleccione una opción</option>
+                        <option>Familia o amigo</option>
+                        <option>Bolsa de empleo</option>
+                        <option>Facebook</option>
+                        <option>Instagram</option>
+                        <option>LinkedIn</option>
+                        <option>Reclutador virtual EMI</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 </div>
