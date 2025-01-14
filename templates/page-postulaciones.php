@@ -434,7 +434,7 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div class="div-allarea">
-                        <label style="width: 200%;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
+                        <label style="width: 1000px;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
                         <select id="support-select" name="tipo-de-apoyo">
                             <option value="Sin Selección" <?php echo ($ar1 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
                             <option value="Sí" <?php echo ($ar1 === 'Sí') ? 'selected' : ''; ?>>Sí</option>
@@ -443,7 +443,7 @@ Template Name: Postulaciones
                     </div>
 
                     <div class="div-allarea" id="support-details" style="display: none;">
-                        <label style="width: 200%;">¿Qué tipo de apoyo o ajuste requieres para tu proceso de selección?</label>
+                        <label style="width: 1000px;">¿Qué tipo de apoyo o ajuste requieres para tu proceso de selección?</label>
                         <select id="support-type-select" name="que-tipo">
                             <option value="Sin Selección" <?php echo ($ar2 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
                             <option value="Uso de notas escritas mediante libreta o pizarra de comunicación" <?php echo ($ar2 === 'Uso de notas escritas mediante libreta o pizarra de comunicación') ? 'selected' : ''; ?>>Uso de notas escritas mediante libreta o pizarra de comunicación</option>
