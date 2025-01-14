@@ -113,44 +113,8 @@ function filtrar_postulaciones_por_distrito($query) {
 }
 add_action('pre_get_posts', 'filtrar_postulaciones_por_distrito');
 
-// function filtrar_postulaciones_por_tienda($query) {
-//     if (!is_admin() && $query->is_main_query() && $query->get('post_type') === 'postulaciones') {
-//         $current_user = wp_get_current_user();
-//         $tienda = get_user_meta($current_user->ID, 'tienda', true);
-
-//         // echo '<div style="margin-left: 200px">';
-//         // echo '<pre>';
-
-//         // print_r($current_user);
-//         // echo $tienda;
-//         // echo '</pre>';
-//         // echo '</div>';
-
-//         if ($tienda) {
-
-//             $query->set('meta_query', array(
-//                 array(
-//                     'key' => 'numero_de_tienda_vacante',
-//                     'value' => $tienda,
-//                     'compare' => '='
-//                 )
-//             ));
-
-//             // echo '<hr>';
-//             // echo '<div style="margin-left: 200px">';
-//             // echo '<pre>';
-
-//             // print_r($query);
-
-//             // echo '</pre>';
-//             // echo '</div>';
-//         }
-//     }
-// }
-// add_action('pre_get_posts', 'filtrar_postulaciones_por_tienda');
-
 function disable_message_load_fields( $field ) {
-    $fields_to_disable = ['Nombre', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante']; // Lista de campos que deseas hacer readonly
+    $fields_to_disable = ['Nombre', 'Select1-postulacion', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante', 'id_vacante', 'id_postulante', 'puesto-de-trabajo-1', 'compania-1', 'ubicacion-1', 'desde-1', 'hasta-1', 'descripcion-del-rol-1', 'actualmente-trabajo-aqui-1', 'puesto-de-trabajo-2', 'compania-2', 'ubicacion-2', 'desde-2', 'hasta-2', 'descripcion-del-rol-2', 'actualmente-trabajo-aqui-2', 'has-trabajado', 'escuela-o-universidad', 'titulo-1', 'ultimo-grado-de-estudios', 'tipo-de-apoyo', 'que-tipo', 'especifique-otro', 'acepto-voluntariamente']; // Lista de campos que deseas hacer readonly
 
     if (in_array($field['name'], $fields_to_disable)) {
         $field['readonly'] = 1;
