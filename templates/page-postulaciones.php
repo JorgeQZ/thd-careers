@@ -111,6 +111,15 @@ Template Name: Postulaciones
             // Obtener el valor del campo ACF 'data_correo' del post principal
             $correo_rh = $extra_data['data_correo'];
 
+            // Guardar el ID del post principal en el campo 'id_vacante' de la postulación
+            update_field('id_vacante', $post_id, $postulacion_id);
+
+            // Obtener el ID del usuario actual
+            $user_id = get_current_user_id();
+
+            // Guardar el ID del usuario en el campo 'id_postulante'
+            update_field('id_postulante', $user_id, $postulacion_id);
+
             // Guardar la 'ubicacion' en el campo 'ubicacion_vacante' de la postulación si tiene valor
             if (!empty($ubicacion)) {
                 update_field('ubicacion_vacante', $label_decoded, $postulacion_id);
@@ -447,7 +456,7 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div class="div-checkbox">
-                        <input type="checkbox" name="acepto-voluntariamente" value="Sí">
+                        <input type="checkbox" name="acepto-voluntariamente" value="Sí" required>
                         <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a THD.</label>
                     </div>
 

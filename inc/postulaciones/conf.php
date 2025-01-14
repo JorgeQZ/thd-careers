@@ -114,7 +114,7 @@ function filtrar_postulaciones_por_distrito($query) {
 add_action('pre_get_posts', 'filtrar_postulaciones_por_distrito');
 
 function disable_message_load_fields( $field ) {
-    $fields_to_disable = ['Nombre', 'Select1-postulacion', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante']; // Lista de campos que deseas hacer readonly
+    $fields_to_disable = ['Nombre', 'Select1-postulacion', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante', 'id_vacante', 'id_postulante', 'puesto-de-trabajo-1', 'compania-1', 'ubicacion-1', 'desde-1', 'hasta-1', 'descripcion-del-rol-1', 'actualmente-trabajo-aqui-1', 'puesto-de-trabajo-2', 'compania-2', 'ubicacion-2', 'desde-2', 'hasta-2', 'descripcion-del-rol-2', 'actualmente-trabajo-aqui-2', 'has-trabajado', 'escuela-o-universidad', 'titulo-1', 'ultimo-grado-de-estudios', 'tipo-de-apoyo', 'que-tipo', 'especifique-otro', 'acepto-voluntariamente']; // Lista de campos que deseas hacer readonly
 
     if (in_array($field['name'], $fields_to_disable)) {
         $field['readonly'] = 1;
