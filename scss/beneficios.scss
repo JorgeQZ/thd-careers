@@ -1,603 +1,1173 @@
 @import "fonts";
 
-// SECCIÓN 1
+div,
+p {
+    margin: 0;
+}
 
-.contenedor-beneficios {
+.contenedor-tab1movil {
+    display: none;
+}
+
+.contenedor-s3-movil {
+    display: none;
+}
+
+.contenedor-contenido-tabs-tab1-movil {
+    display: none;
+}
+
+.contenedor-principal {
+    padding: 100px 80px 65px 80px;
     margin: 0 auto;
     max-width: 1280px;
 }
 
-.p1-beneficios {
+// S1
+
+.p1-s1 {
     font-family: $ff-blkcn;
-    margin-top: 90px !important;
+    font-size: 70px;
 }
 
-.p2-beneficios {
+.p2-s1 {
     font-family: $ff-roman;
-    font-size: 23.4px;
-    padding-bottom: 12px;
+    font-size: 21.8px;
+    padding-top: 5px;
+    color: #333333;
 }
 
-// TABS
+// S2
 
-.columnas-tabs {
-    gap: 100px;
-    padding-bottom: 30px;
+.contenedor-s2 {
+    display: flex;
+    gap: 20px;
+    padding-top: 25px;
 }
 
-.botones-tabs {
-    a {
-        width: 360px;
-        height: 360px;
-        text-align: left;
-        font-family: $ff-blkcn;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-left: 50px;
-
-        strong {
-            font-size: 70px;
-            line-height: 50px;
-        }
-    }
-}
-
-.botones-tabs.tab2 {
-    strong {
-        margin-top: 28px;
-    }
-}
-
-// .botones-tabs {
-//     position: relative;
-// }
-
-.icono-boton {
+.tab-s2 {
+    border: solid #a6a6a6 1px;
+    border-radius: 2px;
+    width: 100%;
+    height: 363px;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
     position: relative;
+    transition: none;
+}
 
-    img {
-        position: absolute;
-        top: -45px;
-        left: 315px;
+.tab-s2:hover {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-s2 {
+        color: white;
     }
+}
+
+.tab-s2.active {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-s2 {
+        color: white;
+    }
+}
+
+.p1-s2 {
+    font-family: $ff-blkcn;
+    color: #a6a6a6;
+    font-size: 36px;
+    padding-left: 50px;
+}
+
+.plus {
+    display: block;
+    position: absolute;
+    width: 20px;
+    top: 320px;
+    bottom: 0;
+    right: 20px;
+}
+
+.tab-s2:hover .plus {
+    display: none;
+}
+
+.tab-s2.active .plus {
+    display: none;
 }
 
 .pico {
-    position: relative;
     display: none;
+    position: absolute;
+    width: 160px;
+    top: 400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-    img {
-        position: absolute;
-        top: -107px;
-        left: 90px;
+.tab-s2.active .pico {
+    display: block;
+}
+
+// S3
+
+.contenedor-s3 {
+    padding-top: 200px;
+}
+
+// S3 - TAB 1
+
+.p1-tab1 {
+    font-size: 40px;
+    font-family: $ff-blkcn;
+    padding-bottom: 20px;
+
+    span {
+        color: #f96302;
     }
 }
 
-.wp-block-buttons {
-    &.active a {
-        background-color: #f96302;
-        color: white !important;
-        transition: unset;
-    }
+.p2-tab1 {
+    font-size: 21.8px;
+}
 
-    &.active+.icono-boton {
+.tabs-tab1 {
+    border: solid #a6a6a6 1px;
+    border-radius: 2px;
+    width: 100%;
+    height: 363px;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: none;
+    text-decoration: none;
+}
+
+.tabs-tab1:hover {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p3-tab1 {
+        color: white;
+    }
+}
+
+.tabs-tab1.active {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p3-tab1 {
+        color: white;
+    }
+}
+
+.plus-tab1 {
+    display: block;
+    position: absolute;
+    width: 20px;
+    top: 320px;
+    bottom: 0;
+    right: 20px;
+}
+
+.tabs-tab1:hover .plus-tab1 {
+    display: none;
+}
+
+.tabs-tab1.active .plus-tab1 {
+    display: none;
+}
+
+.pico-tab1 {
+    display: none;
+    position: absolute;
+    width: 160px;
+    top: 400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tabs-tab1.active .pico-tab1 {
+    display: block;
+}
+
+.contenedor-tabs-tab1 {
+    display: flex;
+    gap: 20px;
+    padding-top: 25px;
+    padding-bottom: 200px;
+}
+
+.p3-tab1 {
+    font-family: $ff-blkcn;
+    color: #a6a6a6;
+    font-size: 25px;
+    padding-left: 50px;
+}
+
+.contenedor-contenido-tabs-tab1 {
+    flex-direction: column;
+}
+
+.titulo-tab1-tab1 {
+    font-family: $ff-blkcn;
+    font-size: 40px;
+    padding-bottom: 20px;
+}
+
+.descripcion-tab1-tab1 {
+    color: #333333;
+    font-size: 21.8px;
+}
+
+.contenido-tab1-tab1 {
+    display: flex;
+    padding-top: 50px;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.subcontenido-tab1-tab1 {
+    border: solid #a6a6a6 1px;
+    width: 22.8%;
+    height: 150px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.subcontenido-tab1-tab1:hover {
+    background-color: #f96302;
+
+    .titulo-contenido-tab1-tab1 {
         display: none;
     }
 
-    &.active~.pico {
+    .descripcion-contenido-tab1-tab1 {
         display: block;
+        text-align: center;
+        margin: 0 auto;
+        width: 80%;
     }
 }
 
-.contenido-tab {
-    display: none !important;
-
-    &.active {
-        margin-top: 120px;
-        display: block !important;
-    }
-}
-
-.contenido-tab3 {
-    display: none !important;
-
-    &.active {
-        margin-top: 120px;
-        display: block !important;
-    }
-}
-
-// TAB 2
-
-.contenido-tab.tab2-content {
-    margin: 0 auto;
-    padding-top: 100px;
-}
-
-.tab2-p1 {
+.titulo-contenido-tab1-tab1 {
     font-family: $ff-blkcn;
-    padding-bottom: 100px;
+    color: #a6a6a6;
+    padding-top: 10px;
+    font-size: 30px;
+}
+
+.descripcion-contenido-tab1-tab1 {
+    display: none;
+    color: white;
+}
+
+// S3 - TAB 2
+
+.p1-tab2 {
+    font-family: $ff-blkcn;
+    color: #a6a6a6
+}
+
+.tab-tab2 {
+    border: solid #a6a6a6 1px;
+    border-radius: 2px;
+    width: 15.67%;
+    height: 178px;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: none;
+    margin-top: 60px;
+}
+
+.tab-tab2:hover {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-tab2 {
+        color: white;
+    }
+}
+
+.tab-tab2.active {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-tab2 {
+        color: white;
+    }
+}
+
+.subcontenedor-tab2 {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 100px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.titulo-tab2 {
+    font-family: $ff-blkcn;
+    font-size: 40px;
+    padding-bottom: 30px;
+}
+
+.plus-tab2 {
+    display: block;
+    position: absolute;
+    width: 15px;
+    top: 150px;
+    bottom: 0;
+    right: 15px;
+}
+
+.tab-tab2:hover .plus-tab2 {
+    display: none;
+}
+
+.tab-tab2.active .plus-tab2 {
+    display: none;
+}
+
+.pico-tab2 {
+    display: none;
+    position: absolute;
+    width: 70px;
+    top: 195px;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.tab-tab2.active .pico-tab2 {
+    display: block;
+}
+
+.p1-tab2 {
+    padding-left: 15px;
+    font-size: 17px;
+}
+
+.subcontenido-tab2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.rectangulo-tab2 {
+    background-color: #a6a6a6;
+    width: calc(25% - 11.3px);
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.rectangulo-tab2:hover {
+    justify-content: center;
+    background-color: #f96302;
+
+    .img-rectangulo-tab2 {
+        display: none;
+    }
+
+    .descripcion-rectangulo-tab2 {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        width: 90%;
+        z-index: 15;
+    }
+
+    .titulo-rectangulo-tab2 {
+        padding-bottom: 0px;
+        font-size: 20px;
+        text-align: center;
+        margin: 0 auto;
+        width: 95%;
+        z-index: 15;
+    }
+
+    .img-hover-rectangulo-tab2 {
+        display: block;
+        position: absolute;
+        width: 75px;
+    }
+}
+
+.img-rectangulo-tab2 {
+    width: 40px;
+}
+
+.img-hover-rectangulo-tab2 {
+    display: none;
+}
+
+.titulo-rectangulo-tab2 {
+    font-family: $ff-blkcn;
+    color: white;
+    font-size: 18px;
+    padding-bottom: 15px;
+    padding-top: 15px;
     text-align: center;
 }
 
-.tab2-p2 {
+.descripcion-rectangulo-tab2 {
+    font-size: 14px;
+    display: none;
+    color: white;
+}
+
+// S3 - TAB 3
+
+.titulo-tab3 {
     font-family: $ff-blkcn;
+    font-size: 40px;
+    text-align: center;
 }
 
-.tab2-p3 {
+.subtitulo-tab3 {
+    font-size: 21.8px;
+    margin: 0 auto;
+    padding: 50px 0 25px 0;
+    width: 640px;
+    text-align: center;
     font-family: $ff-roman;
-    margin-top: -25px !important;
 }
 
-.tab2-piladesc {
-    padding-left: 25px;
+.contenedor1-tab3 {
+    display: flex;
+    margin: 0 auto;
+    width: 780px;
+    padding: 35px 0;
 }
 
-.tab2-fila {
-    margin: 0 auto !important;
-    width: 50%;
-    align-items: flex-start;
+.contenedor2-tab3 {
+    color: #272727;
+    padding-left: 60px;
 }
 
-.tab2-fila.fila1 {
-    // padding-left: 50px;
+.contenedor-img-tab3 {
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    align-items: flex-end;
 }
 
-.tab2-fila.fila2 {
-    padding: 80px 0px;
+.img-tab3 {
+    height: fit-content;
 }
 
-.tab2-fila.fila3 {
-    padding-bottom: 80px;
+.p1-tab3 {
+    font-family: $ff-blkcn;
+    font-size: 40px;
+    margin-bottom: 15px;
 }
 
-// TAB 3
-
-.tab3-botones-tabs {
-    position: relative;
+.p2-tab3 {
+    font-family: $ff-roman;
+    font-size: 21.8px;
 }
 
-.icono-boton-tab3 {
-    position: relative;
+// LAPTOP CHICA
 
-    img {
-        position: absolute;
-        top: -35px;
-        left: 185px;
-    }
-}
+@media (max-width: 1150px) and (min-width: 901px) {
 
-.tab3-botones-tabs a {
-    width: 100%;
-    height: 200px;
-}
+    // S1
 
-@media (max-width: 1440px) and (min-width: 1281px) {
-    .botones-tabs a {
-        width: 100%;
+    .p1-s1 {
+        font-size: 50px;
     }
 
-    .icono-boton img {
-        left: 85%;
+    .p2-s1 {
+        font-size: 18px;
     }
 
-    .pico img {
-        top: -10px;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    // S2
+
+    .p1-s2 {
+        font-size: 28px;
+        padding-left: 30px;
     }
 
-    .contenedor-beneficios {
-        padding: 0px 80px 0px 80px;
+    .tab-s2 {
+        height: 280px;
     }
 
-    .columnas-tabs {
-        gap: 20px;
+    .plus {
+        top: 240px;
     }
 
-    .btn-tab3 {
-        width: 100%;
+    .pico {
+        top: 305px;
     }
 
-    .wp-block-columns.is-not-stacked-on-mobile.tab3-columnas-tabs.is-layout-flex.wp-container-core-columns-is-layout-2.wp-block-columns-is-layout-flex {
-        gap: 10px;
+    // S3 - TAB 1
+
+    .tabs-tab1 {
+        height: auto;
+        aspect-ratio: 1/1;
     }
 
-    .tab3-botones-tabs a {
-        font-family: $ff-blkcn;
-        display: flex;
-        align-items: center;
-        width: 215px;
-    }
-}
-
-@media (max-width: 1280px) and (min-width: 1024px) {
-
-    .botones-tabs a {
-        width: 100%;
+    .p3-tab1 {
+        padding-left: 30px;
     }
 
-    .icono-boton img {
-        left: 85%;
+    .plus-tab1 {
+        top: 195px;
     }
 
-    .pico img {
-        top: -10px;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    .pico-tab1 {
+        width: 120px;
+        top: 255px;
     }
 
-    .contenedor-beneficios {
-        padding: 0px 80px 0px 80px;
+    .contenedor-tabs-tab1 {
+        padding-bottom: 150px;
     }
 
-    .columnas-tabs {
-        gap: 20px;
-    }
-
-    // .tab2-fila {
-    //     width: 80%;
-    // }
-
-    // .tab2-img1 {
-    //     width: 600px;
-    // }
-
-    // .tab2-img2 {
-    //     width: 600px;
-    // }
-
-    // .tab2-img3 {
-    //     width: 600px;
-    // }
-
-    .tab2-fila.fila1 {
-        padding-left: 0px;
-        width: 62%;
-    }
-
-    .icono-boton-tab3 {
-        img {
-            left: 75%;
-        }
-    }
-
-    .btn-tab3 {
-        width: 100%;
-    }
-
-    .wp-block-group.contenido-tab.tab3-content.is-vertical.is-layout-flex.wp-container-core-group-is-layout-10.wp-block-group-is-layout-flex.active {
-        margin: 0 auto;
-    }
-
-    .tab3-columnas-tabs {
-        gap: 10px;
-    }
-}
-
-@media (max-width: 1023px) and (min-width: 769px) {
-    .contenedor-tabs {
-        margin: 0 auto !important;
-    }
-
-    .p1-beneficios {
-        font-size: 40px !important;
-    }
-
-    .contenedor-beneficios {
-        padding: 0px 80px 0px 80px;
-    }
-
-    .columnas-tabs {
-        gap: 10px;
-    }
-
-    .pico img {
-        top: -42px;
-        left: 61px;
-        width: 80px !important;
-    }
-
-    .icono-boton img {
-        position: absolute;
-        top: -33px;
-        left: 165px;
-    }
-
-    .botones-tabs a {
-        width: 200px;
-        height: 200px;
-        padding-left: 25px;
-    }
-
-    .botones-tabs.tab2 strong {
-        margin-top: 15px;
-    }
-
-    .botones-tabs a {
-        font-size: 15px !important;
-
-        strong {
-            font-size: 30px !important;
-        }
-    }
-
-    .contenido-tab {
-        padding-top: 35px !important;
-    }
-
-    .tab2-p1 {
-        font-size: 25px !important;
-        padding-bottom: 80px;
-    }
-
-    .p2-beneficios {
-        font-size: 15px !important;
-    }
-
-    .tab2-fila {
-        width: 80%;
-    }
-
-    .tab2-fila.fila1 {
-        padding-left: 45px;
-    }
-
-    .tab2-p2 {
-        font-size: 25px !important;
-    }
-
-    .tab2-p3 {
-        font-size: 17px !important;
-    }
-
-    .tab3-columnas-tabs {
-        gap: 10px;
-    }
-
-    .tab3-botones-tabs a {
-        width: 115px;
-        height: 113px;
-        font-size: 12.2px !important;
-        align-items: center;
+    .contenido-tab1-tab1 {
         justify-content: center;
-        display: flex;
     }
 
-    .wp-block-group.contenido-tab.tab3-content.is-vertical.is-layout-flex.wp-container-core-group-is-layout-10.wp-block-group-is-layout-flex.active {
-        margin: 0 auto;
+    .subcontenido-tab1-tab1 {
+        width: 308px;
     }
 
-    .icono-boton-tab3 img {
-        position: absolute;
-        top: -27px;
-        left: 90px;
-        width: 15px !important;
+    // S3 - TAB 2
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
     }
 
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 25%;
+    }
+
+    .rectangulo-tab2 {
+        width: calc(33.4% - 11.3px);
+    }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+    }
+
+    .titulo-tab3 {
+        font-size: 35px;
+    }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
+    }
 }
 
 // TABLET
 
-@media (max-width: 768px) and (min-width: 501px) {
-    .contenedor-beneficios {
-        padding: 0px 80px 0px 80px;
-        display: flex !important;
-        align-items: center !important;
-    }
+@media (max-width: 900px) and (min-width: 501px) {
 
-    .p1-beneficios {
-        font-size: 30px !important;
-        text-align: center;
-    }
+    .contenedor-contenido-tabs-tab1-movil {
+        display: block;
 
-    .p2-beneficios {
-        font-size: 17px !important;
-        text-align: center;
-    }
-
-    .wp-block-columns.is-not-stacked-on-mobile {
-        flex-wrap: nowrap !important;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .botones-tabs a {
-        width: 250px;
-        height: 250px;
-        padding-left: 35px;
-    }
-
-    .botones-tabs a {
-        font-size: 18px !important;
-
-        strong {
-            font-size: 38px !important;
+        .titulo-tab1-tab1 {
+            padding-top: 80px;
         }
     }
 
-    .pico img {
-        position: absolute;
-        top: -46px;
-        left: 80px;
-        width: 86px !important;
+    .contenedor-s3-movil {
+        display: block;
+
+        .contenedor-tabs-tab1 {
+            gap: 30px;
+        }
+
+        .contenedor-s3 {
+            padding-top: 0px;
+        }
+
+        .p1-tab1 {
+            padding-top: 80px;
+        }
+
+        .titulo-tab2 {
+            padding-top: 80px;
+        }
+
+        .titulo-tab3 {
+            padding-top: 120px;
+        }
     }
 
-    .icono-boton img {
-        position: absolute;
-        top: -40px;
-        left: 210px;
+    .contenedor-s3-desktop {
+        display: none;
     }
 
-    .columnas-tabs {
+    .contenedor-principal {
+        padding-top: 100px !important;
+    }
+
+    // S1
+
+    .p1-s1 {
+        font-size: 50px;
+    }
+
+    .p2-s1 {
+        font-size: 18px;
+        padding-top: 30px;
+        padding-bottom: 23px;
+    }
+
+    // S2
+
+    .contenedor-s2 {
+        flex-direction: column;
         gap: 50px;
     }
 
-    .tab2-p1 {
-        font-size: 30px !important;
-        text-align: center;
+    .plus {
+        top: 280px;
     }
 
-    .tab2-p2 {
-        font-size: 30px !important;
-        text-align: center;
+    .pico {
+        top: 350px;
     }
 
-    .contenido-tab.tab2-content {
-        padding-top: 50px;
+    .p1-s2 {
+        font-size: 33px;
+        padding-left: 40px;
     }
 
-    .tab2-fila.fila1 {
-        padding-left: 0px;
+    .tab-s2 {
+        width: 320px;
+        margin: 0 auto;
+        height: 320px;
     }
 
-    .tab2-p3 {
-        font-size: 17px !important;
-        text-align: center;
-        padding-top: 15px;
+    // S3 - TAB 1
+
+    .p1-tab1 {
+        font-size: 35px;
     }
 
-    .tab2-fila {
+    .p2-tab1 {
+        font-size: 18px;
+    }
+
+    .tabs-tab1 {
+        height: 322px;
+        width: 322px;
+        margin: 0 auto;
+    }
+
+    .p3-tab1 {
+        padding-left: 30px;
+    }
+
+    .plus-tab1 {
+        top: 275px;
+    }
+
+    .pico-tab1 {
+        width: 120px;
+        top: 350px;
+    }
+
+    .contenedor-tabs-tab1 {
+        padding-bottom: 150px;
         flex-direction: column;
-        width: 75%;
-        align-items: center;
+        gap: 130px;
     }
 
-    .tab2-img1 img {
-        width: 250px !important;
-        padding-bottom: 30px;
+    .contenido-tab1-tab1 {
+        justify-content: center;
     }
 
-    .tab2-img2 img {
-        width: 250px !important;
-        padding-bottom: 30px;
+    .subcontenido-tab1-tab1 {
+        width: 308px;
     }
 
-    .tab2-img3 img {
-        width: 250px !important;
-        padding-bottom: 30px;
+    .titulo-tab1-tab1 {
+        font-size: 35px;
     }
 
-    .tab2-piladesc {
-        padding-left: 0px;
-        align-items: center !important;
+    .descripcion-tab1-tab1 {
+        font-size: 18px;
     }
 
-    .tab3-botones-tabs a {
-        width: 250px;
-        height: 250px;
+    // S3 - TAB 2
+
+    .p1-tab2 {
+        padding-left: 10px;
+    }
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
+    }
+
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 30%;
+    }
+
+    .rectangulo-tab2 {
+        width: calc(50.5% - 11.3px);
+    }
+
+    .subcontenido-tab2 {
+        padding-bottom: 100px;
+    }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+    }
+
+    .titulo-tab3 {
+        font-size: 35px;
+        padding-top: 150px;
+    }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+        width: auto;
+        max-width: 640px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
     }
 }
 
 // MÓVIL
 
-@media (max-width: 500px) {
-    .contenedor-beneficios {
-        align-items: center !important;
-        width: 95%;
+@media (max-width: 686px) {
+    .contenedor-principal {
+        margin: 0 auto;
+        width: 90%;
+        padding: 100px 0 40px 0;
+    }
+}
 
-        p {
-            text-align: center;
+@media (max-width: 500px) and (min-width: 376px) {
+
+    .contenedor-contenido-tabs-tab1-movil {
+        display: block;
+
+        .titulo-tab1-tab1 {
+            padding-top: 80px;
         }
     }
 
-    .p1-beneficios {
-        font-size: 30px !important;
+    .contenedor-s3-movil {
+        display: block;
+
+        .contenedor-tabs-tab1 {
+            gap: 30px;
+        }
+
+        .contenedor-s3 {
+            padding-top: 0px;
+        }
+
+        .p1-tab1 {
+            padding-top: 80px;
+        }
+
+        .titulo-tab2 {
+            padding-top: 80px;
+        }
+
+        .titulo-tab3 {
+            padding-top: 80px;
+        }
+
     }
 
-    .p2-beneficios {
-        font-size: 17px !important;
+    .contenedor-s3-desktop {
+        display: none;
     }
 
-    .wp-block-columns.is-not-stacked-on-mobile {
-        flex-wrap: nowrap !important;
-        display: flex;
+    // S1
+
+    .p1-s1 {
+        font-size: 40px;
+    }
+
+    .p2-s1 {
+        font-size: 16px;
+        padding: 30px 0px;
+    }
+
+    // S2
+
+    .contenedor-s2 {
         flex-direction: column;
-    }
-
-    .botones-tabs a {
-        width: 250px;
-        height: 250px;
-        padding-left: 35px;
-    }
-
-    .botones-tabs a {
-        font-size: 18px !important;
-
-        strong {
-            font-size: 38px !important;
-        }
-    }
-
-    .pico img {
-        position: absolute;
-        top: -46px;
-        left: 80px;
-        width: 86px !important;
-    }
-
-    .icono-boton img {
-        position: absolute;
-        top: -40px;
-        left: 210px;
-    }
-
-    .columnas-tabs {
-        gap: 50px;
-    }
-
-    .tab2-p1 {
-        font-size: 25px !important;
-        text-align: center;
-    }
-
-    .tab2-p2 {
-        font-size: 25px !important;
-    }
-
-    .contenido-tab.tab2-content {
-        padding-top: 50px;
-    }
-
-    .tab2-fila.fila1 {
-        padding-left: 0px;
-    }
-
-    .tab2-p3 {
-        font-size: 17px !important;
-        text-align: center;
+        gap: 0px;
         padding-top: 15px;
     }
 
-    .tab2-fila {
+    .plus {
+        top: 280px;
+    }
+
+    .pico {
+        top: 350px;
+    }
+
+    .p1-s2 {
+        font-size: 33px;
+        padding-left: 40px;
+    }
+
+    .tab-s2 {
+        width: 320px;
+        margin: 0 auto;
+        height: 320px;
+        margin-bottom: 30px;
+    }
+
+    // S3 - TAB 1
+
+    .p1-tab1 {
+        font-size: 35px;
+    }
+
+    .p2-tab1 {
+        font-size: 18px;
+    }
+
+    .tabs-tab1 {
+        height: 322px;
+        width: 322px;
+        margin: 0 auto;
+    }
+
+    .p3-tab1 {
+        padding-left: 30px;
+    }
+
+    .plus-tab1 {
+        top: 275px;
+    }
+
+    .pico-tab1 {
+        width: 120px;
+        top: 350px;
+    }
+
+    .contenedor-tabs-tab1 {
+        padding-bottom: 150px;
         flex-direction: column;
-        width: 75%;
+        gap: 130px;
+    }
+
+    .contenido-tab1-tab1 {
+        justify-content: center;
+    }
+
+    .subcontenido-tab1-tab1 {
+        width: 308px;
+    }
+
+    .titulo-tab1-tab1 {
+        font-size: 35px;
+    }
+
+    .descripcion-tab1-tab1 {
+        font-size: 18px;
+    }
+
+    // S3 - TAB 2
+
+    .p1-tab2 {
+        padding-left: 10px;
+    }
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
+    }
+
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 47%;
+    }
+
+    .rectangulo-tab2 {
+        width: 100%;
+    }
+
+    .subcontenido-tab2 {
+        padding-bottom: 100px;
+    }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+        flex-direction: column;
         align-items: center;
+        padding: 40px 0;
     }
 
-    .tab2-img1 img {
-        width: 250px !important;
-        padding-bottom: 30px;
-    }
-
-    .tab2-img2 img {
-        width: 250px !important;
-        padding-bottom: 30px;
-    }
-
-    .tab2-img3 img {
-        width: 250px !important;
-        padding-bottom: 30px;
-    }
-
-    .tab2-piladesc {
+    .contenedor2-tab3 {
         padding-left: 0px;
-        align-items: center !important;
+        text-align: center;
     }
 
-    .tab3-botones-tabs a {
-        width: 250px;
-        height: 250px;
+    .titulo-tab3 {
+        font-size: 35px;
+        padding-top: 150px;
     }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+        width: auto;
+        max-width: 640px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+        margin-top: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
+    }
+
+}
+
+@media (max-width: 375px) {
+
+    .contenedor-contenido-tabs-tab1-movil {
+        display: block;
+
+        .titulo-tab1-tab1 {
+            padding-top: 80px;
+        }
+    }
+
+    .contenedor-s3-movil {
+        display: block;
+
+        .contenedor-tabs-tab1 {
+            gap: 30px;
+        }
+
+        .contenedor-s3 {
+            padding-top: 0px;
+        }
+
+        .p1-tab1 {
+            padding-top: 80px;
+        }
+
+        .titulo-tab2 {
+            padding-top: 80px;
+        }
+
+        .titulo-tab3 {
+            padding-top: 80px;
+        }
+    }
+
+    .contenedor-s3-desktop {
+        display: none;
+    }
+
+    .contenedor-principal {
+        padding-top: 80px !important;
+    }
+
+    // S1
+
+    .p1-s1 {
+        font-size: 35px;
+    }
+
+    .p2-s1 {
+        font-size: 16px;
+        padding: 30px 0px;
+    }
+
+    // S2
+
+    .contenedor-s2 {
+        flex-direction: column;
+        gap: 0px;
+        padding-top: 10px;
+    }
+
+    .plus {
+        top: 240px;
+    }
+
+    .pico {
+        top: 305px;
+    }
+
+    .p1-s2 {
+        font-size: 30px;
+        padding-left: 30px;
+    }
+
+    .tab-s2 {
+        width: 280px;
+        margin: 0 auto;
+        height: 280px;
+        margin-bottom: 40px;
+    }
+
+    // S3 - TAB 1
+
+    .p1-tab1 {
+        font-size: 35px;
+    }
+
+    .p2-tab1 {
+        font-size: 18px;
+    }
+
+    .tabs-tab1 {
+        height: 280px;
+        width: 280px;
+        margin: 0 auto;
+    }
+
+    .p3-tab1 {
+        padding-left: 20px;
+    }
+
+    .plus-tab1 {
+        top: 240px;
+    }
+
+    .pico-tab1 {
+        width: 120px;
+        top: 300px;
+    }
+
+    .contenedor-tabs-tab1 {
+        padding-bottom: 150px;
+        flex-direction: column;
+        gap: 130px;
+    }
+
+    .contenido-tab1-tab1 {
+        justify-content: center;
+    }
+
+    .subcontenido-tab1-tab1 {
+        width: 308px;
+    }
+
+    .titulo-tab1-tab1 {
+        font-size: 35px;
+    }
+
+    .descripcion-tab1-tab1 {
+        font-size: 18px;
+    }
+
+    // S3 - TAB 2
+
+    .p1-tab2 {
+        padding-left: 10px;
+    }
+
+    .subcontenedor-tab2 {
+        justify-content: space-between;
+    }
+
+    .titulo-tab2 {
+        font-size: 35px;
+    }
+
+    .tab-tab2 {
+        width: 47%;
+    }
+
+    .rectangulo-tab2 {
+        width: 100%;
+    }
+
+    .subcontenido-tab2 {
+        padding-bottom: 100px;
+    }
+
+    // S3 - TAB 3
+
+    .contenedor1-tab3 {
+        width: auto;
+        max-width: 780px;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0;
+    }
+
+    .contenedor2-tab3 {
+        padding-left: 0px;
+        text-align: center;
+    }
+
+    .titulo-tab3 {
+        font-size: 35px;
+        padding-top: 150px;
+    }
+
+    .subtitulo-tab3 {
+        font-size: 18px;
+        width: auto;
+        max-width: 640px;
+    }
+
+    .p1-tab3 {
+        font-size: 35px;
+        margin-top: 35px;
+    }
+
+    .p2-tab3 {
+        font-size: 18px;
+    }
+
+    .contenedor-img-tab3 {
+        min-width: auto;
+    }
+
 }

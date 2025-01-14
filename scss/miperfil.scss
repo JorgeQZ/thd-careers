@@ -229,6 +229,25 @@ form {
 
 }
 
+.contenedor-cdt {
+    display: flex;
+    flex-direction: column;
+
+    input[type="radio"] {
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+
+    label input {
+        width: auto;
+    }
+}
+
+.contenedor-cdt2 {
+    display: flex;
+    flex-direction: column;
+}
+
 // MÓVIL
 
 @media (max-width: 1300px) and (min-width: 801px) {

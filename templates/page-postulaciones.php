@@ -6,9 +6,7 @@ Template Name: Postulaciones
 ?>
 
 <hr>
-<div class="container">
-    <h1>Enviar una nueva Postulación</h1>
-</div>
+
 <?php
     if (isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
         !empty($_POST['acf_postulacion_nombre']) &&
@@ -19,6 +17,7 @@ Template Name: Postulaciones
         $apellidopaterno = sanitize_text_field($_POST['acf_postulacion_apellidopaterno']);
         $apellidomaterno = sanitize_text_field($_POST['acf_postulacion_apellidomaterno']);
         $telefono = sanitize_text_field($_POST['acf_postulacion_telefono']);
+        $pr1 = sanitize_text_field($_POST['pr1']);
 
         // Crear la nueva postulación en el post-type 'postulaciones'
         $nueva_postulacion = array(
@@ -38,6 +37,7 @@ Template Name: Postulaciones
             update_field('Correo', $correo, $postulacion_id);
             update_field('Estado', 'Postulado', $postulacion_id);
             update_field('Telefono', $telefono, $postulacion_id);
+            update_field('pr1-postulacion', $pr1, $postulacion_id);
 
             // Obtener el ID del post principal actual
             $post_id = get_queried_object_id();
@@ -133,87 +133,72 @@ Template Name: Postulaciones
             echo '<p>Hubo un error al enviar la postulación.</p>';
         }
     }
-    ?>
+?>
 
 <?php
-$user_id = get_current_user_id(); // Obtener el ID del usuario actual
-$user_data = get_userdata($user_id); // Obtener la información del usuario
+    $user_id = get_current_user_id(); // Obtener el ID del usuario actual
+    $user_data = get_userdata($user_id); // Obtener la información del usuario
 
-$nombre = $user_data ? $user_data->first_name : ''; // Obtener el nombre del usuario
-$mail = $user_data ? $user_data->user_email : ''; // Obtener el nombre del usuario
-$apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
-$apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $nombre = $user_data ? $user_data->first_name : ''; // Obtener el nombre del usuario
+    $mail = $user_data ? $user_data->user_email : ''; // Obtener el nombre del usuario
+    $apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
 
-$cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
-// Obtener la URL del archivo CV si existe
-$cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
+    $cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
+    // Obtener la URL del archivo CV si existe
+    $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
 
-$nombre_rellenar = get_field('nombre_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$apellido_paterno_rellenar = get_field('apellido_paterno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$apellido_materno_rellenar = get_field('apellido_materno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$correo_rellenar = get_field('correo_general', 'user_' . $user_id); // Usar el nombre exacto del campo
-$telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $nombre_rellenar = get_field('nombre_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $apellido_paterno_rellenar = get_field('apellido_paterno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $apellido_materno_rellenar = get_field('apellido_materno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $correo_rellenar = get_field('correo_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
 ?>
 
 <div class="container">
-    <form method="POST" enctype="multipart/form-data">
-        <div class="contenedor">
-            <label for="acf_postulacion_nombre">Nombre:</label>
-            <input type="text" id="acf_postulacion_nombre" name="acf_postulacion_nombre"
-                value="<?php echo esc_attr($nombre_rellenar); ?>" required>
+
+    <div class="contenedorgeneralcampos">
+        <div class="seccion">
+
+            <p class="titulo">Titulo 1</p>
+
+            <div class="campos">
+
+                <div>
+                    <label>Nombre(s)</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Apellido Paterno</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Apellido Materno</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Correo</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>¿Cómo te enteraste de nosotros?</label>
+                    <select>
+                        <option>Seleccione una opción</option>
+                        <option>Familia o amigo</option>
+                        <option>Bolsa de empleo</option>
+                        <option>Facebook</option>
+                        <option>Instagram</option>
+                        <option>LinkedIn</option>
+                        <option>Reclutador virtual EMI</option>
+                    </select>
+                </div>
+
+            </div>
         </div>
+    </div>
 
-        <br>
-
-        <div class="contenedor">
-            <label for="acf_postulacion_apellidopaterno">Apellido Paterno:</label>
-            <input type="text" id="acf_postulacion_apellidopaterno" name="acf_postulacion_apellidopaterno"
-                value="<?php echo esc_attr($apellido_paterno_rellenar); ?>" required>
-        </div>
-
-        <br>
-
-        <div class="contenedor">
-            <label for="acf_postulacion_apellidomaterno">Apellido Materno:</label>
-            <input type="text" id="acf_postulacion_apellidomaterno" name="acf_postulacion_apellidomaterno"
-                value="<?php echo esc_attr($apellido_materno_rellenar); ?>" required>
-        </div>
-
-        <br>
-
-        <div class="contenedor">
-            <label for="acf_postulacion_cv">Sube tu CV:</label>
-
-            <?php if ($cv_url): ?>
-            <p>CV Actual: <a href="<?php echo esc_url($cv_url); ?>" target="_blank">Ver archivo</a></p>
-            <?php else: ?>
-            <p>No hay un CV subido aún.</p>
-            <?php endif; ?>
-
-            <input type="file" id="acf_postulacion_cv" name="acf_postulacion_cv">
-        </div>
-
-        <br>
-
-        <div class="contenedor">
-            <label for="acf_postulacion_correo">Correo:</label>
-            <input type="text" id="acf_postulacion_correo" name="acf_postulacion_correo"
-                value="<?php echo esc_attr($correo_rellenar); ?>" required>
-        </div>
-
-        <br>
-
-        <div class="contenedor">
-            <label for="acf_postulacion_telefono">Teléfono:</label>
-            <input type="text" id="acf_postulacion_telefono" name="acf_postulacion_telefono"
-                value="<?php echo esc_attr($telefono_rellenar); ?>" required>
-        </div>
-
-        <br>
-        <br>
-
-        <div class="contenedor-boton">
-            <input type="submit" value="ENVIAR POSTULACIÓN">
-        </div>
-    </form>
 </div>

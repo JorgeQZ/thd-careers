@@ -285,6 +285,33 @@ form .contenedor-form .contenedor div select {
   background-size: 45px 45px;
 }
 
+.contenedor-cdt {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.contenedor-cdt input[type=radio] {
+  vertical-align: middle;
+  margin-top: -2px;
+}
+.contenedor-cdt label input {
+  width: auto;
+}
+
+.contenedor-cdt2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
 @media (max-width: 1300px) and (min-width: 801px) {
   .miperfil {
     padding-left: 80px;
