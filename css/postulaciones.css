@@ -270,19 +270,67 @@ body.admin-bar {
 .contenedorgeneralcampos input {
   width: 400px;
   height: 35px;
+  padding-left: 10px;
+  border: solid 0.5px;
+  border-radius: 2px;
+}
+.contenedorgeneralcampos input[type=checkbox] {
+  width: auto;
+  height: auto;
+  margin: 0;
+  margin-right: 5px;
+  border: solid 0.5px;
+}
+.contenedorgeneralcampos input[type=date] {
+  width: 402px;
+  height: 38px;
+  padding-left: 10px;
+  border-radius: 2px;
+}
+.contenedorgeneralcampos input[type=file] {
+  opacity: 0;
+  width: 1270px;
+  height: 100px;
+  cursor: pointer;
+  position: absolute;
+}
+.contenedorgeneralcampos textarea {
+  width: 1250px;
+  height: 100px;
+  border: solid 0.5px;
+  border-radius: 2px;
+  padding: 10px;
 }
 .contenedorgeneralcampos select {
-  width: 407px;
-  height: 41px;
+  width: 413px;
+  height: 38.4px;
+  padding-left: 10px;
+  border: solid 0.5px;
+  border-radius: 2px;
 }
 .contenedorgeneralcampos label {
   color: #b2b2b2;
+  padding-top: 20px;
+  padding-bottom: 5px;
 }
 .contenedorgeneralcampos .seccion .titulo {
   font-family: "Helvetica Neue LT Std BlkCn";
   color: #f96302;
   margin: 0;
   font-size: 32px;
+  padding-top: 50px;
+}
+.contenedorgeneralcampos .seccion .titulo.titulo-cv {
+  padding-bottom: 20px;
+}
+.contenedorgeneralcampos .seccion .subtitulo {
+  margin: 0;
+}
+.contenedorgeneralcampos .seccion .subtitulo.puesto1 {
+  padding-top: 20px;
+}
+.contenedorgeneralcampos .seccion .subtitulo.puesto2 {
+  padding-top: 40px;
 }
 .contenedorgeneralcampos .campos {
   display: -webkit-box;
@@ -311,4 +359,72 @@ body.admin-bar {
   -webkit-box-flex: 0;
       -ms-flex: 0 1 33%;
           flex: 0 1 33%;
+}
+.contenedorgeneralcampos .campos .div-checkbox {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 100%;
+          flex: 0 1 100%;
+  padding-top: 20px;
+}
+.contenedorgeneralcampos .campos .div-checkbox label {
+  padding-top: 5px;
+  padding-bottom: 0px;
+}
+.contenedorgeneralcampos .campos .div-checkbox.dos {
+  padding-bottom: 40px;
+}
+.contenedorgeneralcampos .campos .div-allarea {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 100%;
+          flex: 0 1 100%;
+}
+.contenedorgeneralcampos .campos .div-cv {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 1270px;
+          flex: 0 1 1270px;
+  height: 100px;
+  background-color: #f8f8f8;
+  border: solid 0.5px;
+  border-radius: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.contenedorgeneralcampos .campos .div-cv .img-file-icon {
+  width: 50px;
+}
+.contenedorgeneralcampos .campos .div-cv .file-name {
+  padding-top: 5px;
+}
+
+.boton-postulacion {
+  background-color: #f96302;
+  border: 1px solid;
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 18px;
+  padding-left: 25px;
+  padding-right: 25px;
+  font-family: "Helvetica Neue LT Std BdCn";
+  font-size: 16px;
+}
+
+.boton-postulacion:hover {
+  background-color: white;
+  border: 1px solid #f96302;
+  color: #f96302;
 }
