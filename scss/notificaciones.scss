@@ -1,0 +1,275 @@
+@import "fonts";
+@import "variables";
+
+
+.banner {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 80px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $orange;
+
+    &:before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background-color: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: .8;
+    }
+
+    &.sticky {
+        height: unset;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        position: fixed;
+
+        top: calc(var(--sticky-offset, 0) + var(--header-height, 40px));
+
+        box-shadow: 0 0 20px 10px white;
+
+        &:before {
+            opacity: 1;
+        }
+
+        .container {
+            align-items: center;
+
+            .title-cont {
+                .term {
+                    display: none;
+                }
+
+                .title {
+                    font-size: 28px;
+                }
+            }
+
+            .button {
+                margin: 0;
+            }
+        }
+    }
+
+    .container {
+        color: white;
+        font-family: $ff-blkcn;
+        font-size: 60px;
+        text-transform: uppercase;
+        line-height: 1;
+        position: relative;
+        z-index: 1;
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        .title-cont {
+            .term {
+                font-size: 16px;
+                font-family: $ff-roman;
+                text-decoration: underline;
+                text-transform: capitalize;
+            }
+
+            .title {
+                font-family: $ff-hvcn;
+                font-size: 40px;
+                margin-top: 10px;
+                line-height: 1.1;
+                width: 80%;
+                transition: none;
+            }
+        }
+
+        .button {
+            font-family: $ff-bdcn;
+            color: $orange;
+            background-color: #fff;
+            border-radius: 2px;
+            padding: 13px 20px;
+            padding-top: 15px;
+            display: flex;
+            border: 1px solid #fff;
+
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-top: 50px;
+
+            &:hover {
+                border: 1px solid #fff;
+                color: #fff;
+                background-color: $orange;
+            }
+
+
+        }
+    }
+}
+
+
+
+.not-cont {
+    .container {
+        .title {
+            font-family: $ff-blkcn;
+            text-transform: uppercase;
+            font-size: 40px;
+            margin: 40px 0;
+
+            span {
+                color: $orange;
+            }
+        }
+
+        .display-cont {
+            position: relative;
+            display: flex;
+            justify-content: center;
+
+            .text {
+                background-color: #fff;
+                margin: 0 auto;
+                z-index: 1;
+                padding: 5px 10px;
+                color: $ligth_grey;
+                font-size: 12px;
+                font-style: italic;
+            }
+
+            .line {
+                position: absolute;
+                top: calc(50% - 1px);
+                width: 100%;
+                height: 1px;
+                background-color: $ligth_grey;
+            }
+        }
+
+        .list {
+            padding: 20px 0;
+            margin: 0;
+            width: 100%;
+
+            .item {
+                list-style: none;
+                border: 1px solid $ligth_grey;
+                padding: 20px;
+                display: flex;
+                align-items: start;
+                justify-content: start;
+                margin-bottom: 30px;
+                transition: all 300ms;
+
+                &.active {
+                    border-color: $orange;
+                }
+
+                .img {
+                    min-width: 55px;
+                    width: 55px;
+                    height: 55px;
+                    margin-right: 20px;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .desc {
+                    font-family: $ff-bd;
+                    margin-top: 10px;
+
+                    a {
+                        color: $orange;
+                        text-decoration: none;
+                        font-size: 14px;
+                        letter-spacing: 1px;
+                    }
+
+                    .icon-cont {
+                        display: flex;
+                        align-items: center;
+                        justify-content: start;
+                        margin-bottom: 0px;
+
+                        .img {
+                            height: 20px;
+                            width: 10px;
+                            margin-right: 5px;
+
+                            svg {
+                                width: 10px;
+                                fill: $orange;
+
+                                path,
+                                circle {
+                                    fill: $orange;
+
+                                    &.cls-2,
+                                    &.cls-4 {
+                                        fill: white;
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+
+                    .text {
+                        margin-top: 5px;
+                        font-family: $ff-roman;
+                        font-size: 12px;
+                        text-transform: capitalize;
+
+                        &.mensaje {
+                            max-height: 0;
+                            overflow: hidden;
+                            transition: max-height 0.3s ease, padding 0.3s ease;
+                            padding: 0;
+                            opacity: 0;
+
+                            &.visible {
+                                max-height: 200px;
+                                /* Ajusta según el contenido máximo esperado */
+                                padding: 5px 0;
+                                /* Añade un padding para cuando el mensaje esté visible */
+                                opacity: 1;
+                            }
+                        }
+
+                    }
+                }
+
+                .plus {
+                    margin-left: auto;
+                    margin-top: 15px;
+                    color: $ligth_grey;
+                    font-size: 26px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: $orange;
+                    }
+
+                    &.rotated {
+                        transform: rotate(45deg);
+                        color: $orange;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -22,9 +22,10 @@ $url_de_la_vacante = get_field('url_de_la_vacante');
 <div class="popup-cont" id="popup-emi">
     <div class="container">
         <div class="close" id="close">+</div>
-        <div class="title">¡Completa tu proceso de forma fácil y rápida!</div>
+        <div class="title">¡Completa tu proceso <br> <span>de forma fácil y rápida!</span></div>
         <div class="desc">
-        Conéctate con nuestro reclutador virtual a través de WhatsApp y avanza en tu proceso. Escanea el QR con tu móvil o haz clic en el enlace para acceder a la versión web.
+        Conéctate con nuestro reclutador virtual a través de WhatsApp y avanza en tu proceso. <br><br>
+        <span>Escanea el QR con tu móvil o haz clic en el botón inferior para acceder a la versión web.</span>
         </div>
         <div class="img-cont">
             <img src="<?php echo $qr; ?>" alt="">

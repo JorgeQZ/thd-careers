@@ -65,6 +65,10 @@ function careers_styles()
     wp_enqueue_style('generals', get_template_directory_uri() . '/css/generals.css');
     wp_enqueue_script('generals', get_template_directory_uri() . '/js/generals.js');
 
+    wp_localize_script('generals', 'ajax_query_vars', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+    ));
+
     if (is_page('Mi Perfil')) {
         wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/miperfil.css');
     }
@@ -89,6 +93,16 @@ function careers_styles()
 
     if (is_singular('vacantes')) {
         wp_enqueue_style('postulaciones', get_template_directory_uri() . '/css/postulaciones.css');
+    }
+
+
+    if (is_page_template('templates/saved-jobs.php')) {
+        wp_enqueue_style('saved-jobs', get_template_directory_uri() . '/css/saved-jobs.css');
+    }
+
+
+    if (is_page_template('templates/notificaciones.php')) {
+        wp_enqueue_style('notificaciones', get_template_directory_uri() . '/css/notificaciones.css');
     }
 }
 add_action('wp_enqueue_scripts', 'careers_styles');
@@ -209,3 +223,56 @@ $output .= '</div>';
 }
 
 add_shortcode('rueda_thd', 'display_rueda');
+
+
+
+
+function get_favorites_handler() {
+    // Verifica que se hayan enviado los datos
+    if (!isset($_POST['favorites'])) {
+        wp_send_json_error('No se enviaron datos.');
+        wp_die();
+    }
+
+    $favorite_ids = json_decode(stripslashes($_POST['favorites']), true);
+    if (empty($favorite_ids)) {
+        wp_send_json_error('La lista de favoritos está vacía.');
+        wp_die();
+    }
+
+    $posts = [];
+    foreach ($favorite_ids as $id) {
+        $post = get_post($id);
+        if ($post && $post->post_type === 'vacantes') { // Slug del CPT
+
+            $ubicacion_label = get_field('ubicacion', $post->ID)['label'];
+
+            if ($ubicacion_label) {
+                // Convertir el texto a formato más formal (capitalización correcta)
+                $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
+            } else {
+                $ubicacion_formateada = 'Ubicación no disponible';
+            }
+            $posts[] = [
+                'id'           => $post->ID,
+                'title'        => get_the_title($post),
+                'permalink'    => get_permalink($post),
+                'image'        => get_template_directory_uri() . '/imgs/logo-thd.jpg',
+                'location'     => $ubicacion_formateada, // Usamos la ubicación formateada
+                'location_icon'=> file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'),
+                'time_text'    => 'Lorem ipsum dolor sit, amet', // Texto genérico, personalízalo
+                'time_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'),
+                'like_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/me-gusta.svg'),
+                'tienda'       => get_field('extra_data_data_tienda', $post->ID) ?: 'Sin tienda', // ACF o campo personalizado
+            ];
+        }
+    }
+
+    wp_send_json($posts);
+    wp_die();
+}
+add_action('wp_ajax_get_favorites', 'get_favorites_handler');
+add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
+
+add_action('wp_ajax_get_favorites', 'get_favorites_handler');
+add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');

@@ -110,9 +110,6 @@ iframe {
   z-index: 99999;
   width: 100%;
   height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -120,6 +117,7 @@ iframe {
       -ms-flex-pack: center;
           justify-content: center;
   top: 0;
+  display: none;
 }
 .popup-cont .container {
   background-color: #fff;
@@ -142,12 +140,12 @@ iframe {
   width: fit-content;
   padding: 50px;
   position: relative;
+  width: 600px;
 }
 .popup-cont .container .close {
   position: absolute;
-  color: #fff;
+  color: #a6a6a6;
   cursor: pointer;
-  background-color: #f96302;
   width: 40px;
   height: 40px;
   display: -webkit-box;
@@ -159,33 +157,45 @@ iframe {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  top: -20px;
-  right: -20px;
-  font-size: 50px;
+  top: 5px;
+  right: 5px;
+  font-size: 40px;
+  font-family: "Helvetica Neue LT Std Bd";
   line-height: 1;
   border-radius: 50%;
   -webkit-transform: rotateZ(45deg);
           transform: rotateZ(45deg);
 }
+.popup-cont .container .close:hover {
+  color: #f96302;
+}
 .popup-cont .container .title {
   font-family: "Helvetica Neue LT Std HvCn";
-  font-size: 30px;
+  font-size: 34px;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.popup-cont .container .title span {
+  color: #f96302;
 }
 .popup-cont .container .desc {
-  max-width: 550px;
-  font-size: 18px;
+  font-size: 14px;
   letter-spacing: 1px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+  max-width: 375px;
+  text-align: center;
+}
+.popup-cont .container .desc span {
+  color: #f96302;
 }
 .popup-cont .container .img-cont {
-  background-color: #f96302;
   padding: 5px;
   border-radius: 3px;
 }
 .popup-cont .container .img-cont img {
   margin: 0 auto;
-  max-height: 350px;
+  max-height: 340px;
   margin-bottom: -5px;
 }
 .popup-cont .container .button {
@@ -193,11 +203,12 @@ iframe {
   color: white;
   background-color: #f96302;
   border-radius: 2px;
-  padding: 13px 20px;
-  padding-top: 15px;
+  padding: 15px 40px;
+  padding-top: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  text-decoration: none;
   border: 1px solid #f96302;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -209,10 +220,10 @@ iframe {
   width: -moz-fit-content;
   width: fit-content;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
   text-transform: uppercase;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 .popup-cont .container .button:hover {
   background-color: #fff;

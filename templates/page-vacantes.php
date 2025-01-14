@@ -86,7 +86,7 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy($term->slug);
 
                     if ($query->have_posts()):
                     ?>
-                    <ul class="list">
+                    <ul class="list job-list">
                     <?php
                         while ($query->have_posts()):
                             $query->the_post();
