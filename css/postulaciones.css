@@ -107,6 +107,7 @@ body.admin-bar {
   padding-top: 10px;
   padding-bottom: 10px;
   position: fixed;
+  z-index: 10;
   top: calc(var(--sticky-offset, 0) + var(--header-height, 40px));
   -webkit-box-shadow: 0 0 20px 10px white;
           box-shadow: 0 0 20px 10px white;
@@ -282,10 +283,29 @@ body.admin-bar {
   border: solid 0.5px;
 }
 .contenedorgeneralcampos input[type=date] {
-  width: 402px;
+  width: 392px;
   height: 38px;
   padding-left: 10px;
+  padding-right: 10px;
   border-radius: 2px;
+}
+.contenedorgeneralcampos .icon-calendar {
+  background-image: url("../imgs/calendario-icon.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  right: 20px;
+  top: 55%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 15px;
+  height: 20px;
+  pointer-events: none;
+  cursor: pointer;
+  z-index: 1;
+}
+.contenedorgeneralcampos .custom-date-input {
+  position: relative;
 }
 .contenedorgeneralcampos input[type=file] {
   opacity: 0;
@@ -307,6 +327,11 @@ body.admin-bar {
   padding-left: 10px;
   border: solid 0.5px;
   border-radius: 2px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: url(../imgs/down-arrow.svg) no-repeat right -5px center;
+  background-size: 45px 45px;
 }
 .contenedorgeneralcampos label {
   color: #b2b2b2;
@@ -415,7 +440,7 @@ body.admin-bar {
   cursor: pointer;
   margin-top: 60px;
   margin-bottom: 30px;
-  padding-top: 20px;
+  padding-top: 23px;
   padding-bottom: 18px;
   padding-left: 25px;
   padding-right: 25px;
