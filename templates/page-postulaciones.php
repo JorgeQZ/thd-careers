@@ -208,6 +208,10 @@ Template Name: Postulaciones
     $apellido_materno_rellenar = get_field('apellido_materno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
     $correo_rellenar = get_field('correo_general', 'user_' . $user_id); // Usar el nombre exacto del campo
     $telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $ar1 = get_field('ar1', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $ar2 = get_field('ar2', 'user_' . $user_id);
+    $otroar2 = get_field('otroar2', 'user_' . $user_id); // Obtener el valor del campo otroar2
+    $escolaridad_rellenar = get_field('grado_escolaridad_general', 'user_' . $user_id);
 ?>
 
 <div class="container">
@@ -217,7 +221,7 @@ Template Name: Postulaciones
         <div class="contenedorgeneralcampos">
             <div class="seccion">
 
-                <p class="titulo">Titulo 1</p>
+                <p class="titulo">DATOS GENERALES</p>
 
                 <div class="campos">
 
@@ -264,7 +268,7 @@ Template Name: Postulaciones
 
             <div class="seccion">
 
-                <p class="titulo">Titulo 2</p>
+                <p class="titulo">EXPERIENCIA LABORAL</p>
 
                 <p class="subtitulo puesto1">Puesto 1</p>
 
@@ -272,34 +276,40 @@ Template Name: Postulaciones
 
                     <div>
                         <label>Puesto de trabajo</label>
-                        <input type="text" name="puesto-1_puesto-de-trabajo-1">
+                        <input type="text" name="puesto-1_puesto-de-trabajo-1" required>
                     </div>
 
                     <div>
                         <label>Compañia</label>
-                        <input type="text" name="puesto-1_compania-1">
+                        <input type="text" name="puesto-1_compania-1" required>
                     </div>
 
                     <div>
                         <label>Ubicación</label>
-                        <input type="text" name="puesto-1_ubicacion-1">
+                        <input type="text" name="puesto-1_ubicacion-1" required>
                     </div>
 
                     <div>
                         <label>Desde</label>
-                        <input type="date" name="puesto-1_desde-1">
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-1_desde-1" required>
+                            <span class="icon-calendar"></span>
+                        </div>
                     </div>
 
                     <div>
                         <label>Hasta</label>
-                        <input type="date" name="puesto-1_hasta-1">
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-1_hasta-1" required>
+                            <span class="icon-calendar"></span>
+                        </div>
                     </div>
 
                     <div></div>
 
                     <div class="div-allarea">
                         <label>Descripción del rol</label>
-                        <textarea name="puesto-1_descripcion-del-rol-1"></textarea>
+                        <textarea name="puesto-1_descripcion-del-rol-1" required></textarea>
                     </div>
 
                     <div class="div-checkbox">
@@ -330,12 +340,18 @@ Template Name: Postulaciones
 
                     <div>
                         <label>Desde</label>
-                        <input type="date" name="puesto-2_desde-2">
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-2_desde-2">
+                            <span class="icon-calendar"></span>
+                        </div>
                     </div>
 
                     <div>
                         <label>Hasta</label>
-                        <input type="date" name="puesto-2_hasta-2">
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-2_hasta-2">
+                            <span class="icon-calendar"></span>
+                        </div>
                     </div>
 
                     <div></div>
@@ -364,32 +380,32 @@ Template Name: Postulaciones
 
             <div class="seccion">
 
-                <p class="titulo">Titulo 3</p>
+                <p class="titulo">EDUCACIÓN</p>
 
                 <div class="campos">
 
                     <div>
                         <label>Escuela o Universidad</label>
-                        <input type="text" name="escuela-o-universidad">
+                        <input type="text" name="escuela-o-universidad" required>
                     </div>
 
                     <div>
                         <label>Título</label>
-                        <input type="text" name="titulo-1">
+                        <input type="text" name="titulo-1" required>
                     </div>
 
                     <div>
                         <label>Último grado de estudios</label>
                         <select name="ultimo-grado-de-estudios">
-                            <option value="Sin seleccion">Escolaridad - Grado de estudios</option>
-                            <option value="Primaria">Primaria</option>
-                            <option value="Secundaria">Secundaria</option>
-                            <option value="Preparatoria">Preparatoria</option>
-                            <option value="Carrera técnica">Carrera técnica</option>
-                            <option value="Licenciatura">Licenciatura</option>
-                            <option value="Posgrado">Posgrado</option>
-                            <option value="Maestría">Maestría</option>
-                            <option value="Doctorado">Doctorado</option>
+                            <option value="Sin seleccion" <?php selected($escolaridad_rellenar, 'Sin seleccion'); ?>>Escolaridad - Grado de estudios</option>
+                            <option value="Primaria" <?php selected($escolaridad_rellenar, 'Primaria'); ?>>Primaria</option>
+                            <option value="Secundaria" <?php selected($escolaridad_rellenar, 'Secundaria'); ?>>Secundaria</option>
+                            <option value="Preparatoria" <?php selected($escolaridad_rellenar, 'Preparatoria'); ?>>Preparatoria</option>
+                            <option value="Carrera técnica" <?php selected($escolaridad_rellenar, 'Carrera técnica'); ?>>Carrera técnica</option>
+                            <option value="Licenciatura" <?php selected($escolaridad_rellenar, 'Licenciatura'); ?>>Licenciatura</option>
+                            <option value="Posgrado" <?php selected($escolaridad_rellenar, 'Posgrado'); ?>>Posgrado</option>
+                            <option value="Maestría" <?php selected($escolaridad_rellenar, 'Maestría'); ?>>Maestría</option>
+                            <option value="Doctorado" <?php selected($escolaridad_rellenar, 'Doctorado'); ?>>Doctorado</option>
                         </select>
                     </div>
 
@@ -398,7 +414,7 @@ Template Name: Postulaciones
 
             <div class="seccion">
 
-                <p class="titulo titulo-cv">Titulo 4</p>
+                <p class="titulo titulo-cv">CURRICULUM/CV</p>
 
                 <div class="campos">
 
@@ -413,37 +429,37 @@ Template Name: Postulaciones
 
             <div class="seccion">
 
-                <p class="titulo">Titulo 5</p>
+                <p class="titulo">AJUSTES RAZONABLES</p>
 
                 <div class="campos">
 
                     <div class="div-allarea">
                         <label style="width: 200%;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
                         <select id="support-select" name="tipo-de-apoyo">
-                            <option value="Sin Selección">Seleccione una respuesta</option>
-                            <option value="Sí">Sí</option>
-                            <option value="No">No</option>
+                            <option value="Sin Selección" <?php echo ($ar1 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
+                            <option value="Sí" <?php echo ($ar1 === 'Sí') ? 'selected' : ''; ?>>Sí</option>
+                            <option value="No" <?php echo ($ar1 === 'No') ? 'selected' : ''; ?>>No</option>
                         </select>
                     </div>
 
                     <div class="div-allarea" id="support-details" style="display: none;">
                         <label style="width: 200%;">¿Qué tipo de apoyo o ajuste requieres para tu proceso de selección?</label>
                         <select id="support-type-select" name="que-tipo">
-                            <option value="Sin Selección">Seleccione una respuesta</option>
-                            <option value="Uso de notas escritas mediante libreta o pizarra de comunicación">Uso de notas escritas mediante libreta o pizarra de comunicación</option>
-                            <option value="Intérprete de LSM (lengua de señas mexicana)">Intérprete de LSM (lengua de señas mexicana)</option>
-                            <option value="Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)">Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)</option>
-                            <option value="Poder tomar asiento con frecuencia">Poder tomar asiento con frecuencia</option>
-                            <option value="Magnificadores de pantalla o lupa portátil">Magnificadores de pantalla o lupa portátil</option>
-                            <option value="Uso de lector de pantalla">Uso de lector de pantalla</option>
-                            <option value="Control de estímulos sonoros, como aislamiento de ruido">Control de estímulos sonoros, como aislamiento de ruido</option>
-                            <option value="Otro">Otro</option>
+                            <option value="Sin Selección" <?php echo ($ar2 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
+                            <option value="Uso de notas escritas mediante libreta o pizarra de comunicación" <?php echo ($ar2 === 'Uso de notas escritas mediante libreta o pizarra de comunicación') ? 'selected' : ''; ?>>Uso de notas escritas mediante libreta o pizarra de comunicación</option>
+                            <option value="Intérprete de LSM (lengua de señas mexicana)" <?php echo ($ar2 === 'Intérprete de LSM (lengua de señas mexicana)') ? 'selected' : ''; ?>>Intérprete de LSM (lengua de señas mexicana)</option>
+                            <option value="Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)" <?php echo ($ar2 === 'Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)') ? 'selected' : ''; ?>>Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)</option>
+                            <option value="Poder tomar asiento con frecuencia" <?php echo ($ar2 === 'Poder tomar asiento con frecuencia') ? 'selected' : ''; ?>>Poder tomar asiento con frecuencia</option>
+                            <option value="Magnificadores de pantalla o lupa portátil" <?php echo ($ar2 === 'Magnificadores de pantalla o lupa portátil') ? 'selected' : ''; ?>>Magnificadores de pantalla o lupa portátil</option>
+                            <option value="Uso de lector de pantalla" <?php echo ($ar2 === 'Uso de lector de pantalla') ? 'selected' : ''; ?>>Uso de lector de pantalla</option>
+                            <option value="Control de estímulos sonoros, como aislamiento de ruido" <?php echo ($ar2 === 'Control de estímulos sonoros, como aislamiento de ruido') ? 'selected' : ''; ?>>Control de estímulos sonoros, como aislamiento de ruido</option>
+                            <option value="Otro" <?php echo ($ar2 === 'Otro') ? 'selected' : ''; ?>>Otro</option>
                         </select>
                     </div>
 
                     <div class="div-allarea" id="textareaotro" style="display: none;">
                         <label>Por favor, especifique:</label>
-                        <textarea name="especifique-otro"></textarea>
+                        <textarea name="especifique-otro"><?php echo esc_html($otroar2); ?></textarea>
                     </div>
 
                 </div>
@@ -451,7 +467,7 @@ Template Name: Postulaciones
 
             <div class="seccion">
 
-                <p class="titulo">Titulo 6</p>
+                <p class="titulo">TÉRMINOS Y CONDICIONES</p>
 
                 <div class="campos">
 
@@ -483,7 +499,7 @@ Template Name: Postulaciones
     });
 </script>
 
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         const supportSelect = document.getElementById('support-select');
         const supportDetails = document.getElementById('support-details');
@@ -495,6 +511,28 @@ Template Name: Postulaciones
                 supportDetails.style.display = 'none';
             }
         });
+    });
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const supportSelect = document.getElementById('support-select');
+        const supportDetails = document.getElementById('support-details');
+
+        // Función para manejar la visibilidad de supportDetails
+        function handleSupportDetails() {
+            if (supportSelect.value === 'Sí') {
+                supportDetails.style.display = 'flex';
+            } else {
+                supportDetails.style.display = 'none';
+            }
+        }
+
+        // Ejecutar la lógica inicial
+        handleSupportDetails();
+
+        // Evento change para actualizar la visibilidad
+        supportSelect.addEventListener('change', handleSupportDetails);
     });
 </script>
 
@@ -517,7 +555,7 @@ Template Name: Postulaciones
     });
 </script>
 
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         const supportTypeSelect = document.getElementById('support-type-select');
         const textareaOtro = document.getElementById('textareaotro');
@@ -529,5 +567,27 @@ Template Name: Postulaciones
                 textareaOtro.style.display = 'none';
             }
         });
+    });
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const supportTypeSelect = document.getElementById('support-type-select');
+        const textareaOtro = document.getElementById('textareaotro');
+
+        // Función para manejar la visibilidad de textareaOtro
+        function handleTextareaOtro() {
+            if (supportTypeSelect.value === 'Otro') {
+                textareaOtro.style.display = 'flex';
+            } else {
+                textareaOtro.style.display = 'none';
+            }
+        }
+
+        // Ejecutar la lógica inicial
+        handleTextareaOtro();
+
+        // Evento change para actualizar la visibilidad
+        supportTypeSelect.addEventListener('change', handleTextareaOtro);
     });
 </script>

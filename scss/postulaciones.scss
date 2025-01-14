@@ -39,6 +39,7 @@ body.admin-bar {
         padding-top: 10px;
         padding-bottom: 10px;
         position: fixed;
+        z-index: 10;
 
         top: calc(var(--sticky-offset, 0) + var(--header-height, 40px));
 
@@ -226,10 +227,30 @@ body.admin-bar {
     }
 
     input[type="date"] {
-        width: 402px;
+        width: 392px;
         height: 38px;
         padding-left: 10px;
+        padding-right: 10px;
         border-radius: 2px;
+    }
+
+    .icon-calendar {
+        background-image: url('../imgs/calendario-icon.jpg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: absolute;
+        right: 20px;
+        top: 55%;
+        transform: translateY(-50%);
+        width: 15px;
+        height: 20px;
+        pointer-events: none;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .custom-date-input {
+        position: relative;
     }
 
     input[type="file"] {
@@ -255,6 +276,9 @@ body.admin-bar {
         padding-left: 10px;
         border: solid 0.5px;
         border-radius: 2px;
+        appearance: none;
+        background: url(../imgs/down-arrow.svg) no-repeat right -5px center;
+        background-size: 45px 45px; // Ajusta el tamaño del SVG
     }
 
     label {
@@ -353,7 +377,7 @@ body.admin-bar {
     cursor: pointer;
     margin-top: 60px;
     margin-bottom: 30px;
-    padding-top: 20px;
+    padding-top: 23px;
     padding-bottom: 18px;
     padding-left: 25px;
     padding-right: 25px;
