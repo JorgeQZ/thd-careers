@@ -6,6 +6,17 @@
 
     margin: 0 auto;
     margin-bottom: 50px;
+    position: relative;
+
+    .logo {
+
+        width: 120px;
+        position: absolute;
+        background-color: red;
+        top: 235px;
+        left: 240px;
+
+    }
 
     svg {
         margin-bottom: 40px;
@@ -17,6 +28,8 @@
         font-family: $ff-hvcn;
         font-size: 20px;
         text-align: center;
+        text-transform: capitalize;
+        cursor: pointer;
         width: 120px;
         height: 70px;
 

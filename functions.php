@@ -45,6 +45,11 @@ require_once "inc/csvuploader/csv_uploader.php";
 require_once "patterns/block-paterrns.php";
 
 /**
+ * Notificaciones
+ */
+require_once "inc/rueda_valores.php";
+
+/**
  * General Setup
  */
 
@@ -174,62 +179,6 @@ function highlight_and_break_title($title)
     return $title;
 }
 // add_filter('the_title', 'highlight_and_break_title');
-
-
-function display_rueda()
-{
-
-    $output = '<div class="rueda-cont">';
-    $output .=  file_get_contents(get_template_directory_uri(  ).'/img/Rueda.svg');
-    ;$output .= '
-    <div class="item-desc rueda-desc" data-id-item="_1">
-    <img src="" alt="" class="icon">
-    <div class="title">construir relaciones solidas</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_2">
-    <img src="" alt="" class="icon">
-    <div class="title">excelente servicio al cliente</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_3">
-    <img src="" alt="" class="icon">
-    <div class="title">cuidar a nuestra gente</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_4">
-    <img src="" alt="" class="icon">
-    <div class="title">devolver a la comunidad</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_5">
-    <img src="" alt="" class="icon">
-    <div class="title">hacer lo correcto</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_6">
-    <img src="" alt="" class="icon">
-    <div class="title">crear valor para el accionista</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_7">
-    <img src="" alt="" class="icon">
-    <div class="title">respeto por todos y todas</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_8">
-    <img src="" alt="" class="icon">
-    <div class="title">espiritu empresarial</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>';
-$output .= '</div>';
-
-    return $output; // Devuelve el contenido
-}
-
-add_shortcode('rueda_thd', 'display_rueda');
-
-
 
 
 function get_favorites_handler() {

@@ -66,6 +66,14 @@
   width: 600px;
   margin: 0 auto;
   margin-bottom: 50px;
+  position: relative;
+}
+.rueda-cont .logo {
+  width: 120px;
+  position: absolute;
+  background-color: red;
+  top: 235px;
+  left: 240px;
 }
 .rueda-cont svg {
   margin-bottom: 40px;
@@ -76,6 +84,8 @@
   font-family: "Helvetica Neue LT Std HvCn";
   font-size: 20px;
   text-align: center;
+  text-transform: capitalize;
+  cursor: pointer;
   width: 120px;
   height: 70px;
 }
