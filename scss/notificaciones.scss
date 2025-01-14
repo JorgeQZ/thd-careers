@@ -24,39 +24,6 @@
         opacity: .8;
     }
 
-    &.sticky {
-        height: unset;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        position: fixed;
-
-        top: calc(var(--sticky-offset, 0) + var(--header-height, 40px));
-
-        box-shadow: 0 0 20px 10px white;
-
-        &:before {
-            opacity: 1;
-        }
-
-        .container {
-            align-items: center;
-
-            .title-cont {
-                .term {
-                    display: none;
-                }
-
-                .title {
-                    font-size: 28px;
-                }
-            }
-
-            .button {
-                margin: 0;
-            }
-        }
-    }
-
     .container {
         color: white;
         font-family: $ff-blkcn;
@@ -164,7 +131,7 @@
 
             .item {
                 list-style: none;
-                border: 1px solid $ligth_grey;
+                border: 1px solid $orange;
                 padding: 20px;
                 display: flex;
                 align-items: start;
@@ -172,8 +139,8 @@
                 margin-bottom: 30px;
                 transition: all 300ms;
 
-                &.active {
-                    border-color: $orange;
+                &.seen {
+                    border-color: $ligth_grey;
                 }
 
                 .img {

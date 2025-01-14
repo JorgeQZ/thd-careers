@@ -42,6 +42,7 @@ Template Name: Postulaciones
             // Obtener el ID del post principal actual
             $post_id = get_queried_object_id();
 
+
             // Guardar el título del post en el campo 'vacante' de la postulación
             update_field('vacante_vacante', get_the_title(get_queried_object_id()), $postulacion_id);
 

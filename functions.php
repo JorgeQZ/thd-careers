@@ -12,6 +12,11 @@ require_once "inc/vacantes/catalogo_vacantes.php";
 require_once "inc/vacantes/mis_vacantes.php";
 
 /**
+ * Notificaciones
+ */
+require_once "inc/notificaciones/notificaciones.php";
+
+/**
  * Users
  */
 require_once "inc/users/fields.php";
@@ -271,8 +276,5 @@ function get_favorites_handler() {
     wp_send_json($posts);
     wp_die();
 }
-add_action('wp_ajax_get_favorites', 'get_favorites_handler');
-add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
-
 add_action('wp_ajax_get_favorites', 'get_favorites_handler');
 add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');

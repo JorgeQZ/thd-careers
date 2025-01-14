@@ -9,40 +9,43 @@
     <?php wp_head();?>
 </head>
 <body <?php body_class( );?>>
-    <header id="header">
-        <div>
-            <div class="container">
-                <?php
-                    $custom_logo_id = get_theme_mod('custom_logo');
-                    $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
-                    if (has_custom_logo()):
-                ?>
-                <a class="site-info" href="<?php echo home_url(); ?>">
-                    <img class="main-logo" src="<?php echo esc_url($logo[0]) ?>"
-                        alt="<?php echo get_bloginfo('name') ?>'">
-                    <div class="site-title">
-                        Construyendo <br>
-                        <strong>Carreras</strong>
+
+    <div class="cont-header">
+        <header id="header">
+            <div>
+                <div class="container">
+                    <?php
+                        $custom_logo_id = get_theme_mod('custom_logo');
+                        $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+                        if (has_custom_logo()):
+                    ?>
+                    <a class="site-info" href="<?php echo home_url(); ?>">
+                        <img class="main-logo" src="<?php echo esc_url($logo[0]) ?>"
+                            alt="<?php echo get_bloginfo('name') ?>'">
+                        <div class="site-title">
+                            Construyendo <br>
+                            <strong>Carreras</strong>
+                        </div>
+                    </a>
+                    <?php endif;?>
+
+                    <!-- Ícono de hamburguesa -->
+                    <div class="hamburger-menu" onclick="toggleMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
-                </a>
-                <?php endif;?>
 
-                <!-- Ícono de hamburguesa -->
-                <div class="hamburger-menu" onclick="toggleMenu()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <nav class="menu-web">
+                        <?php wp_nav_menu(array('menu' => 'Header'));?>
+                    </nav>
                 </div>
-
-                <nav class="menu-web">
+                <nav class="menu-wrapper">
                     <?php wp_nav_menu(array('menu' => 'Header'));?>
                 </nav>
             </div>
-            <nav class="menu-wrapper">
-                <?php wp_nav_menu(array('menu' => 'Header'));?>
-            </nav>
-        </div>
-    </header>
+        </header>
+    </div>
     <div class="main-content">
 
         <script>

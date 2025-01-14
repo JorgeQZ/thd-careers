@@ -348,6 +348,13 @@ function enviar_correo_cambio_estado( $post_id ) {
 
     // Actualiza el estado anterior para marcar que ya se envió la notificación
     update_post_meta($post_id, '_estado_anterior', $nuevo_estado);
+
+    // /**
+    //  * Agregar notificacion a la BBDD
+    //  */
+    // $user_id = 1;
+    // $vacancy_id = 613M;
+    //  add_postulation_notification($user_id, $user_id, $vacancy_id, $message_postulante);
 }
 
 // Hook para ejecutar la función al guardar el post manualmente desde el backend

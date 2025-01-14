@@ -239,6 +239,15 @@ body.admin-bar {
   }
 }
 
+.cont-header {
+  height: 120px;
+}
+
+@media (max-width: 899px) {
+  .cont-header {
+    height: 80px;
+  }
+}
 header {
   background-color: #272727;
   padding: 35px 80px;
