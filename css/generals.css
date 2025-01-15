@@ -243,9 +243,40 @@ body.admin-bar {
   height: 120px;
 }
 
+/* Estilos para el menú del perfil */
+.menu-item-mi-perfil .imagen-perfil,
+.menu-item-login .imagen-perfil {
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.menu-item-mi-perfil:hover .imagen-perfil,
+.menu-item-login:hover .imagen-perfil {
+  content: url("../imgs/icono-perfil.png");
+  /* Ruta de la imagen para hover */
+}
+
 @media (max-width: 899px) {
   .cont-header {
     height: 80px;
+  }
+}
+@media (max-width: 999px) {
+  .menu-item-mi-perfil .imagen-perfil,
+  .menu-item-login .imagen-perfil {
+    display: none !important;
+    /* Oculta la imagen */
+  }
+}
+@media (min-width: 1000px) {
+  .container .menu {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .container .menu .sub-menu {
+    top: 50px !important;
+    right: 220px !important;
   }
 }
 header {
