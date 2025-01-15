@@ -319,9 +319,11 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
         }
     }
 }
-
 add_action('save_post', 'update_slug_after_save', 10, 3);
 function update_slug_after_save($post_ID, $post, $update) {
+    // Evitar que se ejecute en actualizaciones recursivas
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
     if ($post->post_type === 'vacantes') {
         $codigo_de_vacante = get_field('codigo_de_vacante', $post_ID);
         $extra_data_data_tienda = get_field('extra_data_data_tienda', $post_ID);
@@ -330,14 +332,18 @@ function update_slug_after_save($post_ID, $post, $update) {
             $base_slug = sanitize_title($codigo_de_vacante . '-' . $extra_data_data_tienda);
             $slug = current_user_can('administrator') ? $base_slug . '-admin' : $base_slug;
 
-            // Actualizar el slug directamente en la base de datos
-            wp_update_post(array(
-                'ID' => $post_ID,
-                'post_name' => $slug
-            ));
+            // Verificar si el slug realmente ha cambiado
+            if ($post->post_name !== $slug) {
+                // Actualizar el slug directamente en la base de datos
+                wp_update_post(array(
+                    'ID' => $post_ID,
+                    'post_name' => $slug
+                ));
+            }
         }
     }
 }
+
 
 function restringir_campos_acf_por_rol($field) {
     // Verificar si el usuario no es un administrador

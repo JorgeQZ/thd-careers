@@ -25,7 +25,7 @@ function generate_jwt($credentials) {
     $message = $encodedHeader . '.' . $encodedPayload;
 
     // Generar la firma
-    $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thd-careers-447904-274b861bfe83.json'); // Ruta a tu archivo JSON
+    $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thd-careers-447904-f12381e6b6c8.json'); // Ruta a tu archivo JSON
     $privateKey = json_decode($privateKey, true)['private_key']; // Obtener la clave privada del JSON
     $signature = sign_message($message, $privateKey);
 
@@ -55,7 +55,7 @@ function base64url_encode($data) {
 
 function upload_to_gcp($file) {
     // Ruta a las credenciales de tu cuenta de servicio
-    $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-274b861bfe83.json';
+    $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-f12381e6b6c8.json';
     $credentials = json_decode(file_get_contents($json_key_file), true);
 
     // Generar el JWT para la autenticación
