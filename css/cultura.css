@@ -109,40 +109,32 @@
   -webkit-text-stroke: 2px #a6a6a6;
 }
 .rueda-cont g#_1:hover, .rueda-cont g#_1.active {
-  -webkit-transform: translate(5px, -10px);
-          transform: translate(5px, -10px);
+  transform: translate(5px, -10px);
 }
 .rueda-cont g#_1 foreignObject {
   width: 120px;
   height: 70px;
 }
 .rueda-cont g#_2:hover, .rueda-cont g#_2.active {
-  -webkit-transform: translate(10px, -5px);
-          transform: translate(10px, -5px);
+  transform: translate(10px, -5px);
 }
 .rueda-cont g#_3:hover, .rueda-cont g#_3.active {
-  -webkit-transform: translate(10px, 2px);
-          transform: translate(10px, 2px);
+  transform: translate(10px, 2px);
 }
 .rueda-cont g#_4:hover, .rueda-cont g#_4.active {
-  -webkit-transform: translate(6px, 8px);
-          transform: translate(6px, 8px);
+  transform: translate(6px, 8px);
 }
 .rueda-cont g#_5:hover, .rueda-cont g#_5.active {
-  -webkit-transform: translate(0px, 8px);
-          transform: translate(0px, 8px);
+  transform: translate(0px, 8px);
 }
 .rueda-cont g#_6:hover, .rueda-cont g#_6.active {
-  -webkit-transform: translate(-10px, 2px);
-          transform: translate(-10px, 2px);
+  transform: translate(-10px, 2px);
 }
 .rueda-cont g#_7:hover, .rueda-cont g#_7.active {
-  -webkit-transform: translate(-10px, -5px);
-          transform: translate(-10px, -5px);
+  transform: translate(-10px, -5px);
 }
 .rueda-cont g#_8:hover, .rueda-cont g#_8.active {
-  -webkit-transform: translate(-5px, -10px);
-          transform: translate(-5px, -10px);
+  transform: translate(-5px, -10px);
 }
 .rueda-cont .item-desc {
   display: none;
@@ -172,6 +164,5 @@
   position: absolute;
   bottom: calc(100% - 30px);
   left: calc(50% - 30px);
-  -webkit-transform: rotateZ(45deg);
-          transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
 }

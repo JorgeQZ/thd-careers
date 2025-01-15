@@ -214,6 +214,29 @@ body.admin-bar {
         height: 35px;
     }
 
+    input[type="checkbox"] {
+        width: auto;
+        height: auto;
+        margin: 0;
+        margin-right: 5px;
+    }
+
+    input[type="date"] {
+        width: 402px;
+        height: 38px;
+    }
+
+    input[type="file"] {
+        width: 1265px;
+        height: 100px;
+        background-color: #b2b2b2;
+    }
+
+    textarea {
+        width: 1260px;
+        height: 100px;
+    }
+
     select {
         width: 407px;
         height: 41px;
@@ -246,6 +269,22 @@ body.admin-bar {
         &::after {
             content: '';
             flex: 0 1 33%;
+        }
+
+        .div-checkbox {
+            flex-direction: row;
+
+            label {
+                padding-top: 5px;
+            }
+        }
+
+        .div-textarea {
+            flex: 0 1 100%;
+        }
+
+        .div-cv {
+            flex: 0 1 100%;
         }
     }
 }

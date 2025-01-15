@@ -24,9 +24,14 @@ require_once get_template_directory() . '/inc/users/miperfil.php';
 require_once get_template_directory() . '/inc/postulaciones/conf.php';
 
 /**
+ * Buscador
+ */
+require_once("inc/ajax_search.php");
+
+/**
  * Map
  */
-require_once "inc/map/conf.php";
+//require_once "inc/map/conf.php";
 
 /**
  * CSV Uploader
@@ -64,6 +69,8 @@ function careers_styles()
 {
     wp_enqueue_style('generals', get_template_directory_uri() . '/css/generals.css');
     wp_enqueue_script('generals', get_template_directory_uri() . '/js/generals.js');
+    wp_enqueue_script('search', get_stylesheet_directory_uri(). '/js/search.js', array('jquery'), '2', true );
+
 
     if (is_page('Mi Perfil')) {
         wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/miperfil.css');
@@ -78,6 +85,9 @@ function careers_styles()
         wp_enqueue_style('beneficios', get_template_directory_uri() . '/css/beneficios.css');
     }
 
+    if (is_search()) {
+        wp_enqueue_style('vacantes', get_template_directory_uri() . '/css/vacantes.css');
+    }
 
     if (is_page('Cultura')) {
         wp_enqueue_style('cultura', get_template_directory_uri() . '/css/cultura.css');
@@ -209,3 +219,33 @@ $output .= '</div>';
 }
 
 add_shortcode('rueda_thd', 'display_rueda');
+
+function limitar_busqueda_a_post_types( $query ) {
+    if ( ! is_admin() && $query->is_search ) {
+        $query->set( 'post_type', 'vacantes' );
+    }
+    return $query;
+}
+add_filter( 'pre_get_posts', 'limitar_busqueda_a_post_types' );
+
+function buscar_por_titulo_y_custom_field( $query ) {
+    if ( $query->is_search && !is_admin() ) {
+
+        $custom_field_value = isset( $_GET['ubicacion_key'] ) ? sanitize_text_field( $_GET['ubicacion_key'] ) : '';
+        
+        if ( ! empty( $custom_field_value ) ) {
+            $meta_query = array(
+                array(
+                    'key'   => 'ubicacion',
+                    'value' => $custom_field_value,
+                    'compare' => 'LIKE',
+                ),
+            );
+            $query->set( 'meta_query', $meta_query );
+        }
+
+        if ( ! empty( $_GET['s'] ) ) {
+        }
+    }
+}
+add_action( 'pre_get_posts', 'buscar_por_titulo_y_custom_field' );

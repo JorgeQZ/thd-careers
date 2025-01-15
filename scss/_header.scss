@@ -50,6 +50,11 @@ header {
             justify-content: center;
             text-decoration: none;
 
+            > a{
+                display: flex;
+                align-items: center;
+            }
+
             .main-logo {
                 height: 50px;
             }
@@ -69,6 +74,107 @@ header {
                     font-family: $ff-hvcn;
                 }
             }
+
+            .top__search-input-cont{
+                border-radius: 2px;
+                display: block;
+                margin-left: 20px;
+                position: relative;
+                form{
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+                    input{
+                        border: none;
+                        appearance: none;
+                        background-color: #fff;
+                        height: 40px;
+                        width: 300px;
+                        padding: 0 16px;
+                        padding-right: 4px;
+                        font-size: 12px;
+                        border: 0;
+                        outline: none;
+                        &:focus{
+                            &::placeholder {
+                                color: transparent;
+                            }
+                        }
+                    }
+                    .cont-icon{
+                        position: absolute;
+                        right: 0;
+                        height: 40px;
+                        width: 40px;
+                        background-color: #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        .icon{
+                            background-color: #fff;
+                            width: 30px;
+                            height: 30px;
+        
+                        }
+                    }
+                }
+                .resultados{
+                    background: white;
+                    position: absolute;
+                    width: 100%;
+                    left: 0;
+                    top: 40px;
+                    width: 100%;
+                    max-height: 520px;
+                    overflow: scroll;
+                    #contenedor-resultados{
+                        display: none;
+                        background: white;
+                        border-bottom-left-radius: 10px;
+                        border-bottom-right-radius: 10px;
+                        width: 100%;
+                        .cont-result{
+                            .resultado{
+                                a{
+                                    display: block;
+                                    width: calc(100% - 20px);
+                                    text-decoration: none;
+                                    padding: 10px;
+                                    h2{
+                                        text-transform: unset;
+                                        font-size: 20px;
+                                        margin: 0;
+                                        color: #000000;
+                                        transition: all .3s;
+                                    }
+                                    span{
+                                        color: #000000;
+                                        font-size: 14px;
+                                        transition: all .3s;
+                                    }
+                                    &:hover{
+                                        background: #f96302;
+                                        h2{
+                                            color: white;
+                                        }
+                                        span{
+                                            color: white;
+                                        }
+                                    }
+                                }
+                                p{
+                                    color: #000000;
+                                    font-size: 16px;
+                                    letter-spacing: unset;
+                                    margin: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         .menu {

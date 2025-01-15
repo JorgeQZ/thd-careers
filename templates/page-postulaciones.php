@@ -199,6 +199,144 @@ Template Name: Postulaciones
 
             </div>
         </div>
+
+        <div class="seccion">
+
+            <p class="titulo">Titulo 2</p>
+
+            <p class="subtitulo">Puesto 1</p>
+
+            <div class="campos">
+
+                <div>
+                    <label>Puesto de trabajo</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Compañia</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Ubicación</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Desde</label>
+                    <input type="date">
+                </div>
+
+                <div>
+                    <label>Hasta</label>
+                    <input type="date">
+                </div>
+
+                <div></div>
+
+                <div class="div-textarea">
+                    <label>Descripción del rol</label>
+                    <textarea></textarea>
+                </div>
+
+                <div class="div-checkbox">
+                    <input type="checkbox">
+                    <label>Actualmente trabajo aquí</label>
+                </div>
+
+            </div>
+
+            <p class="subtitulo">Puesto 2</p>
+
+            <div class="campos">
+
+                <div>
+                    <label>Puesto de trabajo</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Compañia</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Ubicación</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Desde</label>
+                    <input type="date">
+                </div>
+
+                <div>
+                    <label>Hasta</label>
+                    <input type="date">
+                </div>
+
+                <div></div>
+
+                <div class="div-textarea">
+                    <label>Descripción del rol</label>
+                    <textarea></textarea>
+                </div>
+
+                <div class="div-checkbox">
+                    <input type="checkbox">
+                    <label>Actualmente trabajo aquí</label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="seccion">
+
+            <p class="titulo">Titulo 3</p>
+
+            <div class="campos">
+
+                <div>
+                    <label>Escuela o Universidad</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Título</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Último grado de estudios</label>
+                    <select>
+                        <option>Escolaridad - Grado de estudios</option>
+                        <option>Primaria</option>
+                        <option>Secundaria</option>
+                        <option>Preparatoria</option>
+                        <option>Carrera técnica</option>
+                        <option>Licenciatura</option>
+                        <option>Posgrado</option>
+                        <option>Maestría</option>
+                        <option>Doctorado</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="seccion">
+
+            <p class="titulo">Titulo 4</p>
+
+            <div class="campos">
+
+                <div class="div-cv">
+                    <input type="file">
+                </div>
+
+            </div>
+        </div>
     </div>
 
 </div>

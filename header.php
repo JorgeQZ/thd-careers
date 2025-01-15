@@ -17,14 +17,19 @@
                     $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
                     if (has_custom_logo()):
                 ?>
-                <a class="site-info" href="<?php echo home_url(); ?>">
-                    <img class="main-logo" src="<?php echo esc_url($logo[0]) ?>"
-                        alt="<?php echo get_bloginfo('name') ?>'">
-                    <div class="site-title">
-                        Construyendo <br>
-                        <strong>Carreras</strong>
+                <div class="site-info">
+                    <a href="<?php echo home_url(); ?>">
+                        <img class="main-logo" src="<?php echo esc_url($logo[0]) ?>"
+                            alt="<?php echo get_bloginfo('name') ?>'">
+                        <div class="site-title">
+                            Construyendo <br>
+                            <strong>Carreras</strong>
+                        </div>
+                    </a>
+                    <div id="top__search-input" class="top__search-input-cont">
+                        <?php echo get_search_form(); ?>
                     </div>
-                </a>
+                </div>
                 <?php endif;?>
 
                 <!-- Ícono de hamburguesa -->
