@@ -40,6 +40,12 @@ require_once "inc/csvuploader/csv_uploader.php";
 
 
 /**
+ * GCP Bucket
+ */
+require_once "inc/gcpbucket/gcpbucket.php";
+
+
+/**
  * CSV Uploader
  */
 require_once "patterns/block-paterrns.php";

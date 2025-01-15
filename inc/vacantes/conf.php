@@ -109,17 +109,20 @@ function getStoreByCode($store_code){
   }
 }
 
-function getColorCat($term_name){
-  switch($term_name):
-      case 'Centros Logísticos':
-          return "#999999";
-      case 'Tiendas':
-          return '#f96302';
-      case 'Oficinas de Apoyo a Tiendas':
-          return "#272727";
-      default:
-          return "#272727";
-      endswitch;
+function getColorCat($term_name = 'Tiendas'){
+
+    switch($term_name):
+        case 'Centros Logísticos':
+            return "#999999";
+        case 'Tiendas':
+            return '#f96302';
+        case 'Oficinas de Apoyo a Tiendas':
+            return "#272727";
+
+        default:
+            return "#f96302";
+    endswitch;
+
 }
 
 function get_unique_locations_with_values($category_slug) {
@@ -168,6 +171,47 @@ function get_unique_locations_with_values($category_slug) {
 
   return $unique_locations;
 }
+
+function get_unique_locations() {
+    // Configuración de la consulta WP_Query
+    $query = new WP_Query(array(
+        'post_type'      => 'vacantes',
+        'posts_per_page' => -1, // Recuperar todos los posts
+        'fields'         => 'ids', // Solo necesitamos los IDs para eficiencia
+    ));
+
+    $unique_locations = array(); // Almacén de ubicaciones únicas
+
+    if ($query->have_posts()) {
+        foreach ($query->posts as $post_id) {
+            // Obtener el valor del campo ACF "ubicacion"
+            $ubicacion = get_field('ubicacion', $post_id);
+
+            if (is_array($ubicacion)) {
+                $label = $ubicacion['label'] ?? ''; // El texto del label
+                $value = $ubicacion['value'] ?? ''; // El valor completo
+
+                // Extraer el primer conjunto de números del value
+                preg_match('/^\d+/', $value, $matches);
+                $numeric_value = $matches[0] ?? '';
+
+                // Agregar la ubicación al array si es única
+                if ($label && $numeric_value) {
+                    $unique_locations[] = array(
+                        'label' => $label,
+                        'value' => $numeric_value,
+                    );
+                }
+            }
+        }
+    }
+
+    // Liberar memoria de la consulta
+    wp_reset_postdata();
+
+    return $unique_locations;
+  }
+
 
 function get_unique_locations_labels($category_slug) {
   // Configuración de la consulta WP_Query
@@ -250,4 +294,32 @@ function get_unique_vacantes_titles_by_taxonomy($taxonomy_slug) {
 
   return $unique_titles;
 }
+
+
+function get_unique_vacantes_titles() {
+    // Argumentos de la consulta
+    $args = array(
+        'post_type'      => 'vacantes', // CPT
+        'post_status'    => 'publish', // Solo publicados
+        'posts_per_page' => -1,        // Obtener todos los posts
+    );
+
+    // Ejecutar consulta
+    $query = new WP_Query($args);
+    $titles = array();
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $titles[] = get_the_title(); // Agregar títulos al array
+        }
+        wp_reset_postdata(); // Resetear la consulta global
+    }
+
+    // Retornar títulos únicos y ordenados
+    $unique_titles = array_unique($titles);
+    sort($unique_titles, SORT_STRING); // Ordenar alfabéticamente
+
+    return $unique_titles;
+  }
 ?>

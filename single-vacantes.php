@@ -16,6 +16,7 @@ if ($current_post_id) {
 $IsEMI = get_field('emi');
 $qr = get_field('imagen_qr');
 $url_de_la_vacante = get_field('url_de_la_vacante');
+$is_logged_in = is_user_logged_in();
 ?>
 
 <!-- PopUp -->
@@ -34,6 +35,34 @@ $url_de_la_vacante = get_field('url_de_la_vacante');
     </div>
 </div><!-- PopUp -->
 
+
+<!-- PopUp -->
+
+<div class="popup-cont" id="popup-login">
+        <div class="container">
+            <div class="close" id="close">+</div>
+            <div class="title">Inicia sesión o Regístrate</div>
+            <div class="desc">
+                Para poder postularte, es necesario que inicies sesión. Si aún no cuentas con una cuenta, puedes registrarte de manera rápida y sencilla. <br><br>
+            </div>
+            <div class="login-form">
+                <!-- Formulario de login -->
+                <form action="<?php echo wp_login_url(); ?>" method="post">
+                     <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
+
+                    <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
+                    <input type="hidden" name="redirect_to" value="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" />
+                    <br>
+                    <button type="submit" class="button_sub">Iniciar sesión</button>
+                </form>
+            </div>
+            <hr>
+            <div class="register-link">
+                ¿No tienes cuenta? <a href="<?php echo wp_registration_url(); ?>" class="button_sub">Regístrate aquí</a>
+            </div>
+        </div>
+</div><!-- PopUp -->
+
 <!-- Banner con el titulo de la página -->
 <div class="banner" id="vacante-banner" style="background-color: <?php echo getColorCat($term_name);?>; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>)">
     <div class="container">
@@ -41,12 +70,18 @@ $url_de_la_vacante = get_field('url_de_la_vacante');
             <div class="term"><?php echo $term_name; ?> </div>
             <div class="title"> <?php the_title(); ?> </div>
         </div>
-        <?php if($IsEMI == 'Si'): ?>
-            <div class="button" id="open-emi-form">
-                Postulate aquí
-            </div>
-        <?php else: ?>
-            <div class="button" id="open-form">
+        <?php if ($is_logged_in): ?>
+            <?php if($IsEMI == 'Si'): ?>
+                <div class="button" id="open-emi-form">
+                    Postulate aquí
+                </div>
+            <?php else: ?>
+                <div class="button" id="open-form">
+                    Postulate aquí
+                </div>
+            <?php endif; ?>
+            <?php else: ?>
+            <div class="button" id="login-prompt">
                 Postulate aquí
             </div>
         <?php endif; ?>
@@ -119,6 +154,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const button_emi = document.getElementById("open-emi-form");
     const emi = document.getElementById("popup-emi");
+    const butto_login = document.getElementById("login-prompt");
+    const login = document.getElementById("popup-login");
+
 
     if(button_emi){
 
@@ -131,6 +169,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
         button_emi.addEventListener("click", function() {
             emi.style.display = "flex";
+        });
+    }
+
+    if(butto_login){
+
+        // button.addEventListener("click", function() {
+        //     // Asegurarse de que el div sea visible
+        //     formDiv.style.display = "block";
+        //     // Agregar la clase para la animación
+        //     formDiv.classList.add("fade-in");
+        // });
+
+        butto_login.addEventListener("click", function() {
+            login.style.display = "flex";
         });
     }
 
