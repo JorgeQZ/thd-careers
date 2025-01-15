@@ -9,7 +9,7 @@ get_header();
 
 <div class="hero-banner">
     <video autoplay loop muted playsinline>
-        <source src="<?php echo get_template_directory_uri(  ).'/video/HOME.webm'; ?>" type="video/mp4">
+        <source src="<?php echo get_template_directory_uri(  ).'/video/HOME2.webm'; ?>" type="video/mp4">
         <source src="video.webm" type="video/webm">
         Your browser does not support the video tag.
     </video>
