@@ -12,10 +12,16 @@ require_once "inc/vacantes/catalogo_vacantes.php";
 require_once "inc/vacantes/mis_vacantes.php";
 
 /**
+ * Notificaciones
+ */
+require_once "inc/notificaciones/notificaciones.php";
+
+/**
  * Users
  */
 require_once "inc/users/fields.php";
 require_once "inc/users/roles.php";
+require_once "inc/users/config-login.php";
 require_once get_template_directory() . '/inc/users/miperfil.php';
 
 /**
@@ -40,9 +46,20 @@ require_once "inc/csvuploader/csv_uploader.php";
 
 
 /**
+ * GCP Bucket
+ */
+require_once "inc/gcpbucket/gcpbucket.php";
+
+
+/**
  * CSV Uploader
  */
 require_once "patterns/block-paterrns.php";
+
+/**
+ * Notificaciones
+ */
+require_once "inc/rueda_valores.php";
 
 /**
  * General Setup
@@ -72,6 +89,10 @@ function careers_styles()
     wp_enqueue_script('search', get_stylesheet_directory_uri(). '/js/search.js', array('jquery'), '2', true );
 
 
+    wp_localize_script('generals', 'ajax_query_vars', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+    ));
+
     if (is_page('Mi Perfil')) {
         wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/miperfil.css');
     }
@@ -100,6 +121,21 @@ function careers_styles()
     if (is_singular('vacantes')) {
         wp_enqueue_style('postulaciones', get_template_directory_uri() . '/css/postulaciones.css');
     }
+
+
+    if (is_page_template('templates/saved-jobs.php')) {
+        wp_enqueue_style('saved-jobs', get_template_directory_uri() . '/css/saved-jobs.css');
+    }
+
+
+    if (is_page_template('templates/notificaciones.php')) {
+        wp_enqueue_style('notificaciones', get_template_directory_uri() . '/css/notificaciones.css');
+    }
+
+    if (is_page_template('templates/login.php')) {
+        wp_enqueue_style('custom-login', get_template_directory_uri() . '/css/login.css');
+    }
+
 }
 add_action('wp_enqueue_scripts', 'careers_styles');
 
@@ -167,58 +203,76 @@ function highlight_and_break_title($title)
 // add_filter('the_title', 'highlight_and_break_title');
 
 
-function display_rueda()
-{
+function get_favorites_handler() {
+    // Verifica que se hayan enviado los datos
+    if (!isset($_POST['favorites'])) {
+        wp_send_json_error('No se enviaron datos.');
+        wp_die();
+    }
 
-    $output = '<div class="rueda-cont">';
-    $output .=  file_get_contents(get_template_directory_uri(  ).'/img/Rueda.svg');
-    ;$output .= '
-    <div class="item-desc rueda-desc" data-id-item="_1">
-    <img src="" alt="" class="icon">
-    <div class="title">construir relaciones solidas</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_2">
-    <img src="" alt="" class="icon">
-    <div class="title">excelente servicio al cliente</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_3">
-    <img src="" alt="" class="icon">
-    <div class="title">cuidar a nuestra gente</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_4">
-    <img src="" alt="" class="icon">
-    <div class="title">devolver a la comunidad</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_5">
-    <img src="" alt="" class="icon">
-    <div class="title">hacer lo correcto</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_6">
-    <img src="" alt="" class="icon">
-    <div class="title">crear valor para el accionista</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_7">
-    <img src="" alt="" class="icon">
-    <div class="title">respeto por todos y todas</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>
-<div class="item-desc rueda-desc" data-id-item="_8">
-    <img src="" alt="" class="icon">
-    <div class="title">espiritu empresarial</div>
-    <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi est atque illum consequatur? Recusandae quam tempora, quidem eius placeat impedit fuga molestias vero aliquid! Maiores illo similique velit accusamus ad.</div>
-</div>';
-$output .= '</div>';
+    $favorite_ids = json_decode(stripslashes($_POST['favorites']), true);
+    if (empty($favorite_ids)) {
+        wp_send_json_error('La lista de favoritos está vacía.');
+        wp_die();
+    }
 
-    return $output; // Devuelve el contenido
+    $posts = [];
+    foreach ($favorite_ids as $id) {
+        $post = get_post($id);
+        if ($post && $post->post_type === 'vacantes') { // Slug del CPT
+
+            $ubicacion_label = get_field('ubicacion', $post->ID)['label'];
+
+            if ($ubicacion_label) {
+                // Convertir el texto a formato más formal (capitalización correcta)
+                $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
+            } else {
+                $ubicacion_formateada = 'Ubicación no disponible';
+            }
+            $posts[] = [
+                'id'           => $post->ID,
+                'title'        => get_the_title($post),
+                'permalink'    => get_permalink($post),
+                'image'        => get_template_directory_uri() . '/imgs/logo-thd.jpg',
+                'location'     => $ubicacion_formateada, // Usamos la ubicación formateada
+                'location_icon'=> file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'),
+                'time_text'    => 'Lorem ipsum dolor sit, amet', // Texto genérico, personalízalo
+                'time_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'),
+                'like_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/me-gusta.svg'),
+                'tienda'       => get_field('extra_data_data_tienda', $post->ID) ?: 'Sin tienda', // ACF o campo personalizado
+            ];
+        }
+    }
+
+    wp_send_json($posts);
+    wp_die();
 }
+add_action('wp_ajax_get_favorites', 'get_favorites_handler');
+add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
 
-add_shortcode('rueda_thd', 'display_rueda');
+function agregar_imagen_a_menu($items, $args) {
+    // Verifica que el menú sea el correcto
+    if ($args->menu === 'Header') {
+        foreach ($items as &$item) {
+            // Busca el enlace de "MI PERFIL" por el título
+            if ($item->title === 'MI PERFIL') {
+                // Verifica si el usuario está logueado
+                if (is_user_logged_in()) {
+                    $item->classes[] = 'menu-item-mi-perfil'; // Añade una clase personalizada
+                    $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Mi Perfil" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
+                    $item->title = $imagen . 'MI PERFIL'; // Título cuando el usuario está logueado
+                } else {
+                    $item->classes[] = 'menu-item-login'; // Añade una clase personalizada
+                    $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Iniciar Sesión" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
+                    $item->title = $imagen . 'REGÍSTRATE O INICIA SESIÓN'; // Título cuando el usuario no está logueado
+                    $item->url = 'http://localhost:8888/thd-careers/login/'; // Cambia la URL al login
+                }
+            }
+        }
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_objects', 'agregar_imagen_a_menu', 10, 2);
 
 function limitar_busqueda_a_post_types( $query ) {
     if ( ! is_admin() && $query->is_search ) {

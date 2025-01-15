@@ -32,22 +32,16 @@
                 </div>
                 <?php endif;?>
 
-                <!-- Ícono de hamburguesa -->
-                <div class="hamburger-menu" onclick="toggleMenu()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <nav class="menu-web">
+                        <?php wp_nav_menu(array('menu' => 'Header'));?>
+                    </nav>
                 </div>
-
-                <nav class="menu-web">
+                <nav class="menu-wrapper">
                     <?php wp_nav_menu(array('menu' => 'Header'));?>
                 </nav>
             </div>
-            <nav class="menu-wrapper">
-                <?php wp_nav_menu(array('menu' => 'Header'));?>
-            </nav>
-        </div>
-    </header>
+        </header>
+    </div>
     <div class="main-content">
 
         <script>

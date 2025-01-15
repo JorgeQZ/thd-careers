@@ -173,6 +173,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.fav').forEach(function (favButton) {
         favButton.addEventListener('click', function () {
             // Obtener el id del li contenedor
+
+
+
             const listItem = favButton.closest('li');
             const itemId = listItem.getAttribute('data-id');
 
@@ -186,6 +189,43 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleItemActiveState(listItem, itemId);
         });
     });
+
+
+    // Funciones de la página de saved jobs
+    const textElement = document.querySelector('#count-jobs'); // Contenedor de "Visualizando X de Y vacantes"
+    // Actualizar el texto de "Visualizando X de Y vacantes"
+
+    function updateVacantesCount() {
+        const visibleCount = ulElement.querySelectorAll('li').length; // Elementos visibles
+        const totalCount = JSON.parse(localStorage.getItem('favorites'))?.length || 0; // Total de favoritos
+        textElement.textContent = `Visualizando ${visibleCount} de ${totalCount} vacantes`;
+    }
+
+    const ulElement = document.querySelector('#favorites-list'); // Contenedor principal
+
+    if (ulElement) {
+        // Event delegation: Escuchar clics en el contenedor principal
+        ulElement.addEventListener('click', function (event) {
+            // Verificar si el clic ocurrió en un botón .fav
+            const favButton = event.target.closest('.fav');
+            if (favButton) {
+                // Obtener el elemento <li> contenedor
+                const listItem = favButton.closest('li');
+                const itemId = listItem.getAttribute('data-id');
+
+                // Llamar a las funciones necesarias
+                updateFavorites(itemId);
+                toggleFavIcon(favButton, itemId);
+                toggleItemActiveState(listItem, itemId);
+                listItem.remove();
+
+                updateVacantesCount();
+            }
+        });
+
+
+
+    }
 
     // Función para cambiar el ícono de favorito
     function toggleFavIcon(favButton, id) {
@@ -243,6 +283,91 @@ document.addEventListener('DOMContentLoaded', function () {
     markItemsAsActive();
 
 
+
+
+    //Carga los primeros 5 saved jobs
+    const existPageTemplate = !!document.querySelector('.page-template-saved-jobs');
+
+    if (existPageTemplate) {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Obtiene los favoritos de localStorage
+        if (favorites.length > 0) {
+            const data = new FormData();
+            data.append('action', 'get_favorites');
+
+
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Obtiene los favoritos de localStorage
+            let currentIndex = 0; // Índice inicial para paginar
+
+            const ulElement = document.querySelector('#favorites-list'); // Contenedor de los elementos
+            const loadMoreButton = document.querySelector('#load-more'); // Botón "Cargar más"
+
+
+            const loadFavorites = () => {
+                if (currentIndex >= favorites.length) return; // No cargar si no hay más elementos
+
+                // Selecciona el siguiente grupo de 5 IDs
+                const nextBatch = favorites.slice(currentIndex, currentIndex + 5);
+                currentIndex += 5; // Incrementa el índice
+
+                const data = new FormData();
+                data.append('action', 'get_favorites');
+                data.append('favorites', JSON.stringify(nextBatch)); // Convierte el array a JSON
+
+                // Realiza la solicitud AJAX
+                fetch(ajax_query_vars.ajax_url, {
+                    method: 'POST',
+                    body: data,
+                })
+                    .then(response => response.json())
+                    .then(posts => {
+                        posts.forEach(post => {
+                            const li = document.createElement('li');
+                            li.className = 'item';
+                            li.setAttribute('data-id', post.id);
+                            li.setAttribute('data-tienda', post.tienda);
+                            li.setAttribute('data-title', post.title);
+                            li.innerHTML = `
+                            <div class="img">
+                                <img src="${post.image}" alt="">
+                            </div>
+                            <div class="desc">
+                                <a href="${post.permalink}">${post.title}</a>
+                                <div class="icon-cont">
+                                    <div class="img">${post.location_icon}</div>
+                                    <div class="text">${post.location}</div>
+                                </div>
+                                <div class="icon-cont">
+                                    <div class="img">${post.time_icon}</div>
+                                    <div class="text">${post.time_text}</div>
+                                </div>
+                            </div>
+                            <div class="fav">
+                                <div class="img">${post.like_icon}</div>
+                            </div>
+                        `;
+                            ulElement.appendChild(li);
+                            updateVacantesCount();
+                        });
+
+                        // Oculta el botón si no quedan más elementos
+                        if (currentIndex >= favorites.length) {
+                            loadMoreButton.style.display = 'none';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            };
+
+
+            // Cargar los primeros 5 elementos al cargar la página
+            loadFavorites();
+            // Evento para el botón "Cargar más"
+            loadMoreButton.addEventListener('click', loadFavorites);
+
+
+        }
+    }
+
+
     // Funciones de la rueda de valores
     const items_svg = document.querySelectorAll(".g-item");
     const rueda_desc = document.querySelectorAll(".rueda-desc");
@@ -266,4 +391,23 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    // Notificaciones
+    // Ver mensaje:
+    document.querySelectorAll('.plus').forEach(plusButton => {
+        plusButton.addEventListener('click', function () {
+            // Buscar el elemento más cercano con clase "item" (el LI padre)
+            const listItem = this.closest('.item');
+            // Encontrar el mensaje dentro de ese LI
+            const mensaje = listItem.querySelector('.mensaje');
+            // Alternar la clase en el mensaje
+            mensaje.classList.toggle('visible');
+
+            // Alternar la clase `rotated` en el botón plus
+            this.classList.toggle('rotated');
+        });
+    });
+
+
 });
+

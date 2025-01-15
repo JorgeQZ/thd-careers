@@ -62,117 +62,31 @@
   font-style: normal;
   font-display: swap;
 }
-.rueda-cont {
-  width: 600px;
-  margin: 0 auto;
-  margin-bottom: 50px;
-  position: relative;
-}
-.rueda-cont .logo {
-  width: 120px;
-  position: absolute;
-  background-color: red;
-  top: 235px;
-  left: 240px;
-}
-.rueda-cont svg {
-  margin-bottom: 40px;
-}
-.rueda-cont text,
-.rueda-cont foreignObject {
-  color: white;
-  font-family: "Helvetica Neue LT Std HvCn";
-  font-size: 20px;
-  text-align: center;
-  text-transform: capitalize;
-  cursor: pointer;
-  width: 120px;
-  height: 70px;
-}
-.rueda-cont text .icon,
-.rueda-cont foreignObject .icon {
-  text-shadow: 0 0 5px #f96302;
-  stroke: #f96302;
-  -webkit-text-stroke: 2px #f96302;
-  font-weight: 900;
-  font-size: 32px;
-}
-.rueda-cont g {
-  position: relative;
-  cursor: pointer;
-}
-.rueda-cont g.active path {
-  fill: #f96302;
-}
-.rueda-cont g.active text .icon,
-.rueda-cont g.active foreignObject .icon {
-  text-shadow: 0 0 5px #f96302;
-  -webkit-text-stroke: 2px #f96302;
+.custom-login-wrapper span {
   color: #f96302;
 }
-.rueda-cont g.unactive path {
-  fill: #a6a6a6;
-}
-.rueda-cont g.unactive text .icon,
-.rueda-cont g.unactive foreignObject .icon {
-  text-shadow: 0 0 5px #a6a6a6;
-  -webkit-text-stroke: 2px #a6a6a6;
-}
-.rueda-cont g#_1:hover, .rueda-cont g#_1.active {
-  transform: translate(5px, -10px);
-}
-.rueda-cont g#_1 foreignObject {
-  width: 120px;
-  height: 70px;
-}
-.rueda-cont g#_2:hover, .rueda-cont g#_2.active {
-  transform: translate(10px, -5px);
-}
-.rueda-cont g#_3:hover, .rueda-cont g#_3.active {
-  transform: translate(10px, 2px);
-}
-.rueda-cont g#_4:hover, .rueda-cont g#_4.active {
-  transform: translate(6px, 8px);
-}
-.rueda-cont g#_5:hover, .rueda-cont g#_5.active {
-  transform: translate(0px, 8px);
-}
-.rueda-cont g#_6:hover, .rueda-cont g#_6.active {
-  transform: translate(-10px, 2px);
-}
-.rueda-cont g#_7:hover, .rueda-cont g#_7.active {
-  transform: translate(-10px, -5px);
-}
-.rueda-cont g#_8:hover, .rueda-cont g#_8.active {
-  transform: translate(-5px, -10px);
-}
-.rueda-cont .item-desc {
-  display: none;
-  width: 500px;
-  background-color: #f96302;
-  margin: 0 auto;
-  padding: 40px;
-  position: relative;
+.custom-login-wrapper button {
+  font-family: "Helvetica Neue LT Std BdCn";
   color: white;
-}
-.rueda-cont .item-desc .title {
-  font-family: "Helvetica Neue LT Std HvCn";
-  font-size: 30px;
-  text-align: center;
-  text-transform: uppercase;
-}
-.rueda-cont .item-desc .desc {
-  text-align: center;
-  letter-spacing: 1.2px;
-}
-.rueda-cont .item-desc:before {
-  content: "";
-  width: 60px;
-  height: 60px;
   background-color: #f96302;
-  z-index: -1;
-  position: absolute;
-  bottom: calc(100% - 30px);
-  left: calc(50% - 30px);
-  transform: rotateZ(45deg);
+  border-radius: 2px;
+  padding: 15px 40px;
+  padding-top: 20px;
+  display: flex;
+  text-decoration: none;
+  border: 1px solid #f96302;
+  align-items: center;
+  justify-content: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 10px auto;
+  margin-top: 10px;
+}
+.custom-login-wrapper button:hover {
+  background-color: #fff;
+  color: #f96302;
 }

@@ -8,6 +8,7 @@ Template Name: Postulaciones
 <hr>
 
 <?php
+
     if (isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
         !empty($_POST['acf_postulacion_nombre']) &&
         !empty($_POST['acf_postulacion_correo'])) {
@@ -17,7 +18,30 @@ Template Name: Postulaciones
         $apellidopaterno = sanitize_text_field($_POST['acf_postulacion_apellidopaterno']);
         $apellidomaterno = sanitize_text_field($_POST['acf_postulacion_apellidomaterno']);
         $telefono = sanitize_text_field($_POST['acf_postulacion_telefono']);
-        $pr1 = sanitize_text_field($_POST['pr1']);
+        $select1 = sanitize_text_field($_POST['Select1-postulacion']);
+        $puesto1 = sanitize_text_field($_POST['puesto-1_puesto-de-trabajo-1']);
+        $compania1 = sanitize_text_field($_POST['puesto-1_compania-1']);
+        $ubicacion1 = sanitize_text_field($_POST['puesto-1_ubicacion-1']);
+        $desde1 = sanitize_text_field($_POST['puesto-1_desde-1']);
+        $hasta1 = sanitize_text_field($_POST['puesto-1_hasta-1']);
+        $descripciondelrol1 = sanitize_text_field($_POST['puesto-1_descripcion-del-rol-1']);
+        $actualmente_trabajo_aqui = isset($_POST['puesto-1_actualmente-trabajo-aqui-1']) && $_POST['puesto-1_actualmente-trabajo-aqui-1'] === 'Sí' ? 'Sí' : 'No';
+        $puesto2 = sanitize_text_field($_POST['puesto-2_puesto-de-trabajo-2']);
+        $compania2 = sanitize_text_field($_POST['puesto-2_compania-2']);
+        $ubicacion2 = sanitize_text_field($_POST['puesto-2_ubicacion-2']);
+        $desde2 = sanitize_text_field($_POST['puesto-2_desde-2']);
+        $hasta2 = sanitize_text_field($_POST['puesto-2_hasta-2']);
+        $descripciondelrol2 = sanitize_text_field($_POST['puesto-2_descripcion-del-rol-2']);
+        $actualmente_trabajo_aqui_2 = isset($_POST['puesto-2_actualmente-trabajo-aqui-2']) && $_POST['puesto-2_actualmente-trabajo-aqui-2'] === 'Sí' ? 'Sí' : 'No';
+        $has_trabajado = sanitize_text_field($_POST['has-trabajado']);
+        $escuela = sanitize_text_field($_POST['escuela-o-universidad']);
+        $titulo = sanitize_text_field($_POST['titulo-1']);
+        $gradodeestudios = sanitize_text_field($_POST['ultimo-grado-de-estudios']);
+        $tipo_apoyo = sanitize_text_field($_POST['tipo-de-apoyo']);
+        $que_tipo = sanitize_text_field($_POST['que-tipo']);
+        $especifique = sanitize_text_field($_POST['especifique-otro']);
+        $acepto = isset($_POST['acepto-voluntariamente']) && $_POST['acepto-voluntariamente'] === 'Sí' ? 'Sí' : 'No';
+
 
         // Crear la nueva postulación en el post-type 'postulaciones'
         $nueva_postulacion = array(
@@ -37,10 +61,33 @@ Template Name: Postulaciones
             update_field('Correo', $correo, $postulacion_id);
             update_field('Estado', 'Postulado', $postulacion_id);
             update_field('Telefono', $telefono, $postulacion_id);
-            update_field('pr1-postulacion', $pr1, $postulacion_id);
+            update_field('Select1-postulacion', $select1, $postulacion_id);
+            update_field('puesto-1_puesto-de-trabajo-1', $puesto1, $postulacion_id);
+            update_field('puesto-1_compania-1', $compania1, $postulacion_id);
+            update_field('puesto-1_ubicacion-1', $ubicacion1, $postulacion_id);
+            update_field('puesto-1_desde-1', $desde1, $postulacion_id);
+            update_field('puesto-1_hasta-1', $hasta1, $postulacion_id);
+            update_field('puesto-1_descripcion-del-rol-1', $descripciondelrol1, $postulacion_id);
+            update_field('puesto-1_actualmente-trabajo-aqui-1', $actualmente_trabajo_aqui, $postulacion_id);
+            update_field('puesto-2_puesto-de-trabajo-2', $puesto2, $postulacion_id);
+            update_field('puesto-2_compania-2', $compania2, $postulacion_id);
+            update_field('puesto-2_ubicacion-2', $ubicacion2, $postulacion_id);
+            update_field('puesto-2_desde-2', $desde2, $postulacion_id);
+            update_field('puesto-2_hasta-2', $hasta2, $postulacion_id);
+            update_field('puesto-2_descripcion-del-rol-2', $descripciondelrol2, $postulacion_id);
+            update_field('puesto-2_actualmente-trabajo-aqui-2', $actualmente_trabajo_aqui_2, $postulacion_id);
+            update_field('has-trabajado', $has_trabajado, $postulacion_id);
+            update_field('escuela-o-universidad', $escuela, $postulacion_id);
+            update_field('titulo-1', $titulo, $postulacion_id);
+            update_field('ultimo-grado-de-estudios', $gradodeestudios, $postulacion_id);
+            update_field('tipo-de-apoyo', $tipo_apoyo, $postulacion_id);
+            update_field('que-tipo', $que_tipo, $postulacion_id);
+            update_field('especifique-otro', $especifique, $postulacion_id);
+            update_field('acepto-voluntariamente', $acepto, $postulacion_id);
 
             // Obtener el ID del post principal actual
             $post_id = get_queried_object_id();
+
 
             // Guardar el título del post en el campo 'vacante' de la postulación
             update_field('vacante_vacante', get_the_title(get_queried_object_id()), $postulacion_id);
@@ -64,6 +111,15 @@ Template Name: Postulaciones
 
             // Obtener el valor del campo ACF 'data_correo' del post principal
             $correo_rh = $extra_data['data_correo'];
+
+            // Guardar el ID del post principal en el campo 'id_vacante' de la postulación
+            update_field('id_vacante', $post_id, $postulacion_id);
+
+            // Obtener el ID del usuario actual
+            $user_id = get_current_user_id();
+
+            // Guardar el ID del usuario en el campo 'id_postulante'
+            update_field('id_postulante', $user_id, $postulacion_id);
 
             // Guardar la 'ubicacion' en el campo 'ubicacion_vacante' de la postulación si tiene valor
             if (!empty($ubicacion)) {
@@ -153,190 +209,386 @@ Template Name: Postulaciones
     $apellido_materno_rellenar = get_field('apellido_materno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
     $correo_rellenar = get_field('correo_general', 'user_' . $user_id); // Usar el nombre exacto del campo
     $telefono_rellenar = get_field('telefono_celular_general', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $ar1 = get_field('ar1', 'user_' . $user_id); // Usar el nombre exacto del campo
+    $ar2 = get_field('ar2', 'user_' . $user_id);
+    $otroar2 = get_field('otroar2', 'user_' . $user_id); // Obtener el valor del campo otroar2
+    $escolaridad_rellenar = get_field('grado_escolaridad_general', 'user_' . $user_id);
 ?>
 
 <div class="container">
 
-    <div class="contenedorgeneralcampos">
-        <div class="seccion">
+    <form method="POST" action="" enctype="multipart/form-data">
 
-            <p class="titulo">Titulo 1</p>
+        <div class="contenedorgeneralcampos">
+            <div class="seccion">
 
-            <div class="campos">
+                <p class="titulo">DATOS GENERALES</p>
 
-                <div>
-                    <label>Nombre(s)</label>
-                    <input type="text">
+                <div class="campos">
+
+                    <div>
+                        <label>Nombre(s)</label>
+                        <input type="text" name="acf_postulacion_nombre" value="<?php echo esc_attr($nombre_rellenar); ?>" required>
+                    </div>
+
+                    <div>
+                        <label>Apellido Paterno</label>
+                        <input type="text" name="acf_postulacion_apellidopaterno" value="<?php echo esc_attr($apellido_paterno_rellenar); ?>" required>
+                    </div>
+
+                    <div>
+                        <label>Apellido Materno</label>
+                        <input type="text" name="acf_postulacion_apellidomaterno" value="<?php echo esc_attr($apellido_materno_rellenar); ?>" required>
+                    </div>
+
+                    <div>
+                        <label>Correo</label>
+                        <input type="text" name="acf_postulacion_correo" value="<?php echo esc_attr($correo_rellenar); ?>" required>
+                    </div>
+
+                    <div>
+                        <label>Celular</label>
+                        <input type="text" name="acf_postulacion_telefono" value="<?php echo esc_attr($telefono_rellenar); ?>" required>
+                    </div>
+
+                    <div>
+                        <label>¿Cómo te enteraste de nosotros?</label>
+                        <select name="Select1-postulacion">
+                            <option value="Sin selección">Seleccione una opción</option>
+                            <option value="Familia o amigo">Familia o amigo</option>
+                            <option value="Bolsa de empleo">Bolsa de empleo</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Reclutador virtual EMI">Reclutador virtual EMI</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="seccion">
+
+                <p class="titulo">EXPERIENCIA LABORAL</p>
+
+                <p class="subtitulo puesto1">Puesto 1</p>
+
+                <div class="campos">
+
+                    <div>
+                        <label>Puesto de trabajo</label>
+                        <input type="text" name="puesto-1_puesto-de-trabajo-1" required>
+                    </div>
+
+                    <div>
+                        <label>Compañia</label>
+                        <input type="text" name="puesto-1_compania-1" required>
+                    </div>
+
+                    <div>
+                        <label>Ubicación</label>
+                        <input type="text" name="puesto-1_ubicacion-1" required>
+                    </div>
+
+                    <div>
+                        <label>Desde</label>
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-1_desde-1" required>
+                            <span class="icon-calendar"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Hasta</label>
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-1_hasta-1" required>
+                            <span class="icon-calendar"></span>
+                        </div>
+                    </div>
+
+                    <div></div>
+
+                    <div class="div-allarea">
+                        <label>Descripción del rol</label>
+                        <textarea name="puesto-1_descripcion-del-rol-1" required></textarea>
+                    </div>
+
+                    <div class="div-checkbox">
+                        <input type="checkbox" id="checkbox1" name="puesto-1_actualmente-trabajo-aqui-1" value="Sí">
+                        <label for="checkbox1">Actualmente trabajo aquí</label>
+                    </div>
+
                 </div>
 
-                <div>
-                    <label>Apellido Paterno</label>
-                    <input type="text">
-                </div>
+                <p class="subtitulo puesto2">Puesto 2</p>
 
-                <div>
-                    <label>Apellido Materno</label>
-                    <input type="text">
-                </div>
+                <div class="campos">
 
-                <div>
-                    <label>Correo</label>
-                    <input type="text">
-                </div>
+                    <div>
+                        <label>Puesto de trabajo</label>
+                        <input type="text" name="puesto-2_puesto-de-trabajo-2">
+                    </div>
 
-                <div>
-                    <label>¿Cómo te enteraste de nosotros?</label>
-                    <select>
-                        <option>Seleccione una opción</option>
-                        <option>Familia o amigo</option>
-                        <option>Bolsa de empleo</option>
-                        <option>Facebook</option>
-                        <option>Instagram</option>
-                        <option>LinkedIn</option>
-                        <option>Reclutador virtual EMI</option>
-                    </select>
-                </div>
+                    <div>
+                        <label>Compañia</label>
+                        <input type="text" name="puesto-2_compania-2">
+                    </div>
 
+                    <div>
+                        <label>Ubicación</label>
+                        <input type="text" name="puesto-2_ubicacion-2">
+                    </div>
+
+                    <div>
+                        <label>Desde</label>
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-2_desde-2">
+                            <span class="icon-calendar"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Hasta</label>
+                        <div class="custom-date-input">
+                            <input type="date" name="puesto-2_hasta-2">
+                            <span class="icon-calendar"></span>
+                        </div>
+                    </div>
+
+                    <div></div>
+
+                    <div class="div-allarea">
+                        <label>Descripción del rol</label>
+                        <textarea name="puesto-2_descripcion-del-rol-2"></textarea>
+                    </div>
+
+                    <div class="div-checkbox dos">
+                        <input type="checkbox" id="checkbox2" name="puesto-2_actualmente-trabajo-aqui-2" value="Sí">
+                        <label for="checkbox2">Actualmente trabajo aquí</label>
+                    </div>
+
+                    <div>
+                        <label style="width: 200%;">¿Actualmente trabajas o has trabajado en The Home Depot?</label>
+                        <select name="has-trabajado">
+                            <option value="Sin Selección">Seleccione una respuesta</option>
+                            <option value="Sí">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="seccion">
+
+                <p class="titulo">EDUCACIÓN</p>
+
+                <div class="campos">
+
+                    <div>
+                        <label>Escuela o Universidad</label>
+                        <input type="text" name="escuela-o-universidad" required>
+                    </div>
+
+                    <div>
+                        <label>Título</label>
+                        <input type="text" name="titulo-1" required>
+                    </div>
+
+                    <div>
+                        <label>Último grado de estudios</label>
+                        <select name="ultimo-grado-de-estudios">
+                            <option value="Sin seleccion" <?php selected($escolaridad_rellenar, 'Sin seleccion'); ?>>Escolaridad - Grado de estudios</option>
+                            <option value="Primaria" <?php selected($escolaridad_rellenar, 'Primaria'); ?>>Primaria</option>
+                            <option value="Secundaria" <?php selected($escolaridad_rellenar, 'Secundaria'); ?>>Secundaria</option>
+                            <option value="Preparatoria" <?php selected($escolaridad_rellenar, 'Preparatoria'); ?>>Preparatoria</option>
+                            <option value="Carrera técnica" <?php selected($escolaridad_rellenar, 'Carrera técnica'); ?>>Carrera técnica</option>
+                            <option value="Licenciatura" <?php selected($escolaridad_rellenar, 'Licenciatura'); ?>>Licenciatura</option>
+                            <option value="Posgrado" <?php selected($escolaridad_rellenar, 'Posgrado'); ?>>Posgrado</option>
+                            <option value="Maestría" <?php selected($escolaridad_rellenar, 'Maestría'); ?>>Maestría</option>
+                            <option value="Doctorado" <?php selected($escolaridad_rellenar, 'Doctorado'); ?>>Doctorado</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="seccion">
+
+                <p class="titulo titulo-cv">CURRICULUM/CV</p>
+
+                <div class="campos">
+
+                    <div class="div-cv">
+                        <img class="img-file-icon" src="<?php echo get_template_directory_uri(); ?>/imgs/attach-file.svg" alt="file icon">
+                        <span class="file-name">Sin archivo seleccionado</span>
+                        <input id="file-input" type="file">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="seccion">
+
+                <p class="titulo">AJUSTES RAZONABLES</p>
+
+                <div class="campos">
+
+                    <div class="div-allarea">
+                        <label style="width: 1000px;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
+                        <select id="support-select" name="tipo-de-apoyo">
+                            <option value="Sin Selección" <?php echo ($ar1 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
+                            <option value="Sí" <?php echo ($ar1 === 'Sí') ? 'selected' : ''; ?>>Sí</option>
+                            <option value="No" <?php echo ($ar1 === 'No') ? 'selected' : ''; ?>>No</option>
+                        </select>
+                    </div>
+
+                    <div class="div-allarea" id="support-details" style="display: none;">
+                        <label style="width: 1000px;">¿Qué tipo de apoyo o ajuste requieres para tu proceso de selección?</label>
+                        <select id="support-type-select" name="que-tipo">
+                            <option value="Sin Selección" <?php echo ($ar2 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
+                            <option value="Uso de notas escritas mediante libreta o pizarra de comunicación" <?php echo ($ar2 === 'Uso de notas escritas mediante libreta o pizarra de comunicación') ? 'selected' : ''; ?>>Uso de notas escritas mediante libreta o pizarra de comunicación</option>
+                            <option value="Intérprete de LSM (lengua de señas mexicana)" <?php echo ($ar2 === 'Intérprete de LSM (lengua de señas mexicana)') ? 'selected' : ''; ?>>Intérprete de LSM (lengua de señas mexicana)</option>
+                            <option value="Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)" <?php echo ($ar2 === 'Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)') ? 'selected' : ''; ?>>Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)</option>
+                            <option value="Poder tomar asiento con frecuencia" <?php echo ($ar2 === 'Poder tomar asiento con frecuencia') ? 'selected' : ''; ?>>Poder tomar asiento con frecuencia</option>
+                            <option value="Magnificadores de pantalla o lupa portátil" <?php echo ($ar2 === 'Magnificadores de pantalla o lupa portátil') ? 'selected' : ''; ?>>Magnificadores de pantalla o lupa portátil</option>
+                            <option value="Uso de lector de pantalla" <?php echo ($ar2 === 'Uso de lector de pantalla') ? 'selected' : ''; ?>>Uso de lector de pantalla</option>
+                            <option value="Control de estímulos sonoros, como aislamiento de ruido" <?php echo ($ar2 === 'Control de estímulos sonoros, como aislamiento de ruido') ? 'selected' : ''; ?>>Control de estímulos sonoros, como aislamiento de ruido</option>
+                            <option value="Otro" <?php echo ($ar2 === 'Otro') ? 'selected' : ''; ?>>Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="div-allarea" id="textareaotro" style="display: none;">
+                        <label>Por favor, especifique:</label>
+                        <textarea name="especifique-otro"><?php echo esc_html($otroar2); ?></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="seccion">
+
+                <p class="titulo">TÉRMINOS Y CONDICIONES</p>
+
+                <div class="campos">
+
+                    <div class="div-checkbox">
+                        <input type="checkbox" name="acepto-voluntariamente" value="Sí" required>
+                        <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a THD.</label>
+                    </div>
+
+                </div>
             </div>
         </div>
 
-        <div class="seccion">
+        <button class="boton-postulacion" type="submit">ENVIAR POSTULACIÓN</button>
 
-            <p class="titulo">Titulo 2</p>
-
-            <p class="subtitulo">Puesto 1</p>
-
-            <div class="campos">
-
-                <div>
-                    <label>Puesto de trabajo</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Compañia</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Ubicación</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Desde</label>
-                    <input type="date">
-                </div>
-
-                <div>
-                    <label>Hasta</label>
-                    <input type="date">
-                </div>
-
-                <div></div>
-
-                <div class="div-textarea">
-                    <label>Descripción del rol</label>
-                    <textarea></textarea>
-                </div>
-
-                <div class="div-checkbox">
-                    <input type="checkbox">
-                    <label>Actualmente trabajo aquí</label>
-                </div>
-
-            </div>
-
-            <p class="subtitulo">Puesto 2</p>
-
-            <div class="campos">
-
-                <div>
-                    <label>Puesto de trabajo</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Compañia</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Ubicación</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Desde</label>
-                    <input type="date">
-                </div>
-
-                <div>
-                    <label>Hasta</label>
-                    <input type="date">
-                </div>
-
-                <div></div>
-
-                <div class="div-textarea">
-                    <label>Descripción del rol</label>
-                    <textarea></textarea>
-                </div>
-
-                <div class="div-checkbox">
-                    <input type="checkbox">
-                    <label>Actualmente trabajo aquí</label>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="seccion">
-
-            <p class="titulo">Titulo 3</p>
-
-            <div class="campos">
-
-                <div>
-                    <label>Escuela o Universidad</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Título</label>
-                    <input type="text">
-                </div>
-
-                <div>
-                    <label>Último grado de estudios</label>
-                    <select>
-                        <option>Escolaridad - Grado de estudios</option>
-                        <option>Primaria</option>
-                        <option>Secundaria</option>
-                        <option>Preparatoria</option>
-                        <option>Carrera técnica</option>
-                        <option>Licenciatura</option>
-                        <option>Posgrado</option>
-                        <option>Maestría</option>
-                        <option>Doctorado</option>
-                    </select>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="seccion">
-
-            <p class="titulo">Titulo 4</p>
-
-            <div class="campos">
-
-                <div class="div-cv">
-                    <input type="file">
-                </div>
-
-            </div>
-        </div>
-    </div>
+    </form>
 
 </div>
+
+<script>
+    const fileInput = document.getElementById('file-input');
+    const fileNameSpan = document.querySelector('.file-name');
+
+    fileInput.addEventListener('change', function () {
+        if (fileInput.files.length > 0) {
+            fileNameSpan.textContent = fileInput.files[0].name;
+        } else {
+            fileNameSpan.textContent = 'Sin archivo seleccionado';
+        }
+    });
+</script>
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const supportSelect = document.getElementById('support-select');
+        const supportDetails = document.getElementById('support-details');
+
+        supportSelect.addEventListener('change', function () {
+            if (supportSelect.value === 'Sí') {
+                supportDetails.style.display = 'flex';
+            } else {
+                supportDetails.style.display = 'none';
+            }
+        });
+    });
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const supportSelect = document.getElementById('support-select');
+        const supportDetails = document.getElementById('support-details');
+
+        // Función para manejar la visibilidad de supportDetails
+        function handleSupportDetails() {
+            if (supportSelect.value === 'Sí') {
+                supportDetails.style.display = 'flex';
+            } else {
+                supportDetails.style.display = 'none';
+            }
+        }
+
+        // Ejecutar la lógica inicial
+        handleSupportDetails();
+
+        // Evento change para actualizar la visibilidad
+        supportSelect.addEventListener('change', handleSupportDetails);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox1 = document.getElementById('checkbox1');
+        const checkbox2 = document.getElementById('checkbox2');
+
+        checkbox1.addEventListener('change', function () {
+            if (checkbox1.checked) {
+                checkbox2.checked = false;
+            }
+        });
+
+        checkbox2.addEventListener('change', function () {
+            if (checkbox2.checked) {
+                checkbox1.checked = false;
+            }
+        });
+    });
+</script>
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const supportTypeSelect = document.getElementById('support-type-select');
+        const textareaOtro = document.getElementById('textareaotro');
+
+        supportTypeSelect.addEventListener('change', function () {
+            if (supportTypeSelect.value === 'Otro') {
+                textareaOtro.style.display = 'flex';
+            } else {
+                textareaOtro.style.display = 'none';
+            }
+        });
+    });
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const supportTypeSelect = document.getElementById('support-type-select');
+        const textareaOtro = document.getElementById('textareaotro');
+
+        // Función para manejar la visibilidad de textareaOtro
+        function handleTextareaOtro() {
+            if (supportTypeSelect.value === 'Otro') {
+                textareaOtro.style.display = 'flex';
+            } else {
+                textareaOtro.style.display = 'none';
+            }
+        }
+
+        // Ejecutar la lógica inicial
+        handleTextareaOtro();
+
+        // Evento change para actualizar la visibilidad
+        supportTypeSelect.addEventListener('change', handleTextareaOtro);
+    });
+</script>

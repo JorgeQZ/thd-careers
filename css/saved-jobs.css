@@ -1,0 +1,251 @@
+@font-face {
+  font-family: "Helvetica Neue LT Std";
+  src: url("../fonts/HelveticaNeueLTStd-Roman.eot");
+  src: url("../fonts/HelveticaNeueLTStd-Roman.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-Roman.woff2") format("woff2"), url("../fonts/HelveticaNeueLTStd-Roman.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-Roman.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue LT Std HvCn";
+  src: url("../fonts/HelveticaNeueLTStd-HvCn.eot");
+  src: url("../fonts/HelveticaNeueLTStd-HvCn.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-HvCn.woff2") format("woff2"), url("../fonts/HelveticaNeueLTStd-HvCn.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-HvCn.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue LT Std Cn";
+  src: url("../fonts/HelveticaNeueLTStd-Cn.eot");
+  src: url("../fonts/HelveticaNeueLTStd-Cn.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-Cn.woff2") format("woff2"), url("../fonts/HelveticaNeueLTStd-Cn.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-Cn.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue LT Std MdCn";
+  src: url("../fonts/HelveticaNeueLTStd-MdCn.eot");
+  src: url("../fonts/HelveticaNeueLTStd-MdCn.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-MdCn.woff2") format("woff2"), url("../fonts/HelveticaNeueLTStd-MdCn.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-MdCn.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue LT Std LtCn";
+  src: url("../fonts/HelveticaNeueLTStd-LtCn.eot");
+  src: url("../fonts/HelveticaNeueLTStd-LtCn.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-LtCn.woff2") format("woff2"), url("../fonts/HelveticaNeueLTStd-LtCn.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-LtCn.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  src: url("../fonts/HelveticaNeueLTStd-BlkCn.eot");
+  src: url("../fonts/HelveticaNeueLTStd-BlkCn.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-BlkCn.woff2") format("woff2"), url("../fonts/HelveticaNeueLTStd-BlkCn.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-BlkCn.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue LT Std BdCn";
+  src: url("../fonts/HelveticaNeueLTStd-BdCn.eot");
+  src: url("../fonts/HelveticaNeueLTStd-BdCn.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-BdCn.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-BdCn.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue LT Std Bd";
+  src: url("../fonts/HelveticaNeueLTStd-Bd.eot");
+  src: url("../fonts/HelveticaNeueLTStd-Bd.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeueLTStd-Bd.woff") format("woff"), url("../fonts/HelveticaNeueLTStd-Bd.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+.banner {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 0 80px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f96302;
+}
+.banner:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+.banner .container {
+  color: white;
+  font-family: "Helvetica Neue LT Std BlkCn";
+  font-size: 60px;
+  text-transform: uppercase;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.banner .container .title-cont .term {
+  font-size: 16px;
+  font-family: "Helvetica Neue LT Std";
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+.banner .container .title-cont .title {
+  font-family: "Helvetica Neue LT Std HvCn";
+  font-size: 40px;
+  margin-top: 10px;
+  line-height: 1.1;
+  width: 80%;
+  transition: none;
+}
+
+.vacantes-int-cont .container .title {
+  font-family: "Helvetica Neue LT Std BlkCn";
+  text-transform: uppercase;
+  font-size: 40px;
+  margin: 40px 0;
+}
+.vacantes-int-cont .container .title span {
+  color: #f96302;
+}
+.vacantes-int-cont .container .display-cont {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.vacantes-int-cont .container .display-cont .text {
+  background-color: #fff;
+  margin: 0 auto;
+  z-index: 1;
+  padding: 5px 10px;
+  color: #a6a6a6;
+  font-size: 12px;
+  font-style: italic;
+}
+.vacantes-int-cont .container .display-cont .line {
+  position: absolute;
+  top: calc(50% - 1px);
+  width: 100%;
+  height: 1px;
+  background-color: #a6a6a6;
+}
+.vacantes-int-cont .container .list {
+  padding: 20px 0;
+  margin: 0;
+  width: 100%;
+}
+.vacantes-int-cont .container .list .item {
+  list-style: none;
+  border: 1px solid #a6a6a6;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 30px;
+  transition: all 300ms;
+}
+.vacantes-int-cont .container .list .item.active {
+  border-color: #f96302;
+}
+.vacantes-int-cont .container .list .item .img {
+  width: 55px;
+  height: 55px;
+  margin-right: 20px;
+}
+.vacantes-int-cont .container .list .item .img img {
+  width: 100%;
+}
+.vacantes-int-cont .container .list .item .desc {
+  font-family: "Helvetica Neue LT Std Bd";
+}
+.vacantes-int-cont .container .list .item .desc a {
+  color: #f96302;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.vacantes-int-cont .container .list .item .desc .icon-cont {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 0px;
+}
+.vacantes-int-cont .container .list .item .desc .icon-cont .img {
+  height: 20px;
+  width: 10px;
+  margin-right: 5px;
+}
+.vacantes-int-cont .container .list .item .desc .icon-cont .img svg {
+  width: 10px;
+  fill: #f96302;
+}
+.vacantes-int-cont .container .list .item .desc .icon-cont .img svg path,
+.vacantes-int-cont .container .list .item .desc .icon-cont .img svg circle {
+  fill: #f96302;
+}
+.vacantes-int-cont .container .list .item .desc .icon-cont .img svg path.cls-2, .vacantes-int-cont .container .list .item .desc .icon-cont .img svg path.cls-4,
+.vacantes-int-cont .container .list .item .desc .icon-cont .img svg circle.cls-2,
+.vacantes-int-cont .container .list .item .desc .icon-cont .img svg circle.cls-4 {
+  fill: white;
+}
+.vacantes-int-cont .container .list .item .desc .icon-cont .text {
+  font-family: "Helvetica Neue LT Std";
+  font-size: 12px;
+  text-transform: capitalize;
+}
+.vacantes-int-cont .container .list .item .fav {
+  margin-left: auto;
+}
+.vacantes-int-cont .container .list .item .fav .img {
+  margin-left: auto;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vacantes-int-cont .container .list .item .fav .img svg {
+  height: 35px;
+  cursor: pointer;
+}
+.vacantes-int-cont .container .list .item .fav .img svg:hover path {
+  fill: #f96302;
+}
+.vacantes-int-cont .container .list .item .fav .img svg path {
+  fill: #f96302;
+  transition: all 300ms;
+}
+.vacantes-int-cont .container button {
+  font-family: "Helvetica Neue LT Std BdCn";
+  color: #fff;
+  background-color: #f96302;
+  border-radius: 2px;
+  padding: 13px 20px;
+  padding-top: 15px;
+  display: flex;
+  border: 1px solid #f96302;
+  align-items: center;
+  justify-content: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+.vacantes-int-cont .container button:hover {
+  border: 1px solid #f96302;
+  color: #f96302;
+  background-color: #fff;
+}

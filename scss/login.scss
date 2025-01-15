@@ -1,0 +1,35 @@
+//Variables
+@import "variables";
+@import "fonts";
+
+.custom-login-wrapper {
+    span {
+        color: $orange;
+    }
+
+    button {
+        font-family: "Helvetica Neue LT Std BdCn";
+        color: white;
+        background-color: $orange;
+        border-radius: 2px;
+        padding: 15px 40px;
+        padding-top: 20px;
+        display: flex;
+        text-decoration: none;
+        border: 1px solid $orange;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 1;
+        text-transform: uppercase;
+        margin: 10px auto;
+        margin-top: 10px;
+
+        &:hover {
+            background-color: #fff;
+            color: $orange;
+        }
+    }
+}

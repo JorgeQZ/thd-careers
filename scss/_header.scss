@@ -7,6 +7,51 @@ body.admin-bar {
     }
 }
 
+
+.cont-header {
+    height: 120px;
+}
+
+/* Estilos para el menú del perfil */
+.menu-item-mi-perfil .imagen-perfil,
+.menu-item-login .imagen-perfil {
+    transition: all 0.3s ease;
+}
+
+.menu-item-mi-perfil:hover .imagen-perfil,
+.menu-item-login:hover .imagen-perfil {
+    content: url('../imgs/icono-perfil.png');
+    /* Ruta de la imagen para hover */
+}
+
+@media (max-width: 899px) {
+    .cont-header {
+        height: 80px;
+    }
+}
+
+@media (max-width: 999px) {
+
+    .menu-item-mi-perfil .imagen-perfil,
+    .menu-item-login .imagen-perfil {
+        display: none !important;
+        /* Oculta la imagen */
+    }
+}
+
+@media (min-width: 1000px) {
+    .container {
+        .menu {
+            align-items: center;
+
+            .sub-menu {
+                top: 40px !important;
+                right: 95px !important;
+            }
+        }
+    }
+}
+
 header {
     background-color: $dark_grey;
     padding: 35px 80px;

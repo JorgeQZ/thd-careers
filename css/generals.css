@@ -108,10 +108,10 @@ iframe {
   z-index: 99999;
   width: 100%;
   height: 100vh;
-  display: flex;
   align-items: center;
   justify-content: center;
   top: 0;
+  display: none;
 }
 .popup-cont .container {
   background-color: #fff;
@@ -124,43 +124,76 @@ iframe {
   width: fit-content;
   padding: 50px;
   position: relative;
+  width: 600px;
 }
 .popup-cont .container .close {
   position: absolute;
-  color: #fff;
+  color: #a6a6a6;
   cursor: pointer;
-  background-color: #f96302;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: -20px;
-  right: -20px;
-  font-size: 50px;
+  top: 5px;
+  right: 5px;
+  font-size: 40px;
+  font-family: "Helvetica Neue LT Std Bd";
   line-height: 1;
   border-radius: 50%;
   transform: rotateZ(45deg);
 }
+.popup-cont .container .close:hover {
+  color: #f96302;
+}
 .popup-cont .container .title {
   font-family: "Helvetica Neue LT Std HvCn";
-  font-size: 30px;
+  font-size: 34px;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+}
+.popup-cont .container .title span {
+  color: #f96302;
 }
 .popup-cont .container .desc {
-  max-width: 550px;
-  font-size: 18px;
+  font-size: 14px;
   letter-spacing: 1px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+  max-width: 375px;
+  text-align: center;
+}
+.popup-cont .container .desc span {
+  color: #f96302;
+}
+.popup-cont .container .login-form {
+  width: 100%;
+  margin: 0 auto;
+}
+.popup-cont .container .login-form form {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+}
+.popup-cont .container .login-form form input {
+  box-sizing: border-box;
+  width: 49%;
+  border: solid thin;
+  border-radius: 3px;
+  height: 35px;
+  margin-top: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 10px;
 }
 .popup-cont .container .img-cont {
-  background-color: #f96302;
   padding: 5px;
   border-radius: 3px;
 }
 .popup-cont .container .img-cont img {
   margin: 0 auto;
-  max-height: 350px;
+  max-height: 260px;
   margin-bottom: -5px;
 }
 .popup-cont .container .button {
@@ -168,9 +201,35 @@ iframe {
   color: white;
   background-color: #f96302;
   border-radius: 2px;
-  padding: 13px 20px;
+  padding: 15px 40px;
+  padding-top: 20px;
+  display: flex;
+  text-decoration: none;
+  border: 1px solid #f96302;
+  align-items: center;
+  justify-content: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 10px auto;
+  margin-top: 10px;
+}
+.popup-cont .container .button:hover {
+  background-color: #fff;
+  color: #f96302;
+}
+.popup-cont .container .button_sub {
+  font-family: "Helvetica Neue LT Std BdCn";
+  color: white;
+  background-color: #f96302;
+  border-radius: 2px;
+  padding: 10px 20px;
   padding-top: 15px;
   display: flex;
+  text-decoration: none;
   border: 1px solid #f96302;
   align-items: center;
   justify-content: center;
@@ -180,11 +239,35 @@ iframe {
   font-size: 14px;
   line-height: 1;
   text-transform: uppercase;
-  margin-top: 50px;
+  margin: 10px auto;
+  margin-top: 10px;
 }
-.popup-cont .container .button:hover {
+.popup-cont .container .button_sub:hover {
   background-color: #fff;
   color: #f96302;
+}
+.popup-cont .container hr {
+  width: 100%;
+  background-color: #a6a6a6;
+  height: 1px;
+  border: none;
+}
+.popup-cont .container .register-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  max-width: 375px;
+  text-align: center;
+}
+.popup-cont .container .register-link .button_sub {
+  letter-spacing: normal;
+  margin-left: 10px;
+  background-color: #fff;
+  color: #f96302;
+  border-color: #f96302;
 }
 
 body.admin-bar {
@@ -196,6 +279,43 @@ body.admin-bar {
   }
 }
 
+.cont-header {
+  height: 120px;
+}
+
+/* Estilos para el menú del perfil */
+.menu-item-mi-perfil .imagen-perfil,
+.menu-item-login .imagen-perfil {
+  transition: all 0.3s ease;
+}
+
+.menu-item-mi-perfil:hover .imagen-perfil,
+.menu-item-login:hover .imagen-perfil {
+  content: url("../imgs/icono-perfil.png");
+  /* Ruta de la imagen para hover */
+}
+
+@media (max-width: 899px) {
+  .cont-header {
+    height: 80px;
+  }
+}
+@media (max-width: 999px) {
+  .menu-item-mi-perfil .imagen-perfil,
+  .menu-item-login .imagen-perfil {
+    display: none !important;
+    /* Oculta la imagen */
+  }
+}
+@media (min-width: 1000px) {
+  .container .menu {
+    align-items: center;
+  }
+  .container .menu .sub-menu {
+    top: 40px !important;
+    right: 95px !important;
+  }
+}
 header {
   background-color: #272727;
   padding: 35px 80px;
