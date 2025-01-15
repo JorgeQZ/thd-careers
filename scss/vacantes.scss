@@ -348,6 +348,27 @@
                         font-family: $ff-roman;
                     }
 
+                    .button {
+                        background-color: $orange;
+                        border: 1px solid $orange;
+                        color: #fff;
+                        font-family: $ff-bd;
+                        width: fit-content;
+                        padding: 5px 10px;
+                        padding-top: 7px;
+                        margin: 0 auto;
+                        text-transform: uppercase;
+                        border-radius: 2px;
+                        text-decoration: none;
+                        display: block;
+
+                        &:hover {
+                            color: $orange;
+                            background-color: #fff;
+                            cursor: pointer;
+                        }
+                    }
+
 
                 }
             }

@@ -21,6 +21,7 @@ require_once "inc/notificaciones/notificaciones.php";
  */
 require_once "inc/users/fields.php";
 require_once "inc/users/roles.php";
+require_once "inc/users/config-login.php";
 require_once get_template_directory() . '/inc/users/miperfil.php';
 
 /**
@@ -37,6 +38,12 @@ require_once "inc/map/conf.php";
  * CSV Uploader
  */
 require_once "inc/csvuploader/csv_uploader.php";
+
+
+/**
+ * GCP Bucket
+ */
+require_once "inc/gcpbucket/gcpbucket.php";
 
 
 /**
@@ -114,6 +121,11 @@ function careers_styles()
     if (is_page_template('templates/notificaciones.php')) {
         wp_enqueue_style('notificaciones', get_template_directory_uri() . '/css/notificaciones.css');
     }
+
+    if (is_page_template('templates/login.php')) {
+        wp_enqueue_style('custom-login', get_template_directory_uri() . '/css/login.css');
+    }
+
 }
 add_action('wp_enqueue_scripts', 'careers_styles');
 

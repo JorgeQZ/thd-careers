@@ -4,12 +4,20 @@
  */
 
 get_header();
+
 $tax_name = "categorias_vacantes";
 $term = get_field($tax_name);
-$term_name = $term->name;
+$term_name = '';
+if($term != ''){
+    $term_name = $term->name;
+    $ubicaciones = get_unique_locations_with_values($term->slug);
+    $unique_titles = get_unique_vacantes_titles_by_taxonomy($term->slug);
+}else{
+    $unique_titles = get_unique_vacantes_titles();
+    $ubicaciones = get_unique_locations();
+}
 
-$ubicaciones = get_unique_locations_with_values($term->slug);
-$unique_titles = get_unique_vacantes_titles_by_taxonomy($term->slug);
+
 ?>
 
 
@@ -74,14 +82,19 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy($term->slug);
                         'post_type' => 'vacantes',
                         'order' => 'ASC',
                         'orderby' => 'title',
-                        'tax_query' => array(
+                    );
+
+                    // Verificar si el slug está disponible en $term
+                    if ( isset( $term->slug ) && !empty( $term->slug ) ) {
+                        $args['tax_query'] = array(
                             array(
                                 'taxonomy' => $tax_name,
                                 'field' => 'slug',
                                 'terms' => $term->slug,
                             ),
-                        ),
-                    );
+                        );
+                    }
+
                     $query = new WP_Query($args);
 
                     if ($query->have_posts()):
@@ -111,12 +124,12 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy($term->slug);
                                         <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                     </div>
 
-                                    <div class="icon-cont">
+                                    <!-- <div class="icon-cont">
                                         <div class="img">
                                             <?php echo file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'); ?>
                                         </div>
                                         <div class="text">Lorem ipsum dolor sit, amet</div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="fav">
                                     <div class="img">
@@ -137,8 +150,9 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy($term->slug);
                             Vacantes de interes
                         </div>
                         <div class="desc">
-                            Lorem ipsum, dolor sit amet
+                            Haz clic en el botón para ver las vacantes de tu interes guardadas.
                         </div>
+                        <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                     </div>
                 </div>
             </div>

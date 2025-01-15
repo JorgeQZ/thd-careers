@@ -31,7 +31,7 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy('centros-logisticos');
                 <span>de interés</span>
             </div>
             <div class="display-cont">
-                <div class="text" id="count-jobs">Visualizando 4 de 6 vacantes</div>
+                <div class="text" id="count-jobs">Visualizando 0 de 0 vacantes</div>
                 <div class="line"></div>
             </div>
             <ul class="list job-list" id="favorites-list"></ul>

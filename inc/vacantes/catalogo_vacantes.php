@@ -319,6 +319,31 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
         }
     }
 }
+add_action('save_post', 'update_slug_after_save', 10, 3);
+function update_slug_after_save($post_ID, $post, $update) {
+    // Evitar que se ejecute en actualizaciones recursivas
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if ($post->post_type === 'vacantes') {
+        $codigo_de_vacante = get_field('codigo_de_vacante', $post_ID);
+        $extra_data_data_tienda = get_field('extra_data_data_tienda', $post_ID);
+
+        if (!empty($codigo_de_vacante) && !empty($extra_data_data_tienda)) {
+            $base_slug = sanitize_title($codigo_de_vacante . '-' . $extra_data_data_tienda);
+            $slug = current_user_can('administrator') ? $base_slug . '-admin' : $base_slug;
+
+            // Verificar si el slug realmente ha cambiado
+            if ($post->post_name !== $slug) {
+                // Actualizar el slug directamente en la base de datos
+                wp_update_post(array(
+                    'ID' => $post_ID,
+                    'post_name' => $slug
+                ));
+            }
+        }
+    }
+}
+
 
 function restringir_campos_acf_por_rol($field) {
     // Verificar si el usuario no es un administrador
@@ -372,6 +397,29 @@ function restringir_titulo_cpt_vacantes($title, $post_id) {
     return $title;
 }
 add_filter('input_post_title', 'restringir_titulo_cpt_vacantes', 10, 2);
+
+// Función para restringir la publicación de vacantes solo a borrador para administradores
+add_action('save_post', 'restrict_publish_for_admin_vacantes', 10, 3);
+function restrict_publish_for_admin_vacantes($post_ID, $post, $update) {
+    // Asegurarnos de que solo se aplique al CPT 'vacantes'
+    if ($post->post_type === 'vacantes') {
+        // Verificar si el autor del post es un administrador
+        if (current_user_can('administrator')) {
+            // Si el post está siendo publicado (estado 'publish'), cambiarlo a 'draft'
+            if ($post->post_status === 'publish') {
+                // Evitar la ejecución de la función si es un auto-guardado
+                if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+                // Actualizar el estado del post a 'draft'
+                $post_data = [
+                    'ID'          => $post_ID,
+                    'post_status' => 'draft', // Cambiar el estado a 'draft'
+                ];
+                wp_update_post($post_data);
+            }
+        }
+    }
+}
 
 
 

@@ -99,7 +99,7 @@ iframe {
             margin-bottom: 10px;
             text-transform: uppercase;
             text-align: center;
-
+            line-height: 1;
 
             span {
                 color: $orange;
@@ -118,13 +118,37 @@ iframe {
             }
         }
 
+        .login-form {
+            width: 100%;
+            margin: 0 auto;
+
+            form {
+                width: 100%;
+                max-width: 375px;
+                margin: 0 auto;
+
+                input {
+                    box-sizing: border-box;
+                    width: 49%;
+                    border: solid thin;
+                    border-radius: 3px;
+                    height: 35px;
+                    margin-top: 10px;
+                    max-width: 400px;
+                    margin: 0 auto;
+                    padding: 0 10px;
+
+                }
+            }
+        }
+
         .img-cont {
             padding: 5px;
             border-radius: 3px;
 
             img {
                 margin: 0 auto;
-                max-height: 340px;
+                max-height: 260px;
                 margin-bottom: -5px;
             }
         }
@@ -146,11 +170,64 @@ iframe {
             font-size: 16px;
             line-height: 1;
             text-transform: uppercase;
+            margin: 10px auto;
             margin-top: 10px;
 
             &:hover {
                 background-color: #fff;
                 color: $orange;
+            }
+        }
+
+        .button_sub {
+            font-family: "Helvetica Neue LT Std BdCn";
+            color: white;
+            background-color: $orange;
+            border-radius: 2px;
+            padding: 10px 20px;
+            padding-top: 15px;
+            display: flex;
+            text-decoration: none;
+            border: 1px solid $orange;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            text-transform: uppercase;
+            margin: 10px auto;
+            margin-top: 10px;
+
+            &:hover {
+                background-color: #fff;
+                color: $orange;
+            }
+        }
+
+        hr {
+            width: 100%;
+            background-color: $ligth_grey;
+            height: 1px;
+            border: none;
+        }
+
+        .register-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            max-width: 375px;
+            text-align: center;
+
+            .button_sub {
+                letter-spacing: normal;
+                margin-left: 10px;
+                background-color: #fff;
+                color: $orange;
+                border-color: $orange;
             }
         }
     }
