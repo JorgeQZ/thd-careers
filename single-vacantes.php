@@ -40,8 +40,8 @@ $is_logged_in = is_user_logged_in();
 
 <div class="popup-cont" id="popup-login">
         <div class="container">
-            <div class="close" id="close">+</div>
-            <div class="title">Inicia sesión o Regístrate</div>
+            <div class="close" id="close-login">+</div>
+            <div class="title">Inicia sesión o <span>Regístrate</span></div>
             <div class="desc">
                 Para poder postularte, es necesario que inicies sesión. Si aún no cuentas con una cuenta, puedes registrarte de manera rápida y sencilla. <br><br>
             </div>
@@ -200,6 +200,15 @@ document.addEventListener("DOMContentLoaded", function() {
             emi.style.display = "none";
         });
     }
+
+    const close_login = document.getElementById("close-login");
+    if(close_login){
+        close_login.addEventListener("click", function() {
+            login.style.display = "none";
+        });
+    }
+
+
 });
 
 document.addEventListener("DOMContentLoaded", function() {

@@ -124,12 +124,12 @@ if($term != ''){
                                         <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                     </div>
 
-                                    <div class="icon-cont">
+                                    <!-- <div class="icon-cont">
                                         <div class="img">
                                             <?php echo file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'); ?>
                                         </div>
                                         <div class="text">Lorem ipsum dolor sit, amet</div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="fav">
                                     <div class="img">
@@ -150,8 +150,9 @@ if($term != ''){
                             Vacantes de interes
                         </div>
                         <div class="desc">
-                            Lorem ipsum, dolor sit amet
+                            Haz clic en el botón para ver las vacantes de tu interes guardadas.
                         </div>
+                        <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                     </div>
                 </div>
             </div>

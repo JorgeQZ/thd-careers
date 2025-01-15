@@ -412,3 +412,24 @@
 .vacantes-cont .container .columns .column .saved-jobs .desc {
   font-family: "Helvetica Neue LT Std";
 }
+.vacantes-cont .container .columns .column .saved-jobs .button {
+  background-color: #f96302;
+  border: 1px solid #f96302;
+  color: #fff;
+  font-family: "Helvetica Neue LT Std Bd";
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 5px 10px;
+  padding-top: 7px;
+  margin: 0 auto;
+  text-transform: uppercase;
+  border-radius: 2px;
+  text-decoration: none;
+  display: block;
+}
+.vacantes-cont .container .columns .column .saved-jobs .button:hover {
+  color: #f96302;
+  background-color: #fff;
+  cursor: pointer;
+}
