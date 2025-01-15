@@ -255,7 +255,7 @@ function agregar_imagen_a_menu($items, $args) {
                     $item->classes[] = 'menu-item-login'; // Añade una clase personalizada
                     $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Iniciar Sesión" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
                     $item->title = $imagen . 'REGÍSTRATE O INICIA SESIÓN'; // Título cuando el usuario no está logueado
-                    $item->url = 'thd-carrers/login'; // Cambia la URL al login
+                    $item->url = 'http://localhost:8888/thd-careers/login/'; // Cambia la URL al login
                 }
             }
         }
