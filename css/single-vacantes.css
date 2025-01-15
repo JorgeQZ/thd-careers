@@ -64,15 +64,9 @@
 }
 .header {
   height: 200px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
   padding: 0 80px;
   position: relative;
 }
@@ -105,19 +99,12 @@
   color: #f96302;
 }
 .vacantes-cont .container .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   max-width: 70%;
   padding-right: 20px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .vacantes-cont .container .row .input-search {
   width: 48%;
@@ -126,13 +113,8 @@
   border: 1px solid #272727;
   font-family: "Helvetica Neue LT Std";
   border-radius: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-transition: all 300ms;
+  align-items: center;
   transition: all 300ms;
   letter-spacing: 1px;
   position: relative;
@@ -153,16 +135,7 @@
 .vacantes-cont .container .row .input-search input[type=text]:focus {
   outline: none;
 }
-.vacantes-cont .container .row .input-search input[type=text]::-webkit-input-placeholder {
-  color: #a6a6a6;
-}
 .vacantes-cont .container .row .input-search input[type=text]::-moz-placeholder {
-  color: #a6a6a6;
-}
-.vacantes-cont .container .row .input-search input[type=text]:-ms-input-placeholder {
-  color: #a6a6a6;
-}
-.vacantes-cont .container .row .input-search input[type=text]::-ms-input-placeholder {
   color: #a6a6a6;
 }
 .vacantes-cont .container .row .input-search input[type=text]::placeholder {
@@ -185,32 +158,21 @@
   display: none;
 }
 .vacantes-cont .container .row .input-search .suggestions-list li {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
   border-bottom: 1px solid #272727;
   font-size: 12px;
   background-color: rgba(166, 166, 166, 0.1);
   cursor: pointer;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .vacantes-cont .container .row .input-search .suggestions-list li:hover {
   background-color: rgba(166, 166, 166, 0.3);
 }
 .vacantes-cont .container .row .input-search .suggestions-list li label {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   padding: 10px;
   width: 100%;
   min-height: 30px;
@@ -222,8 +184,7 @@
 .vacantes-cont .container .row .input-search .suggestions-list li label input[type=checkbox]:checked + .checkbox {
   background-color: #f96302;
   border-color: #f96302;
-  -webkit-box-shadow: inset 0 0 0 2px #fff;
-          box-shadow: inset 0 0 0 2px #fff;
+  box-shadow: inset 0 0 0 2px #fff;
 }
 .vacantes-cont .container .row .input-search .suggestions-list li label input[type=checkbox]:checked + .checkbox:after {
   opacity: 1;
@@ -239,7 +200,6 @@
   position: relative;
   margin-right: 10px;
   background-color: #fff;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .vacantes-cont .container .row .input-search .suggestions-list li label .checkbox:after {
@@ -250,24 +210,16 @@
   width: 12px;
   height: 12px;
   background-color: transparent;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  -webkit-transition: background-color 0.3s ease;
+  transform: translate(-50%, -50%);
   transition: background-color 0.3s ease;
 }
 .vacantes-cont .container .row .input-search .suggestions-list li label .text {
   width: calc(90% - 15px);
 }
 .vacantes-cont .container .columns {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: start;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: start;
+  justify-content: space-between;
 }
 .vacantes-cont .container .columns .column {
   min-height: 200px;
@@ -287,17 +239,10 @@
   list-style: none;
   border: 1px solid #a6a6a6;
   padding: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
   margin-bottom: 30px;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .vacantes-cont .container .columns .column .list .item.active {
@@ -324,15 +269,9 @@
   letter-spacing: 1px;
 }
 .vacantes-cont .container .columns .column .list .item .desc .icon-cont {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
   margin-bottom: 0px;
 }
 .vacantes-cont .container .columns .column .list .item .desc .icon-cont .img {
@@ -364,15 +303,9 @@
 .vacantes-cont .container .columns .column .list .item .fav .img {
   margin-left: auto;
   margin-right: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 .vacantes-cont .container .columns .column .list .item .fav .img svg {
   height: 35px;
@@ -383,7 +316,6 @@
 }
 .vacantes-cont .container .columns .column .list .item .fav .img svg path {
   fill: #a6a6a6;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .vacantes-cont .container .columns .column .saved-jobs {

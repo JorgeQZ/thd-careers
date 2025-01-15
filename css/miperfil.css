@@ -85,8 +85,7 @@
   position: absolute;
   right: 10px;
   top: 45%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   width: 15px;
   height: 20px;
   pointer-events: none;
@@ -111,7 +110,6 @@
   background-color: #f96302;
   border: #f96302 solid;
   border-width: 2px;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
   cursor: pointer;
   width: 179px;
@@ -124,13 +122,8 @@
 }
 
 .custom-file {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   width: 100%;
   max-width: 400px;
   margin: 10px 0;
@@ -148,12 +141,8 @@
   border: 1px solid;
   border-radius: 5px;
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   padding-right: 40px;
   /* Espacio para el ícono */
 }
@@ -170,8 +159,7 @@
   position: absolute;
   right: 10px;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   width: 20px;
   height: 20px;
   background-image: url("../imgs/attach-file.svg");
@@ -217,7 +205,6 @@ form .act-datos {
   background-color: #f96302;
   border: #f96302 solid;
   border-width: 2px;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
   cursor: pointer;
 }
@@ -251,19 +238,12 @@ form .contenedor-form .contenedor.dedos input {
   width: 381px;
 }
 form .contenedor-form .contenedor {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 form .contenedor-form .contenedor div {
   width: 100%;
   padding: 20px 0px;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  flex-direction: column;
   display: flex;
 }
 form .contenedor-form .contenedor div label {
@@ -286,13 +266,8 @@ form .contenedor-form .contenedor div select {
 }
 
 .contenedor-cdt {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 .contenedor-cdt input[type=radio] {
   vertical-align: middle;
@@ -303,13 +278,8 @@ form .contenedor-form .contenedor div select {
 }
 
 .contenedor-cdt2 {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 
 @media (max-width: 1300px) and (min-width: 801px) {
@@ -322,28 +292,17 @@ form .contenedor-form .contenedor div select {
   .icon-calendar {
     right: 8px;
     top: 45%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
+    transform: translateY(-50%);
     width: 15px;
     height: 20px;
   }
   form {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
   form .contenedor-form .contenedor {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
   }
   form .contenedor-form .contenedor.detres {
     gap: 0px;
@@ -369,8 +328,7 @@ form .contenedor-form .contenedor div select {
   .icon-calendar {
     right: -2px;
     top: 45%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
+    transform: translateY(-50%);
     width: 15px;
     height: 20px;
   }
@@ -382,10 +340,7 @@ form .contenedor-form .contenedor div select {
     padding-right: 80px;
   }
   form .contenedor-form .contenedor {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
   }
   form .contenedor-form .contenedor.detres {
     gap: 0px;
