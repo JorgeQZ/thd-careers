@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
     $password = sanitize_text_field($_POST['password']);
     $remember = isset($_POST['remember']) ? true : false;
 
-    $error_message = handle_failed_login_attempts($username);
+    // $error_message = handle_failed_login_attempts($username);
 
     if (!$error_message) {
         $credentials = [
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
 get_header();
 ?>
 
-<div class="custom-login-wrapper" style="max-width: 400px; margin: 50px auto;">
+<div class="custom-login-wrapper" style="max-width: 500px; margin: 50px auto;">
     <h2>Iniciar Sesión</h2>
     <?php if (!empty($error_message)) : ?>
         <div class="error-message" style="color: red;">
@@ -95,10 +95,11 @@ get_header();
             <label for="password">Contraseña</label>
             <input type="password" name="password" id="password" required style="width: 100%; padding: 8px; margin-top: 5px;">
         </p>
-        <p>
+        <p style="display: flex; justify-content: space-between; align-items: center;">
             <label>
                 <input type="checkbox" name="remember"> Recuérdame
-            </label>
+            </label>|
+            <a href="<?php echo get_permalink(get_page_by_path('recuperar-contrasena')); ?>">¿Olvidaste tu contraseña?</a>
         </p>
         <p>
             <button type="submit" name="custom_login">Iniciar Sesión</button>
