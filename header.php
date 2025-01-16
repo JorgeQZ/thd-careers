@@ -26,6 +26,14 @@
                             <strong>Carreras</strong>
                         </div>
                     </a>
+
+                    <!-- Ícono de hamburguesa -->
+                    <div class="hamburger-menu" onclick="toggleMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
                     <div id="top__search-input" class="top__search-input-cont">
                         <?php echo get_search_form(); ?>
                     </div>
