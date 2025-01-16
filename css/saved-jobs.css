@@ -64,20 +64,13 @@
 }
 .banner {
   height: 200px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
   padding: 0 80px;
   position: relative;
   width: 100%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background-color: #f96302;
 }
 .banner:before {
@@ -98,15 +91,9 @@
   line-height: 1;
   position: relative;
   z-index: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
 }
 .banner .container .title-cont .term {
   font-size: 16px;
@@ -120,7 +107,6 @@
   margin-top: 10px;
   line-height: 1.1;
   width: 80%;
-  -webkit-transition: none;
   transition: none;
 }
 
@@ -135,12 +121,8 @@
 }
 .vacantes-int-cont .container .display-cont {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 .vacantes-int-cont .container .display-cont .text {
   background-color: #fff;
@@ -167,17 +149,10 @@
   list-style: none;
   border: 1px solid #a6a6a6;
   padding: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
   margin-bottom: 30px;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .vacantes-int-cont .container .list .item.active {
@@ -201,15 +176,9 @@
   letter-spacing: 1px;
 }
 .vacantes-int-cont .container .list .item .desc .icon-cont {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
   margin-bottom: 0px;
 }
 .vacantes-int-cont .container .list .item .desc .icon-cont .img {
@@ -241,15 +210,9 @@
 .vacantes-int-cont .container .list .item .fav .img {
   margin-left: auto;
   margin-right: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 .vacantes-int-cont .container .list .item .fav .img svg {
   height: 35px;
@@ -260,7 +223,6 @@
 }
 .vacantes-int-cont .container .list .item .fav .img svg path {
   fill: #f96302;
-  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .vacantes-int-cont .container button {
@@ -270,17 +232,10 @@
   border-radius: 2px;
   padding: 13px 20px;
   padding-top: 15px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   border: 1px solid #f96302;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: -webkit-fit-content;
+  align-items: center;
+  justify-content: center;
   width: -moz-fit-content;
   width: fit-content;
   cursor: pointer;

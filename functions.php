@@ -30,9 +30,14 @@ require_once get_template_directory() . '/inc/users/miperfil.php';
 require_once get_template_directory() . '/inc/postulaciones/conf.php';
 
 /**
+ * Buscador
+ */
+require_once("inc/ajax_search.php");
+
+/**
  * Map
  */
-require_once "inc/map/conf.php";
+//require_once "inc/map/conf.php";
 
 /**
  * CSV Uploader
@@ -81,6 +86,8 @@ function careers_styles()
 {
     wp_enqueue_style('generals', get_template_directory_uri() . '/css/generals.css');
     wp_enqueue_script('generals', get_template_directory_uri() . '/js/generals.js');
+    wp_enqueue_script('search', get_stylesheet_directory_uri(). '/js/search.js', array('jquery'), '2', true );
+
 
     wp_localize_script('generals', 'ajax_query_vars', array(
         'ajax_url' => admin_url('admin-ajax.php'),
@@ -99,6 +106,9 @@ function careers_styles()
         wp_enqueue_style('beneficios', get_template_directory_uri() . '/css/beneficios.css');
     }
 
+    if (is_search()) {
+        wp_enqueue_style('vacantes', get_template_directory_uri() . '/css/vacantes.css');
+    }
 
     if (is_page('Cultura')) {
         wp_enqueue_style('cultura', get_template_directory_uri() . '/css/cultura.css');
@@ -239,3 +249,57 @@ function get_favorites_handler() {
 }
 add_action('wp_ajax_get_favorites', 'get_favorites_handler');
 add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
+
+function agregar_imagen_a_menu($items, $args) {
+    // Verifica que el menú sea el correcto
+    if ($args->menu === 'Header') {
+        foreach ($items as &$item) {
+            // Busca el enlace de "MI PERFIL" por el título
+            if ($item->title === 'MI PERFIL') {
+                // Verifica si el usuario está logueado
+                if (is_user_logged_in()) {
+                    $item->classes[] = 'menu-item-mi-perfil'; // Añade una clase personalizada
+                    $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Mi Perfil" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
+                    $item->title = $imagen . 'MI PERFIL'; // Título cuando el usuario está logueado
+                } else {
+                    $item->classes[] = 'menu-item-login'; // Añade una clase personalizada
+                    $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Iniciar Sesión" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
+                    $item->title = $imagen . 'REGÍSTRATE O INICIA SESIÓN'; // Título cuando el usuario no está logueado
+                    $item->url = 'http://localhost:8888/thd-careers/login/'; // Cambia la URL al login
+                }
+            }
+        }
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_objects', 'agregar_imagen_a_menu', 10, 2);
+
+function limitar_busqueda_a_post_types( $query ) {
+    if ( ! is_admin() && $query->is_search ) {
+        $query->set( 'post_type', 'vacantes' );
+    }
+    return $query;
+}
+add_filter( 'pre_get_posts', 'limitar_busqueda_a_post_types' );
+
+function buscar_por_titulo_y_custom_field( $query ) {
+    if ( $query->is_search && !is_admin() ) {
+
+        $custom_field_value = isset( $_GET['ubicacion_key'] ) ? sanitize_text_field( $_GET['ubicacion_key'] ) : '';
+        
+        if ( ! empty( $custom_field_value ) ) {
+            $meta_query = array(
+                array(
+                    'key'   => 'ubicacion',
+                    'value' => $custom_field_value,
+                    'compare' => 'LIKE',
+                ),
+            );
+            $query->set( 'meta_query', $meta_query );
+        }
+
+        if ( ! empty( $_GET['s'] ) ) {
+        }
+    }
+}
+add_action( 'pre_get_posts', 'buscar_por_titulo_y_custom_field' );

@@ -63,21 +63,22 @@ function getCircleStyle(tipo) {
     }
 }
 
-fetch(map_vars.ajax_url, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+jQuery.ajax({
+    url: map_vars.ajax_url,  // URL del servidor
+    type: 'POST',  // Método de la solicitud
+    dataType: 'json',  // Esperamos una respuesta en formato JSON
+    data: {
+        action: 'get_stores_locations'  // Acción que se envía al servidor
     },
-    body: new URLSearchParams({
-        'action': 'get_stores_locations'
-    })
-}).then(response => {
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    success: function(data) {
+        // Si la respuesta es exitosa
+        console.log('Datos recibidos:', data);  // Aquí manejamos los datos
+        add_markers(data);  // Por ejemplo, pasarlos a una función que maneje los markers
+    },
+    error: function(xhr, status, error) {
+        // Si ocurre un error en la solicitud
+        console.error('Hubo un error en la solicitud:', error);
     }
-    return response.json();
-}).then(data => {
-    add_markers(data);
 });
 
 function add_markers(data) {
@@ -106,48 +107,47 @@ function add_markers(data) {
             markers.addLayer(circle);
 
 
-            fetch(map_vars.ajax_url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+            jQuery.ajax({
+                url: map_vars.ajax_url,  // URL del servidor (admin-ajax.php)
+                type: 'POST',  // Método POST
+                dataType: 'json',  // Esperamos una respuesta JSON
+                data: {
+                    action: 'get_related_vacantes',  // Acción que se enviará al servidor
+                    numero_de_tienda: numeroDeTienda  // Parámetro adicional que pasamos en la solicitud
                 },
-                body: new URLSearchParams({
-                    'action': 'get_related_vacantes',
-                    'numero_de_tienda': numeroDeTienda
-                })
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la consulta de vacantes.');
+                success: function(responseData) {
+                    // Si la respuesta es exitosa
+                    if (responseData.success && responseData.data.length > 0) {
+                        let totalItems = responseData.data.length;
+                        let links = responseData.data.map(function(vacante) {
+                            return `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`;
+                        }).join('');  // Mapeamos las vacantes a enlaces y los unimos en una cadena
+            
+                        // Actualizamos el popup con las vacantes
+                        circle.bindPopup(`
+                            <div class="header">
+                                <div class="title"><strong>${nombre} (${totalItems} ${totalItems === 1 ? 'vacante' : 'vacantes'})</strong></div>
+                                ${ubicacion}<br>
+                            </div>
+                            <ul>${links}</ul>
+                        `).openPopup();
+                    } else {
+                        // Si no hay vacantes
+                        circle.bindPopup(`
+                            <div class="header">
+                                <div class="title"><strong>${nombre}</strong></div>
+                                ${ubicacion}<br>
+                            </div>
+                            <ul>
+                                <em>No hay vacantes relacionadas.</em>
+                            </ul>
+                        `).openPopup();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Si hay algún error en la solicitud
+                    console.error('Error al cargar las vacantes:', error);
                 }
-                return response.json();
-            }).then(responseData => {
-                if (responseData.success && responseData.data.length > 0) {
-
-                    let totalItems = responseData.data.length;
-                    let links = responseData.data.map(vacante =>
-                        `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`
-                    ).join('');
-                    circle.bindPopup(`
-                        <div class="header">
-                            <div class="title">  <strong>${nombre} (${totalItems} ${totalItems === 1 ? 'vacante' : 'vacantes'})</strong></div>
-                        ${ubicacion}<br>
-                        </div>
-                        <ul>${links}</ul>
-                    `).openPopup();
-                } else {
-
-                    circle.bindPopup(`
-                        <div class="header">
-                            <div class="title"><strong>${nombre}</strong></div>
-                            ${ubicacion}<br>
-                        </div>
-                        <ul>
-                            <em>No hay vacantes relacionadas.</em>
-                        </ul>
-                    `).openPopup();
-                }
-            }).catch(error => {
-                console.error('Error al cargar las vacantes:', error);
             });
         }
     });
