@@ -327,10 +327,6 @@ body.admin-bar {
   margin: 0;
   margin-right: 5px;
 }
-.contenedorgeneralcampos input[type=date] {
-  width: 402px;
-  height: 38px;
-}
 .contenedorgeneralcampos input[type=file] {
   width: 1265px;
   height: 100px;

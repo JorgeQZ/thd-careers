@@ -38,6 +38,7 @@ require_once("inc/ajax_search.php");
  * Map
  */
 require_once "inc/map/conf.php";
+require_once "inc/map/conf.php";
 
 /**
  * CSV Uploader
@@ -251,34 +252,29 @@ add_action('wp_ajax_get_favorites', 'get_favorites_handler');
 add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
 
 
-function agregar_imagen_a_menu($items, $args) {
-    // Verifica que el menú sea el primary_menu
-
-
+function modify_menu_items($items, $args) {
     if ($args->menu === 'Header') {
         foreach ($items as &$item) {
-        // Busca el enlace de "MI PERFIL" por el título
-        if (strcasecmp($item->title, 'MI PERFIL') === 0) {
-            // Verifica si el usuario está logueado
-            if (is_user_logged_in()) {
-                $item->classes[] = 'menu-item-mi-perfil'; // Añade una clase personalizada
-                $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Mi Perfil" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
-                $item->title = $imagen . '<span>MI PERFIL</span>'; // Título cuando el usuario está logueado
-            } else {
-                $item->classes[] = 'menu-item-login'; // Añade una clase personalizada
-                $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Iniciar Sesión" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
-                $item->title = $imagen . '<span>REGÍSTRATE O INICIA SESIÓN</span>'; // Título cuando el usuario no está logueado
-                $item->url = home_url('/login/');
+            if ($item->title === 'MI PERFIL') {
+                if (!is_user_logged_in()) {
+                    // Obtén la URL de la imagen desde el tema activo
+                    $icon_url = get_template_directory_uri() . '/imgs/icono-perfil.png';
+
+                    // Modifica el título para incluir la imagen y el texto
+                    $item->title = '<img src="' . esc_url($icon_url) . '" alt="Icono Perfil" class="menu-profile-icon" style="display: block; margin: 0 auto; width: 35px; padding-bottom: 10px;">REGÍSTRATE <br> O INICIA SESIÓN';
+                    $item->url = 'http://localhost:8888/thd-careers/login/';
+
+                    // Si el usuario está en la URL de login, añade una clase personalizada
+                    if (is_page() && strpos($_SERVER['REQUEST_URI'], '/thd-careers/login/') !== false) {
+                        $item->classes[] = 'current-login';
+                    }
                 }
             }
         }
     }
 return $items;
 }
-
-
-add_filter('wp_nav_menu_objects', 'agregar_imagen_a_menu', 10, 2);
-
+add_filter('wp_nav_menu_objects', 'modify_menu_items', 10, 2);
 
 function limitar_busqueda_a_post_types( $query ) {
     if ( ! is_admin() && $query->is_search ) {
