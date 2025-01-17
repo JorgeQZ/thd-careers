@@ -265,7 +265,7 @@ function agregar_imagen_a_menu($items, $args) {
                     $item->classes[] = 'menu-item-login'; // Añade una clase personalizada
                     $imagen = '<img src="' . esc_url(get_template_directory_uri() . '/imgs/icono-perfil-blanco.png') . '" alt="Iniciar Sesión" class="imagen-perfil" style="display: block; margin: 0 auto; width: 30px; padding-bottom: 10px;">';
                     $item->title = $imagen . 'REGÍSTRATE O INICIA SESIÓN'; // Título cuando el usuario no está logueado
-                    $item->url = 'http://localhost:8888/thd-careers/login/'; // Cambia la URL al login
+                    $item->url = home_url('/login/'); // Cambia la URL al login
                 }
             }
         }
@@ -286,7 +286,7 @@ function buscar_por_titulo_y_custom_field( $query ) {
     if ( $query->is_search && !is_admin() ) {
 
         $custom_field_value = isset( $_GET['ubicacion_key'] ) ? sanitize_text_field( $_GET['ubicacion_key'] ) : '';
-        
+
         if ( ! empty( $custom_field_value ) ) {
             $meta_query = array(
                 array(
