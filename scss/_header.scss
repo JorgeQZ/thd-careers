@@ -98,6 +98,7 @@ header {
                 display: flex;
                 align-items: center;
                 text-decoration: none;
+                text-transform: uppercase;
 
             }
 
@@ -265,6 +266,7 @@ header {
                     font-family: $ff-hvcn;
                     text-decoration: none;
                     transition: all 300ms;
+                    text-transform: uppercase;
 
                     &:hover {
                         color: $orange;
@@ -323,6 +325,7 @@ header {
         top: var(--admin-bar-offset, 0);
         left: 0;
         padding: 10px 80px;
+        z-index: 9999;
 
         .site-info {
             .main-logo {

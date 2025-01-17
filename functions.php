@@ -253,7 +253,9 @@ add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
 
 
 function modify_menu_items($items, $args) {
+
     if ($args->menu === 'Header') {
+
         foreach ($items as &$item) {
             if ($item->title === 'MI PERFIL') {
                 if (!is_user_logged_in()) {
@@ -261,8 +263,8 @@ function modify_menu_items($items, $args) {
                     $icon_url = get_template_directory_uri() . '/imgs/icono-perfil.png';
 
                     // Modifica el título para incluir la imagen y el texto
-                    $item->title = '<img src="' . esc_url($icon_url) . '" alt="Icono Perfil" class="menu-profile-icon" style="display: block; margin: 0 auto; width: 35px; padding-bottom: 10px;">REGÍSTRATE <br> O INICIA SESIÓN';
-                    $item->url = 'http://localhost:8888/thd-careers/login/';
+                    $item->title = '<img src="' . esc_url($icon_url) . '" alt="Icono Perfil" class="menu-profile-icon" style="display: block; margin: 0 auto; width: 35px; padding-bottom: 10px;"><span>REGÍSTRATE <br> O INICIA SESIÓN</span>';
+                    $item->url = home_url().'/login/';
 
                     // Si el usuario está en la URL de login, añade una clase personalizada
                     if (is_page() && strpos($_SERVER['REQUEST_URI'], '/thd-careers/login/') !== false) {
