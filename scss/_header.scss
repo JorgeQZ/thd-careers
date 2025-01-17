@@ -12,16 +12,30 @@ body.admin-bar {
     height: 120px;
 }
 
-/* Estilos para el menú del perfil */
-.menu-item-mi-perfil .imagen-perfil,
-.menu-item-login .imagen-perfil {
-    transition: all 0.3s ease;
+.current-login a {
+    color: #f96302 !important;
 }
 
-.menu-item-mi-perfil:hover .imagen-perfil,
-.menu-item-login:hover .imagen-perfil {
-    content: url('../imgs/icono-perfil.png');
-    /* Ruta de la imagen para hover */
+.menu-profile-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+a:hover .menu-profile-icon {
+    filter: none !important;
+}
+
+.current-login .menu-profile-icon {
+    filter: none !important;
+}
+
+.site-info a {
+    text-decoration: none;
+}
+
+@media (max-width: 1199px) {
+    .menu-profile-icon {
+        display: none !important;
+    }
 }
 
 @media (max-width: 899px) {
@@ -30,24 +44,10 @@ body.admin-bar {
     }
 }
 
-@media (max-width: 999px) {
-
-    .menu-item-mi-perfil .imagen-perfil,
-    .menu-item-login .imagen-perfil {
-        display: none !important;
-        /* Oculta la imagen */
-    }
-}
-
 @media (min-width: 1000px) {
     .container {
         .menu {
             align-items: center;
-
-            // .sub-menu {
-            //     top: 40px !important;
-            //     right: 95px !important;
-            // }
         }
     }
 }
@@ -95,7 +95,7 @@ header {
             justify-content: center;
             text-decoration: none;
 
-            > a{
+            >a {
                 display: flex;
                 align-items: center;
             }
@@ -120,16 +120,18 @@ header {
                 }
             }
 
-            .top__search-input-cont{
+            .top__search-input-cont {
                 border-radius: 2px;
                 display: block;
                 margin-left: 20px;
                 position: relative;
-                form{
+
+                form {
                     display: flex;
                     align-items: center;
                     position: relative;
-                    input{
+
+                    input {
                         border: none;
                         appearance: none;
                         background-color: #fff;
@@ -140,13 +142,15 @@ header {
                         font-size: 12px;
                         border: 0;
                         outline: none;
-                        &:focus{
+
+                        &:focus {
                             &::placeholder {
                                 color: transparent;
                             }
                         }
                     }
-                    .cont-icon{
+
+                    .cont-icon {
                         position: absolute;
                         right: 0;
                         height: 40px;
@@ -156,15 +160,17 @@ header {
                         align-items: center;
                         justify-content: center;
                         box-sizing: border-box;
-                        .icon{
+
+                        .icon {
                             background-color: #fff;
                             width: 30px;
                             height: 30px;
-        
+
                         }
                     }
                 }
-                .resultados{
+
+                .resultados {
                     background: white;
                     position: absolute;
                     width: 100%;
@@ -173,42 +179,50 @@ header {
                     width: 100%;
                     max-height: 520px;
                     overflow: scroll;
-                    #contenedor-resultados{
+
+                    #contenedor-resultados {
                         display: none;
                         background: white;
                         border-bottom-left-radius: 10px;
                         border-bottom-right-radius: 10px;
                         width: 100%;
-                        .cont-result{
-                            .resultado{
-                                a{
+
+                        .cont-result {
+                            .resultado {
+                                a {
                                     display: block;
                                     width: calc(100% - 20px);
                                     text-decoration: none;
                                     padding: 10px;
-                                    h2{
+
+                                    h2 {
                                         text-transform: unset;
                                         font-size: 20px;
                                         margin: 0;
                                         color: #000000;
                                         transition: all .3s;
                                     }
-                                    span{
+
+                                    span {
                                         color: #000000;
                                         font-size: 14px;
                                         transition: all .3s;
                                     }
-                                    &:hover{
+
+                                    &:hover {
                                         background: #f96302;
-                                        h2{
+
+                                        h2 {
                                             color: white;
                                         }
-                                        span{
+
+                                        span {
                                             color: white;
                                         }
                                     }
                                 }
-                                p{
+
+                                p {
                                     color: #000000;
                                     font-size: 16px;
                                     letter-spacing: unset;
@@ -234,6 +248,7 @@ header {
                 margin: 0 0;
                 margin-left: 30px;
                 position: relative;
+                text-align: center;
 
                 &.current_page_item {
                     a {

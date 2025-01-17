@@ -65,13 +65,20 @@
 }
 .banner {
   height: 200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
   padding: 0 80px;
   position: relative;
   width: 100%;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   background-color: #f96302;
 }
 .banner:before {
@@ -92,9 +99,15 @@
   line-height: 1;
   position: relative;
   z-index: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .banner .container .title-cont .term {
   font-size: 16px;
@@ -108,6 +121,7 @@
   margin-top: 10px;
   line-height: 1.1;
   width: 80%;
+  -webkit-transition: none;
   transition: none;
 }
 .banner .container .button {
@@ -117,10 +131,17 @@
   border-radius: 2px;
   padding: 13px 20px;
   padding-top: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   border: 1px solid #fff;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   cursor: pointer;
@@ -146,8 +167,12 @@
 }
 .not-cont .container .display-cont {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .not-cont .container .display-cont .text {
   background-color: #fff;
@@ -174,10 +199,17 @@
   list-style: none;
   border: 1px solid #f96302;
   padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: start;
-  justify-content: start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
   margin-bottom: 30px;
+  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .not-cont .container .list .item.seen {
@@ -203,9 +235,15 @@
   letter-spacing: 1px;
 }
 .not-cont .container .list .item .desc .icon-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
   margin-bottom: 0px;
 }
 .not-cont .container .list .item .desc .icon-cont .img {
@@ -235,6 +273,7 @@
 .not-cont .container .list .item .desc .text.mensaje {
   max-height: 0;
   overflow: hidden;
+  -webkit-transition: max-height 0.3s ease, padding 0.3s ease;
   transition: max-height 0.3s ease, padding 0.3s ease;
   padding: 0;
   opacity: 0;
@@ -257,6 +296,7 @@
   color: #f96302;
 }
 .not-cont .container .list .item .plus.rotated {
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
   color: #f96302;
 }

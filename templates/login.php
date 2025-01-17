@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
     $password = sanitize_text_field($_POST['password']);
     $remember = isset($_POST['remember']) ? true : false;
 
-    $error_message = handle_failed_login_attempts($username);
+    // $error_message = handle_failed_login_attempts($username);
 
     if (!$error_message) {
         $credentials = [

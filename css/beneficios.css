@@ -98,6 +98,8 @@ p {
 }
 
 .contenedor-s2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 20px;
   padding-top: 25px;
@@ -109,9 +111,12 @@ p {
   width: 100%;
   height: 363px;
   display: grid;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
   position: relative;
+  -webkit-transition: none;
   transition: none;
 }
 
@@ -161,7 +166,8 @@ p {
   width: 160px;
   top: 400px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .tab-s2.active .pico {
@@ -191,9 +197,12 @@ p {
   width: 100%;
   height: 363px;
   display: grid;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
   position: relative;
+  -webkit-transition: none;
   transition: none;
   text-decoration: none;
 }
@@ -237,7 +246,8 @@ p {
   width: 160px;
   top: 400px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .tabs-tab1.active .pico-tab1 {
@@ -245,6 +255,8 @@ p {
 }
 
 .contenedor-tabs-tab1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 20px;
   padding-top: 25px;
@@ -259,7 +271,10 @@ p {
 }
 
 .contenedor-contenido-tabs-tab1 {
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .titulo-tab1-tab1 {
@@ -274,9 +289,12 @@ p {
 }
 
 .contenido-tab1-tab1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   padding-top: 50px;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 30px;
 }
 
@@ -286,7 +304,9 @@ p {
   height: 150px;
   display: grid;
   justify-items: center;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .subcontenido-tab1-tab1:hover {
@@ -325,9 +345,12 @@ p {
   width: 15.67%;
   height: 178px;
   display: grid;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
   position: relative;
+  -webkit-transition: none;
   transition: none;
   margin-top: 60px;
 }
@@ -349,11 +372,16 @@ p {
 }
 
 .subcontenedor-tab2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 10px;
   margin-bottom: 100px;
-  flex-wrap: wrap;
-  justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .titulo-tab2 {
@@ -385,6 +413,7 @@ p {
   width: 70px;
   top: 195px;
   left: 50%;
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
@@ -398,8 +427,11 @@ p {
 }
 
 .subcontenido-tab2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 15px;
 }
 
@@ -407,14 +439,25 @@ p {
   background-color: #a6a6a6;
   width: calc(25% - 11.3px);
   height: 120px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 
 .rectangulo-tab2:hover {
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   background-color: #f96302;
 }
 .rectangulo-tab2:hover .img-rectangulo-tab2 {
@@ -480,6 +523,8 @@ p {
 }
 
 .contenedor1-tab3 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin: 0 auto;
   width: 780px;
@@ -493,13 +538,22 @@ p {
 
 .contenedor-img-tab3 {
   min-width: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-content: flex-end;
-  align-items: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 
 .img-tab3 {
+  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
 }
@@ -553,13 +607,17 @@ p {
     padding-bottom: 150px;
   }
   .contenido-tab1-tab1 {
-    justify-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
   }
   .subcontenido-tab1-tab1 {
     width: 308px;
   }
   .subcontenedor-tab2 {
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
   .titulo-tab2 {
     font-size: 35px;
@@ -627,7 +685,10 @@ p {
     padding-bottom: 23px;
   }
   .contenedor-s2 {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     gap: 50px;
   }
   .plus {
@@ -668,11 +729,16 @@ p {
   }
   .contenedor-tabs-tab1 {
     padding-bottom: 150px;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     gap: 130px;
   }
   .contenido-tab1-tab1 {
-    justify-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
   }
   .subcontenido-tab1-tab1 {
     width: 308px;
@@ -687,7 +753,9 @@ p {
     padding-left: 10px;
   }
   .subcontenedor-tab2 {
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
   .titulo-tab2 {
     font-size: 35px;
@@ -764,7 +832,10 @@ p {
     padding: 30px 0px;
   }
   .contenedor-s2 {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     gap: 0px;
     padding-top: 15px;
   }
@@ -807,11 +878,16 @@ p {
   }
   .contenedor-tabs-tab1 {
     padding-bottom: 150px;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     gap: 130px;
   }
   .contenido-tab1-tab1 {
-    justify-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
   }
   .subcontenido-tab1-tab1 {
     width: 308px;
@@ -826,7 +902,9 @@ p {
     padding-left: 10px;
   }
   .subcontenedor-tab2 {
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
   .titulo-tab2 {
     font-size: 35px;
@@ -843,8 +921,13 @@ p {
   .contenedor1-tab3 {
     width: auto;
     max-width: 780px;
-    flex-direction: column;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     padding: 40px 0;
   }
   .contenedor2-tab3 {
@@ -907,7 +990,10 @@ p {
     padding: 30px 0px;
   }
   .contenedor-s2 {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     gap: 0px;
     padding-top: 10px;
   }
@@ -950,11 +1036,16 @@ p {
   }
   .contenedor-tabs-tab1 {
     padding-bottom: 150px;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     gap: 130px;
   }
   .contenido-tab1-tab1 {
-    justify-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
   }
   .subcontenido-tab1-tab1 {
     width: 308px;
@@ -969,7 +1060,9 @@ p {
     padding-left: 10px;
   }
   .subcontenedor-tab2 {
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
   .titulo-tab2 {
     font-size: 35px;
@@ -986,8 +1079,13 @@ p {
   .contenedor1-tab3 {
     width: auto;
     max-width: 780px;
-    flex-direction: column;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     padding: 40px 0;
   }
   .contenedor2-tab3 {
