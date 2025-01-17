@@ -71,6 +71,7 @@
 }
 
 .leaflet-popup-close-button span {
+  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .leaflet-popup-close-button:hover span {
@@ -99,8 +100,10 @@
   padding: 0px 5px;
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content ul li {
-  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
   list-style: none;
+  -webkit-transition: all 300ms;
   transition: all 300ms;
   background-color: #fff;
 }
@@ -114,8 +117,13 @@
   letter-spacing: 1px;
   color: #f96302;
   padding: 5px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-transition: all 300ms;
   transition: all 300ms;
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content ul li:hover a {

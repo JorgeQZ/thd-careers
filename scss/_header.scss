@@ -93,11 +93,12 @@ header {
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
 
-            > a{
+            >a {
                 display: flex;
                 align-items: center;
+                text-decoration: none;
+
             }
 
             .main-logo {
@@ -112,6 +113,7 @@ header {
                 text-transform: uppercase;
                 font-family: $ff-cn;
                 margin-bottom: -5px;
+                text-decoration: none;
 
                 strong {
                     line-height: 1;
@@ -120,16 +122,18 @@ header {
                 }
             }
 
-            .top__search-input-cont{
+            .top__search-input-cont {
                 border-radius: 2px;
                 display: block;
                 margin-left: 20px;
                 position: relative;
-                form{
+
+                form {
                     display: flex;
                     align-items: center;
                     position: relative;
-                    input{
+
+                    input {
                         border: none;
                         appearance: none;
                         background-color: #fff;
@@ -140,13 +144,15 @@ header {
                         font-size: 12px;
                         border: 0;
                         outline: none;
-                        &:focus{
+
+                        &:focus {
                             &::placeholder {
                                 color: transparent;
                             }
                         }
                     }
-                    .cont-icon{
+
+                    .cont-icon {
                         position: absolute;
                         right: 0;
                         height: 40px;
@@ -156,15 +162,17 @@ header {
                         align-items: center;
                         justify-content: center;
                         box-sizing: border-box;
-                        .icon{
+
+                        .icon {
                             background-color: #fff;
                             width: 30px;
                             height: 30px;
-        
+
                         }
                     }
                 }
-                .resultados{
+
+                .resultados {
                     background: white;
                     position: absolute;
                     width: 100%;
@@ -173,42 +181,50 @@ header {
                     width: 100%;
                     max-height: 520px;
                     overflow: scroll;
-                    #contenedor-resultados{
+
+                    #contenedor-resultados {
                         display: none;
                         background: white;
                         border-bottom-left-radius: 10px;
                         border-bottom-right-radius: 10px;
                         width: 100%;
-                        .cont-result{
-                            .resultado{
-                                a{
+
+                        .cont-result {
+                            .resultado {
+                                a {
                                     display: block;
                                     width: calc(100% - 20px);
                                     text-decoration: none;
                                     padding: 10px;
-                                    h2{
+
+                                    h2 {
                                         text-transform: unset;
                                         font-size: 20px;
                                         margin: 0;
                                         color: #000000;
                                         transition: all .3s;
                                     }
-                                    span{
+
+                                    span {
                                         color: #000000;
                                         font-size: 14px;
                                         transition: all .3s;
                                     }
-                                    &:hover{
+
+                                    &:hover {
                                         background: #f96302;
-                                        h2{
+
+                                        h2 {
                                             color: white;
                                         }
-                                        span{
+
+                                        span {
                                             color: white;
                                         }
                                     }
                                 }
-                                p{
+
+                                p {
                                     color: #000000;
                                     font-size: 16px;
                                     letter-spacing: unset;
@@ -318,6 +334,42 @@ header {
                 strong {
                     font-size: 12px;
                 }
+            }
+
+            .top__search-input-cont {
+
+                margin-left: 10px;
+                max-width: 420px;
+
+                form {
+
+                    input {
+                        height: 30px;
+
+                    }
+
+                    .cont-icon {
+                        height: 30px;
+                        width: 30px;
+
+                        .icon {
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        .menu-item {
+            img {
+                padding-bottom: 0 !important;
+            }
+
+            span {
+                display: none;
             }
         }
     }

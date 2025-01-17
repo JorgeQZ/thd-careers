@@ -284,48 +284,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-    //Carga los primeros 5 saved jobs
+    // Carga los primeros 5 saved jobs
     const existPageTemplate = !!document.querySelector('.page-template-saved-jobs');
 
     if (existPageTemplate) {
         const favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Obtiene los favoritos de localStorage
         if (favorites.length > 0) {
-            const data = new FormData();
-            data.append('action', 'get_favorites');
-
-
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Obtiene los favoritos de localStorage
             let currentIndex = 0; // Índice inicial para paginar
 
             const ulElement = document.querySelector('#favorites-list'); // Contenedor de los elementos
             const loadMoreButton = document.querySelector('#load-more'); // Botón "Cargar más"
 
-
             const loadFavorites = () => {
-                if (currentIndex >= favorites.length) return; // No cargar si no hay más elementos
+                if (currentIndex >= favorites.length) return; // No hay más favoritos que cargar
 
-                // Selecciona el siguiente grupo de 5 IDs
                 const nextBatch = favorites.slice(currentIndex, currentIndex + 5);
-                currentIndex += 5; // Incrementa el índice
+                currentIndex += 5; // Aumenta el índice para la siguiente carga
 
-                const data = new FormData();
-                data.append('action', 'get_favorites');
-                data.append('favorites', JSON.stringify(nextBatch)); // Convierte el array a JSON
-
-                // Realiza la solicitud AJAX
-                fetch(ajax_query_vars.ajax_url, {
+                jQuery.ajax({
+                    url: ajax_query_vars.ajax_url,
                     method: 'POST',
-                    body: data,
-                })
-                    .then(response => response.json())
-                    .then(posts => {
+                    data: {
+                        action: 'get_favorites',
+                        favorites: JSON.stringify(nextBatch),
+                    },
+                    dataType: 'json', // Esperamos una respuesta en formato JSON
+                    success: function (posts) {
                         posts.forEach(post => {
                             const li = document.createElement('li');
                             li.className = 'item';
                             li.setAttribute('data-id', post.id);
-                            li.setAttribute('data-tienda', post.tienda);
-                            li.setAttribute('data-title', post.title);
                             li.innerHTML = `
                             <div class="img">
                                 <img src="${post.image}" alt="">
@@ -346,24 +334,26 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                         `;
                             ulElement.appendChild(li);
-                            updateVacantesCount();
                         });
 
-                        // Oculta el botón si no quedan más elementos
+                        // Si no hay más elementos, ocultamos el botón
                         if (currentIndex >= favorites.length) {
-                            loadMoreButton.style.display = 'none';
+                            jQuery('#load-more').hide(); // Usando jQuery para ocultar el botón
                         }
-                    })
-                    .catch(error => console.error('Error:', error));
+                    },
+                    error: function (error) {
+                        console.error('Error al cargar favoritos:', error);
+                    }
+                });
             };
-
 
             // Cargar los primeros 5 elementos al cargar la página
             loadFavorites();
-            // Evento para el botón "Cargar más"
-            loadMoreButton.addEventListener('click', loadFavorites);
 
-
+            // Verifica si el botón "Cargar más" existe antes de agregarle el evento
+            if (loadMoreButton) {
+                loadMoreButton.addEventListener('click', loadFavorites);
+            }
         }
     }
 
