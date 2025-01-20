@@ -72,7 +72,7 @@ jQuery.ajax({
     },
     success: function(data) {
         // Si la respuesta es exitosa
-        console.log('Datos recibidos:', data);  // Aquí manejamos los datos
+        // console.log('Datos recibidos:', data);  // Aquí manejamos los datos
         add_markers(data);  // Por ejemplo, pasarlos a una función que maneje los markers
     },
     error: function(xhr, status, error) {
@@ -90,10 +90,6 @@ function add_markers(data) {
             return;
         }
 
-
-
-
-
         if (coord[0] != 0 && coord[1] != 0) {
             let tipo = element.tipo_de_negocio;
             let nombre = element.nombre_de_tienda;
@@ -106,51 +102,91 @@ function add_markers(data) {
 
             markers.addLayer(circle);
 
-
-            jQuery.ajax({
-                url: map_vars.ajax_url,  // URL del servidor (admin-ajax.php)
-                type: 'POST',  // Método POST
-                dataType: 'json',  // Esperamos una respuesta JSON
-                data: {
-                    action: 'get_related_vacantes',  // Acción que se enviará al servidor
-                    numero_de_tienda: numeroDeTienda  // Parámetro adicional que pasamos en la solicitud
-                },
-                success: function(responseData) {
-                    // Si la respuesta es exitosa
-                    if (responseData.success && responseData.data.length > 0) {
-                        let totalItems = responseData.data.length;
-                        let links = responseData.data.map(function(vacante) {
-                            return `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`;
-                        }).join('');  // Mapeamos las vacantes a enlaces y los unimos en una cadena
-            
-                        // Actualizamos el popup con las vacantes
-                        circle.bindPopup(`
-                            <div class="header">
-                                <div class="title"><strong>${nombre} (${totalItems} ${totalItems === 1 ? 'vacante' : 'vacantes'})</strong></div>
-                                ${ubicacion}<br>
-                            </div>
-                            <ul>${links}</ul>
-                        `).openPopup();
-                    } else {
-                        // Si no hay vacantes
-                        circle.bindPopup(`
-                            <div class="header">
-                                <div class="title"><strong>${nombre}</strong></div>
-                                ${ubicacion}<br>
-                            </div>
-                            <ul>
-                                <em>No hay vacantes relacionadas.</em>
-                            </ul>
-                        `).openPopup();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // Si hay algún error en la solicitud
-                    console.error('Error al cargar las vacantes:', error);
-                }
+            circle.on('click', function(event) {
+                console.log(circle); // Opcional para depuración
+                loadMoreVacantes(numeroDeTienda, currentPage, nombre, ubicacion, circle._leaflet_id);
             });
+
+
         }
     });
     map.addLayer(markers);
 }
 
+let currentPage = 1;
+const vacantesPerPage = 5;  // Número de vacantes por página
+
+// Almacenamiento de las vacantes cargadas por ubicación
+let loadedVacanciesByCircle = {};
+
+function loadMoreVacantes(numeroDeTienda, currentPage, nombre, ubicacion, circleId) {
+    let circle = markers.getLayer(circleId);
+
+    if (!circle) {
+        console.error('No se encontró el círculo con el ID:', circleId);
+        return;
+    }
+
+    if (!loadedVacanciesByCircle[circleId]) {
+        loadedVacanciesByCircle[circleId] = new Set();
+    }
+
+    jQuery.ajax({
+        url: map_vars.ajax_url,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            action: 'get_related_vacantes',
+            numero_de_tienda: numeroDeTienda,
+            page: currentPage
+        },
+        success: function (responseData) {
+            if (responseData.success) {
+                let existingPopupContent = circle.getPopup().getContent() || '';
+                let existingLinksMatch = existingPopupContent.match(/<ul>(.*?)<\/ul>/s);
+                let existingLinks = existingLinksMatch ? existingLinksMatch[1] : '';
+
+                let newLinks = responseData.data
+                    .filter(vacante => !loadedVacanciesByCircle[circleId].has(vacante.title))
+                    .map(vacante => {
+                        loadedVacanciesByCircle[circleId].add(vacante.title);
+                        return `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`;
+                    }).join('');
+
+                // Si no hay nuevos links, mostramos un mensaje y eliminamos el botón
+                if (!newLinks && responseData.data.length === 0) {
+                    let popupContent = `
+                        <div class="header">
+                            <div class="title"><strong>${nombre}</strong></div>
+                            ${ubicacion}<br>
+                        </div>
+                        <ul>${existingLinks}</ul>
+                        <p style="padding: 5px;">No hay más vacantes disponibles.</p>
+                    `;
+                    circle.setPopupContent(popupContent);
+                    return;
+                }
+
+                let combinedLinks = existingLinks + newLinks;
+
+                // Construimos el contenido del popup con o sin botón
+                let popupContent = `
+                    <div class="header">
+                        <div class="title"><strong>${nombre}</strong></div>
+                        ${ubicacion}<br>
+                    </div>
+                    <ul>${combinedLinks}</ul>
+                    ${responseData.data.length > 0 ?
+                        `<button class="load-more" onclick="loadMoreVacantes('${numeroDeTienda}', ${currentPage + 1}, '${nombre}', '${ubicacion}', ${circleId})">Cargar más vacantes</button>` :
+                        `<p style="padding: 5px;">No hay más vacantes disponibles.</p>`}
+                `;
+                circle.setPopupContent(popupContent);
+            } else {
+                console.error('No hay más vacantes para cargar.');
+            }
+        },
+        error: function () {
+            console.error('Error en la solicitud para cargar más vacantes.');
+        }
+    });
+}
