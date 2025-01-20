@@ -12,16 +12,12 @@ require_once "inc/vacantes/catalogo_vacantes.php";
 require_once "inc/vacantes/mis_vacantes.php";
 
 /**
- * Notificaciones
- */
-require_once "inc/notificaciones/notificaciones.php";
-
-/**
  * Users
  */
 require_once "inc/users/fields.php";
 require_once "inc/users/roles.php";
 require_once "inc/users/config-login.php";
+require_once "inc/users/favs.php";
 require_once get_template_directory() . '/inc/users/miperfil.php';
 
 /**
@@ -87,11 +83,22 @@ function careers_styles()
 {
     wp_enqueue_style('generals', get_template_directory_uri() . '/css/generals.css');
     wp_enqueue_script('generals', get_template_directory_uri() . '/js/generals.js');
+    wp_enqueue_script('favs', get_template_directory_uri() . '/js/favs.js');
     wp_enqueue_script('search', get_stylesheet_directory_uri(). '/js/search.js', array('jquery'), '2', true );
 
 
     wp_localize_script('generals', 'ajax_query_vars', array(
         'ajax_url' => admin_url('admin-ajax.php'),
+        'logoutUrl' => wp_logout_url(home_url() ),
+        'isUserLoggedIn' => is_user_logged_in(),
+        'currentUserId' => get_current_user_id()
+    ));
+
+
+    wp_localize_script('favs', 'favs_query_vars', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'isUserLoggedIn' => is_user_logged_in(),
+        'currentUserId' => get_current_user_id()
     ));
 
     if (is_page('Mi Perfil')) {
@@ -253,11 +260,11 @@ add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
 
 
 function modify_menu_items($items, $args) {
-
-    if ($args->menu === 'Header') {
-
+    if ($args->menu === 'Header') { // Asegúrate de que el menú sea el correcto
         foreach ($items as &$item) {
             if ($item->title === 'MI PERFIL') {
+                $item->classes[] = 'menu-item-mi-perfil';
+
                 if (!is_user_logged_in()) {
                     // Obtén la URL de la imagen desde el tema activo
                     $icon_url = get_template_directory_uri() . '/imgs/icono-perfil.png';
@@ -274,9 +281,12 @@ function modify_menu_items($items, $args) {
             }
         }
     }
-return $items;
+    return $items;
 }
 add_filter('wp_nav_menu_objects', 'modify_menu_items', 10, 2);
+
+
+
 
 function limitar_busqueda_a_post_types( $query ) {
     if ( ! is_admin() && $query->is_search ) {

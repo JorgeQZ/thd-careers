@@ -24,6 +24,9 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy('centros-logisticos');
 
 <!-- Contenido de la página -->
 <main>
+    <?php
+    if(is_user_logged_in(  )){
+    ?>
     <div class="vacantes-int-cont">
         <div class="container">
             <div class="title">
@@ -35,9 +38,29 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy('centros-logisticos');
                 <div class="line"></div>
             </div>
             <ul class="list job-list" id="favorites-list"></ul>
+             <?php
+
+             ?>
             <button id="load-more" style="display: block;">Cargar más</button>
         </div>
     </div><!-- Contenido de la página -->
+    <?php
+    }else{
+        ?>
+        <div class="vacantes-int-cont">
+            <div class="container">
+                <div class="title">
+                    Tus vacantes
+                    <span>de interés</span>
+                </div>
+                <div class="display-cont">
+                   <div class="title">Para ver tus vacantes de interés debes  <a href="<?php echo home_url( ).'/login/?redirect_to='.urlencode( get_permalink() ); ?>"><span>INICIAR SESIÓN</span> </a></div>
+                </div>
+            </div>
+
+        </div><!-- Contenido de la página -->
+        <?php
+        }?>
 </main>
 
 <?php get_footer(); ?>
