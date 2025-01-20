@@ -149,6 +149,38 @@ document.addEventListener("DOMContentLoaded", function() {
             formDiv.style.display = "block";
             // Agregar la clase para la animación
             formDiv.classList.add("fade-in");
+            const formPost = document.querySelector('.form-post');
+            if (formPost) {
+                // Función para calcular dinámicamente el offset
+                const calculateOffset = () => {
+                    const navHeight = document.querySelector('#header') ? document.querySelector('#header').offsetHeight : 0;
+                    const bannerHeight = document.querySelector('.banner') ? document.querySelector('.banner').offsetHeight : 0;
+                    return navHeight + bannerHeight;
+                };
+
+                // Calcular el offset inicial
+                const initialOffset = calculateOffset();
+
+                // Calcular la posición de la sección .form-post con el offset
+                const scrollToPosition = formPost.offsetTop - initialOffset;
+
+                // Desplazamiento con scroll
+                window.scrollTo({
+                    top: scrollToPosition,
+                    behavior: 'smooth'  // Desplazamiento suave
+                });
+
+                // Opcional: Recalcular el offset después de un pequeño retraso si el tamaño cambia de nuevo
+                setTimeout(() => {
+                    const recalculatedOffset = calculateOffset();
+                    const recalculatedScrollPosition = formPost.offsetTop - recalculatedOffset;
+
+                    window.scrollTo({
+                        top: recalculatedScrollPosition,
+                        behavior: 'smooth'  // Asegurarse de que el desplazamiento se ajusta correctamente
+                    });
+                }, 300);  // Ajusta este tiempo si es necesario para la transición de tamaño
+            }
         });
     }
 
@@ -160,13 +192,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if(button_emi){
 
-        // button.addEventListener("click", function() {
-        //     // Asegurarse de que el div sea visible
-        //     formDiv.style.display = "block";
-        //     // Agregar la clase para la animación
-        //     formDiv.classList.add("fade-in");
-        // });
-
         button_emi.addEventListener("click", function() {
             emi.style.display = "flex";
         });
@@ -174,12 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if(butto_login){
 
-        // button.addEventListener("click", function() {
-        //     // Asegurarse de que el div sea visible
-        //     formDiv.style.display = "block";
-        //     // Agregar la clase para la animación
-        //     formDiv.classList.add("fade-in");
-        // });
+
 
         butto_login.addEventListener("click", function() {
             login.style.display = "flex";
@@ -189,12 +209,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const close = document.getElementById("close");
     if(close){
 
-        // button.addEventListener("click", function() {
-        //     // Asegurarse de que el div sea visible
-        //     formDiv.style.display = "block";
-        //     // Agregar la clase para la animación
-        //     formDiv.classList.add("fade-in");
-        // });
 
         close.addEventListener("click", function() {
             emi.style.display = "none";

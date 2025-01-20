@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if(favorites.length > 0){
-                console.log('Se han encontrado favoritos:', favorites);
+                // console.log('Se han encontrado favoritos:', favorites);
 
             }
 

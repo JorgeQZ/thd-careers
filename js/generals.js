@@ -193,11 +193,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /**
-     * S e agrega logout el sub menu:
+     * Se agrega logout el sub menu:
      */
-
-    console.log(ajax_query_vars);
-
     var isLoggedIn = document.body.classList.contains('logged-in');
     if (isLoggedIn) {
         // Selecciona el menú "Mi perfil" (ajusta la clase según tu estructura de menú)
