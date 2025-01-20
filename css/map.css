@@ -84,6 +84,8 @@
 .leaflet-popup-content-wrapper .leaflet-popup-content {
   margin: 0;
   padding-bottom: 5px;
+  min-width: 160px;
+  max-width: 160px;
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content .header {
   background-color: #272727;
@@ -108,7 +110,7 @@
   background-color: #fff;
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content ul li:nth-child(odd) {
-  background-color: #a6a6a6;
+  background-color: rgba(166, 166, 166, 0.2);
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content ul li a {
   text-decoration: none;
@@ -129,4 +131,19 @@
 .leaflet-popup-content-wrapper .leaflet-popup-content ul li:hover a {
   background-color: #272727;
   color: white;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content .load-more {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #f96302;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  font-family: "Helvetica Neue LT Std MdCn";
+  border: none;
+  padding: 5px 10px;
+  padding-top: 8px;
+  display: block;
+  margin: 0 auto;
 }
