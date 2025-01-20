@@ -23,14 +23,14 @@ Template Name: Postulaciones
         $compania1 = sanitize_text_field($_POST['puesto-1_compania-1']);
         $ubicacion1 = sanitize_text_field($_POST['puesto-1_ubicacion-1']);
         $desde1 = sanitize_text_field($_POST['puesto-1_desde-1']);
-        $hasta1 = sanitize_text_field($_POST['puesto-1_hasta-1']);
+        $hasta1 = isset($_POST['puesto-1_hasta-1']) ? sanitize_text_field($_POST['puesto-1_hasta-1']) : '';
         $descripciondelrol1 = sanitize_text_field($_POST['puesto-1_descripcion-del-rol-1']);
         $actualmente_trabajo_aqui = isset($_POST['puesto-1_actualmente-trabajo-aqui-1']) && $_POST['puesto-1_actualmente-trabajo-aqui-1'] === 'Sí' ? 'Sí' : 'No';
         $puesto2 = sanitize_text_field($_POST['puesto-2_puesto-de-trabajo-2']);
         $compania2 = sanitize_text_field($_POST['puesto-2_compania-2']);
         $ubicacion2 = sanitize_text_field($_POST['puesto-2_ubicacion-2']);
         $desde2 = sanitize_text_field($_POST['puesto-2_desde-2']);
-        $hasta2 = sanitize_text_field($_POST['puesto-2_hasta-2']);
+        $hasta2 = isset($_POST['puesto-2_hasta-2']) ? sanitize_text_field($_POST['puesto-2_hasta-2']) : '';
         $descripciondelrol2 = sanitize_text_field($_POST['puesto-2_descripcion-del-rol-2']);
         $actualmente_trabajo_aqui_2 = isset($_POST['puesto-2_actualmente-trabajo-aqui-2']) && $_POST['puesto-2_actualmente-trabajo-aqui-2'] === 'Sí' ? 'Sí' : 'No';
         $has_trabajado = sanitize_text_field($_POST['has-trabajado']);
@@ -227,31 +227,31 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div>
-                        <label>Nombre(s)</label>
+                        <label>Nombre(s)<span class="obligatorio">*</span></label>
                         <input type="text" name="acf_postulacion_nombre" value="<?php echo esc_attr($nombre_rellenar); ?>" required>
                     </div>
 
                     <div>
-                        <label>Apellido Paterno</label>
+                        <label>Apellido Paterno<span class="obligatorio">*</span></label>
                         <input type="text" name="acf_postulacion_apellidopaterno" value="<?php echo esc_attr($apellido_paterno_rellenar); ?>" required>
                     </div>
 
                     <div>
-                        <label>Apellido Materno</label>
+                        <label>Apellido Materno<span class="obligatorio">*</span></label>
                         <input type="text" name="acf_postulacion_apellidomaterno" value="<?php echo esc_attr($apellido_materno_rellenar); ?>" required>
                     </div>
 
                     <div>
-                        <label>Correo</label>
+                        <label>Correo<span class="obligatorio">*</span></label>
                         <input type="text" name="acf_postulacion_correo" value="<?php echo esc_attr($correo_rellenar); ?>" required>
                     </div>
 
                     <div>
-                        <label>Celular</label>
+                        <label>Celular<span class="obligatorio">*</span></label>
                         <input type="text" name="acf_postulacion_telefono" value="<?php echo esc_attr($telefono_rellenar); ?>" required>
                     </div>
 
-                    <div>
+                    <div class="divall">
                         <label>¿Cómo te enteraste de nosotros?</label>
                         <select name="Select1-postulacion">
                             <option value="Sin selección">Seleccione una opción</option>
@@ -276,22 +276,27 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div>
-                        <label>Puesto de trabajo</label>
+                        <label>Puesto de trabajo<span class="obligatorio">*</span></label>
                         <input type="text" name="puesto-1_puesto-de-trabajo-1" required>
                     </div>
 
                     <div>
-                        <label>Compañia</label>
+                        <label>Compañia<span class="obligatorio">*</span></label>
                         <input type="text" name="puesto-1_compania-1" required>
                     </div>
 
                     <div>
-                        <label>Ubicación</label>
+                        <label>Ubicación<span class="obligatorio">*</span></label>
                         <input type="text" name="puesto-1_ubicacion-1" required>
                     </div>
 
+                    <div class="div-checkbox">
+                        <input type="checkbox" id="checkbox1" name="puesto-1_actualmente-trabajo-aqui-1" value="Sí">
+                        <label for="checkbox1">Actualmente trabajo aquí</label>
+                    </div>
+
                     <div>
-                        <label>Desde</label>
+                        <label>Desde<span class="obligatorio">*</span></label>
                         <div class="custom-date-input">
                             <input type="date" name="puesto-1_desde-1" required>
                             <span class="icon-calendar"></span>
@@ -299,7 +304,7 @@ Template Name: Postulaciones
                     </div>
 
                     <div>
-                        <label>Hasta</label>
+                        <label>Hasta<span class="obligatorio hasta">*</span></label>
                         <div class="custom-date-input">
                             <input type="date" name="puesto-1_hasta-1" required>
                             <span class="icon-calendar"></span>
@@ -309,13 +314,8 @@ Template Name: Postulaciones
                     <div></div>
 
                     <div class="div-allarea">
-                        <label>Descripción del rol</label>
+                        <label>Descripción del rol<span class="obligatorio">*</span></label>
                         <textarea name="puesto-1_descripcion-del-rol-1" required></textarea>
-                    </div>
-
-                    <div class="div-checkbox">
-                        <input type="checkbox" id="checkbox1" name="puesto-1_actualmente-trabajo-aqui-1" value="Sí">
-                        <label for="checkbox1">Actualmente trabajo aquí</label>
                     </div>
 
                 </div>
@@ -337,6 +337,11 @@ Template Name: Postulaciones
                     <div>
                         <label>Ubicación</label>
                         <input type="text" name="puesto-2_ubicacion-2">
+                    </div>
+
+                    <div class="div-checkbox dos">
+                        <input type="checkbox" id="checkbox2" name="puesto-2_actualmente-trabajo-aqui-2" value="Sí">
+                        <label for="checkbox2">Actualmente trabajo aquí</label>
                     </div>
 
                     <div>
@@ -362,12 +367,7 @@ Template Name: Postulaciones
                         <textarea name="puesto-2_descripcion-del-rol-2"></textarea>
                     </div>
 
-                    <div class="div-checkbox dos">
-                        <input type="checkbox" id="checkbox2" name="puesto-2_actualmente-trabajo-aqui-2" value="Sí">
-                        <label for="checkbox2">Actualmente trabajo aquí</label>
-                    </div>
-
-                    <div>
+                    <div class="trabajasaqui">
                         <label style="width: 200%;">¿Actualmente trabajas o has trabajado en The Home Depot?</label>
                         <select name="has-trabajado">
                             <option value="Sin Selección">Seleccione una respuesta</option>
@@ -386,16 +386,16 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div>
-                        <label>Escuela o Universidad</label>
+                        <label>Escuela o Universidad<span class="obligatorio">*</span></label>
                         <input type="text" name="escuela-o-universidad" required>
                     </div>
 
                     <div>
-                        <label>Título</label>
+                        <label>Título<span class="obligatorio">*</span></label>
                         <input type="text" name="titulo-1" required>
                     </div>
 
-                    <div>
+                    <div class="divall">
                         <label>Último grado de estudios</label>
                         <select name="ultimo-grado-de-estudios">
                             <option value="Sin seleccion" <?php selected($escolaridad_rellenar, 'Sin seleccion'); ?>>Escolaridad - Grado de estudios</option>
@@ -435,7 +435,7 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div class="div-allarea">
-                        <label style="width: 1000px;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
+                        <label class="requieres" style="width: 1000px;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
                         <select id="support-select" name="tipo-de-apoyo">
                             <option value="Sin Selección" <?php echo ($ar1 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
                             <option value="Sí" <?php echo ($ar1 === 'Sí') ? 'selected' : ''; ?>>Sí</option>
@@ -444,7 +444,7 @@ Template Name: Postulaciones
                     </div>
 
                     <div class="div-allarea" id="support-details" style="display: none;">
-                        <label style="width: 1000px;">¿Qué tipo de apoyo o ajuste requieres para tu proceso de selección?</label>
+                        <label class="requieres" style="width: 1000px;">¿Qué tipo de apoyo o ajuste requieres para tu proceso de selección?</label>
                         <select id="support-type-select" name="que-tipo">
                             <option value="Sin Selección" <?php echo ($ar2 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
                             <option value="Uso de notas escritas mediante libreta o pizarra de comunicación" <?php echo ($ar2 === 'Uso de notas escritas mediante libreta o pizarra de comunicación') ? 'selected' : ''; ?>>Uso de notas escritas mediante libreta o pizarra de comunicación</option>
@@ -474,7 +474,7 @@ Template Name: Postulaciones
 
                     <div class="div-checkbox">
                         <input type="checkbox" name="acepto-voluntariamente" value="Sí" required>
-                        <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a THD.</label>
+                        <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a THD.<span class="obligatorio">*</span></label>
                     </div>
 
                 </div>
@@ -499,21 +499,6 @@ Template Name: Postulaciones
         }
     });
 </script>
-
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const supportSelect = document.getElementById('support-select');
-        const supportDetails = document.getElementById('support-details');
-
-        supportSelect.addEventListener('change', function () {
-            if (supportSelect.value === 'Sí') {
-                supportDetails.style.display = 'flex';
-            } else {
-                supportDetails.style.display = 'none';
-            }
-        });
-    });
-</script> -->
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -556,21 +541,6 @@ Template Name: Postulaciones
     });
 </script>
 
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const supportTypeSelect = document.getElementById('support-type-select');
-        const textareaOtro = document.getElementById('textareaotro');
-
-        supportTypeSelect.addEventListener('change', function () {
-            if (supportTypeSelect.value === 'Otro') {
-                textareaOtro.style.display = 'flex';
-            } else {
-                textareaOtro.style.display = 'none';
-            }
-        });
-    });
-</script> -->
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const supportTypeSelect = document.getElementById('support-type-select');
@@ -590,5 +560,64 @@ Template Name: Postulaciones
 
         // Evento change para actualizar la visibilidad
         supportTypeSelect.addEventListener('change', handleTextareaOtro);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox1 = document.getElementById('checkbox1');
+        const hasta1 = document.querySelector('input[name="puesto-1_hasta-1"]');
+        const spanHasta1 = document.querySelector('.obligatorio.hasta');
+
+        const checkbox2 = document.getElementById('checkbox2');
+        const hasta2 = document.querySelector('input[name="puesto-2_hasta-2"]');
+
+        function toggleHastaField(checkbox, hastaField, spanElement, isRequired = true) {
+            if (checkbox.checked) {
+                hastaField.disabled = true;
+                if (isRequired) {
+                    hastaField.removeAttribute('required');
+                }
+                hastaField.value = ''; // Limpia el valor del campo si estaba lleno
+                if (spanElement && checkbox === checkbox1) {
+                    spanElement.style.display = 'none'; // Oculta el span solo si es checkbox1
+                }
+            } else {
+                hastaField.disabled = false;
+                if (isRequired) {
+                    hastaField.setAttribute('required', 'required');
+                }
+                if (spanElement && checkbox === checkbox1) {
+                    spanElement.style.display = ''; // Muestra el span solo si es checkbox1
+                }
+            }
+        }
+
+        function handleCheckboxToggle(activeCheckbox, otherCheckbox, hastaField, spanElement, isRequired) {
+            // Si el checkbox actual se marca, desmarcar el otro
+            if (activeCheckbox.checked) {
+                otherCheckbox.checked = false;
+                toggleHastaField(
+                    otherCheckbox,
+                    otherCheckbox === checkbox1 ? hasta1 : hasta2,
+                    otherCheckbox === checkbox1 ? spanHasta1 : null,
+                    otherCheckbox === checkbox1
+                ); // Asegurarse de no pasar un span no existente y considerar si es requerido
+            }
+            toggleHastaField(activeCheckbox, hastaField, spanElement, isRequired); // Ajustar el estado del campo actual
+        }
+
+        // Inicializar el estado al cargar la página
+        toggleHastaField(checkbox1, hasta1, spanHasta1, true); // hasta1 es required
+        toggleHastaField(checkbox2, hasta2, null, false); // hasta2 nunca es required
+
+        // Escuchar cambios en los checkboxes
+        checkbox1.addEventListener('change', function () {
+            handleCheckboxToggle(checkbox1, checkbox2, hasta1, spanHasta1, true);
+        });
+
+        checkbox2.addEventListener('change', function () {
+            handleCheckboxToggle(checkbox2, checkbox1, hasta2, null, false); // hasta2 nunca es required
+        });
     });
 </script>

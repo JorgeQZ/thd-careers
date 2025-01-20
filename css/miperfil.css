@@ -76,6 +76,7 @@
 .custom-date-input input {
   height: 37px !important;
   padding: 0px 10px !important;
+  width: 378px !important;
 }
 
 .icon-calendar {
@@ -138,7 +139,7 @@
 .custom-file label {
   font-family: Arial, sans-serif;
   font-size: 14px;
-  color: #b2b2b2;
+  color: black;
   margin-bottom: 5px;
 }
 .custom-file .file-wrapper {
@@ -198,11 +199,11 @@ form .h1-top {
 }
 form label {
   font-family: "Helvetica Neue LT Std";
-  color: #b2b2b2;
+  color: black;
 }
 form p {
   font-family: "Helvetica Neue LT Std";
-  color: #b2b2b2;
+  color: black;
 }
 form .act-datos {
   margin: 20px 0px;
@@ -268,7 +269,7 @@ form .contenedor-form .contenedor div {
 }
 form .contenedor-form .contenedor div label {
   font-family: "Helvetica Neue LT Std";
-  color: #b2b2b2;
+  color: black;
 }
 form .contenedor-form .contenedor div select {
   width: 100%;
@@ -310,6 +311,10 @@ form .contenedor-form .contenedor div select {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.input-nacionalidad {
+  width: 386px !important;
 }
 
 @media (max-width: 1300px) and (min-width: 801px) {

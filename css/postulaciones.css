@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: "Helvetica Neue LT Std";
   src: url("../fonts/HelveticaNeueLTStd-Roman.eot");
@@ -281,6 +282,7 @@ body.admin-bar {
   margin: 0;
   margin-right: 5px;
   border: solid 0.5px;
+  cursor: pointer;
 }
 .contenedorgeneralcampos input[type=date] {
   width: 392px;
@@ -349,7 +351,7 @@ body.admin-bar {
   background-size: 45px 45px;
 }
 .contenedorgeneralcampos label {
-  color: #b2b2b2;
+  color: black;
   padding-top: 20px;
   padding-bottom: 5px;
 }
@@ -414,8 +416,8 @@ body.admin-bar {
   padding-top: 5px;
   padding-bottom: 0px;
 }
-.contenedorgeneralcampos .campos .div-checkbox.dos {
-  padding-bottom: 40px;
+.contenedorgeneralcampos .campos .trabajasaqui {
+  margin-top: 30px;
 }
 .contenedorgeneralcampos .campos .div-allarea {
   -webkit-box-flex: 0;
@@ -446,6 +448,23 @@ body.admin-bar {
 .contenedorgeneralcampos .campos .div-cv .file-name {
   padding-top: 5px;
 }
+.contenedorgeneralcampos .campos .obligatorio {
+  color: red;
+}
+.contenedorgeneralcampos .campos input:disabled {
+  background-color: #f0f0f0;
+  color: #7d7d7d;
+  border-color: #d0d0d0;
+  cursor: not-allowed;
+}
+.contenedorgeneralcampos .campos #support-select option[value="Sin Selección"] {
+  color: #b2b2b2;
+  /* Gris */
+}
+.contenedorgeneralcampos .campos #support-select option:not([value="Sin Selección"]) {
+  color: #000;
+  /* Negro */
+}
 
 .boton-postulacion {
   background-color: #f96302;
@@ -467,4 +486,83 @@ body.admin-bar {
   background-color: white;
   border: 1px solid #f96302;
   color: #f96302;
+}
+
+@media (max-width: 1400px) and (min-width: 501px) {
+  .contenedorgeneralcampos textarea {
+    width: auto;
+  }
+  .contenedorgeneralcampos .icon-calendar {
+    right: 10px;
+  }
+  .contenedorgeneralcampos input {
+    width: auto;
+  }
+  .contenedorgeneralcampos .campos div {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 49%;
+            flex: 0 1 49%;
+  }
+  .divall {
+    -webkit-box-flex: 0 !important;
+        -ms-flex: 0 1 100% !important;
+            flex: 0 1 100% !important;
+  }
+  .divall select {
+    width: auto;
+  }
+  .divall input {
+    width: auto;
+  }
+  .trabajasaqui {
+    -webkit-box-flex: 0 !important;
+        -ms-flex: 0 1 100% !important;
+            flex: 0 1 100% !important;
+  }
+  .trabajasaqui select {
+    width: auto;
+  }
+  .trabajasaqui label {
+    width: auto !important;
+  }
+  .trabajasaqui input {
+    width: auto;
+  }
+  .contenedorgeneralcampos input[type=date] {
+    width: auto;
+  }
+  .requieres {
+    width: auto !important;
+  }
+  .contenedorgeneralcampos select {
+    width: 100%;
+  }
+}
+@media (max-width: 500px) {
+  .contenedorgeneralcampos textarea {
+    width: auto;
+  }
+  .contenedorgeneralcampos .icon-calendar {
+    right: 10px;
+  }
+  .contenedorgeneralcampos .campos div {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 100%;
+            flex: 0 1 100%;
+  }
+  .contenedorgeneralcampos input {
+    width: auto;
+  }
+  .contenedorgeneralcampos select {
+    width: auto;
+  }
+  .contenedorgeneralcampos input[type=date] {
+    width: auto;
+  }
+  .requieres {
+    width: auto !important;
+  }
+  .trabajasaqui label {
+    width: auto !important;
+  }
 }
