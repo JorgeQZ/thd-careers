@@ -565,4 +565,7 @@ body.admin-bar {
   .trabajasaqui label {
     width: auto !important;
   }
+  .boton-postulacion {
+    width: 100%;
+  }
 }
