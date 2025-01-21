@@ -17,8 +17,20 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
 ?>
 
 <?php if ($mensaje_exito): ?>
-<div class="mensaje-exito" id="mensajeExito"><?php echo esc_html($mensaje_exito); ?></div>
+<script>
+     document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('mensajeExito').style.display = 'flex';
+     });
+</script>
 <?php endif; ?>
+
+
+<div class="popup-cont" id="mensajeExito">
+    <div class="container">
+        <div class="close" id="close-mensaje">+</div>
+        <div class="title">Tu perfil ha <br> sido actualizado<span> correctamente</span></div>
+    </div>
+</div><!-- PopUp -->
 
 <div class="miperfil">
 
@@ -301,20 +313,23 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
         <button type="submit" class="act-datos">ACTUALIZAR DATOS</button>
 
     </form>
-
-    <!-- Botón de Cerrar Sesión -->
-    <form method="POST" action="<?php echo wp_logout_url(home_url()); ?>">
-        <button type="submit" class="cerrar-sesion">CERRAR SESIÓN</button>
-    </form>
-
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Mostrar el mensaje de éxito por 5 segundos
+
+        const close = document.getElementById("close-mensaje");
+
         const mensaje = document.getElementById('mensajeExito');
+
+        if(close){
+            close.addEventListener("click", function() {
+                mensaje.style.display = "none";
+            });
+        }
         if (mensaje) {
-            mensaje.style.display = 'block';
+            mensaje.style.display = 'flex';
             setTimeout(() => {
                 mensaje.style.display = 'none';
             }, 5000); // 5 segundos

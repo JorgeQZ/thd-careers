@@ -1,118 +1,177 @@
 <?php
 function careers_roles(){
 	add_role(
-		'rh_oat',
-		'RH OAT',
-		array(
-			'read' => true,
-			'moderate_comments' => false,
-			'manage_options' => false,
-			'edit_pages' => true,
-
-			/** POSTS */
-			'delete_posts' => true,
-			'delete_published_posts' => true,
-			'delete_others_posts' => true,
-			'delete_private_posts' => true,
-			'edit_private_posts' => true,
-			'read_private_posts' => true,
-			'edit_posts' => true,
-			'edit_published_posts' => true,
-			'edit_others_posts' => true,
-			'create_posts' => true,
-			'publish_posts' => true,
-
-			/** Categories */
-			'manage_categories' => true,
-			'upload_files' => true,
-		)
-	);
-
-	add_role(
-		'rh_distrito',
-		'RH Distrital',
-		array(
-			'read' => true,
-			'moderate_comments' => false,
-			'manage_options' => false,
-			'edit_pages' => true,
-
-			/** POSTS */
-			'delete_posts' => true,
-			'delete_published_posts' => true,
-			'delete_others_posts' => true,
-			'delete_private_posts' => true,
-			'edit_private_posts' => true,
-			'read_private_posts' => true,
-			'edit_posts' => true,
-			'edit_published_posts' => true,
-			'edit_others_posts' => true,
-			'create_posts' => true,
-			'publish_posts' => true,
-
-			/** Categories */
-			'manage_categories' => true,
-			'upload_files' => true,
-		)
-	);
-
-
-	add_role(
 		'rh_general',
 		'RH General',
 		array(
 			'read' => true,
 			'moderate_comments' => false,
-			'manage_options' => false,
-			'edit_pages' => false,
+			'manage_options' => false, // No puede manejar configuraciones
+			'edit_pages' => false,    // No puede manejar páginas
+			'delete_pages' => false,  // No puede eliminar páginas
 
 			/** POSTS */
-			'delete_posts' => true,
-			'delete_published_posts' => false,
-			'delete_others_posts' => false,
-			'delete_private_posts' => true,
-			'edit_private_posts' => true,
-			'read_private_posts' => true,
-			'edit_posts' => true,
-			'edit_published_posts' => true,
-			'edit_others_posts' => false,
-			'create_posts' => true,
-			'publish_posts' => false,
+			'delete_posts' => true,                      // Puede eliminar sus propios posts
+			'delete_published_posts' => true,            // Puede eliminar sus propios posts publicados
+			'delete_others_posts' => false,              // No puede eliminar posts de otros
+			'delete_private_posts' => true,              // Puede eliminar sus propios posts privados
+			'edit_private_posts' => true,                // Puede editar sus propios posts privados
+			'read_private_posts' => true,                // Puede leer sus propios posts privados
+			'edit_posts' => true,                        // Puede editar sus propios posts
+			'edit_published_posts' => true,              // Puede editar sus propios posts publicados
+			'edit_others_posts' => false,                // No puede editar posts de otros
+			'create_posts' => true,                      // Puede crear posts
+			'publish_posts' => true,                     // Puede publicar sus propios posts
+
+			/** CUSTOM POST TYPES */
+			'edit_vacantes' => true,                     // Puede editar sus propias "vacantes"
+			'edit_others_vacantes' => false,             // No puede editar "vacantes" de otros
+			'delete_vacantes' => true,                   // Puede eliminar sus propias "vacantes"
+			'delete_others_vacantes' => false,           // No puede eliminar "vacantes" de otros
+			'publish_vacantes' => true,                  // Puede publicar sus propias "vacantes"
+			'read_private_vacantes' => true,             // Puede leer sus propias "vacantes" privadas
+
+			'edit_postulaciones' => true,                // Puede editar sus propias "postulaciones"
+			'edit_others_postulaciones' => false,        // No puede editar "postulaciones" de otros
+			'delete_postulaciones' => true,              // Puede eliminar sus propias "postulaciones"
+			'delete_others_postulaciones' => false,      // No puede eliminar "postulaciones" de otros
+			'publish_postulaciones' => true,             // Puede publicar sus propias "postulaciones"
+			'read_private_postulaciones' => true,        // Puede leer sus propias "postulaciones" privadas
 
 			/** Categories */
-			'manage_categories' => false,
-			'upload_files' => true,
+			'manage_categories' => false,                // No puede manejar categorías
+
+			/** Media Library */
+			'upload_files' => true,                      // Puede subir archivos
 		)
 	);
 
+	add_role(
+		'rh_admin',
+		'RH Admin',
+		array(
+			'read' => true,
+			'moderate_comments' => true,                  // Puede moderar comentarios
+			'manage_options' => false,                   // No puede manejar configuraciones avanzadas del sitio
 
+			/** Páginas */
+			'edit_pages' => true,                        // Puede editar páginas
+			'edit_others_pages' => true,                 // Puede editar páginas de otros
+			'delete_pages' => true,                      // Puede eliminar páginas
+			'delete_others_pages' => true,               // Puede eliminar páginas de otros
+			'publish_pages' => true,                     // Puede publicar páginas
+			'read_private_pages' => true,                // Puede leer páginas privadas
 
-	remove_role( 'author' );
-	remove_role( 'editor' );
-	remove_role( 'contributor' );
-	remove_role( 'rh_tienda' );
+			/** POSTS */
+			'delete_posts' => true,                      // Puede eliminar sus propios posts
+			'delete_published_posts' => true,            // Puede eliminar posts publicados de todos
+			'delete_others_posts' => true,               // Puede eliminar posts de otros
+			'delete_private_posts' => true,              // Puede eliminar posts privados de todos
+			'edit_private_posts' => true,                // Puede editar posts privados
+			'read_private_posts' => true,                // Puede leer posts privados
+			'edit_posts' => true,                        // Puede editar sus propios posts
+			'edit_published_posts' => true,              // Puede editar posts publicados de todos
+			'edit_others_posts' => true,                 // Puede editar posts de otros
+			'create_posts' => true,                      // Puede crear posts
+			'publish_posts' => false,                    // No puede publicar posts
+
+			/** CUSTOM POST TYPES: Vacantes */
+			'edit_vacantes' => true,                     // Puede editar "vacantes"
+			'edit_others_vacantes' => true,              // Puede editar "vacantes" de otros
+			'delete_vacantes' => true,                   // Puede eliminar "vacantes"
+			'delete_others_vacantes' => true,            // Puede eliminar "vacantes" de otros
+			'publish_vacantes' => false,                 // No puede publicar "vacantes"
+			'read_private_vacantes' => true,             // Puede leer "vacantes" privadas
+			'create_vacantes' => true,                   // Puede crear "vacantes"
+
+			/** CUSTOM POST TYPES: Postulaciones */
+			'edit_postulaciones' => true,                // Puede editar "postulaciones"
+			'edit_others_postulaciones' => true,         // Puede editar "postulaciones" de otros
+			'delete_postulaciones' => true,              // Puede eliminar "postulaciones"
+			'delete_others_postulaciones' => true,       // Puede eliminar "postulaciones" de otros
+			'publish_postulaciones' => false,            // No puede publicar "postulaciones"
+			'read_private_postulaciones' => true,        // Puede leer "postulaciones" privadas
+			'create_postulaciones' => true,              // Puede crear "postulaciones"
+
+			/** Categories and Taxonomies */
+			'manage_categories' => true,                 // Puede manejar categorías
+			'edit_terms' => true,                        // Puede editar términos en taxonomías
+			'delete_terms' => true,                      // Puede eliminar términos en taxonomías
+			'assign_terms' => true,                      // Puede asignar términos a contenidos
+
+			/** Media Library */
+			'upload_files' => true,                      // Puede subir archivos
+		)
+	);
+
+	add_role(
+		'rh_oat_',
+		'RH OAT',
+		array(
+			'read' => true,                              // Acceso básico para leer el sitio
+			'moderate_comments' => false,               // No puede moderar comentarios
+			'manage_options' => false,                  // No puede manejar configuraciones del sitio
+			'edit_pages' => false,                      // No puede manejar páginas
+			'delete_pages' => false,                    // No puede eliminar páginas
+			'publish_pages' => false,                   // No puede publicar páginas
+			'read_private_pages' => false,              // No puede leer páginas privadas
+
+			/** POSTS */
+			'edit_posts' => true,                      // No puede editar posts estándar
+			'delete_posts' => true,                    // No puede eliminar posts estándar
+			'publish_posts' => true,                   // No puede publicar posts estándar
+			'edit_others_posts' => false,               // No puede editar posts de otros
+
+			/** CUSTOM POST TYPES: Vacantes */
+			'edit_vacantes' => true,                    // Puede editar "vacantes"
+			'edit_others_vacantes' => true,             // Puede editar "vacantes" de otros
+			'delete_vacantes' => true,                  // Puede eliminar "vacantes"
+			'delete_others_vacantes' => true,           // Puede eliminar "vacantes" de otros
+			'publish_vacantes' => true,                 // Puede publicar "vacantes"
+			'read_private_vacantes' => true,            // Puede leer "vacantes" privadas
+			'create_vacantes' => true,                  // Puede crear "vacantes"
+
+			/** CUSTOM POST TYPES: Postulaciones */
+			'edit_postulaciones' => true,               // Puede editar "postulaciones"
+			'edit_others_postulaciones' => true,        // Puede editar "postulaciones" de otros
+			'delete_postulaciones' => true,             // Puede eliminar "postulaciones"
+			'delete_others_postulaciones' => true,      // Puede eliminar "postulaciones" de otros
+			'publish_postulaciones' => false,           // No puede publicar "postulaciones"
+			'read_private_postulaciones' => true,       // Puede leer "postulaciones" privadas
+			'create_postulaciones' => true,             // Puede crear "postulaciones"
+
+			/** Categories and Taxonomies */
+			'manage_categories' => true,                // Puede manejar categorías (incluidas para "vacantes")
+			'edit_terms' => true,                       // Puede editar términos en taxonomías relacionadas
+			'delete_terms' => true,                     // Puede eliminar términos en taxonomías relacionadas
+			'assign_terms' => true,                     // Puede asignar términos a contenidos
+
+			/** Media Library */
+			'upload_files' => true,                     // Puede subir archivos
+		)
+	);
 }
 add_action( 'admin_init', 'careers_roles' );
 
-function actualizar_rol_para_no_publicar() {
-    $rh_general = get_role('rh_general');
-    if ($rh_general) {
-        $rh_general->add_cap('publish_posts');  // Permite publicar sus propios posts
-        $rh_general->add_cap('edit_posts');     // Permite editar sus propios posts
+function otorgar_capacidad_publicar_a_rh_oat() {
+    $role = get_role('rh_admin');
 
-        $rh_general->remove_cap('edit_others_posts'); // No puede editar los posts de otros
-        $rh_general->remove_cap('delete_others_posts'); // No puede eliminar posts de otros
-        $rh_general->remove_cap('manage_categories');
+    if ($role) {
+        // Darles la capacidad de publicar
+        $role->add_cap('publish_posts');
     }
 
-	$rolDistrito = get_role('rh_distrito');
-    if ($rolDistrito) {
-		$rolDistrito->add_cap('publish_posts');
-		$rolDistrito->add_cap('delete_others_posts');
-		$rolDistrito->add_cap('edit_others_posts');
+	$role_oat = get_role('rh_oat_');
+    if ($role_oat) {
+        // Darles la capacidad de publicar
+        $role_oat->add_cap('publish_posts');
+        $role_oat->add_cap('edit_posts');
+		$role_oat->add_cap('edit_vacantes');
+        $role_oat->add_cap('delete_posts');
+
     }
 }
-add_action('init', 'actualizar_rol_para_no_publicar');
+add_action('init', 'otorgar_capacidad_publicar_a_rh_oat');
 
 add_action('init', 'update_role_name');
 function update_role_name(){
@@ -159,14 +218,14 @@ add_action('admin_menu', function() {
 	}
 
 
-	if (current_user_can('rh_distrito')) {
-		remove_menu_page('edit.php');
-		remove_menu_page('tools.php');
-		remove_menu_page('edit-comments.php');
-		remove_menu_page('edit.php?post_type=page');
-		remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
-		remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
-	}
+	// if (current_user_can('rh_distrito')) {
+	// 	remove_menu_page('edit.php');
+	// 	remove_menu_page('tools.php');
+	// 	remove_menu_page('edit-comments.php');
+	// 	remove_menu_page('edit.php?post_type=page');
+	// 	remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
+	// 	remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
+	// }
 });
 
 function hide_acf_options_page_for_specific_role() {

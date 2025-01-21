@@ -9,7 +9,7 @@ function agregar_capacidades_personalizadas() {
     $admin_role->add_cap('publicar_vacante');
 
 
-    $roles_permitidos = ['rh_general', 'rh_oat', 'rh_distrito'];
+    $roles_permitidos = ['rh_general', 'rh_oat_', 'rh_admin'];
 
     foreach ($roles_permitidos as $role_name) {
         $role = get_role($role_name);
@@ -79,7 +79,9 @@ class Mis_Vacantes_List_Table extends WP_List_Table {
     protected function column_default($item, $column_name) {
         switch ($column_name) {
             case 'title':
-                return '<a href="' . get_edit_post_link($item->ID) . '">' . esc_html($item->post_title) . '</a>';
+
+                    return '<a href="' . get_edit_post_link($item->ID) . '">' . esc_html($item->post_title) . '</a>';
+
             case 'date':
                 return get_the_date('', $item->ID);
             case 'author':
@@ -157,16 +159,16 @@ function publicar_vacante_action() {
 }
 
 
-function eliminar_capacidades_personalizadas() {
-    $roles_permitidos = ['administrator', 'rh_general', 'rh_oat', 'rh_distrito'];
+// function eliminar_capacidades_personalizadas() {
+//     $roles_permitidos = ['administrator', 'rh_general', 'rh_oat', 'rh_distrito'];
 
-    foreach ($roles_permitidos as $role_name) {
-        $role = get_role($role_name);
-        if ($role) {
-            $role->remove_cap('acceso_mis_vacantes');
-            $role->remove_cap('ver_mis_vacantes');
-            $role->remove_cap('publicar_vacante');
-        }
-    }
-}
-register_deactivation_hook(__FILE__, 'eliminar_capacidades_personalizadas');
+//     foreach ($roles_permitidos as $role_name) {
+//         $role = get_role($role_name);
+//         if ($role) {
+//             $role->remove_cap('acceso_mis_vacantes');
+//             $role->remove_cap('ver_mis_vacantes');
+//             $role->remove_cap('publicar_vacante');
+//         }
+//     }
+// }
+// register_deactivation_hook(__FILE__, 'eliminar_capacidades_personalizadas');

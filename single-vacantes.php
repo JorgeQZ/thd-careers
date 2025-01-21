@@ -19,21 +19,13 @@ $url_de_la_vacante = get_field('url_de_la_vacante');
 $is_logged_in = is_user_logged_in();
 ?>
 
-<!-- PopUp -->
-<div class="popup-cont" id="popup-emi">
+<div class="popup-cont" id="mensajeExito">
     <div class="container">
-        <div class="close" id="close">+</div>
-        <div class="title">¡Completa tu proceso <br> <span>de forma fácil y rápida!</span></div>
-        <div class="desc">
-        Conéctate con nuestro reclutador virtual a través de WhatsApp y avanza en tu proceso. <br><br>
-        <span>Escanea el QR con tu móvil o haz clic en el botón inferior para acceder a la versión web.</span>
-        </div>
-        <div class="img-cont">
-            <img src="<?php echo $qr; ?>" alt="">
-        </div>
-        <a href="<?php echo $url_de_la_vacante; ?>"  target="_blank" class="button">Haz clic aquí</a>
+        <div class="close" id="close-mensaje">+</div>
+        <div class="title">Tu postulación para la vacante se ha <br> enviado con <span> éxito</span></div>
     </div>
 </div><!-- PopUp -->
+
 
 
 <!-- PopUp -->
@@ -140,6 +132,17 @@ $is_logged_in = is_user_logged_in();
 <script>
 // Esperar a que el DOM esté cargado
 document.addEventListener("DOMContentLoaded", function() {
+
+
+    const close_mensaje = document.getElementById("close-mensaje");
+
+    const mensaje = document.getElementById('mensajeExito');
+
+    if(close_mensaje){
+        close_mensaje.addEventListener("click", function() {
+            mensaje.style.display = "none";
+        });
+    }
     const button = document.getElementById("open-form");
     const formDiv = document.querySelector("div.form-post");
 

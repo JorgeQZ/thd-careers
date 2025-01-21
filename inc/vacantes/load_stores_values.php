@@ -20,23 +20,14 @@ function load_stores_data()
         case 'subscriber':
             return $table;
             break;
-        case 'rh_oat':
+        case 'rh_oat_':
             return $table;
             break;
-        case 'rh_distrito':
-            $field = 'distrito';
-            $users_district = get_user_meta($current_user_id, $field, true);
-            $stores = [];
-            if ($table):
-                foreach ($table as $row):
-                    if ($row['distrito'] == $users_district) {
-                            array_push($stores, $row);
-                    }
 
-                endforeach;
-                return $stores;
-            endif;
-            break;
+        case 'rh_admin':
+                return $table;
+                break;
+
         case 'rh_general':
             $field = 'tienda';
             $users_store = get_user_meta($current_user_id, $field, true);
