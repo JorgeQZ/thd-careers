@@ -694,6 +694,11 @@ header.sticky .menu-item span {
 }
 
 @media (max-width: 899px) {
+  .top__search-input-cont {
+    display: none !important;
+  }
+}
+@media (max-width: 899px) {
   .menu-web {
     display: none;
   }
@@ -709,6 +714,7 @@ header.sticky .menu-item span {
   }
   .menu-wrapper.active .menu {
     list-style-type: none;
+    padding: 0;
   }
   .menu-wrapper.active .menu ul {
     padding: 0;

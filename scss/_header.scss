@@ -399,6 +399,12 @@ header {
 
 // Para pantallas pequeñas (responsive)
 @media (max-width: 899px) {
+    .top__search-input-cont {
+        display: none !important;
+    }
+}
+
+@media (max-width: 899px) {
     .menu-web {
         display: none;
     }
@@ -411,6 +417,7 @@ header {
 
         .menu {
             list-style-type: none;
+            padding: 0;
 
             ul {
                 padding: 0;
