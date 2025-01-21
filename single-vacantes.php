@@ -19,21 +19,13 @@ $url_de_la_vacante = get_field('url_de_la_vacante');
 $is_logged_in = is_user_logged_in();
 ?>
 
-<!-- PopUp -->
-<div class="popup-cont" id="popup-emi">
+<div class="popup-cont" id="mensajeExito">
     <div class="container">
-        <div class="close" id="close">+</div>
-        <div class="title">¡Completa tu proceso <br> <span>de forma fácil y rápida!</span></div>
-        <div class="desc">
-        Conéctate con nuestro reclutador virtual a través de WhatsApp y avanza en tu proceso. <br><br>
-        <span>Escanea el QR con tu móvil o haz clic en el botón inferior para acceder a la versión web.</span>
-        </div>
-        <div class="img-cont">
-            <img src="<?php echo $qr; ?>" alt="">
-        </div>
-        <a href="<?php echo $url_de_la_vacante; ?>"  target="_blank" class="button">Haz clic aquí</a>
+        <div class="close" id="close-mensaje">+</div>
+        <div class="title">Tu postulación para la vacante se ha <br> enviado con <span> éxito</span></div>
     </div>
 </div><!-- PopUp -->
+
 
 
 <!-- PopUp -->
@@ -140,6 +132,17 @@ $is_logged_in = is_user_logged_in();
 <script>
 // Esperar a que el DOM esté cargado
 document.addEventListener("DOMContentLoaded", function() {
+
+
+    const close_mensaje = document.getElementById("close-mensaje");
+
+    const mensaje = document.getElementById('mensajeExito');
+
+    if(close_mensaje){
+        close_mensaje.addEventListener("click", function() {
+            mensaje.style.display = "none";
+        });
+    }
     const button = document.getElementById("open-form");
     const formDiv = document.querySelector("div.form-post");
 
@@ -149,6 +152,38 @@ document.addEventListener("DOMContentLoaded", function() {
             formDiv.style.display = "block";
             // Agregar la clase para la animación
             formDiv.classList.add("fade-in");
+            const formPost = document.querySelector('.form-post');
+            if (formPost) {
+                // Función para calcular dinámicamente el offset
+                const calculateOffset = () => {
+                    const navHeight = document.querySelector('#header') ? document.querySelector('#header').offsetHeight : 0;
+                    const bannerHeight = document.querySelector('.banner') ? document.querySelector('.banner').offsetHeight : 0;
+                    return navHeight + bannerHeight;
+                };
+
+                // Calcular el offset inicial
+                const initialOffset = calculateOffset();
+
+                // Calcular la posición de la sección .form-post con el offset
+                const scrollToPosition = formPost.offsetTop - initialOffset;
+
+                // Desplazamiento con scroll
+                window.scrollTo({
+                    top: scrollToPosition,
+                    behavior: 'smooth'  // Desplazamiento suave
+                });
+
+                // Opcional: Recalcular el offset después de un pequeño retraso si el tamaño cambia de nuevo
+                setTimeout(() => {
+                    const recalculatedOffset = calculateOffset();
+                    const recalculatedScrollPosition = formPost.offsetTop - recalculatedOffset;
+
+                    window.scrollTo({
+                        top: recalculatedScrollPosition,
+                        behavior: 'smooth'  // Asegurarse de que el desplazamiento se ajusta correctamente
+                    });
+                }, 300);  // Ajusta este tiempo si es necesario para la transición de tamaño
+            }
         });
     }
 
@@ -160,13 +195,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if(button_emi){
 
-        // button.addEventListener("click", function() {
-        //     // Asegurarse de que el div sea visible
-        //     formDiv.style.display = "block";
-        //     // Agregar la clase para la animación
-        //     formDiv.classList.add("fade-in");
-        // });
-
         button_emi.addEventListener("click", function() {
             emi.style.display = "flex";
         });
@@ -174,12 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if(butto_login){
 
-        // button.addEventListener("click", function() {
-        //     // Asegurarse de que el div sea visible
-        //     formDiv.style.display = "block";
-        //     // Agregar la clase para la animación
-        //     formDiv.classList.add("fade-in");
-        // });
+
 
         butto_login.addEventListener("click", function() {
             login.style.display = "flex";
@@ -189,12 +212,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const close = document.getElementById("close");
     if(close){
 
-        // button.addEventListener("click", function() {
-        //     // Asegurarse de que el div sea visible
-        //     formDiv.style.display = "block";
-        //     // Agregar la clase para la animación
-        //     formDiv.classList.add("fade-in");
-        // });
 
         close.addEventListener("click", function() {
             emi.style.display = "none";

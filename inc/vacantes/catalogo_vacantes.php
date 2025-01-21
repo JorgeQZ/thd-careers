@@ -2,7 +2,6 @@
 
 // Hook para añadir el submenú en el panel de administración
 add_action('admin_menu', 'seccion_catalogo_vacantes');
-
 function seccion_catalogo_vacantes() {
     // Verificar los roles de usuario permitidos
         add_menu_page(
@@ -16,6 +15,22 @@ function seccion_catalogo_vacantes() {
         );
 
 }
+
+// Asignar capacidad personalizada a múltiples roles
+function agregar_capacidad_a_roles_personalizados() {
+    // Lista de roles que deben tener acceso al menú
+    $roles_permitidos = ['administrator', 'rh_admin', 'rh_oat_', 'rh_general'];
+
+    foreach ($roles_permitidos as $role_name) {
+        $role = get_role($role_name);
+
+        // Verificar si el rol existe antes de asignar la capacidad
+        if ($role) {
+            $role->add_cap('acceso_catalogo_vacantes');
+        }
+    }
+}
+add_action('init', 'agregar_capacidad_a_roles_personalizados');
 
 // Incluir la clase WP_List_Table
 if (!class_exists('WP_List_Table')) {
@@ -227,6 +242,18 @@ function duplicate_post_action() {
     exit;
 }
 
+add_action('wp_insert_post', 'assign_capabilities_on_post_duplicate', 10, 3);
+function assign_capabilities_on_post_duplicate($post_id, $post, $update) {
+    if ($post->post_type === 'vacantes' && !$update) {
+        $rh_oat_role = get_role('rh_oat_');
+
+        if ($rh_oat_role) {
+            $rh_oat_role->add_cap('edit_vacantes');
+            $rh_oat_role->add_cap('edit_others_vacantes');
+        }
+    }
+}
+
 /**
  * Generación de slug personalizado al guardar el post
  */
@@ -319,6 +346,7 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
         }
     }
 }
+
 add_action('save_post', 'update_slug_after_save', 10, 3);
 function update_slug_after_save($post_ID, $post, $update) {
     // Evitar que se ejecute en actualizaciones recursivas
@@ -372,7 +400,7 @@ function restringir_campos_acf_por_rol($field) {
 add_filter('acf/load_field/name=codigo_de_vacante', 'restringir_campos_acf_por_rol');
 add_filter('acf/load_field/name=descripcion', 'restringir_campos_acf_por_rol');
 add_filter('acf/load_field/name=video', 'restringir_campos_acf_por_rol');
-// add_filter('acf/load_field/name=beneficios', 'restringir_campos_acf_por_rol');
+add_filter('acf/load_field/name=beneficios', 'restringir_campos_acf_por_rol');
 
 function agregar_script_desactivar_checkboxes() {
     // Asegurarse de que solo cargue en el admin
