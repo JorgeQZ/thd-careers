@@ -148,39 +148,65 @@ Template Name: Postulaciones
                 }
 
                 $upload_overrides = array('test_form' => false);
-                $cv_file = wp_handle_upload($_FILES['acf_postulacion_cv'], $upload_overrides);
 
-                if ($cv_file && !isset($cv_file['error'])) {
-                    $attachment = array(
-                        'post_mime_type' => $cv_file['type'],
-                        'post_title'     => sanitize_file_name($cv_file['file']),
-                        'post_content'   => '',
-                        'post_status'    => 'inherit',
-                    );
+                $file = $_FILES['acf_postulacion_cv'];
+                $gcs_response = upload_to_gcp($file);  // Llamar a la función para subir a GCS
 
-                    $attachment_id = wp_insert_attachment($attachment, $cv_file['file'], $postulacion_id);
+                if ($gcs_response) {
+                    // Asumimos que la respuesta contiene una URL al archivo en GCS
+                    $gcs_url = json_decode($gcs_response)->mediaLink;
 
-                    require_once(ABSPATH . 'wp-admin/includes/image.php');
-                    $attach_data = wp_generate_attachment_metadata($attachment_id, $cv_file['file']);
-                    wp_update_attachment_metadata($attachment_id, $attach_data);
+                    // Obtener el ID del usuario actual
+                    $user_id = get_current_user_id();
 
-                    update_field('CV', $attachment_id, $postulacion_id);
-                    // echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
+                    // Guardar la URL del archivo de GCS como metadato del usuario
+                    update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+
+                    // Mostrar mensaje de éxito
                     ?>
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {
                             document.getElementById('mensajeExito').style.display = 'flex';
                         });
                     </script>
-
                     <?php
                 } else {
-                    echo '<p>Hubo un error al subir el archivo: ' . $cv_file['error'] . '</p>';
+                    echo '<p>Hubo un error al subir el archivo a GCS.</p>';
                 }
+                // $cv_file = wp_handle_upload($_FILES['acf_postulacion_cv'], $upload_overrides);
+
+                // if ($cv_file && !isset($cv_file['error'])) {
+                //     $attachment = array(
+                //         'post_mime_type' => $cv_file['type'],
+                //         'post_title'     => sanitize_file_name($cv_file['file']),
+                //         'post_content'   => '',
+                //         'post_status'    => 'inherit',
+                //     );
+
+                //     $attachment_id = wp_insert_attachment($attachment, $cv_file['file'], $postulacion_id);
+
+                //     require_once(ABSPATH . 'wp-admin/includes/image.php');
+                //     $attach_data = wp_generate_attachment_metadata($attachment_id, $cv_file['file']);
+                //     wp_update_attachment_metadata($attachment_id, $attach_data);
+
+                //     update_field('CV', $attachment_id, $postulacion_id);
+                //     // echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
+                //     ?>
+                //     <script>
+                //         document.addEventListener('DOMContentLoaded', function () {
+                //             document.getElementById('mensajeExito').style.display = 'flex';
+                //         });
+                //     </script>
+
+                //     <?php
+                // } else {
+                //     echo '<p>Hubo un error al subir el archivo: ' . $cv_file['error'] . '</p>';
+                // }
             } else {
                 // Si no se sube un nuevo CV, usar el CV del perfil del usuario
                 $user_id = get_current_user_id();
-                $cv_perfil = get_field('cv_general', 'user_' . $user_id); // Obtener el CV del usuario
+                // $cv_perfil = get_field('cv_general', 'user_' . $user_id); // Obtener el CV del usuario
+                $cv_perfil = get_user_meta($user->ID, 'cv_gcs_url', true);
 
                 if ($cv_perfil) {
                     update_field('CV', $cv_perfil, $postulacion_id);
