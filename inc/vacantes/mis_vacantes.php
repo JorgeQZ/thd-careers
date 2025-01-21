@@ -9,7 +9,7 @@ function agregar_capacidades_personalizadas() {
     $admin_role->add_cap('publicar_vacante');
 
 
-    $roles_permitidos = ['rh_general', 'rh_oat_', 'rh_admin'];
+    $roles_permitidos = ['rh_general', 'rh_oat', 'rh_admin'];
 
     foreach ($roles_permitidos as $role_name) {
         $role = get_role($role_name);
@@ -17,6 +17,8 @@ function agregar_capacidades_personalizadas() {
             $role->add_cap('acceso_mis_vacantes');
             $role->add_cap('ver_mis_vacantes');
             $role->add_cap('publicar_vacante');
+            $role->add_cap('editar_vacante');
+            $role->add_cap('eliminar_vacante');
         }
     }
 }
@@ -70,6 +72,8 @@ class Mis_Vacantes_List_Table extends WP_List_Table {
             'title'    => 'Título',
             'date'     => 'Fecha',
             'author'   => 'Autor',
+            'tienda'   => 'Tienda',
+            'tipo'   => 'Tipo de negocio',
             'status'   => 'Estado',
             'actions'  => 'Acciones'
         ];
@@ -84,6 +88,16 @@ class Mis_Vacantes_List_Table extends WP_List_Table {
 
             case 'date':
                 return get_the_date('', $item->ID);
+            case 'tienda': // Manejo de la nueva columna "Tienda"
+                $num_tienda = get_field('extra_data_data_tienda', $item->ID);
+                return $num_tienda ? getStoreByCode($num_tienda) : 'Sin asignar';
+            case 'tipo': // Manejo de la nueva columna "Tienda"
+                $categorias = get_the_terms($item->ID, 'categorias_vacantes');
+                if ($categorias && !is_wp_error($categorias)) {
+                    return implode(', ', wp_list_pluck($categorias, 'name'));
+                } else {
+                    return 'Sin categoría';
+                }
             case 'author':
                 return get_the_author_meta('display_name', $item->post_author);
             case 'status':
@@ -100,8 +114,19 @@ class Mis_Vacantes_List_Table extends WP_List_Table {
         $actions = '';
 
 
+        // Acción: Publicar
         if (get_post_status($item->ID) !== 'publish' && current_user_can('publicar_vacante')) {
-            $actions .= '<a href="' . esc_url(add_query_arg(['action' => 'publish', 'post_id' => $item->ID], admin_url('admin-post.php'))) . '">Publicar</a>';
+            $actions .= '<a href="' . esc_url(add_query_arg(['action' => 'publish', 'post_id' => $item->ID], admin_url('admin-post.php'))) . '">Publicar</a> | ';
+        }
+
+        // Acción: Hacer borrador
+        if (get_post_status($item->ID) !== 'draft' && current_user_can('editar_vacante')) {
+            $actions .= '<a href="' . esc_url(add_query_arg(['action' => 'draft', 'post_id' => $item->ID], admin_url('admin-post.php'))) . '">Hacer borrador</a> | ';
+        }
+
+        // Acción: Eliminar
+        if (current_user_can('eliminar_vacante')) {
+            $actions .= '<a href="' . esc_url(add_query_arg(['action' => 'delete', 'post_id' => $item->ID], admin_url('admin-post.php'))) . '" onclick="return confirm(\'¿Estás seguro de que deseas eliminar esta vacante?\');">Eliminar</a>';
         }
 
         return $actions;
@@ -135,6 +160,51 @@ class Mis_Vacantes_List_Table extends WP_List_Table {
         wp_reset_postdata();
     }
 }
+
+function manejar_acciones_personalizadas() {
+    if (!isset($_GET['action']) || !isset($_GET['post_id'])) {
+        wp_die('Acción o ID de post no válidos.');
+    }
+
+    $post_id = intval($_GET['post_id']);
+    $action = sanitize_text_field($_GET['action']);
+
+    // Verificar permisos
+    if (!current_user_can('edit_post', $post_id)) {
+        wp_die('No tienes permiso para realizar esta acción.');
+    }
+
+    switch ($action) {
+        case 'publish':
+            wp_update_post([
+                'ID'          => $post_id,
+                'post_status' => 'publish',
+            ]);
+            break;
+
+        case 'draft':
+            wp_update_post([
+                'ID'          => $post_id,
+                'post_status' => 'draft',
+            ]);
+            break;
+
+        case 'delete':
+            wp_delete_post($post_id, true);
+            break;
+
+        default:
+            wp_die('Acción no reconocida.');
+    }
+
+    // Redirigir de vuelta a la lista de vacantes
+    $redirect_url = admin_url('admin.php?page=mis_vacantes');
+    wp_redirect($redirect_url);
+    exit;
+}
+add_action('admin_post_publish', 'manejar_acciones_personalizadas');
+add_action('admin_post_draft', 'manejar_acciones_personalizadas');
+add_action('admin_post_delete', 'manejar_acciones_personalizadas');
 
 
 add_action('admin_post_publish', 'publicar_vacante_action');

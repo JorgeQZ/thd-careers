@@ -20,7 +20,7 @@ function load_stores_data()
         case 'subscriber':
             return $table;
             break;
-        case 'rh_oat_':
+        case 'rh_oat':
             return $table;
             break;
 

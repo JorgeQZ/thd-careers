@@ -19,7 +19,7 @@ function seccion_catalogo_vacantes() {
 // Asignar capacidad personalizada a múltiples roles
 function agregar_capacidad_a_roles_personalizados() {
     // Lista de roles que deben tener acceso al menú
-    $roles_permitidos = ['administrator', 'rh_admin', 'rh_oat_', 'rh_general'];
+    $roles_permitidos = ['administrator', 'rh_admin', 'rh_oat', 'rh_general'];
 
     foreach ($roles_permitidos as $role_name) {
         $role = get_role($role_name);
@@ -39,12 +39,27 @@ if (!class_exists('WP_List_Table')) {
 
 // Clase personalizada para la tabla de vacantes
 class Vacantes_List_Table extends WP_List_Table {
+    private $filter_categoria; // Propiedad para almacenar el filtro seleccionado
+    private $user_tipo_negocio; // Tipo de negocio del usuario
+
     public function __construct() {
         parent::__construct([
             'singular' => 'vacante',
             'plural'   => 'vacantes',
             'ajax'     => false,
         ]);
+
+        // Verificar si el usuario tiene el rol "rh_general"
+        $current_user = wp_get_current_user();
+        if (in_array('rh_general', $current_user->roles)) {
+            // Obtener el tipo de negocio del usuario actual
+            $this->user_tipo_negocio = get_user_meta($current_user->ID, 'tipo_de_negocio', true);
+        }
+    }
+
+    // Método para establecer el filtro
+    public function set_filter_categoria($filter) {
+        $this->filter_categoria = $filter;
     }
 
     // Definir las columnas de la tabla
@@ -53,6 +68,8 @@ class Vacantes_List_Table extends WP_List_Table {
             'title'    => 'Título',
             'date'     => 'Fecha',
             'author'   => 'Autor',
+            'tienda'   => 'Tienda',
+            'tipo'     => 'Tipo de negocio',
             'actions'  => 'Acciones',
         ];
     }
@@ -62,6 +79,16 @@ class Vacantes_List_Table extends WP_List_Table {
         switch ($column_name) {
             case 'title':
                 return '<a href="' . get_permalink($item->ID) . '">' . esc_html($item->post_title) . '</a>';
+            case 'tienda':
+                $num_tienda = get_field('extra_data_data_tienda', $item->ID);
+                return $num_tienda ? getStoreByCode($num_tienda) : 'Sin asignar';
+            case 'tipo':
+                $categorias = get_the_terms($item->ID, 'categorias_vacantes');
+                if ($categorias && !is_wp_error($categorias)) {
+                    return implode(', ', wp_list_pluck($categorias, 'name'));
+                } else {
+                    return 'Sin categoría';
+                }
             case 'date':
                 return get_the_date('', $item->ID);
             case 'author':
@@ -75,16 +102,50 @@ class Vacantes_List_Table extends WP_List_Table {
 
     // Preparar los datos para la tabla
     public function prepare_items() {
+        // Obtener los usuarios con los roles 'administrator' y 'rh_admin'
+        $args_users = [
+            'role__in' => ['administrator', 'rh_admin'],
+            'fields'   => 'ID', // Solo queremos los IDs de los usuarios
+        ];
+
+        $users = get_users($args_users);
+        $user_ids = wp_list_pluck($users, 'ID'); // Extraer los IDs de los usuarios
+
+        // Si no hay usuarios, no mostrar vacantes de otros usuarios
+        if (empty($user_ids)) {
+            $user_ids = [0]; // Esto garantiza que no se obtendrán vacantes de otros autores
+        }
+
+        // Preparar los datos para la tabla
         $args = [
-           'post_type'      => 'vacantes',
-            'author'         => 1, // ID del administrador
+            'post_type'      => 'vacantes',
+            'author__in'     => $users, // Filtrar por los autores con los roles 'administrator' o 'rh_admin'
             'post_status'    => 'any', // Incluir todos los estados de publicación
             'posts_per_page' => 10,
             'paged'          => $this->get_pagenum(),
         ];
 
-        $query = new WP_Query($args);
+        // Agregar filtro de taxonomía si está configurado
+        if (!empty($this->filter_categoria)) {
+            $args['tax_query'] = [
+                [
+                    'taxonomy' => 'categorias_vacantes',
+                    'field'    => 'slug',
+                    'terms'    => $this->filter_categoria,
+                ],
+            ];
+        }
 
+        // Agregar filtro por tipo de negocio si el usuario es "rh_general"
+        if (!empty($this->user_tipo_negocio)) {
+            $args['tax_query'][] = [
+                'taxonomy' => 'categorias_vacantes',
+                'field'    => 'slug',
+                'terms'    => $this->user_tipo_negocio,
+            ];
+        }
+
+        $query = new WP_Query($args);
         $this->items = $query->posts;
         $total_items = $query->found_posts;
 
@@ -125,7 +186,37 @@ function display_admin_vacantes() {
     echo '<div class="wrap">';
     echo '<h1>Catálogo de Vacantes</h1>';
 
+    // Obtener términos de la taxonomía "categorias_vacantes"
+    $categorias_vacantes = get_terms([
+        'taxonomy' => 'categorias_vacantes',
+        'hide_empty' => false,
+    ]);
+
+    // Formulario de filtros
+    echo '<form method="get" action="">';
+    echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '" />';
+
+    // Filtro por categorías de vacantes
+    echo '<label for="filter_categoria">Filtrar por Categoría: </label>';
+    echo '<select name="filter_categoria" id="filter_categoria">';
+    echo '<option value="">Todas</option>';
+    foreach ($categorias_vacantes as $categoria) {
+        $selected = isset($_GET['filter_categoria']) && $_GET['filter_categoria'] == $categoria->slug ? 'selected' : '';
+        echo '<option value="' . esc_attr($categoria->slug) . '" ' . $selected . '>' . esc_html($categoria->name) . '</option>';
+    }
+    echo '</select>';
+
+    echo '<button type="submit" class="button">Aplicar Filtros</button>';
+    echo '</form>';
+
+    // Instanciar la tabla personalizada
     $vacantesTable = new Vacantes_List_Table();
+
+    // Pasar el filtro seleccionado a la tabla
+    $filter_categoria = !empty($_GET['filter_categoria']) ? sanitize_text_field($_GET['filter_categoria']) : null;
+    $vacantesTable->set_filter_categoria($filter_categoria);
+
+    // Preparar y mostrar la tabla
     $vacantesTable->prepare_items();
     $vacantesTable->display();
 
@@ -172,6 +263,9 @@ function duplicate_post_action() {
             'ubicacion',
             'tipo_de_jornada',
             'beneficios',
+            'emi',
+            'imagen_qr',
+            'url_de_la_vacante'
         ];
 
         // Valores predeterminados de beneficios
@@ -223,6 +317,13 @@ function duplicate_post_action() {
                 // Copiar los beneficios seleccionados o predeterminados
                 update_field($field, $value, $new_post_id);
             }
+
+
+            if ($field === 'imagen_qr' && !empty($value)) {
+                // Convierte el ID a URL si es necesario
+                update_field($field, $value, $new_post_id);
+            }
+
         }
 
         // Copiar la taxonomía personalizada "categorias_vacantes"
@@ -245,7 +346,7 @@ function duplicate_post_action() {
 add_action('wp_insert_post', 'assign_capabilities_on_post_duplicate', 10, 3);
 function assign_capabilities_on_post_duplicate($post_id, $post, $update) {
     if ($post->post_type === 'vacantes' && !$update) {
-        $rh_oat_role = get_role('rh_oat_');
+        $rh_oat_role = get_role('rh_oat');
 
         if ($rh_oat_role) {
             $rh_oat_role->add_cap('edit_vacantes');
@@ -375,9 +476,11 @@ function update_slug_after_save($post_ID, $post, $update) {
 
 function restringir_campos_acf_por_rol($field) {
     // Verificar si el usuario no es un administrador
-    if (!current_user_can('administrator')) {
+
+        if (!current_user_can('administrator') && !current_user_can('rh_admin')) {
+
         // Para los campos de tipo "checkbox", deshabilitar las opciones
-        if ($field['type'] == 'checkbox') {
+        if ($field['type'] == 'checkbox' || $field['type'] == 'radio' || $field['type'] == 'image') {
             // Añadir una clase específica para identificar el campo en JS
             $field['wrapper']['class'] .= ' deshabilitado-checkbox';
         }
@@ -401,13 +504,27 @@ add_filter('acf/load_field/name=codigo_de_vacante', 'restringir_campos_acf_por_r
 add_filter('acf/load_field/name=descripcion', 'restringir_campos_acf_por_rol');
 add_filter('acf/load_field/name=video', 'restringir_campos_acf_por_rol');
 add_filter('acf/load_field/name=beneficios', 'restringir_campos_acf_por_rol');
+add_filter('acf/load_field/name=emi', 'restringir_campos_acf_por_rol');
+add_filter('acf/load_field/name=url_de_la_vacante', 'restringir_campos_acf_por_rol');
+add_filter('acf/load_field/name=imagen_qr', 'restringir_campos_acf_por_rol');
 
 function agregar_script_desactivar_checkboxes() {
     // Asegurarse de que solo cargue en el admin
-    if (!current_user_can('administrator')) {
+    if (!current_user_can('administrator') && !current_user_can('rh_admin')) {
+
         wp_enqueue_script('block-inputs', get_template_directory_uri() . '/js/block-inputs.js', array('jquery'), null, true);
 
         wp_enqueue_style('vacantes-admin-block-inputs', get_stylesheet_directory_uri() . '/css/vacantes-admin-block-inputs.css', [], '1.0.0');
+
+
+        $current_user = wp_get_current_user();
+        $user_roles = $current_user->roles; // Es un array que contiene los roles del usuario
+        $user_role = !empty($user_roles) ? $user_roles[0] : ''; // Toma el primer rol si existe
+
+        wp_localize_script('block-inputs', 'block_inputs_query_vars', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'user_role' => $user_role,
+        ));
 
     }
 }

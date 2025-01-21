@@ -8,10 +8,17 @@ function careers_profile_fields($user){
     $tienda = get_user_meta($user->ID, 'tienda', true);
     $distrito = get_user_meta($user->ID, 'distrito', true);
     $idempleado = get_user_meta($user->ID, 'idempleado', true);
+    $tipo_de_negocio = get_user_meta($user->ID, 'tipo_de_negocio', true);
 
     ?>
     <h3>Información adicional</h3>
     <table class="form-table">
+        <tr>
+            <th><label for="tipo_de_negocio">Tipo de negocio</label></th>
+            <td>
+                <input  type="text" name="tipo_de_negocio" id="tipo_de_negocio" value="<?php echo esc_attr($tipo_de_negocio)?>" class="regular-text">
+            </td>
+        </tr>
         <tr>
             <th><label for="tienda">Tienda</label></th>
             <td>
@@ -49,6 +56,7 @@ function careers_save_profile_fields($user_id){
     update_user_meta( $user_id, 'tienda', sanitize_text_field( $_POST[ 'tienda' ] ) );
 	update_user_meta( $user_id, 'distrito', sanitize_text_field( $_POST[ 'distrito' ] ) );
 	update_user_meta( $user_id, 'idempleado', sanitize_text_field( $_POST[ 'idempleado' ] ) );
+	update_user_meta( $user_id, 'tipo_de_negocio', sanitize_text_field( $_POST[ 'tipo_de_negocio' ] ) );
 }
 
 
