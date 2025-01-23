@@ -11,19 +11,44 @@ include get_template_directory() . '/inc/users/miperfil.php';
 // Verificar si hay un mensaje de éxito en la sesión.
 $mensaje_exito = '';
 if (isset($_SESSION['mensaje_exito'])) {
-$mensaje_exito = $_SESSION['mensaje_exito'];
-unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
+    $mensaje_exito = $_SESSION['mensaje_exito'];
+
+
+    unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
+
+    if ($mensaje_exito): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('mensajeExito').style.display = 'flex';
+            });
+        </script>
+        <?php
+    endif;
+
+    $mensaje_exito = '';
+}
+
+if (isset($_POST['submit'])) {
+    if (isset($_FILES['file_to_upload']) && $_FILES['file_to_upload']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['file_to_upload'];
+        $gcs_response = upload_to_gcp($file); // Llamar a la función que sube el archivo
+
+        if ($gcs_response) {
+            // Asumimos que la respuesta contiene una URL al archivo en GCS
+            $gcs_url = json_decode($gcs_response)->mediaLink;
+
+            // Obtener el ID del usuario actual
+            $user_id = get_current_user_id();
+
+            // Guardar la URL del archivo de GCS como metadato del usuario
+            update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+        } else {
+            echo '<p>Hubo un error al subir el archivo a GCS.</p>';
+        }
+    }
+    // No se hace nada si no se selecciona un archivo
 }
 ?>
-
-<?php if ($mensaje_exito): ?>
-<script>
-     document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('mensajeExito').style.display = 'flex';
-     });
-</script>
-<?php endif; ?>
-
 
 <div class="popup-cont" id="mensajeExito">
     <div class="container">
@@ -146,11 +171,22 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
                 <div class="contenedor">
                     <div class="custom-file">
                         <label for="cv">CV</label>
+                        <?php
+                            $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                        ?>
                         <div class="file-wrapper">
-                            <!-- <label>CV</label> -->
-                            <input type="file">
+                            <input type="file" id="cv" name="file_to_upload" class="file-input">
+                            <span class="span-place">Haz click aquí para subir un archivo</span>
                             <span class="icon-attachment"></span>
                         </div>
+                        <span class="file-name <?php echo !$cv_gcs_url ? 'noactive' : ''; ?>">
+                            <?php
+                                $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                                echo $cv_gcs_url
+                                    ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
+                                    : 'Sin archivo seleccionado';
+                            ?>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -310,10 +346,29 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
 
         </div>
 
-        <button type="submit" class="act-datos">ACTUALIZAR DATOS</button>
+        <button type="submit" name="submit" class="act-datos">ACTUALIZAR DATOS</button>
 
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.querySelector("#cv");
+        const spanPlace = document.querySelector(".span-place");
+
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                // Obtener el nombre del archivo subido
+                const fileName = fileInput.files[0].name;
+                // Actualizar el texto de span-place con el nombre del archivo
+                spanPlace.textContent = fileName;
+            } else {
+                // Restaurar el texto original si no hay archivo
+                spanPlace.textContent = "Haz click aquí para subir un CV";
+            }
+        });
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -327,12 +382,6 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
             close.addEventListener("click", function() {
                 mensaje.style.display = "none";
             });
-        }
-        if (mensaje) {
-            mensaje.style.display = 'flex';
-            setTimeout(() => {
-                mensaje.style.display = 'none';
-            }, 5000); // 5 segundos
         }
 
         // Configurar visibilidad inicial según los valores actuales

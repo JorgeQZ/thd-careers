@@ -142,6 +142,22 @@
   color: black;
   margin-bottom: 5px;
 }
+.custom-file .a-cvguardado {
+  color: #f96302;
+  cursor: pointer;
+}
+.custom-file .span-place {
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 13px;
+}
+.custom-file .file-name.noactive {
+  display: none;
+}
+.custom-file .file-name {
+  padding-top: 15px;
+}
 .custom-file .file-wrapper {
   position: relative;
   width: 100%;
@@ -156,7 +172,22 @@
       -ms-flex-align: center;
           align-items: center;
   padding-right: 40px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   /* Espacio para el ícono */
+}
+.custom-file .file-wrapper .file-name {
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  z-index: 10;
+}
+.custom-file .file-wrapper .file-name.noactive {
+  display: none;
 }
 .custom-file .file-wrapper input[type=file] {
   opacity: 0;
@@ -178,6 +209,7 @@
   background-image: url("../imgs/attach-file.svg");
   background-repeat: no-repeat;
   background-size: contain;
+  pointer-events: none;
 }
 .custom-file .file-wrapper:hover {
   border-color: #f96302;

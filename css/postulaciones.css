@@ -374,6 +374,12 @@ body.admin-bar {
 .contenedorgeneralcampos .seccion .subtitulo.puesto2 {
   padding-top: 40px;
 }
+.contenedorgeneralcampos .seccion .div-cvguardado {
+  padding-bottom: 30px;
+}
+.contenedorgeneralcampos .seccion .div-cvguardado .file-saved a {
+  color: #f96302;
+}
 .contenedorgeneralcampos .campos {
   display: -webkit-box;
   display: -ms-flexbox;

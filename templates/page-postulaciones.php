@@ -173,46 +173,19 @@ Template Name: Postulaciones
                 } else {
                     echo '<p>Hubo un error al subir el archivo a GCS.</p>';
                 }
-                // $cv_file = wp_handle_upload($_FILES['acf_postulacion_cv'], $upload_overrides);
-
-                // if ($cv_file && !isset($cv_file['error'])) {
-                //     $attachment = array(
-                //         'post_mime_type' => $cv_file['type'],
-                //         'post_title'     => sanitize_file_name($cv_file['file']),
-                //         'post_content'   => '',
-                //         'post_status'    => 'inherit',
-                //     );
-
-                //     $attachment_id = wp_insert_attachment($attachment, $cv_file['file'], $postulacion_id);
-
-                //     require_once(ABSPATH . 'wp-admin/includes/image.php');
-                //     $attach_data = wp_generate_attachment_metadata($attachment_id, $cv_file['file']);
-                //     wp_update_attachment_metadata($attachment_id, $attach_data);
-
-                //     update_field('CV', $attachment_id, $postulacion_id);
-                //     // echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
-                //     ?>
-                //     <script>
-                //         document.addEventListener('DOMContentLoaded', function () {
-                //             document.getElementById('mensajeExito').style.display = 'flex';
-                //         });
-                //     </script>
-
-                //     <?php
-                // } else {
-                //     echo '<p>Hubo un error al subir el archivo: ' . $cv_file['error'] . '</p>';
-                // }
             } else {
                 // Si no se sube un nuevo CV, usar el CV del perfil del usuario
-                $user_id = get_current_user_id();
-                // $cv_perfil = get_field('cv_general', 'user_' . $user_id); // Obtener el CV del usuario
-                $cv_perfil = get_user_meta($user->ID, 'cv_gcs_url', true);
+                $current_user = wp_get_current_user(); // Obtener el usuario actual
 
-                if ($cv_perfil) {
-                    update_field('CV', $cv_perfil, $postulacion_id);
-                    echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
-                } else {
-                    echo '<p>No se ha subido un CV y tampoco hay uno guardado en el perfil.</p>';
+                if ($current_user->exists()) {
+                    // Obtener el CV desde los metadatos del usuario
+                    $cv_perfil = get_user_meta($current_user->ID, 'cv_gcs_url', true);
+
+                    if ($cv_perfil) {
+                        // Guardar el CV en el campo correspondiente de la postulación
+                        update_field('CV', $cv_perfil, $postulacion_id);
+                        echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
+                    }
                 }
             }
 
@@ -234,9 +207,9 @@ Template Name: Postulaciones
     $apellido_paterno = get_field('apellido_paterno', 'user_' . $user_id); // Usar el nombre exacto del campo
     $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
 
-    $cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
-    // Obtener la URL del archivo CV si existe
-    $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
+    // $cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
+    // // Obtener la URL del archivo CV si existe
+    // $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
 
     $nombre_rellenar = get_field('nombre_general', 'user_' . $user_id); // Usar el nombre exacto del campo
     $apellido_paterno_rellenar = get_field('apellido_paterno_general', 'user_' . $user_id); // Usar el nombre exacto del campo
@@ -247,11 +220,55 @@ Template Name: Postulaciones
     $ar2 = get_field('ar2', 'user_' . $user_id);
     $otroar2 = get_field('otroar2', 'user_' . $user_id); // Obtener el valor del campo otroar2
     $escolaridad_rellenar = get_field('grado_escolaridad_general', 'user_' . $user_id);
+
+    $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+?>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = get_current_user_id();
+    $cv_acf_field = 'CV'; // Nombre del campo ACF para el CV
+
+    // Verificar si se ha subido un nuevo archivo
+    if (isset($_FILES['cv_file']) && $_FILES['cv_file']['error'] === UPLOAD_ERR_OK) {
+        // Procesar el archivo subido
+        $uploaded_file = $_FILES['cv_file'];
+        $upload = wp_handle_upload($uploaded_file, ['test_form' => false]);
+
+        if (!isset($upload['error'])) {
+            $cv_url = $upload['url']; // URL del archivo subido
+            $attachment = [
+                'guid'           => $cv_url,
+                'post_mime_type' => $upload['type'],
+                'post_title'     => basename($uploaded_file['name']),
+                'post_content'   => '',
+                'post_status'    => 'inherit',
+            ];
+
+            // Insertar como adjunto
+            $attachment_id = wp_insert_attachment($attachment, $upload['file']);
+            if (!is_wp_error($attachment_id)) {
+                // Generar los metadatos del adjunto
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+                wp_generate_attachment_metadata($attachment_id, $upload['file']);
+
+                // Guardar en el campo ACF
+                update_field($cv_acf_field, $attachment_id, 'user_' . $user_id);
+            }
+        }
+    } else {
+        // Si no se subió un archivo nuevo, usar la URL existente
+        $cv_gcs_url = get_user_meta($user_id, 'cv_gcs_url', true);
+        if ($cv_gcs_url) {
+            update_field($cv_acf_field, $cv_gcs_url, 'user_' . $user_id);
+        }
+    }
+}
 ?>
 
 <div class="container">
 
-    <form method="POST" action="" enctype="multipart/form-data">
+    <form method="POST" action="" enctype="multipart/form-data" id="formularioPostulacion">
 
         <div class="contenedorgeneralcampos">
             <div class="seccion">
@@ -451,12 +468,23 @@ Template Name: Postulaciones
 
                 <p class="titulo titulo-cv">CURRICULUM/CV</p>
 
+                <div class="div-cvguardado">
+                    <span class="file-saved <?php echo !$cv_gcs_url ? 'noactive' : ''; ?>">
+                        <?php
+                            $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                            echo $cv_gcs_url
+                                ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz click aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
+                                : 'Sin archivo seleccionado';
+                        ?>
+                    </span>
+                </div>
+
                 <div class="campos">
 
                     <div class="div-cv">
                         <img class="img-file-icon" src="<?php echo get_template_directory_uri(); ?>/imgs/attach-file.svg" alt="file icon">
-                        <span class="file-name">Sin archivo seleccionado</span>
-                        <input id="file-input" type="file">
+                        <span class="file-name">Haz click aquí para subir un CV</span>
+                        <input id="file-input" type="file" name="cv_file">
                     </div>
 
                 </div>
@@ -529,7 +557,7 @@ Template Name: Postulaciones
         if (fileInput.files.length > 0) {
             fileNameSpan.textContent = fileInput.files[0].name;
         } else {
-            fileNameSpan.textContent = 'Sin archivo seleccionado';
+            fileNameSpan.textContent = 'Haz click aquí para subir un CV';
         }
     });
 </script>

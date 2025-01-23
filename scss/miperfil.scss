@@ -76,6 +76,27 @@
         margin-bottom: 5px;
     }
 
+    .a-cvguardado {
+        color: #f96302;
+        cursor: pointer;
+    }
+
+    .span-place {
+        padding-top: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 13px;
+
+    }
+
+    .file-name.noactive {
+        display: none;
+    }
+
+    .file-name {
+        padding-top: 15px;
+    }
+
     .file-wrapper {
         position: relative;
         width: 100%;
@@ -87,7 +108,20 @@
         display: flex;
         align-items: center;
         padding-right: 40px;
+        justify-content: center;
+        align-items: flex-start;
         /* Espacio para el ícono */
+
+        .file-name {
+            padding-top: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            z-index: 10;
+        }
+
+        .file-name.noactive {
+            display: none;
+        }
 
         input[type="file"] {
             opacity: 0;
@@ -109,6 +143,7 @@
             background-image: url('../imgs/attach-file.svg');
             background-repeat: no-repeat;
             background-size: contain;
+            pointer-events: none;
         }
     }
 

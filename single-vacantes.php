@@ -135,16 +135,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     const close_mensaje = document.getElementById("close-mensaje");
-
     const mensaje = document.getElementById('mensajeExito');
+    const form = document.getElementById('formularioPostulacion');
 
-    if(close_mensaje){
+    if (close_mensaje) {
         close_mensaje.addEventListener("click", function() {
             mensaje.style.display = "none";
         });
     }
+
+    if (localStorage.getItem('formSubmitted') === 'true') {
+        if (mensaje) {
+            mensaje.style.display = 'flex';
+        }
+        localStorage.removeItem('formSubmitted');
+    }
+
+    if (form) {
+        form.addEventListener("submit", function() {
+            localStorage.setItem('formSubmitted', 'true');
+        });
+    }
+
     const button = document.getElementById("open-form");
-    const formDiv = document.querySelector("div.form-post");
+    const formDiv = document.querySelector(".form-post");
 
     if(button){
         button.addEventListener("click", function() {
