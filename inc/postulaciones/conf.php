@@ -114,7 +114,7 @@ function filtrar_postulaciones_por_distrito($query) {
 add_action('pre_get_posts', 'filtrar_postulaciones_por_distrito');
 
 function disable_message_load_fields( $field ) {
-    $fields_to_disable = ['Nombre', 'Select1-postulacion', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante', 'id_vacante', 'id_postulante', 'puesto-de-trabajo-1', 'compania-1', 'ubicacion-1', 'desde-1', 'hasta-1', 'descripcion-del-rol-1', 'actualmente-trabajo-aqui-1', 'puesto-de-trabajo-2', 'compania-2', 'ubicacion-2', 'desde-2', 'hasta-2', 'descripcion-del-rol-2', 'actualmente-trabajo-aqui-2', 'has-trabajado', 'escuela-o-universidad', 'titulo-1', 'ultimo-grado-de-estudios', 'tipo-de-apoyo', 'que-tipo', 'especifique-otro', 'acepto-voluntariamente', 'CV']; // Lista de campos que deseas hacer readonly
+    $fields_to_disable = ['Nombre', 'Select1-postulacion', 'Correo', 'Apellidopaterno', 'Apellidomaterno', 'Telefono', 'vacante_vacante', 'ubicacion_vacante', 'numero_de_tienda_vacante', 'distrito_vacante', 'correo_vacante', 'id_vacante', 'id_postulante', 'puesto-de-trabajo-1', 'compania-1', 'ubicacion-1', 'desde-1', 'hasta-1', 'descripcion-del-rol-1', 'actualmente-trabajo-aqui-1', 'puesto-de-trabajo-2', 'compania-2', 'ubicacion-2', 'desde-2', 'hasta-2', 'descripcion-del-rol-2', 'actualmente-trabajo-aqui-2', 'has-trabajado', 'escuela-o-universidad', 'titulo-1', 'ultimo-grado-de-estudios', 'tipo-de-apoyo', 'que-tipo', 'especifique-otro', 'acepto-voluntariamente']; // Lista de campos que deseas hacer readonly
 
     if (in_array($field['name'], $fields_to_disable)) {
         $field['readonly'] = 1;
@@ -123,19 +123,30 @@ function disable_message_load_fields( $field ) {
     return $field;
 }
 
-function custom_acf_admin_css() {
-    $screen = get_current_screen(); // Obtener la pantalla actual
+add_action('acf/input/admin_footer', function() {
+    ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Selecciona el contenedor del campo CV
+            const cvField = document.querySelector('.acf-field[data-name="CV"]');
 
-    // Verifica que solo aplique en el post-type 'postulaciones'
-    if ($screen && $screen->post_type === 'postulaciones') {
-        echo '<style>
-            .acf-field[data-name="CV"] .acf-actions {
-                display: none !important;
+            if (cvField) {
+                // Oculta el botón de editar
+                const editButton = cvField.querySelector('.acf-icon.-pencil[data-name="edit"]');
+                if (editButton) {
+                    editButton.style.display = 'none';
+                }
+
+                // Oculta el botón de quitar
+                const removeButton = cvField.querySelector('.acf-icon.-cancel[data-name="remove"]');
+                if (removeButton) {
+                    removeButton.style.display = 'none';
+                }
             }
-        </style>';
-    }
-}
-add_action('admin_head', 'custom_acf_admin_css');
+        });
+    </script>
+    <?php
+});
 
 // Validación antes de guardar el estado
 function validar_estado_postulacion( $post_id ) {
