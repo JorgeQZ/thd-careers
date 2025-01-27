@@ -336,3 +336,30 @@ add_action( 'pre_get_posts', 'buscar_por_titulo_y_custom_field' );
 add_action('send_headers', function() {
     header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 });
+
+
+//  Page Options
+if( function_exists('acf_add_options_page') ) {
+    acf_add_options_page(array(
+        'page_title'    => 'Rueda de valores',
+        'menu_title'    => 'Rueda de Valores',
+        'menu_slug'     => 'rueda-de-valores-acf',
+        'capability'    => 'edit_posts', // Define quién tiene acceso.
+        'redirect'      => false,
+        'position'      => 2, // Posición del menú en el panel de administración
+        'icon_url'      => 'dashicons-admin-generic', // Ícono personalizado (opcional)'
+    ));
+}
+
+//  Page Options
+if( function_exists('acf_add_options_page') ) {
+    acf_add_options_page(array(
+        'page_title'    => 'Catálogo de tiendas',
+        'menu_title'    => 'Catálogo de tiendas',
+        'menu_slug'     => 'catalogo-tiendas-acf',
+        'capability'    => 'edit_posts', // Define quién tiene acceso.
+        'redirect'      => false,
+        'position'      => 25, // Posición del menú en el panel de administración
+        'icon_url'      => 'dashicons-admin-generic', // Ícono personalizado (opcional)
+    ));
+}
