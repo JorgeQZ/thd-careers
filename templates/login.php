@@ -25,7 +25,11 @@ if (is_user_logged_in()) {
 // Procesar el formulario de inicio de sesión si se envía.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
     $username = sanitize_text_field($_POST['username']);
-    $password = sanitize_text_field($_POST['password']);
+    if (isset($_POST['password'])) {
+        $password = trim($_POST['password']); // Elimina espacios en blanco al inicio y al final.
+    } else {
+        $password = null; // Maneja casos donde la contraseña no está definida.
+    }
     $remember = isset($_POST['remember']) ? true : false;
 
     // $error_message = handle_failed_login_attempts($username);
@@ -52,7 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
     $username = sanitize_text_field($_POST['reg_username']);
     $email = sanitize_email($_POST['reg_email']);
-    $password = sanitize_text_field($_POST['reg_password']);
+    if (isset($_POST['reg_password'])) {
+        $password = trim($_POST['reg_password']);
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        $password = null;
+    }
 
     $password_validation = validate_password_security($password);
 
@@ -62,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
         $userdata = [
             'user_login'    => $username,
             'user_email'    => $email,
-            'user_pass'     => $password,
+            'user_pass' => isset($password) ? password_hash($password, PASSWORD_DEFAULT) : '',
         ];
 
         $user_id = wp_insert_user($userdata);
@@ -82,7 +91,11 @@ get_header();
     <h2>Iniciar Sesión</h2>
     <?php if (!empty($error_message)) : ?>
         <div class="error-message" style="color: red;">
-            <?php echo $error_message; ?>
+            <?php if (!empty($error_message)) : ?>
+                <div class="error-message">
+                    <?php echo esc_html($error_message); ?>
+                </div>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 
@@ -110,7 +123,9 @@ get_header();
     <h2>¿No tienes cuenta? <span>Regístrate</span></h2>
     <?php if (!empty($register_error_message)) : ?>
         <div class="error-message" style="color: red;">
-            <?php echo $register_error_message; ?>
+            <?php if (!empty($register_error_message)) : ?>
+                <?php echo esc_html($register_error_message); ?>
+            <?php endif; ?>
         </div>
     <?php elseif (!empty($register_success_message)) : ?>
         <div class="success-message" style="color: green;">

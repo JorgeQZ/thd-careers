@@ -39,18 +39,47 @@ function render_csv_upload_page()
 function process_csv_to_repeater()
 {
     // Verificar si el archivo subido es un CSV
-    if ($_FILES['csv_file']['type'] !== 'text/csv') {
-        echo '<div class="error"><p>Por favor, sube un archivo CSV válido.</p></div>';
-        return;
+    if ($_FILES['csv_file']['type'] !== 'text/csv' && $_FILES['csv_file']['type'] !== 'application/vnd.ms-excel') {
+        die('El archivo no es un CSV válido.');
     }
 
     // Leer el archivo CSV
-    $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
+    if (isset($_FILES['csv_file']) && is_uploaded_file($_FILES['csv_file']['tmp_name'])) {
+        $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
+    } else {
+        echo 'Error: El archivo no es válido o no se cargó correctamente.';
+    }
     if ($file) {
         // Eliminar BOM si existe (caracter invisible al principio)
-        $csv_data = file_get_contents($_FILES['csv_file']['tmp_name']);
+        if (isset($_FILES['csv_file']) && is_uploaded_file($_FILES['csv_file']['tmp_name'])) {
+            $file_tmp_name = $_FILES['csv_file']['tmp_name'];
+            $file_mime_type = mime_content_type($file_tmp_name);
+            $allowed_mime_types = ['text/csv', 'text/plain'];
+
+            // Validar el tipo MIME
+            if (in_array($file_mime_type, $allowed_mime_types)) {
+                $csv_data = file_get_contents($file_tmp_name);
+            } else {
+                echo 'Error: Tipo de archivo no permitido.';
+                $csv_data = null; // Manejo seguro en caso de error
+            }
+        } else {
+            echo 'Error: No se cargó el archivo o ocurrió un problema.';
+            $csv_data = null; // Manejo seguro en caso de error
+        }
         $csv_data = preg_replace('/^\xEF\xBB\xBF/', '', $csv_data); // Elimina BOM
-        file_put_contents($_FILES['csv_file']['tmp_name'], $csv_data); // Reemplazar archivo original sin BOM
+        // Verificar si el token CSRF es válido
+        if (isset($_POST['csrf_token']) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            // Verificar si csv_data tiene contenido válido
+            if (!empty($csv_data) && is_string($csv_data)) {
+                file_put_contents($_FILES['csv_file']['tmp_name'], $csv_data); // Reemplazar archivo original sin BOM
+            } else {
+                echo 'Error: Los datos del archivo no son válidos.';
+            }
+        } else {
+            echo 'Error: Token CSRF inválido o ausente.';
+        }
+
 
         // Leer encabezados del archivo
         $headers = fgetcsv($file);
@@ -72,7 +101,7 @@ function process_csv_to_repeater()
             $repeater_data = [];
             foreach ($data as $entry) {
                 echo json_encode($entry);
-                echo $entry['tipo_de_negocio'];
+                echo htmlspecialchars($entry['tipo_de_negocio'], ENT_QUOTES, 'UTF-8');
                 echo '<br>';
                 $repeater_data[] = [
                     'numero_de_tienda' => $entry['numero_de_tienda'] ?? '-',

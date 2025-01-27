@@ -24,7 +24,7 @@ function validate_password_security($password) {
 
 // Manejar intentos fallidos de inicio de sesión y bloqueo de cuentas.
 function handle_failed_login_attempts($username) {
-    $transient_name = 'failed_login_' . md5($username);
+    $transient_name = 'failed_login_' . hash('sha256', $username);
     $failed_attempts = get_transient($transient_name);
 
     if ($failed_attempts === false) {

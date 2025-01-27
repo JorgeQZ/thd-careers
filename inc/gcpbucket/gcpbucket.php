@@ -18,15 +18,24 @@ function generate_jwt($credentials) {
     ];
 
     // Codificar el encabezado y la carga útil en base64url
-    $encodedHeader = base64url_encode(json_encode($header));
-    $encodedPayload = base64url_encode(json_encode($payload));
+    $encodedHeader = base64url_encode(json_encode($header, JSON_THROW_ON_ERROR));
+    $encodedPayload = base64url_encode(json_encode($payload, JSON_THROW_ON_ERROR));
 
     // Concatenar el encabezado y la carga útil
     $message = $encodedHeader . '.' . $encodedPayload;
 
     // Generar la firma
     $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json'); // Ruta a tu archivo JSON
-    $privateKey = json_decode($privateKey, true)['private_key']; // Obtener la clave privada del JSON
+    $decodedPrivateKey = json_decode($privateKey, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception('Error al decodificar el JSON de la clave privada: ' . json_last_error_msg());
+    }
+
+    $privateKey = $decodedPrivateKey['private_key'] ?? null;
+
+    if (is_null($privateKey)) {
+        throw new Exception('La clave privada no se encontró en el JSON proporcionado.');
+    }
     $signature = sign_message($message, $privateKey);
 
     // Codificar la firma en base64url
@@ -56,7 +65,22 @@ function base64url_encode($data) {
 function upload_to_gcp($file) {
     // Ruta a las credenciales de tu cuenta de servicio
     $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json';
-    $credentials = json_decode(file_get_contents($json_key_file), true);
+    try {
+        $jsonContent = file_get_contents($json_key_file);
+
+        if ($jsonContent === false) {
+            throw new Exception('Error al leer el archivo JSON: ' . $json_key_file);
+        }
+
+        $credentials = json_decode($jsonContent, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Error al decodificar el archivo JSON: ' . json_last_error_msg());
+        }
+    } catch (Exception $e) {
+        error_log('Error en upload_to_gcp: ' . $e->getMessage());
+        throw $e; // Opcional: volver a lanzar la excepción para manejarla en otro nivel
+    }
 
     // Generar el JWT para la autenticación
     $jwt = generate_jwt($credentials);
@@ -77,7 +101,22 @@ function upload_to_gcp($file) {
     $response = wp_remote_post($auth_url, [
         'body' => $data
     ]);
-    $auth_response = json_decode(wp_remote_retrieve_body($response), true);
+    try {
+        $body = wp_remote_retrieve_body($response);
+
+        if (empty($body)) {
+            throw new Exception('La respuesta del servidor está vacía.');
+        }
+
+        $auth_response = json_decode($body, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Error al decodificar el JSON de la respuesta: ' . json_last_error_msg());
+        }
+    } catch (Exception $e) {
+        error_log('Error en upload_to_gcp: ' . $e->getMessage());
+        throw $e; // Opcional: volver a lanzar la excepción para manejarla en otro nivel
+    }
 
     if (isset($auth_response['access_token'])) {
         // Usar el token de acceso para subir el archivo

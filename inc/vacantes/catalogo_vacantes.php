@@ -432,18 +432,31 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
             // URL para redirigir a "Mis Vacantes"
             $mis_vacantes_url = admin_url('admin.php?page=mis_vacantes');
 
-            wp_die(
-                 sprintf(
-                    __(
-                        'Error: No se puede crear este post porque ya existe otro con el mismo código y tienda. El post actual ha sido eliminado.<br><br>
-                        <a href="%s" class="button button-primary">Regresar a Mis Vacantes</a>',
-                        'tu-text-domain'
+            try {
+                if (!isset($mis_vacantes_url) || !filter_var($mis_vacantes_url, FILTER_VALIDATE_URL)) {
+                    throw new Exception('La URL proporcionada no es válida.');
+                }
+
+                wp_die(
+                    sprintf(
+                        __(
+                            'Error: No se puede crear este post porque ya existe otro con el mismo código y tienda. El post actual ha sido eliminado.<br><br>
+                            <a href="%s" class="button button-primary">Regresar a Mis Vacantes</a>',
+                            'tu-text-domain'
+                        ),
+                        esc_url($mis_vacantes_url)
                     ),
-                    esc_url($mis_vacantes_url)
-                ),
-                __('Error de creación', 'tu-text-domain'),
-                ['response' => 403]
-            );
+                    __('Error de creación', 'tu-text-domain'),
+                    ['response' => 403]
+                );
+            } catch (Exception $e) {
+                error_log('Error en wp_die: ' . $e->getMessage());
+                wp_die(
+                    __('Ocurrió un error inesperado. Por favor, contacte al administrador.', 'tu-text-domain'),
+                    __('Error de creación', 'tu-text-domain'),
+                    ['response' => 500]
+                );
+            }
         }
     }
 }

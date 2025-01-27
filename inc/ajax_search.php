@@ -19,12 +19,14 @@ function fetch(){
         type: 'post',
         data: { action: 'data_fetch', keyword: jQuery('#inputSearch').val() },
         success: function(data) {
-            jQuery('#contenedor-resultados').html( data );
-        }
+			jQuery('#contenedor-resultados').text(data);
+		}
     });
 
 }
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.1/purify.min.js"></script>
 
 <?php
 }
@@ -46,7 +48,7 @@ function data_fetch(){
 				'post_type' => 'vacantes',
 				's' => esc_attr( $_POST['keyword'] ),
 			) );
-	
+
 
 			// Buscar en los campos personalizados
 			$customfields_query = new WP_Query( array(
@@ -71,7 +73,7 @@ function data_fetch(){
 			));
 
 			$term_slugs = wp_list_pluck($terms, 'slug');
-				
+
 			$taxonomies_query = new WP_Query(array(
 				'posts_per_page' => -1,
 				'post_type'      => 'vacantes',
@@ -133,8 +135,8 @@ function data_fetch(){
 				),
 			) );
 			*/
-			
-			
+
+
 			if ($titulo_query->have_posts() || $customfields_query->have_posts() || $taxonomies_query->have_posts()) {
 
 				$merged_posts = array_merge($titulo_query->posts, $customfields_query->posts, $taxonomies_query->posts);
@@ -162,7 +164,8 @@ function data_fetch(){
 			}
 
 		echo '</div>';
-	
+
     die();
 
 }
+

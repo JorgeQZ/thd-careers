@@ -71,7 +71,7 @@
                                 $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
                             }
                             ?>
-                            
+
                             <li class="item" data-id="<?php echo get_the_id(); ?>" data-tienda="<?php echo get_field('extra_data_data_tienda'); ?>" data-title="<?php echo get_the_title()?>">
                                 <div class="img">
                                     <img src="<?php echo get_template_directory_uri() . '/imgs/logo-thd.jpg' ?>" alt="">
@@ -81,14 +81,26 @@
 
                                     <div class="icon-cont">
                                         <div class="img">
-                                            <?php echo file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'); ?>
+                                            <?php
+                                                $svg_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
+                                                if (file_exists($svg_path)) {
+                                                    $svg_content = file_get_contents($svg_path);
+                                                    echo $svg_content;
+                                                }
+                                            ?>
                                         </div>
                                         <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                     </div>
 
                                     <div class="icon-cont">
                                         <div class="img">
-                                            <?php echo file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'); ?>
+                                            <?php
+                                                $svg_path = get_template_directory() . '/imgs/Hora.svg';
+                                                if (file_exists($svg_path)) {
+                                                    $svg_content = file_get_contents($svg_path);
+                                                    echo $svg_content;
+                                                }
+                                            ?>
                                         </div>
                                         <div class="text"><?php  echo get_post_meta( get_the_ID(), 'codigo_de_vacante', true ); ?></div>
                                     </div>

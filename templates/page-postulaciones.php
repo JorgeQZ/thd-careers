@@ -142,25 +142,29 @@ Template Name: Postulaciones
             }
 
             // Manejar la subida del archivo CV
-            if (!empty($_FILES['acf_postulacion_cv']['name'])) {
+            if (!empty($_FILES['cv_file']['name'])) {
                 if (!function_exists('wp_handle_upload')) {
                     require_once(ABSPATH . 'wp-admin/includes/file.php');
                 }
 
                 $upload_overrides = array('test_form' => false);
 
-                $file = $_FILES['acf_postulacion_cv'];
+                $file = $_FILES['cv_file'];
                 $gcs_response = upload_to_gcp($file);  // Llamar a la función para subir a GCS
 
                 if ($gcs_response) {
                     // Asumimos que la respuesta contiene una URL al archivo en GCS
                     $gcs_url = json_decode($gcs_response)->mediaLink;
 
-                    // Obtener el ID del usuario actual
-                    $user_id = get_current_user_id();
+                    // // Obtener el ID del usuario actual
+                    // $user_id = get_current_user_id();
 
-                    // Guardar la URL del archivo de GCS como metadato del usuario
-                    update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+                    // // Guardar la URL del archivo de GCS como metadato del usuario
+                    // update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+
+                    // $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+
+                    update_field('CV', $gcs_url, $postulacion_id);
 
                     // Mostrar mensaje de éxito
                     ?>
@@ -222,48 +226,6 @@ Template Name: Postulaciones
     $escolaridad_rellenar = get_field('grado_escolaridad_general', 'user_' . $user_id);
 
     $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
-?>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = get_current_user_id();
-    $cv_acf_field = 'CV'; // Nombre del campo ACF para el CV
-
-    // Verificar si se ha subido un nuevo archivo
-    if (isset($_FILES['cv_file']) && $_FILES['cv_file']['error'] === UPLOAD_ERR_OK) {
-        // Procesar el archivo subido
-        $uploaded_file = $_FILES['cv_file'];
-        $upload = wp_handle_upload($uploaded_file, ['test_form' => false]);
-
-        if (!isset($upload['error'])) {
-            $cv_url = $upload['url']; // URL del archivo subido
-            $attachment = [
-                'guid'           => $cv_url,
-                'post_mime_type' => $upload['type'],
-                'post_title'     => basename($uploaded_file['name']),
-                'post_content'   => '',
-                'post_status'    => 'inherit',
-            ];
-
-            // Insertar como adjunto
-            $attachment_id = wp_insert_attachment($attachment, $upload['file']);
-            if (!is_wp_error($attachment_id)) {
-                // Generar los metadatos del adjunto
-                require_once ABSPATH . 'wp-admin/includes/image.php';
-                wp_generate_attachment_metadata($attachment_id, $upload['file']);
-
-                // Guardar en el campo ACF
-                update_field($cv_acf_field, $attachment_id, 'user_' . $user_id);
-            }
-        }
-    } else {
-        // Si no se subió un archivo nuevo, usar la URL existente
-        $cv_gcs_url = get_user_meta($user_id, 'cv_gcs_url', true);
-        if ($cv_gcs_url) {
-            update_field($cv_acf_field, $cv_gcs_url, 'user_' . $user_id);
-        }
-    }
-}
 ?>
 
 <div class="container">

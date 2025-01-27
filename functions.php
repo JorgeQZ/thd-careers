@@ -214,50 +214,65 @@ function highlight_and_break_title($title)
 function get_favorites_handler() {
     // Verifica que se hayan enviado los datos
     if (!isset($_POST['favorites'])) {
-        wp_send_json_error('No se enviaron datos.');
+        wp_send_json_error(['message' => 'No se enviaron datos.']);
         wp_die();
     }
 
     $favorite_ids = json_decode(stripslashes($_POST['favorites']), true);
-    if (empty($favorite_ids)) {
-        wp_send_json_error('La lista de favoritos está vacía.');
+
+    // Validar errores de JSON
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        wp_send_json_error(['message' => 'Error al decodificar la lista de favoritos: ' . json_last_error_msg()]);
         wp_die();
     }
+
+    // Verificar si la lista está vacía
+    if (empty($favorite_ids)) {
+        wp_send_json_error(['message' => 'La lista de favoritos está vacía.']);
+        wp_die();
+    }
+
+    // Cargar íconos estáticos una vez
+    $location_icon = file_get_contents(get_template_directory() . '/imgs/pin-de-ubicacion.svg');
+    $time_icon = file_get_contents(get_template_directory() . '/imgs/Hora.svg');
+    $like_icon = file_get_contents(get_template_directory() . '/imgs/me-gusta.svg');
 
     $posts = [];
     foreach ($favorite_ids as $id) {
         $post = get_post($id);
+
+        // Validar que el post exista y sea del tipo esperado
         if ($post && $post->post_type === 'vacantes') { // Slug del CPT
 
-            $ubicacion_label = get_field('ubicacion', $post->ID)['label'];
+            // Obtener y formatear ubicación
+            $ubicacion_field = get_field('ubicacion', $post->ID);
+            $ubicacion_label = $ubicacion_field['label'] ?? null;
+            $ubicacion_formateada = $ubicacion_label ? ucwords(strtolower($ubicacion_label)) : 'Ubicación no disponible';
 
-            if ($ubicacion_label) {
-                // Convertir el texto a formato más formal (capitalización correcta)
-                $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
-            } else {
-                $ubicacion_formateada = 'Ubicación no disponible';
-            }
+            // Añadir datos al array de posts
             $posts[] = [
                 'id'           => $post->ID,
                 'title'        => get_the_title($post),
                 'permalink'    => get_permalink($post),
                 'image'        => get_template_directory_uri() . '/imgs/logo-thd.jpg',
-                'location'     => $ubicacion_formateada, // Usamos la ubicación formateada
-                'location_icon'=> file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'),
+                'location'     => $ubicacion_formateada,
+                'location_icon'=> $location_icon,
                 'time_text'    => 'Lorem ipsum dolor sit, amet', // Texto genérico, personalízalo
-                'time_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'),
-                'like_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/me-gusta.svg'),
-                'tienda'       => get_field('extra_data_data_tienda', $post->ID) ?: 'Sin tienda', // ACF o campo personalizado
+                'time_icon'    => $time_icon,
+                'like_icon'    => $like_icon,
+                'tienda'       => get_field('extra_data_data_tienda', $post->ID) ?: 'Sin tienda', // Campo ACF o personalizado
             ];
         }
     }
 
+    // Responder con los datos procesados
     wp_send_json($posts);
     wp_die();
 }
+
+// Registrar AJAX
 add_action('wp_ajax_get_favorites', 'get_favorites_handler');
 add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
-
 
 function modify_menu_items($items, $args) {
     if ($args->menu === 'Header') { // Asegúrate de que el menú sea el correcto
@@ -317,3 +332,7 @@ function buscar_por_titulo_y_custom_field( $query ) {
     }
 }
 add_action( 'pre_get_posts', 'buscar_por_titulo_y_custom_field' );
+
+add_action('send_headers', function() {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+});
