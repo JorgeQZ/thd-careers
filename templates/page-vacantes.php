@@ -119,21 +119,31 @@ if($term != ''){
 
                                     <div class="icon-cont">
                                         <div class="img">
-                                            <?php echo file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'); ?>
+                                            <?php
+                                                $file_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
+
+                                                if (file_exists($file_path)) {
+                                                    // Mostrar el contenido del SVG directamente
+                                                    echo file_get_contents($file_path);
+                                                } else {
+                                                    echo 'Archivo SVG no encontrado.';
+                                                }
+                                            ?>
                                         </div>
                                         <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                     </div>
-
-                                    <!-- <div class="icon-cont">
-                                        <div class="img">
-                                            <?php echo file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'); ?>
-                                        </div>
-                                        <div class="text">Lorem ipsum dolor sit, amet</div>
-                                    </div> -->
                                 </div>
                                 <div class="fav">
                                     <div class="img">
-                                        <?php echo file_get_contents(get_template_directory_uri() . '/imgs/me-gusta.svg'); ?>
+                                        <?php
+                                            $file_path = get_template_directory() . '/imgs/me-gusta.svg';
+
+                                            if (file_exists($file_path)) {
+                                                echo file_get_contents($file_path); // Asegúrate de que el archivo sea seguro
+                                            } else {
+                                                echo 'Archivo no encontrado.';
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </li>

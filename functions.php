@@ -218,7 +218,23 @@ function get_favorites_handler() {
         wp_die();
     }
 
-    $favorite_ids = json_decode(stripslashes($_POST['favorites']), true);
+    try {
+        if (!isset($_POST['favorites']) || empty($_POST['favorites'])) {
+            throw new Exception('El parámetro "favorites" no está definido o está vacío.');
+        }
+
+        $favorites_data = stripslashes($_POST['favorites']);
+        $favorite_ids = json_decode($favorites_data, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Error al decodificar el JSON: ' . json_last_error_msg());
+        }
+
+        // Aquí puedes continuar procesando $favorite_ids si es válido
+    } catch (Exception $e) {
+        error_log('Error en get_favorites_handler: ' . $e->getMessage());
+        wp_send_json_error(['message' => 'Hubo un error procesando la solicitud. Por favor, inténtelo más tarde.'], 400);
+    }
 
     // Validar errores de JSON
     if (json_last_error() !== JSON_ERROR_NONE) {

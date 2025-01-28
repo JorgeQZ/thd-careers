@@ -153,27 +153,41 @@ Template Name: Postulaciones
                 $gcs_response = upload_to_gcp($file);  // Llamar a la función para subir a GCS
 
                 if ($gcs_response) {
-                    // Asumimos que la respuesta contiene una URL al archivo en GCS
-                    $gcs_url = json_decode($gcs_response)->mediaLink;
+                    try {
+                        // Decodificar la respuesta JSON
+                        $decoded_response = json_decode($gcs_response);
 
-                    // // Obtener el ID del usuario actual
-                    // $user_id = get_current_user_id();
+                        // Verificar errores en la decodificación JSON
+                        if (json_last_error() !== JSON_ERROR_NONE) {
+                            throw new Exception('Error al decodificar el JSON: ' . json_last_error_msg());
+                        }
 
-                    // // Guardar la URL del archivo de GCS como metadato del usuario
-                    // update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+                        // Validar que la propiedad 'mediaLink' existe en la respuesta
+                        if (!isset($decoded_response->mediaLink)) {
+                            throw new Exception('La respuesta JSON no contiene la propiedad "mediaLink".');
+                        }
 
-                    // $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                        // Asignar la URL del archivo
+                        $gcs_url = $decoded_response->mediaLink;
 
-                    update_field('CV', $gcs_url, $postulacion_id);
+                        // Actualizar el campo personalizado 'CV' con la URL del archivo en GCS
+                        update_field('CV', $gcs_url, $postulacion_id);
 
-                    // Mostrar mensaje de éxito
-                    ?>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            document.getElementById('mensajeExito').style.display = 'flex';
-                        });
-                    </script>
-                    <?php
+                        // Mostrar mensaje de éxito
+                        ?>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                document.getElementById('mensajeExito').style.display = 'flex';
+                            });
+                        </script>
+                        <?php
+                    } catch (Exception $e) {
+                        // Registrar el error en los logs
+                        error_log('Error en la respuesta de GCS: ' . $e->getMessage());
+
+                        // Mostrar un mensaje genérico al usuario
+                        echo '<p>Hubo un error al procesar la respuesta del servidor. Por favor, inténtelo más tarde.</p>';
+                    }
                 } else {
                     echo '<p>Hubo un error al subir el archivo a GCS.</p>';
                 }

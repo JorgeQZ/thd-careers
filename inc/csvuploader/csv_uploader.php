@@ -43,15 +43,41 @@ function process_csv_to_repeater()
         die('El archivo no es un CSV válido.');
     }
 
-    // Leer el archivo CSV
+    // Verificar si se subió un archivo válido
     if (isset($_FILES['csv_file']) && is_uploaded_file($_FILES['csv_file']['tmp_name'])) {
-        $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
+        // Validar el tipo MIME del archivo
+        $file_tmp_name = $_FILES['csv_file']['tmp_name'];
+        $allowed_mime_types = ['text/csv', 'text/plain'];
+        $file_mime_type = mime_content_type($file_tmp_name);
+
+        if (in_array($file_mime_type, $allowed_mime_types)) {
+            // Abrir el archivo de forma segura
+            $file = fopen($file_tmp_name, 'r');
+            if ($file) {
+                // Procesar el archivo CSV aquí (lectura de líneas, etc.)
+                while (($data = fgetcsv($file, 1000, ",")) !== false) {
+                    // Manejo de cada línea del archivo CSV
+                    // Ejemplo: var_dump($data);
+                }
+                fclose($file); // Cerrar el archivo después de procesarlo
+            } else {
+                echo 'Error: No se pudo abrir el archivo.';
+            }
+        } else {
+            echo 'Error: Tipo de archivo no permitido.';
+        }
     } else {
         echo 'Error: El archivo no es válido o no se cargó correctamente.';
     }
     if ($file) {
         // Eliminar BOM si existe (caracter invisible al principio)
-        if (isset($_FILES['csv_file']) && is_uploaded_file($_FILES['csv_file']['tmp_name'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file']) && is_uploaded_file($_FILES['csv_file']['tmp_name'])) {
+            // Validar el token CSRF
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+                echo 'Error: Solicitud no válida.';
+                exit;
+            }
+
             $file_tmp_name = $_FILES['csv_file']['tmp_name'];
             $file_mime_type = mime_content_type($file_tmp_name);
             $allowed_mime_types = ['text/csv', 'text/plain'];
@@ -59,6 +85,10 @@ function process_csv_to_repeater()
             // Validar el tipo MIME
             if (in_array($file_mime_type, $allowed_mime_types)) {
                 $csv_data = file_get_contents($file_tmp_name);
+
+                // Procesar los datos CSV
+                echo 'Archivo cargado exitosamente.';
+                // Aquí puedes procesar `$csv_data` de forma segura
             } else {
                 echo 'Error: Tipo de archivo no permitido.';
                 $csv_data = null; // Manejo seguro en caso de error
@@ -72,14 +102,20 @@ function process_csv_to_repeater()
         if (isset($_POST['csrf_token']) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             // Verificar si csv_data tiene contenido válido
             if (!empty($csv_data) && is_string($csv_data)) {
-                file_put_contents($_FILES['csv_file']['tmp_name'], $csv_data); // Reemplazar archivo original sin BOM
+                // Reemplazar archivo original sin BOM de forma segura
+                $tmp_file_path = $_FILES['csv_file']['tmp_name'];
+                if (is_writable($tmp_file_path)) {
+                    file_put_contents($tmp_file_path, $csv_data);
+                    echo 'Archivo procesado y reemplazado exitosamente.';
+                } else {
+                    echo 'Error: No se puede escribir en el archivo temporal.';
+                }
             } else {
                 echo 'Error: Los datos del archivo no son válidos.';
             }
         } else {
             echo 'Error: Token CSRF inválido o ausente.';
         }
-
 
         // Leer encabezados del archivo
         $headers = fgetcsv($file);
