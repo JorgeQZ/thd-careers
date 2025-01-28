@@ -25,7 +25,8 @@ function generate_jwt($credentials) {
     $message = $encodedHeader . '.' . $encodedPayload;
 
     // Generar la firma
-    $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json'); // Ruta a tu archivo JSON
+    // $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json'); // Ruta a tu archivo JSON
+    $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thdmx-careers-bucket-test-daa3254feacf.json'); // Ruta a tu archivo JSON
     $decodedPrivateKey = json_decode($privateKey, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('Error al decodificar el JSON de la clave privada: ' . json_last_error_msg());
@@ -64,7 +65,8 @@ function base64url_encode($data) {
 
 function upload_to_gcp($file) {
     // Ruta a las credenciales de tu cuenta de servicio
-    $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json';
+    // $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json';
+    $json_key_file = get_template_directory_uri(  ).'/json/thdmx-careers-bucket-test-daa3254feacf.json';
     try {
         $jsonContent = file_get_contents($json_key_file);
 
@@ -86,7 +88,8 @@ function upload_to_gcp($file) {
     $jwt = generate_jwt($credentials);
 
     // Obtener el nombre del bucket y el archivo
-    $bucket_name = 'thdcareers';
+    // $bucket_name = 'thdcareers';
+    $bucket_name = 'thdmx-bucket-test-careers_docs';
     $object_name = $file['name'];
     $object_content = file_get_contents($file['tmp_name']);
 
