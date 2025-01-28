@@ -310,8 +310,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.1/purify.min.js"></script>
-
-
-
 });
