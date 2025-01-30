@@ -9,6 +9,10 @@
     justify-content: start;
     padding: 0 80px;
     position: relative;
+    @media (max-width: 780px) {
+       padding: 0 20px;
+    }
+
 
     &:before {
         content: '';
@@ -54,6 +58,10 @@
             max-width: 70%;
             padding-right: 20px;
             box-sizing: border-box;
+
+            @media (max-width: 780px) {
+                max-width: 100%
+            }
 
             .input-search {
                 width: 48%;
@@ -187,16 +195,26 @@
             align-items: start;
             justify-content: space-between;
 
+            @media (max-width: 780px) {
+                flex-direction: column;
+            }
+
             .column {
                 min-height: 200px;
 
 
                 &:first-child {
                     width: 70%;
+                    @media (max-width: 780px) {
+                       width: 100%;
+                    }
                 }
 
                 &:last-child {
                     width: 30%;
+                    @media (max-width: 780px) {
+                        width: 100%;
+                     }
                 }
 
                 .list {
@@ -324,6 +342,9 @@
                     padding-bottom: 35px;
                     margin: 20px 0;
                     position: relative;
+                    @media (max-width: 780px) {
+
+                    }
 
                     &:before {
                         content: '';

@@ -98,6 +98,11 @@ h4 {
 main {
   padding: 35px 80px;
 }
+@media (max-width: 780px) {
+  main {
+    padding: 35px 10px;
+  }
+}
 
 iframe {
   width: 100%;
@@ -640,6 +645,11 @@ header.sticky {
   left: 0;
   padding: 10px 80px;
   z-index: 9999;
+}
+@media (max-width: 780px) {
+  header.sticky {
+    padding: 10px 20px;
+  }
 }
 header.sticky .site-info .main-logo {
   height: 20px;

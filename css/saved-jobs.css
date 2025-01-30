@@ -80,6 +80,11 @@
           box-sizing: border-box;
   background-color: #f96302;
 }
+@media (max-width: 780px) {
+  .banner {
+    padding: 0 20px;
+  }
+}
 .banner:before {
   content: "";
   width: 100%;

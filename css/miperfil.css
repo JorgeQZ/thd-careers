@@ -415,8 +415,8 @@ form .contenedor-form .contenedor div select {
     margin: 0 auto;
   }
   .miperfil {
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   form .contenedor-form .contenedor {
     -webkit-box-orient: vertical;

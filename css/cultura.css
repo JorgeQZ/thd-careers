@@ -68,12 +68,24 @@
   margin-bottom: 50px;
   position: relative;
 }
+@media (max-width: 780px) {
+  .rueda-cont {
+    width: 300px;
+  }
+}
 .rueda-cont .logo {
   width: 120px;
   position: absolute;
   background-color: red;
   top: 235px;
   left: 240px;
+}
+@media (max-width: 780px) {
+  .rueda-cont .logo {
+    top: 120px;
+    left: 40.5%;
+    width: 20%;
+  }
 }
 .rueda-cont svg {
   margin-bottom: 40px;
@@ -162,6 +174,13 @@
   padding: 40px;
   position: relative;
   color: white;
+}
+@media (max-width: 780px) {
+  .rueda-cont .item-desc {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
 }
 .rueda-cont .item-desc .title {
   font-family: "Helvetica Neue LT Std HvCn";
