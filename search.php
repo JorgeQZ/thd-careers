@@ -83,9 +83,15 @@
                                         <div class="img">
                                             <?php
                                                 $svg_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
-                                                if (file_exists($svg_path)) {
+
+                                                if (file_exists($svg_path) && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
+                                                    // Leer el contenido del archivo SVG
                                                     $svg_content = file_get_contents($svg_path);
-                                                    echo $svg_content;
+
+                                                    // Escapar caracteres peligrosos para prevenir XSS
+                                                    echo htmlspecialchars($svg_content, ENT_QUOTES, 'UTF-8');
+                                                } else {
+                                                    echo 'Archivo SVG no encontrado o no válido.';
                                                 }
                                             ?>
                                         </div>
@@ -96,9 +102,15 @@
                                         <div class="img">
                                             <?php
                                                 $svg_path = get_template_directory() . '/imgs/Hora.svg';
-                                                if (file_exists($svg_path)) {
+
+                                                if (file_exists($svg_path) && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
+                                                    // Leer el contenido del archivo SVG
                                                     $svg_content = file_get_contents($svg_path);
-                                                    echo $svg_content;
+
+                                                    // Escapar caracteres peligrosos para prevenir XSS
+                                                    echo htmlspecialchars($svg_content, ENT_QUOTES, 'UTF-8');
+                                                } else {
+                                                    echo 'Archivo SVG no encontrado o no válido.';
                                                 }
                                             ?>
                                         </div>

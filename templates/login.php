@@ -25,12 +25,17 @@ if (is_user_logged_in()) {
 // Procesar el formulario de inicio de sesión si se envía.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
     $username = sanitize_text_field($_POST['username']);
-    if (isset($_POST['password'])) {
-        $password = trim($_POST['password']); // Elimina espacios en blanco al inicio y al final.
+    if (isset($_POST['password']) && !empty(trim($_POST['password']))) {
+        // Limpiar espacios y obtener la contraseña
+        $password = trim($_POST['password']);
     } else {
-        $password = null; // Maneja casos donde la contraseña no está definida.
+        // Manejar casos donde la contraseña no está definida o está vacía
+        $password = null;
+        // Opcional: agregar un mensaje de error para el usuario
+        $error_message = 'La contraseña no puede estar vacía.';
     }
-    $remember = isset($_POST['remember']) ? true : false;
+
+    $remember = isset($_POST['remember']) && $_POST['remember'] === 'true';
 
     // $error_message = handle_failed_login_attempts($username);
 
@@ -56,11 +61,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
     $username = sanitize_text_field($_POST['reg_username']);
     $email = sanitize_email($_POST['reg_email']);
-    if (isset($_POST['reg_password'])) {
+    if (isset($_POST['reg_password']) && !empty(trim($_POST['reg_password']))) {
+        // Limpiar espacios en blanco y obtener la contraseña
         $password = trim($_POST['reg_password']);
+
+        // Generar un hash seguro para la contraseña
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Puedes usar $hashed_password para guardarlo en la base de datos
     } else {
+        // Manejo seguro si no se proporciona contraseña
         $password = null;
+
+        // Opcional: agregar un mensaje de error o manejar la lógica correspondiente
+        // Ejemplo: $error_message = 'La contraseña no puede estar vacía.';
     }
 
     $password_validation = validate_password_security($password);
@@ -71,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
         $userdata = [
             'user_login'    => $username,
             'user_email'    => $email,
-            'user_pass' => isset($password) ? password_hash($password, PASSWORD_DEFAULT) : '',
+            'user_pass' => isset($password) && !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : null,
         ];
 
         $user_id = wp_insert_user($userdata);
@@ -92,7 +106,7 @@ get_header();
     <?php if (!empty($error_message)) : ?>
         <div class="error-message" style="color: red;">
             <?php if (!empty($error_message)) : ?>
-                <div class="error-message">
+                <div class="error-message" style="color: red;">
                     <?php echo esc_html($error_message); ?>
                 </div>
             <?php endif; ?>
@@ -123,13 +137,11 @@ get_header();
     <h2>¿No tienes cuenta? <span>Regístrate</span></h2>
     <?php if (!empty($register_error_message)) : ?>
         <div class="error-message" style="color: red;">
-            <?php if (!empty($register_error_message)) : ?>
-                <?php echo esc_html($register_error_message); ?>
-            <?php endif; ?>
+            <?php echo esc_html($register_error_message); ?>
         </div>
     <?php elseif (!empty($register_success_message)) : ?>
         <div class="success-message" style="color: green;">
-            <?php echo $register_success_message; ?>
+            <?php echo esc_html($register_success_message); ?>
         </div>
     <?php endif; ?>
 

@@ -433,10 +433,12 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
             $mis_vacantes_url = admin_url('admin.php?page=mis_vacantes');
 
             try {
-                if (!isset($mis_vacantes_url) || !filter_var($mis_vacantes_url, FILTER_VALIDATE_URL)) {
-                    throw new Exception('La URL proporcionada no es válida.');
+                // Validar la URL antes de usarla
+                if (empty($mis_vacantes_url) || !filter_var($mis_vacantes_url, FILTER_VALIDATE_URL)) {
+                    throw new Exception('La URL proporcionada no es válida o está vacía.');
                 }
 
+                // Terminar el script con un mensaje de error y enlace de retorno
                 wp_die(
                     sprintf(
                         __(
@@ -450,7 +452,10 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
                     ['response' => 403]
                 );
             } catch (Exception $e) {
+                // Registrar el error en el log para depuración
                 error_log('Error en wp_die: ' . $e->getMessage());
+
+                // Mostrar un mensaje genérico al usuario
                 wp_die(
                     __('Ocurrió un error inesperado. Por favor, contacte al administrador.', 'tu-text-domain'),
                     __('Error de creación', 'tu-text-domain'),

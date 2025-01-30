@@ -34,14 +34,37 @@ if (isset($_POST['submit'])) {
         $gcs_response = upload_to_gcp($file); // Llamar a la función que sube el archivo
 
         if ($gcs_response) {
-            // Asumimos que la respuesta contiene una URL al archivo en GCS
-            $gcs_url = json_decode($gcs_response)->mediaLink;
+            try {
+                // Decodificar la respuesta JSON
+                $decoded_response = json_decode($gcs_response);
 
-            // Obtener el ID del usuario actual
-            $user_id = get_current_user_id();
+                // Verificar errores en la decodificación
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    throw new Exception('Error al decodificar el JSON: ' . json_last_error_msg());
+                }
 
-            // Guardar la URL del archivo de GCS como metadato del usuario
-            update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+                // Validar que la propiedad 'mediaLink' existe en la respuesta
+                if (!isset($decoded_response->mediaLink)) {
+                    throw new Exception('La respuesta JSON no contiene la propiedad "mediaLink".');
+                }
+
+                // Asignar la URL del archivo
+                $gcs_url = $decoded_response->mediaLink;
+
+                // Obtener el ID del usuario actual
+                $user_id = get_current_user_id();
+
+                // Guardar la URL del archivo de GCS como metadato del usuario
+                update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+
+                echo '<p>Archivo subido exitosamente y URL guardada.</p>';
+            } catch (Exception $e) {
+                // Registrar el error en los logs
+                error_log('Error en la respuesta de GCS: ' . $e->getMessage());
+
+                // Mostrar un mensaje genérico al usuario
+                echo '<p>Hubo un error al procesar la respuesta del servidor. Por favor, inténtelo más tarde.</p>';
+            }
         } else {
             echo '<p>Hubo un error al subir el archivo a GCS.</p>';
         }

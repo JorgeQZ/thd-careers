@@ -262,29 +262,103 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     dataType: 'json', // Esperamos una respuesta en formato JSON
                     success: function (posts) {
+                        // posts.forEach(post => {
+                        //     const li = document.createElement('li');
+                        //     li.className = 'item remove-fav active';
+                        //     li.setAttribute('data-id', post.id);
+                        //     li.innerHTML = `
+                        //     <div class="img">
+                        //         <img src="${post.image}" alt="">
+                        //     </div>
+                        //     <div class="desc">
+                        //         <a href="${post.permalink}">${post.title}</a>
+                        //         <div class="icon-cont">
+                        //             <div class="img">${post.location_icon}</div>
+                        //             <div class="text">${post.location}</div>
+                        //         </div>
+                        //         <div class="icon-cont">
+                        //             <div class="img">${post.time_icon}</div>
+                        //             <div class="text">${post.time_text}</div>
+                        //         </div>
+                        //     </div>
+                        //     <div class="fav">
+                        //         <div class="img">${post.like_icon}</div>
+                        //     </div>
+                        // `;
+                        //     ulElement.appendChild(li);
+                        // });
+
                         posts.forEach(post => {
                             const li = document.createElement('li');
                             li.className = 'item remove-fav active';
                             li.setAttribute('data-id', post.id);
-                            li.innerHTML = `
-                            <div class="img">
-                                <img src="${post.image}" alt="">
-                            </div>
-                            <div class="desc">
-                                <a href="${post.permalink}">${post.title}</a>
-                                <div class="icon-cont">
-                                    <div class="img">${post.location_icon}</div>
-                                    <div class="text">${post.location}</div>
-                                </div>
-                                <div class="icon-cont">
-                                    <div class="img">${post.time_icon}</div>
-                                    <div class="text">${post.time_text}</div>
-                                </div>
-                            </div>
-                            <div class="fav">
-                                <div class="img">${post.like_icon}</div>
-                            </div>
-                        `;
+
+                            // Crear contenedor para la imagen
+                            const imgDiv = document.createElement('div');
+                            imgDiv.className = 'img';
+                            const imgElement = document.createElement('img');
+                            imgElement.src = post.image;
+                            imgElement.alt = ''; // Agrega un alt adecuado si es posible
+                            imgDiv.appendChild(imgElement);
+
+                            // Crear descripción
+                            const descDiv = document.createElement('div');
+                            descDiv.className = 'desc';
+
+                            const linkElement = document.createElement('a');
+                            linkElement.href = post.permalink;
+                            linkElement.textContent = post.title;
+
+                            descDiv.appendChild(linkElement);
+
+                            // Icono de ubicación
+                            const locationIconCont = document.createElement('div');
+                            locationIconCont.className = 'icon-cont';
+
+                            const locationImgDiv = document.createElement('div');
+                            locationImgDiv.className = 'img';
+                            locationImgDiv.textContent = post.location_icon; // Usa textContent para evitar XSS
+
+                            const locationTextDiv = document.createElement('div');
+                            locationTextDiv.className = 'text';
+                            locationTextDiv.textContent = post.location;
+
+                            locationIconCont.appendChild(locationImgDiv);
+                            locationIconCont.appendChild(locationTextDiv);
+                            descDiv.appendChild(locationIconCont);
+
+                            // Icono de tiempo
+                            const timeIconCont = document.createElement('div');
+                            timeIconCont.className = 'icon-cont';
+
+                            const timeImgDiv = document.createElement('div');
+                            timeImgDiv.className = 'img';
+                            timeImgDiv.textContent = post.time_icon; // Usa textContent para evitar XSS
+
+                            const timeTextDiv = document.createElement('div');
+                            timeTextDiv.className = 'text';
+                            timeTextDiv.textContent = post.time_text;
+
+                            timeIconCont.appendChild(timeImgDiv);
+                            timeIconCont.appendChild(timeTextDiv);
+                            descDiv.appendChild(timeIconCont);
+
+                            // Favorito
+                            const favDiv = document.createElement('div');
+                            favDiv.className = 'fav';
+
+                            const favImgDiv = document.createElement('div');
+                            favImgDiv.className = 'img';
+                            favImgDiv.textContent = post.like_icon; // Usa textContent para evitar XSS
+
+                            favDiv.appendChild(favImgDiv);
+
+                            // Ensamblar todo
+                            li.appendChild(imgDiv);
+                            li.appendChild(descDiv);
+                            li.appendChild(favDiv);
+
+                            // Agregar al ul
                             ulElement.appendChild(li);
                         });
 
