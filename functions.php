@@ -105,6 +105,10 @@ function careers_styles()
         wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/miperfil.css');
     }
 
+    if (is_page('Mi')) {
+        wp_enqueue_style('miperfil', get_template_directory_uri() . '/css/mi.css');
+    }
+
     if (is_page('Inicio')) {
         wp_enqueue_style('home', get_template_directory_uri() . '/css/home.css');
         wp_enqueue_style('frontpage', get_template_directory_uri() . '/css/frontpage.css');

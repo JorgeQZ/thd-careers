@@ -1,0 +1,73 @@
+@import "variables";
+@import "fonts";
+
+.general {
+    margin: 0 auto;
+    max-width: 1280px;
+
+    .seccion {
+        .titulo {
+            font-family: $ff-blkcn;
+            color: #f96302;
+            font-size: 32px;
+            margin-top: 45px;
+            margin-bottom: 0px;
+        }
+
+        .inputs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            div {
+                flex: 0 0 calc(33.333% - 20px);
+
+                div {
+                    margin-top: 35px;
+                }
+
+                input {
+                    margin-top: 10px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    height: 40px;
+                    border: solid thin;
+                    border-radius: 3px;
+                    padding: 0px 10px;
+                }
+
+                select {
+                    margin-top: 10px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    height: 40px;
+                    border: solid thin;
+                    border-radius: 3px;
+                    padding: 0px 10px;
+                    appearance: none;
+                    background: url('../imgs/down-arrow.svg') no-repeat right -5px center;
+                    background-size: 45px 45px;
+                }
+
+                .div-icon {
+                    position: relative;
+                    margin-top: 0px;
+
+                    .date-icon {
+                        background-image: url('../imgs/calendario-icon.jpg');
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        position: absolute;
+                        right: 10px;
+                        top: 33px;
+                        transform: translateY(-50%);
+                        width: 15px;
+                        height: 20px;
+                        pointer-events: none;
+                        z-index: 1;
+                    }
+                }
+            }
+        }
+    }
+}
