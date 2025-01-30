@@ -1,4 +1,4 @@
-let map = L.map('map').setView([23.634501, -102.552784], 5); // Coordenadas y zoom inicial para México
+let map = L.map('map').setView([24.5, -102.552784], 5); // Coordenadas y zoom inicial para México
 
 let markers = new L.markerClusterGroup({
     animateAddingMarkers: true,
