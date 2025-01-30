@@ -22,6 +22,10 @@ body.admin-bar {
     position: relative;
     width: 100%;
     box-sizing: border-box;
+    @media (max-width: 780px) {
+        padding: 0 10px;
+    }
+
 
     &:before {
         content: '';
@@ -138,7 +142,9 @@ body.admin-bar {
 
         .column {
             width: 50%;
-
+            @media (max-width: 780px) {
+                width: 100%;
+            }
             .desc {
                 padding-right: 20px;
                 font-family: $ff-roman;
@@ -282,6 +288,10 @@ body.admin-bar {
         width: 1265px;
         height: 100px;
         background-color: #b2b2b2;
+        @media (max-width: 780px) {
+            max-width: 100%
+        }
+
     }
 
     textarea {

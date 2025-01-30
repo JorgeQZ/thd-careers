@@ -1,0 +1,56 @@
+@import "variables";
+@import "fonts";
+
+.page-404 {
+    text-align: center;
+    padding: 50px 20px;
+
+    .error-title {
+      font-size: 6rem;
+      font-weight: bold;
+      color: #f96302;
+    }
+
+    .error-message {
+      font-size: 1.5rem;
+      margin: 10px 0;
+    }
+
+    .error-description {
+      margin-bottom: 20px;
+      color: #757575;
+    }
+
+    .error-actions {
+      margin: 20px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1px solid $orange;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #fff;
+      margin: 0 5px;
+      font-family: $ff-mdcn;
+
+      &.btn-primary {
+        background-color: #f96302;
+        &:hover{
+            background-color: #fff;
+            color: #f96302;
+        }
+      }
+
+      &.btn-secondary {
+        background-color: #fff;
+        color: #a6a6a6;
+        border-color: #a6a6a6;
+        &:hover{
+            background-color: #a6a6a6;
+            color: #fff;
+        }
+      }
+    }
+  }

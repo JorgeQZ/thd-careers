@@ -93,6 +93,11 @@ body.admin-bar {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
+@media (max-width: 780px) {
+  .banner {
+    padding: 0 10px;
+  }
+}
 .banner:before {
   content: "";
   width: 100%;
@@ -209,6 +214,11 @@ body.admin-bar {
 }
 .container .desc-video .column {
   width: 50%;
+}
+@media (max-width: 780px) {
+  .container .desc-video .column {
+    width: 100%;
+  }
 }
 .container .desc-video .column .desc {
   padding-right: 20px;
@@ -333,6 +343,11 @@ body.admin-bar {
   width: 1265px;
   height: 100px;
   background-color: #b2b2b2;
+}
+@media (max-width: 780px) {
+  .contenedorgeneralcampos input[type=file] {
+    max-width: 100%;
+  }
 }
 .contenedorgeneralcampos textarea {
   width: 1260px;

@@ -7,6 +7,9 @@
     margin: 0 auto;
     margin-bottom: 50px;
     position: relative;
+    @media (max-width: 780px) {
+        width: 300px;
+    }
 
     .logo {
 
@@ -15,6 +18,11 @@
         background-color: red;
         top: 235px;
         left: 240px;
+        @media (max-width: 780px) {
+            top: 120px;
+            left: 40.5%;
+            width: 20%;
+        }
 
     }
 
@@ -171,6 +179,11 @@
         padding: 40px;
         position: relative;
         color: white;
+        @media (max-width: 780px) {
+           width: 100%;
+           box-sizing: border-box;
+        }
+
 
 
         .title {

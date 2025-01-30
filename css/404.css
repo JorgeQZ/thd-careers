@@ -62,145 +62,49 @@
   font-style: normal;
   font-display: swap;
 }
-.rueda-cont {
-  width: 600px;
-  margin: 0 auto;
-  margin-bottom: 50px;
-  position: relative;
-}
-@media (max-width: 780px) {
-  .rueda-cont {
-    width: 300px;
-  }
-}
-.rueda-cont .logo {
-  width: 120px;
-  position: absolute;
-  background-color: red;
-  top: 235px;
-  left: 240px;
-}
-@media (max-width: 780px) {
-  .rueda-cont .logo {
-    top: 120px;
-    left: 40.5%;
-    width: 20%;
-  }
-}
-.rueda-cont svg {
-  margin-bottom: 40px;
-}
-.rueda-cont text,
-.rueda-cont foreignObject {
-  color: white;
-  font-family: "Helvetica Neue LT Std HvCn";
-  font-size: 20px;
+.page-404 {
   text-align: center;
-  text-transform: capitalize;
-  cursor: pointer;
-  width: 120px;
-  height: 70px;
+  padding: 50px 20px;
 }
-.rueda-cont text .icon,
-.rueda-cont foreignObject .icon {
-  text-shadow: 0 0 5px #f96302;
-  stroke: #f96302;
-  -webkit-text-stroke: 2px #f96302;
-  font-weight: 900;
-  font-size: 32px;
-}
-.rueda-cont g {
-  position: relative;
-  cursor: pointer;
-}
-.rueda-cont g.active path {
-  fill: #f96302;
-}
-.rueda-cont g.active text .icon,
-.rueda-cont g.active foreignObject .icon {
-  text-shadow: 0 0 5px #f96302;
-  -webkit-text-stroke: 2px #f96302;
+.page-404 .error-title {
+  font-size: 6rem;
+  font-weight: bold;
   color: #f96302;
 }
-.rueda-cont g.unactive path {
-  fill: #a6a6a6;
+.page-404 .error-message {
+  font-size: 1.5rem;
+  margin: 10px 0;
 }
-.rueda-cont g.unactive text .icon,
-.rueda-cont g.unactive foreignObject .icon {
-  text-shadow: 0 0 5px #a6a6a6;
-  -webkit-text-stroke: 2px #a6a6a6;
+.page-404 .error-description {
+  margin-bottom: 20px;
+  color: #757575;
 }
-.rueda-cont g#_1:hover, .rueda-cont g#_1.active {
-  -webkit-transform: translate(5px, -10px);
-          transform: translate(5px, -10px);
+.page-404 .error-actions {
+  margin: 20px 0;
 }
-.rueda-cont g#_1 foreignObject {
-  width: 120px;
-  height: 70px;
+.page-404 .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #f96302;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #fff;
+  margin: 0 5px;
+  font-family: "Helvetica Neue LT Std MdCn";
 }
-.rueda-cont g#_2:hover, .rueda-cont g#_2.active {
-  -webkit-transform: translate(10px, -5px);
-          transform: translate(10px, -5px);
-}
-.rueda-cont g#_3:hover, .rueda-cont g#_3.active {
-  -webkit-transform: translate(10px, 2px);
-          transform: translate(10px, 2px);
-}
-.rueda-cont g#_4:hover, .rueda-cont g#_4.active {
-  -webkit-transform: translate(6px, 8px);
-          transform: translate(6px, 8px);
-}
-.rueda-cont g#_5:hover, .rueda-cont g#_5.active {
-  -webkit-transform: translate(0px, 8px);
-          transform: translate(0px, 8px);
-}
-.rueda-cont g#_6:hover, .rueda-cont g#_6.active {
-  -webkit-transform: translate(-10px, 2px);
-          transform: translate(-10px, 2px);
-}
-.rueda-cont g#_7:hover, .rueda-cont g#_7.active {
-  -webkit-transform: translate(-10px, -5px);
-          transform: translate(-10px, -5px);
-}
-.rueda-cont g#_8:hover, .rueda-cont g#_8.active {
-  -webkit-transform: translate(-5px, -10px);
-          transform: translate(-5px, -10px);
-}
-.rueda-cont .item-desc {
-  display: none;
-  width: 500px;
+.page-404 .btn.btn-primary {
   background-color: #f96302;
-  margin: 0 auto;
-  padding: 40px;
-  position: relative;
-  color: white;
 }
-@media (max-width: 780px) {
-  .rueda-cont .item-desc {
-    width: 100%;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-  }
+.page-404 .btn.btn-primary:hover {
+  background-color: #fff;
+  color: #f96302;
 }
-.rueda-cont .item-desc .title {
-  font-family: "Helvetica Neue LT Std HvCn";
-  font-size: 30px;
-  text-align: center;
-  text-transform: uppercase;
+.page-404 .btn.btn-secondary {
+  background-color: #fff;
+  color: #a6a6a6;
+  border-color: #a6a6a6;
 }
-.rueda-cont .item-desc .desc {
-  text-align: center;
-  letter-spacing: 1.2px;
-}
-.rueda-cont .item-desc:before {
-  content: "";
-  width: 60px;
-  height: 60px;
-  background-color: #f96302;
-  z-index: -1;
-  position: absolute;
-  bottom: calc(100% - 30px);
-  left: calc(50% - 30px);
-  -webkit-transform: rotateZ(45deg);
-          transform: rotateZ(45deg);
+.page-404 .btn.btn-secondary:hover {
+  background-color: #a6a6a6;
+  color: #fff;
 }

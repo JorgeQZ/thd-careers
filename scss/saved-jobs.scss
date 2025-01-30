@@ -8,10 +8,17 @@
     align-items: center;
     justify-content: start;
     padding: 0 80px;
+
     position: relative;
     width: 100%;
     box-sizing: border-box;
     background-color: $orange;
+
+    @media (max-width: 780px) {
+        padding: 0 20px;
+
+    }
+
 
     &:before {
         content: '';

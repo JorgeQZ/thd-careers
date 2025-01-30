@@ -148,6 +148,10 @@ function careers_styles()
         wp_enqueue_style('custom-login', get_template_directory_uri() . '/css/login.css');
     }
 
+    if (is_404()) {
+        wp_enqueue_style('404', get_template_directory_uri() . '/css/404.css');
+    }
+
 }
 add_action('wp_enqueue_scripts', 'careers_styles');
 

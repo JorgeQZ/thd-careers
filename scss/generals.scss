@@ -37,6 +37,9 @@ h4 {
 
 main {
     padding: 35px 80px;
+    @media (max-width: 780px) {
+        padding: 35px 10px;
+    }
 }
 
 iframe {

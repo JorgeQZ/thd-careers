@@ -326,6 +326,11 @@ header {
         left: 0;
         padding: 10px 80px;
         z-index: 9999;
+        @media (max-width: 780px) {
+            padding: 10px 20px;
+
+        }
+
 
         .site-info {
             .main-logo {
