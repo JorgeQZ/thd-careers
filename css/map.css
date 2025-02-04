@@ -84,8 +84,8 @@
 .leaflet-popup-content-wrapper .leaflet-popup-content {
   margin: 0;
   padding-bottom: 5px;
-  min-width: 160px;
-  max-width: 160px;
+  min-width: 260px;
+  max-width: 260px;
 }
 .leaflet-popup-content-wrapper .leaflet-popup-content .header {
   background-color: #272727;

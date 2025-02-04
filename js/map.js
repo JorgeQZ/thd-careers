@@ -54,9 +54,9 @@ function getCircleStyle(tipo) {
             };
         default:
             return {
-                color: "rgba(0, 0, 255, 0.8)",
+                color: "rgba(249, 99, 2, 0.8)",
                 radius: 15,
-                fillColor: "blue",
+                fillColor: "#f96302",
                 fillOpacity: 1,
                 weight: 10
             };
@@ -103,7 +103,6 @@ function add_markers(data) {
             markers.addLayer(circle);
 
             circle.on('click', function(event) {
-                console.log(circle); // Opcional para depuración
                 loadMoreVacantes(numeroDeTienda, currentPage, nombre, ubicacion, circle._leaflet_id);
             });
 

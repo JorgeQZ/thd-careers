@@ -10,99 +10,103 @@ if (empty($_SESSION['csrf_token'])) {
 
 <div class="wrap">
     <h1>Subir CSV para Vacantes</h1>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form id="csvUploadForm" action="" method="post" enctype="multipart/form-data">
         <label for="csv_file">Selecciona un archivo CSV:</label>
-        <input type="file" name="csv_file" id="csv_file" accept=".csv">
-
-        <!-- Campo oculto con el token CSRF -->
+        <input type="file" name="csv_file" id="csv_file" accept=".csv" required>
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-
-        <?php submit_button('Subir y Procesar'); ?>
+        <button type="submit" id="submitBtn">Subir y Procesar</button>
+        <div id="progressContainer" style="display:none; margin-top:10px;">
+            <progress id="progressBar" value="0" max="100" style="width:100%;"></progress>
+            <p id="progressText">Subiendo archivo...</p>
+        </div>
     </form>
 </div>
 
-<?php
+<script>
+document.getElementById('csvUploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let form = this;
+    let formData = new FormData(form);
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('progressContainer').style.display = 'block';
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '', true);
+    xhr.upload.onprogress = function(event) {
+        if (event.lengthComputable) {
+            let percentComplete = (event.loaded / event.total) * 100;
+            document.getElementById('progressBar').value = percentComplete;
+            document.getElementById('progressText').innerText = 'Progreso: ' + Math.round(percentComplete) + '%';
+        }
+    };
+    xhr.onload = function() {
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('progressText').innerText = xhr.status === 200 ? 'Importación completada con éxito.' : 'Error al procesar el archivo.';
+    };
+    xhr.send(formData);
+});
+</script>
 
-// Procesar el archivo CSV al enviar el formulario
+<?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
-    // Verificar si el token CSRF es válido
-    if (isset($_POST['csrf_token']) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    try {
+        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            throw new Exception('Error: Token CSRF inválido o ausente.');
+        }
+        if ($_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception('Error al subir el archivo.');
+        }
+        if ($_FILES['csv_file']['type'] !== 'text/csv' && $_FILES['csv_file']['type'] !== 'application/vnd.ms-excel') {
+            throw new Exception('El archivo subido no es un CSV válido.');
+        }
         process_csv_to_vacantes();
-    } else {
-        echo 'Error: Token CSRF inválido o ausente.';
+    } catch (Exception $e) {
+        echo '<div class="notice notice-error"><p>' . esc_html($e->getMessage()) . '</p></div>';
     }
 }
 
-// Función para procesar el archivo CSV y guardar los datos en el CPT de Vacantes
 function process_csv_to_vacantes()
 {
-    // Verificar si el archivo subido es un CSV
-    if ($_FILES['csv_file']['type'] !== 'text/csv' && $_FILES['csv_file']['type'] !== 'application/vnd.ms-excel') {
-        die('El archivo no es un CSV válido.');
-    }
-
-    // Leer el archivo CSV
-    if (isset($_FILES['csv_file']) && is_uploaded_file($_FILES['csv_file']['tmp_name'])) {
-        $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
-    } else {
-        echo 'Error: El archivo no es válido o no se cargó correctamente.';
-        return; // Detener ejecución si el archivo no es válido
-    }
-
-    // Eliminar BOM si existe (caracter invisible al principio)
     $csv_data = file_get_contents($_FILES['csv_file']['tmp_name']);
     $csv_data = preg_replace('/^\xEF\xBB\xBF/', '', $csv_data);
-
-    // Leer encabezados del archivo
+    $temp_file = tmpfile();
+    fwrite($temp_file, $csv_data);
+    fseek($temp_file, 0);
+    $file = $temp_file;
     $headers = fgetcsv($file);
-    $headers = array_map(function ($header) {
-        return trim(str_replace("\xEF\xBB\xBF", '', $header));
-    }, $headers);
-
-    // Arreglo para almacenar los datos
     $data = [];
     while (($row = fgetcsv($file)) !== false) {
-        // Eliminar BOM en cada campo de la fila
-        $row = array_map(function ($value) {
-            return trim(str_replace("\xEF\xBB\xBF", '', $value));
-        }, $row);
         $data[] = array_combine($headers, $row);
     }
     fclose($file);
-
-    // Preparar los datos para el CPT Vacantes
+    $beneficios_permitidos = ['Sueldo aprox.', 'Vales de despensa', 'Bono Variable', 'Seguro de vida', 'Fondo de ahorro'];
     foreach ($data as $entry) {
-        $vacante_data = [
-            'post_title'   => $entry['codigo_de_vacante'],  // El código de la vacante se usará como título
-            'post_type'    => 'vacantes',  // El tipo de post CPT
-            'post_status'  => 'publish',  // Publicar la vacante inmediatamente
-            'meta_input'   => [
-                'codigo_de_vacante' => $entry['codigo_de_vacante'] ?? '',
-                'descripcion'       => $entry['descripcion'] ?? '',
-                'video'             => $entry['video'] ?? '',
-                'ubicacion'         => $entry['ubicacion'] ?? '',
-                'beneficios'        => !empty($entry['beneficios']) ? explode(',', $entry['beneficios']) : [],
-                'emi'               => $entry['emi'] ?? '',
-                'imagen_qr'         => $entry['imagen_qr'] ?? '',
-                'url_de_la_vacante' => $entry['url_de_la_vacante'] ?? '',
-            ]
-        ];
-
-        // Insertar la vacante como un nuevo CPT
+        $beneficios = isset($entry['beneficios']) ? explode(',', $entry['beneficios']) : [];
+        $beneficios = array_map('trim', $beneficios);
+        $beneficios = array_filter($beneficios, function ($beneficio) use ($beneficios_permitidos) {
+            return in_array($beneficio, $beneficios_permitidos, true);
+        });
+        $featured_image_url = !empty($entry['imagen_destacada']) ? trim($entry['imagen_destacada']) : 'https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/01/fondo-footer.png';
+        $vacante_data = ['post_title' => $entry['codigo_de_vacante'], 'post_type' => 'vacantes', 'post_status' => 'publish', 'meta_input' => ['codigo_de_vacante' => $entry['codigo_de_vacante'], 'descripcion' => $entry['descripcion'], 'video' => $entry['video'], 'ubicacion' => $entry['ubicacion'], 'beneficios' => $beneficios, 'emi' => $entry['emi'], 'imagen_qr' => $entry['imagen_qr'], 'url_de_la_vacante' => $entry['url_de_la_vacante']]];
         $post_id = wp_insert_post($vacante_data);
-
-        // Asignar la taxonomía 'categorias_vacantes'
-        if (!empty($entry['categorias_vacantes'])) {
-            $categorias = explode(',', $entry['categorias_vacantes']);
-            wp_set_object_terms($post_id, $categorias, 'categorias_vacantes');
-        }
-
-        // Verificar si la vacante fue creada correctamente
         if ($post_id) {
-            echo '<div class="updated"><p>Vacante ' . esc_html($entry['codigo_de_vacante']) . ' importada correctamente.</p></div>';
-        } else {
-            echo '<div class="error"><p>Error al importar la vacante ' . esc_html($entry['codigo_de_vacante']) . '.</p></div>';
+            if (!empty($entry['categorias_vacantes'])) {
+                wp_set_object_terms($post_id, explode(',', $entry['categorias_vacantes']), 'categorias_vacantes');
+            }
+            update_field('beneficios', $beneficios, $post_id);
+            set_featured_image($post_id, $featured_image_url);
         }
     }
 }
-?>
+
+function set_featured_image($post_id, $image_url) {
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
+    require_once(ABSPATH . 'wp-admin/includes/media.php');
+    require_once(ABSPATH . 'wp-admin/includes/image.php');
+    $tmp = download_url($image_url);
+    if (is_wp_error($tmp)) return;
+    $file_array = ['name' => basename($image_url), 'tmp_name' => $tmp];
+    $attachment_id = media_handle_sideload($file_array, $post_id);
+    if (!is_wp_error($attachment_id)) {
+        set_post_thumbnail($post_id, $attachment_id);
+    }
+}
