@@ -217,16 +217,6 @@ add_action('admin_menu', function() {
 		remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
 		remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
 	}
-
-
-	// if (current_user_can('rh_distrito')) {
-	// 	remove_menu_page('edit.php');
-	// 	remove_menu_page('tools.php');
-	// 	remove_menu_page('edit-comments.php');
-	// 	remove_menu_page('edit.php?post_type=page');
-	// 	remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
-	// 	remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
-	// }
 });
 
 function hide_acf_options_page_for_specific_role() {
