@@ -108,6 +108,7 @@ function process_csv_to_repeater()
 
         if ($result) {
             echo '<div class="updated"><p>' . count($final_data) . ' tiendas importadas correctamente en el repeater de ACF.</p></div>';
+            delete_transient('cached_stores'); // Eliminar caché cuando se actualiza el catálogo
         } else {
             echo '<div class="error"><p>No se pudieron guardar los datos en el repeater de ACF.</p></div>';
         }

@@ -121,7 +121,7 @@ class Vacantes_List_Table extends WP_List_Table {
             'post_type'      => 'vacantes',
             'author__in'     => $users, // Filtrar por los autores con los roles 'administrator' o 'rh_admin'
             'post_status'    => 'any', // Incluir todos los estados de publicación
-            'posts_per_page' => 10,
+            'posts_per_page' => 100,
             'paged'          => $this->get_pagenum(),
         ];
 
@@ -151,7 +151,7 @@ class Vacantes_List_Table extends WP_List_Table {
 
         $this->set_pagination_args([
             'total_items' => $total_items,
-            'per_page'    => 10,
+            'per_page'    => 100,
         ]);
 
         $columns  = $this->get_columns();

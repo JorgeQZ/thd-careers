@@ -63,31 +63,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
         echo '<div class="notice notice-error"><p>' . esc_html($e->getMessage()) . '</p></div>';
     }
 }
-
 function process_csv_to_vacantes()
 {
+    $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
+    if ($file === false) {
+        throw new Exception('No se pudo abrir el archivo CSV.');
+    }
+
     $csv_data = file_get_contents($_FILES['csv_file']['tmp_name']);
-    $csv_data = preg_replace('/^\xEF\xBB\xBF/', '', $csv_data);
-    $temp_file = tmpfile();
-    fwrite($temp_file, $csv_data);
-    fseek($temp_file, 0);
-    $file = $temp_file;
+    $csv_data = preg_replace('/^\xEF\xBB\xBF/', '', $csv_data); // Elimina BOM
+
     $headers = fgetcsv($file);
+    if ($headers === false) {
+        fclose($file);
+        throw new Exception('El archivo CSV no tiene encabezados válidos.');
+    }
+
     $data = [];
     while (($row = fgetcsv($file)) !== false) {
         $data[] = array_combine($headers, $row);
     }
+
     fclose($file);
+
     $beneficios_permitidos = ['Sueldo aprox.', 'Vales de despensa', 'Bono Variable', 'Seguro de vida', 'Fondo de ahorro'];
+
     foreach ($data as $entry) {
         $beneficios = isset($entry['beneficios']) ? explode(',', $entry['beneficios']) : [];
         $beneficios = array_map('trim', $beneficios);
         $beneficios = array_filter($beneficios, function ($beneficio) use ($beneficios_permitidos) {
             return in_array($beneficio, $beneficios_permitidos, true);
         });
-        $featured_image_url = !empty($entry['imagen_destacada']) ? trim($entry['imagen_destacada']) : 'https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/01/fondo-footer.png';
-        $vacante_data = ['post_title' => $entry['codigo_de_vacante'], 'post_type' => 'vacantes', 'post_status' => 'publish', 'meta_input' => ['codigo_de_vacante' => $entry['codigo_de_vacante'], 'descripcion' => $entry['descripcion'], 'video' => $entry['video'], 'ubicacion' => $entry['ubicacion'], 'beneficios' => $beneficios, 'emi' => $entry['emi'], 'imagen_qr' => $entry['imagen_qr'], 'url_de_la_vacante' => $entry['url_de_la_vacante']]];
+
+        // VERIFICAR SI YA EXISTE LA VACANTE PARA EVITAR DUPLICADOS
+        $existing_post = get_posts([
+            'post_type'  => 'vacantes',
+            'numberposts' => 1, // Solo recuperar 1 resultado
+            'meta_query' => [
+                [
+                    'key'   => 'codigo_de_vacante',
+                    'value' => $entry['codigo_de_vacante'],
+                ]
+            ]
+        ]);
+
+        if (!empty($existing_post)) {
+            continue; // Si ya existe, saltar a la siguiente
+        }
+
+         $featured_image_url = !empty($entry['imagen_destacada']) ? trim($entry['imagen_destacada']) : 'https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/01/fondo-footer.png';
+
+        $vacante_data = [
+            'post_title'  => $entry['titulo'],
+            'post_type'   => 'vacantes',
+            'post_status' => 'draft',
+            'meta_input'  => [
+                'codigo_de_vacante' => $entry['codigo_de_vacante'],
+                'descripcion'       => $entry['descripcion'],
+                'video'             => $entry['video'],
+                'ubicacion'         => $entry['ubicacion'],
+                'beneficios'        => $beneficios,
+                'emi'               => $entry['emi'],
+                'imagen_qr'         => $entry['imagen_qr'],
+                'url_de_la_vacante' => $entry['url_de_la_vacante']
+            ]
+        ];
+
         $post_id = wp_insert_post($vacante_data);
+
         if ($post_id) {
             if (!empty($entry['categorias_vacantes'])) {
                 wp_set_object_terms($post_id, explode(',', $entry['categorias_vacantes']), 'categorias_vacantes');
@@ -110,3 +153,4 @@ function set_featured_image($post_id, $image_url) {
         set_post_thumbnail($post_id, $attachment_id);
     }
 }
+

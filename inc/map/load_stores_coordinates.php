@@ -48,6 +48,7 @@ function get_related_vacantes() {
         'post_type' => 'vacantes',
         'posts_per_page' => $vacantes_per_page,
         'offset' => $offset,
+        'post_status'    => 'publish',
         'meta_query' => [
             [
                 'key' => 'extra_data_data_tienda',
