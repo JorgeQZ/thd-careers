@@ -55,25 +55,18 @@ function process_csv_to_repeater()
 
     // Leer encabezados del archivo
     $headers = fgetcsv($file);
-    $headers = array_map(function ($header) {
-        return trim(str_replace("\xEF\xBB\xBF", '', $header));
-    }, $headers);
+    $headers = array_map('trim', $headers);
 
     // Arreglo para almacenar los datos
     $data = [];
     while (($row = fgetcsv($file)) !== false) {
-        // Verificar que la fila tenga el número correcto de columnas
         if (count($row) === count($headers)) {
-            // Eliminar BOM en cada campo de la fila y limpiar espacios
-            $row = array_map(function ($value) {
-                return trim(str_replace("\xEF\xBB\xBF", '', $value));
-            }, $row);
+            $row = array_map('trim', $row);
             $data[] = array_combine($headers, $row);
         }
     }
     fclose($file);
 
-    // Preparar los datos para el repeater
     if (function_exists('update_field')) {
         $repeater_data = [];
         foreach ($data as $entry) {
@@ -90,11 +83,31 @@ function process_csv_to_repeater()
             ];
         }
 
-        // Actualizar el repeater en ACF
-        $result = update_field('catalogo_de_tiendas', $repeater_data, 'option');
+        // Obtener los datos actuales en ACF sin sobrescribir datos manuales
+        $existing_data = get_field('catalogo_de_tiendas', 'option') ?: [];
+
+        // Crear un array asociativo para facilitar la actualización
+        $indexed_existing_data = [];
+        foreach ($existing_data as $existing_entry) {
+            $indexed_existing_data[$existing_entry['numero_de_tienda']] = $existing_entry;
+        }
+
+        // Agregar nuevos datos sin sobrescribir manuales
+        foreach ($repeater_data as $entry) {
+            $indexed_existing_data[$entry['numero_de_tienda']] = array_merge(
+                $indexed_existing_data[$entry['numero_de_tienda']] ?? [],
+                $entry
+            );
+        }
+
+        // Convertir de nuevo a un array numérico
+        $final_data = array_values($indexed_existing_data);
+
+        // Actualizar el campo en ACF
+        $result = update_field('catalogo_de_tiendas', $final_data, 'option');
 
         if ($result) {
-            echo '<div class="updated"><p>' . count($repeater_data) . ' tiendas importadas correctamente en el repeater de ACF.</p></div>';
+            echo '<div class="updated"><p>' . count($final_data) . ' tiendas importadas correctamente en el repeater de ACF.</p></div>';
         } else {
             echo '<div class="error"><p>No se pudieron guardar los datos en el repeater de ACF.</p></div>';
         }

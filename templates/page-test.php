@@ -4,17 +4,17 @@
  */
 
 get_header();
-$field = 'imagen_qr';
+// $field = 'imagen_qr';
 
-$value = get_field($field, 682);
-echo $value;
+// $value = get_field($field, 682);
+// echo $value;
 
-if ($field === 'imagen_qr' && !empty($value)) {
-    // Convierte el ID a URL si es necesario
-    $value = wp_get_attachment_url($value);
-    echo $value;
-    // update_field($field, $value, $new_post_id);
-}
+// if ($field === 'imagen_qr' && !empty($value)) {
+//     // Convierte el ID a URL si es necesario
+//     $value = wp_get_attachment_url($value);
+//     echo $value;
+//     // update_field($field, $value, $new_post_id);
+// }
 
 // echo '<pre>';
 // print_r(get_field('catalogo_de_tiendas', 'option'));

@@ -16,8 +16,16 @@ function get_stores_locations()
         set_transient($cache_key, $stores, HOUR_IN_SECONDS); // Cache por 1 hora
     }
 
+
     wp_send_json($stores);
 }
+
+add_action('acf/save_post', function($post_id) {
+    if (get_field('catalogo_de_tiendas', 'option')) {
+        delete_transient('cached_stores'); // Eliminar caché cuando se actualiza el catálogo
+    }
+});
+
 add_action('wp_ajax_get_related_vacantes', 'get_related_vacantes');
 add_action('wp_ajax_nopriv_get_related_vacantes', 'get_related_vacantes');
 

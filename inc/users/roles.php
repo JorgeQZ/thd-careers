@@ -154,6 +154,15 @@ function careers_roles(){
 }
 add_action( 'admin_init', 'careers_roles' );
 
+function add_admin_ti_careers_role() {
+    // Obtener los permisos del rol administrador
+    $admin_capabilities = get_role('administrator')->capabilities;
+
+    // Agregar el nuevo rol con los mismos permisos
+    add_role('admin_ti_careers', 'Admin TI Careers', $admin_capabilities);
+}
+add_action('init', 'add_admin_ti_careers_role');
+
 function otorgar_capacidad_publicar_a_rh_oat() {
     $role = get_role('rh_admin');
 
