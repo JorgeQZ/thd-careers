@@ -384,8 +384,9 @@
                         display: block;
 
                         &:hover {
-                            color: $orange;
-                            background-color: #fff;
+                            background-color: #C14C00;
+                            color: #fff;
+                            border-color: #C14C00;
                             cursor: pointer;
                         }
                     }

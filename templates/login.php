@@ -24,76 +24,56 @@ if (is_user_logged_in()) {
 
 // Procesar el formulario de inicio de sesión si se envía.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
-    $username = sanitize_text_field($_POST['username']);
-    if (isset($_POST['password']) && !empty(trim($_POST['password']))) {
-        // Limpiar espacios y obtener la contraseña
-        $password = trim($_POST['password']);
-    } else {
-        // Manejar casos donde la contraseña no está definida o está vacía
-        $password = null;
-        // Opcional: agregar un mensaje de error para el usuario
-        $error_message = 'La contraseña no puede estar vacía.';
-    }
-
+    $email = sanitize_email($_POST['email']);
+    $password = !empty($_POST['password']) ? trim($_POST['password']) : null;
     $remember = isset($_POST['remember']) && $_POST['remember'] === 'true';
 
-    // $error_message = handle_failed_login_attempts($username);
+    $error_message = handle_failed_login_attempts($email);
 
-    if (!$error_message) {
-        $credentials = [
-            'user_login'    => $username,
-            'user_password' => $password,
-            'remember'      => $remember,
-        ];
-
-        $user = wp_signon($credentials, false);
-
-        if (is_wp_error($user)) {
-            $error_message = $user->get_error_message();
+    if (!$error_message && $password) {
+        $user = get_user_by('email', $email);
+        if ($user) {
+            $credentials = [
+                'user_login'    => $user->user_login,
+                'user_password' => $password,
+                'remember'      => $remember,
+            ];
+            $auth_user = wp_signon($credentials, false);
+            if (!is_wp_error($auth_user)) {
+                wp_redirect(home_url());
+                exit;
+            } else {
+                $error_message = 'Credenciales incorrectas. Inténtalo de nuevo.';
+            }
         } else {
-            wp_redirect(home_url()); // Redirigir al inicio o a una página personalizada.
-            exit;
+            $error_message = 'El correo no está registrado.';
         }
     }
 }
 
 // Procesar el formulario de registro si se envía.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
-    $username = sanitize_text_field($_POST['reg_username']);
     $email = sanitize_email($_POST['reg_email']);
-    if (isset($_POST['reg_password']) && !empty(trim($_POST['reg_password']))) {
-        // Limpiar espacios en blanco y obtener la contraseña
-        $password = trim($_POST['reg_password']);
-
-        // Generar un hash seguro para la contraseña
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Puedes usar $hashed_password para guardarlo en la base de datos
-    } else {
-        // Manejo seguro si no se proporciona contraseña
-        $password = null;
-
-        // Opcional: agregar un mensaje de error o manejar la lógica correspondiente
-        // Ejemplo: $error_message = 'La contraseña no puede estar vacía.';
-    }
+    $password = !empty($_POST['reg_password']) ? trim($_POST['reg_password']) : null;
 
     $password_validation = validate_password_security($password);
-
     if ($password_validation !== true) {
         $register_error_message = $password_validation;
     } else {
-        $userdata = [
-            'user_login'    => $username,
-            'user_email'    => $email,
-            'user_pass' => isset($password) && !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : null,
-        ];
-
-        $user_id = wp_insert_user($userdata);
-
-        if (is_wp_error($user_id)) {
-            $register_error_message = $user_id->get_error_message();
+        if (email_exists($email)) {
+            $register_error_message = 'Este correo ya está registrado.';
         } else {
-            $register_success_message = 'Registro exitoso. Ahora puedes iniciar sesión.';
+            $user_id = wp_create_user($email, $password, $email);
+            if (!is_wp_error($user_id)) {
+                // Iniciar sesión automáticamente
+                $user = get_user_by('ID', $user_id);
+                wp_set_current_user($user_id);
+                wp_set_auth_cookie($user_id);
+                wp_redirect(home_url());
+                exit;
+            } else {
+                $register_error_message = 'Hubo un error al registrar el usuario. Inténtalo más tarde.';
+            }
         }
     }
 }
@@ -103,66 +83,97 @@ get_header();
 
 <div class="custom-login-wrapper" style="max-width: 500px; margin: 50px auto;">
     <h2>Iniciar Sesión</h2>
-    <?php if (!empty($error_message)) : ?>
-        <div class="error-message" style="color: red;">
-            <?php if (!empty($error_message)) : ?>
-                <div class="error-message" style="color: red;">
-                    <?php echo esc_html($error_message); ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    <?php endif; ?>
-
-    <form method="post" action="">
+    <form method="post" action="" class="login-form">
         <p>
-            <label for="username">Nombre de usuario</label>
-            <input type="text" name="username" id="username" required style="width: 100%; padding: 8px; margin-top: 5px;">
+            <label for="username">Correo eléctronico</label>
+            <input type="text" name="email" id="email" required>
         </p>
         <p>
             <label for="password">Contraseña</label>
-            <input type="password" name="password" id="password" required style="width: 100%; padding: 8px; margin-top: 5px;">
+            <div style="position: relative;">
+                <input type="password" name="password" id="password" required style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
+                <button type="button" class="toggle-password" data-target="password" style="position: absolute; right: 10px; top: 30%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px; padding-right: 10px;">
+                </button>
+            </div>
         </p>
         <p style="display: flex; justify-content: space-between; align-items: center;">
             <label>
                 <input type="checkbox" name="remember"> Recuérdame
-            </label>|
-            <a href="<?php echo get_permalink(get_page_by_path('recuperar-contrasena')); ?>">¿Olvidaste tu contraseña?</a>
+            </label>
+            <a class="recuperar" href="<?php echo get_permalink(get_page_by_path('recuperar-contrasena')); ?>">¿Olvidaste tu contraseña?</a>
         </p>
+        <?php if (!empty($error_message)) : ?>
+            <div class="error-message" style="color: red;">
+                <?php if (!empty($error_message)) : ?>
+                    <div class="error-message" style="color: red;">
+                        <?php echo sanitize_text_field($error_message); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+        <br>
         <p>
             <button type="submit" name="custom_login">Iniciar Sesión</button>
         </p>
+        <br>
+
     </form>
 
     <hr>
     <h2>¿No tienes cuenta? <span>Regístrate</span></h2>
-    <?php if (!empty($register_error_message)) : ?>
-        <div class="error-message" style="color: red;">
-            <?php echo esc_html($register_error_message); ?>
-        </div>
-    <?php elseif (!empty($register_success_message)) : ?>
-        <div class="success-message" style="color: green;">
-            <?php echo esc_html($register_success_message); ?>
-        </div>
-    <?php endif; ?>
-
     <form method="post" action="">
         <p>
-            <label for="reg_username">Nombre de usuario</label>
-            <input type="text" name="reg_username" id="reg_username" required style="width: 100%; padding: 8px; margin-top: 5px;">
-        </p>
-        <p>
-            <label for="reg_email">Correo Electrónico</label>
-            <input type="email" name="reg_email" id="reg_email" required style="width: 100%; padding: 8px; margin-top: 5px;">
+            <label for="reg_email">Correo electrónico</label>
+            <input type="email" name="reg_email" id="reg_email" required style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box">
         </p>
         <p>
             <label for="reg_password">Contraseña</label>
-            <input type="password" name="reg_password" id="reg_password" required style="width: 100%; padding: 8px; margin-top: 5px;">
+            <div style="position: relative;">
+                <input type="password" name="reg_password" id="reg_password" required style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
+                <button type="button" class="toggle-password" data-target="reg_password" style="position: absolute; right: 10px; top: 30%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px; padding-right: 10px;">
+                </button>
+            </div>
         </p>
-        <p>
+        <?php if (!empty($register_error_message)) : ?>
+            <div class="error-message" style="color: red;">
+                <?php echo esc_html($register_error_message); ?>
+            </div>
+        <?php elseif (!empty($register_success_message)) : ?>
+            <div class="success-message" style="color: green;">
+                <?php echo esc_html($register_success_message); ?>
+            </div>
+        <?php endif; ?>
+        <br>
+        <p style="margin-top: 20px">
             <button type="submit" name="custom_register">Registrarse</button>
         </p>
     </form>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let hide_icon = "<?php echo get_template_directory_uri().'/img/pwd-open-eye.png'; ?>";
+    let show_icon = "<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>";
+
+    document.querySelectorAll(".toggle-password").forEach(button => {
+        button.addEventListener("click", function() {
+            let target = document.getElementById(this.dataset.target);
+            let icon = this.querySelector(".password-icon");
+
+            if (target.type === "password") {
+                target.type = "text";
+                icon.src = hide_icon;
+            } else {
+                target.type = "password";
+                icon.src = show_icon;
+            }
+        });
+    });
+});
+</script>
+
 
 <?php
 get_footer();

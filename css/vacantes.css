@@ -457,7 +457,8 @@
   display: block;
 }
 .vacantes-cont .container .columns .column .saved-jobs .button:hover {
-  color: #f96302;
-  background-color: #fff;
+  background-color: #C14C00;
+  color: #fff;
+  border-color: #C14C00;
   cursor: pointer;
 }

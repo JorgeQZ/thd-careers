@@ -93,6 +93,11 @@
                 font-style: italic;
             }
 
+            .desc{
+                font-family: $ff-roman;
+                letter-spacing: 1px;
+            }
+
             .line {
                 position: absolute;
                 top: calc(50% - 1px);
@@ -232,9 +237,10 @@
             margin: 0 auto;
 
             &:hover {
-                border: 1px solid $orange;
-                color: $orange;
-                background-color: #fff;
+                border: 1px solid #C14C00;
+
+                background-color: #C14C00;
+                color: #fff;
             }
 
 

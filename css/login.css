@@ -62,6 +62,28 @@
   font-style: normal;
   font-display: swap;
 }
+.recuperar {
+  color: #f96302;
+}
+.recuperar:hover {
+  color: #C14C00;
+}
+
+.login-form input[type=text], .login-form input[type=password], .login-form input[type=email] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.login-form input[type=checkbox] {
+  margin-right: 5px;
+  accent-color: #f96302;
+}
+.login-form input[type=checkbox]:hover {
+  accent-color: #f96302;
+}
+
 .custom-login-wrapper span {
   color: #f96302;
 }
@@ -94,6 +116,7 @@
   margin-top: 10px;
 }
 .custom-login-wrapper button:hover {
-  background-color: #fff;
-  color: #f96302;
+  color: #fff;
+  background-color: #C14C00;
+  border-color: #C14C00;
 }

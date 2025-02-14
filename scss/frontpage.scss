@@ -121,8 +121,9 @@ $paragraph-font-size: 1.2rem;
             margin: 10px auto;
 
             &:hover{
-                background-color: #fff;
-                color: $orange;
+              background-color: #C14C00;
+              color: #fff;
+              border-color: #C14C00;
             }
         }
 
@@ -146,8 +147,9 @@ $paragraph-font-size: 1.2rem;
           margin: 10px auto;
 
           &:hover{
-              background-color: #fff;
-              color: $orange;
+            background-color: #C14C00;
+            color: #fff;
+            border-color: #C14C00;
           }
       }
 

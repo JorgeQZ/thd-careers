@@ -208,14 +208,13 @@ function hide_admin_bar_for_general_users() {
 add_action('after_setup_theme', 'hide_admin_bar_for_general_users');
 
 // Evita el acceso al área administrativa para usuarios con el rol 'General'
-function restrict_admin_access_for_general_users() {
-    if (current_user_can('subscriber') && is_admin()) {
+function restrict_admin_access_by_capabilities() {
+    if (is_admin() && !defined('DOING_AJAX') && !current_user_can('edit_posts')) {
         wp_redirect(home_url());
         exit;
     }
 }
-add_action('admin_init', 'restrict_admin_access_for_general_users');
-
+add_action('admin_init', 'restrict_admin_access_by_capabilities');
 
 add_action('admin_menu', function() {
 	if (current_user_can('rh_general')) {

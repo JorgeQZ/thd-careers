@@ -189,8 +189,9 @@
   margin: 10px auto;
 }
 .hero-banner .hero-content .search-form input[type=submit]:hover {
-  background-color: #fff;
-  color: #f96302;
+  background-color: #C14C00;
+  color: #fff;
+  border-color: #C14C00;
 }
 .hero-banner .hero-content .search-form button {
   background-color: #f96302;
@@ -216,6 +217,7 @@
   margin: 10px auto;
 }
 .hero-banner .hero-content .search-form button:hover {
-  background-color: #fff;
-  color: #f96302;
+  background-color: #C14C00;
+  color: #fff;
+  border-color: #C14C00;
 }

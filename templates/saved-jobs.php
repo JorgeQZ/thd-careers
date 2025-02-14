@@ -54,7 +54,7 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy('centros-logisticos');
                     <span>de interés</span>
                 </div>
                 <div class="display-cont">
-                   <div class="title">Para ver tus vacantes de interés debes  <a href="<?php echo home_url( ).'/login/?redirect_to='.urlencode( get_permalink() ); ?>"><span>INICIAR SESIÓN</span> </a></div>
+                   <div class="desc">Para ver tus vacantes de interés debes  <a style="color: #f96302" href="<?php echo home_url( ).'/login/?redirect_to='.urlencode( get_permalink() ); ?>"><span>INICIAR SESIÓN</span> </a></div>
                 </div>
             </div>
 

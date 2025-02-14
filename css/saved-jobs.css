@@ -156,6 +156,10 @@
   font-size: 12px;
   font-style: italic;
 }
+.vacantes-int-cont .container .display-cont .desc {
+  font-family: "Helvetica Neue LT Std";
+  letter-spacing: 1px;
+}
 .vacantes-int-cont .container .display-cont .line {
   position: absolute;
   top: calc(50% - 1px);
@@ -295,7 +299,7 @@
   margin: 0 auto;
 }
 .vacantes-int-cont .container button:hover {
-  border: 1px solid #f96302;
-  color: #f96302;
-  background-color: #fff;
+  border: 1px solid #C14C00;
+  background-color: #C14C00;
+  color: #fff;
 }

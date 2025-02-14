@@ -2,6 +2,30 @@
 @import "variables";
 @import "fonts";
 
+.recuperar{
+    color: #f96302;
+        // margin-left: auto;
+        &:hover{
+            color: #C14C00;
+        }
+}
+
+.login-form{
+    input[type="text"], input[type="password"],  input[type="email"]{
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+    }
+
+    input[type="checkbox"]{
+        margin-right: 5px;
+        accent-color: #f96302;
+        &:hover{
+            accent-color: #f96302;
+        }
+    }
+}
 .custom-login-wrapper {
     span {
         color: $orange;
@@ -28,8 +52,9 @@
         margin-top: 10px;
 
         &:hover {
-            background-color: #fff;
-            color: $orange;
+            color: #fff;
+            background-color: #C14C00;
+            border-color: #C14C00;
         }
     }
 }
