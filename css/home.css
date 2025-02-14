@@ -97,15 +97,6 @@
   border: solid #d2d2d2;
   border-width: 1px;
 }
-.botones-s2 a img.wp-image-300 {
-  margin-bottom: 44px;
-}
-.botones-s2 a img.wp-image-306 {
-  margin-bottom: 50px;
-}
-.botones-s2 a img.wp-image-307 {
-  margin-bottom: 30px;
-}
 .botones-s2 a strong {
   font-family: "Helvetica Neue LT Std BlkCn";
 }
@@ -114,14 +105,9 @@
   color: white !important;
   border-width: 1px;
 }
-.botones-s2 a:hover img.wp-image-300 {
-  content: url("https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/02/tiendablanca.png");
-}
-.botones-s2 a:hover img.wp-image-306 {
-  content: url("https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/02/camionblanco.png");
-}
-.botones-s2 a:hover img.wp-image-307 {
-  content: url("https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/02/oficinablanca.png");
+.botones-s2 a:hover img {
+  -webkit-filter: brightness(0) invert(1);
+          filter: brightness(0) invert(1);
 }
 .botones-s2 a:hover strong {
   color: white !important;
@@ -133,6 +119,10 @@
 .pilas-s2 {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
+}
+.pilas-s2 .icono-pilas-s2 img {
+  height: 75px;
+  margin-bottom: 30px;
 }
 .pilas-s2 a {
   width: 416px;

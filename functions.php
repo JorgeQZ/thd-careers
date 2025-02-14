@@ -279,7 +279,7 @@ function modify_menu_items($items, $args) {
                     $icon_url = get_template_directory_uri() . '/imgs/icono-perfil.png';
 
                     // Modifica el título para incluir la imagen y el texto
-                    $item->title = '<img src="' . esc_url($icon_url) . '" alt="Icono Perfil" class="menu-profile-icon" style="display: block; margin: 0 auto; width: 35px; padding-bottom: 10px;"><span>REGÍSTRATE <br> O INICIA SESIÓN</span>';
+                    $item->title = '<img src="' . esc_url($icon_url) . '" alt="Icono Perfil" class="menu-profile-icon" style="display: block; margin: 0 auto; width: 35px; padding-bottom: 10px;"><span>INICIA SESIÓN / REGÍSTRATE</span>';
                     $item->url = home_url().'/login/';
 
                     // Si el usuario está en la URL de login, añade una clase personalizada
@@ -357,3 +357,12 @@ if( function_exists('acf_add_options_page') ) {
         'icon_url'      => 'dashicons-admin-generic', // Ícono personalizado (opcional)
     ));
 }
+
+function replace_mark_with_span($content) {
+    // Reemplazar la apertura de <mark> con <span>
+    $content = preg_replace('/<mark([^>]*)>/', '<span$1>', $content);
+    // Reemplazar el cierre de </mark> con </span>
+    $content = str_replace('</mark>', '</span>', $content);
+    return $content;
+}
+add_filter('the_content', 'replace_mark_with_span', 20);
