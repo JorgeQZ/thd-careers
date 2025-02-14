@@ -1,6 +1,15 @@
 <?php
 
 
+function restringir_acceso_rueda_de_valores() {
+    // Verificar si el usuario tiene uno de los roles permitidos
+    if (!current_user_can('administrator') && !current_user_can('admin_ti')) {
+        // Remover la opción del menú
+        remove_menu_page('rueda-de-valores-acf');
+        remove_menu_page('rueda-de-valores');
+    }
+}
+add_action('admin_menu', 'restringir_acceso_rueda_de_valores', 99);
 
 function display_rueda()
 {

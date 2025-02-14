@@ -46,6 +46,7 @@ function data_fetch(){
 			$titulo_query = new WP_Query( array(
 				'posts_per_page' => -1,
 				'post_type' => 'vacantes',
+				'post_status' => 'publish',
 				's' => esc_attr( $_POST['keyword'] ),
 			) );
 
@@ -54,6 +55,7 @@ function data_fetch(){
 			$customfields_query = new WP_Query( array(
 				'posts_per_page' => -1,
 				'post_type' => 'vacantes',
+				'post_status' => 'publish',
 				'meta_query' => array(
 					array(
 						'key'     => 'codigo_de_vacante',
@@ -77,6 +79,7 @@ function data_fetch(){
 			$taxonomies_query = new WP_Query(array(
 				'posts_per_page' => -1,
 				'post_type'      => 'vacantes',
+				'post_status' => 'publish',
 				'tax_query'      => array(
 					array(
 						'taxonomy' => 'categorias_vacantes',

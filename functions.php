@@ -366,3 +366,4 @@ function replace_mark_with_span($content) {
     return $content;
 }
 add_filter('the_content', 'replace_mark_with_span', 20);
+

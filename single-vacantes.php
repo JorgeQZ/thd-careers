@@ -50,7 +50,7 @@ $is_logged_in = is_user_logged_in();
             </div>
             <hr>
             <div class="register-link">
-                ¿No tienes cuenta? <a href="<?php echo wp_registration_url(); ?>" class="button_sub">Regístrate aquí</a>
+                ¿No tienes cuenta?  <a href="<?php echo site_url('/login/'); ?>" class="button_sub">Regístrate aquí</a>
             </div>
         </div>
 </div><!-- PopUp -->
