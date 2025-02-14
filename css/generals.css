@@ -530,7 +530,7 @@ header .container .site-info .top__search-input-cont .resultados {
   top: 40px;
   width: 100%;
   max-height: 520px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 header .container .site-info .top__search-input-cont .resultados #contenedor-resultados {
   display: none;
@@ -716,11 +716,11 @@ header.sticky .menu-item span {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    text-align: center;
+    text-align: left;
     margin-top: 10px;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    margin: 0 auto;
+    width: 90%;
+    padding-top: 10px;
   }
   .menu-wrapper.active .menu {
     list-style-type: none;
@@ -732,6 +732,7 @@ header.sticky .menu-item span {
   }
   .menu-wrapper.active .menu .sub-menu {
     list-style-type: none;
+    padding-left: 15px;
   }
   .menu-wrapper.active .menu a {
     text-transform: uppercase;

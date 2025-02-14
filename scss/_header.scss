@@ -181,7 +181,7 @@ header {
                     top: 40px;
                     width: 100%;
                     max-height: 520px;
-                    overflow: scroll;
+                    overflow-y: scroll;
 
                     #contenedor-resultados {
                         display: none;
@@ -326,6 +326,7 @@ header {
         left: 0;
         padding: 10px 80px;
         z-index: 9999;
+
         @media (max-width: 780px) {
             padding: 10px 20px;
 
@@ -416,9 +417,11 @@ header {
 
     .menu-wrapper.active {
         display: flex;
-        text-align: center;
+        text-align: left;
         margin-top: 10px;
-        justify-content: center;
+        margin: 0 auto;
+        width: 90%;
+        padding-top: 10px;
 
         .menu {
             list-style-type: none;
@@ -431,6 +434,7 @@ header {
 
             .sub-menu {
                 list-style-type: none;
+                padding-left: 15px;
             }
 
             a {

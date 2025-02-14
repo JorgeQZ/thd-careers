@@ -19,7 +19,7 @@ function fetch(){
         type: 'post',
         data: { action: 'data_fetch', keyword: jQuery('#inputSearch').val() },
         success: function(data) {
-			jQuery('#contenedor-resultados').text(data);
+			jQuery('#contenedor-resultados').html(data);
 		}
     });
 
