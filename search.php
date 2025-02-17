@@ -105,7 +105,7 @@
                                                     $svg_content = file_get_contents($svg_path);
 
                                                     // Escapar caracteres peligrosos para prevenir XSS
-                                                    echo htmlspecialchars($svg_content, ENT_QUOTES, 'UTF-8');
+                                                    echo $svg_content;
                                                 } else {
                                                     echo 'Archivo SVG no encontrado o no válido.';
                                                 }
@@ -114,24 +114,7 @@
                                         <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                     </div>
 
-                                    <div class="icon-cont">
-                                        <div class="img">
-                                            <?php
-                                                $svg_path = get_template_directory() . '/imgs/Hora.svg';
 
-                                                if (file_exists($svg_path) && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
-                                                    // Leer el contenido del archivo SVG
-                                                    $svg_content = file_get_contents($svg_path);
-
-                                                    // Escapar caracteres peligrosos para prevenir XSS
-                                                    echo htmlspecialchars($svg_content, ENT_QUOTES, 'UTF-8');
-                                                } else {
-                                                    echo 'Archivo SVG no encontrado o no válido.';
-                                                }
-                                            ?>
-                                        </div>
-                                        <div class="text"><?php  echo get_post_meta( get_the_ID(), 'codigo_de_vacante', true ); ?></div>
-                                    </div>
                                 </div>
                             </li>
                         <?php
@@ -149,8 +132,9 @@
                             Vacantes de interes
                         </div>
                         <div class="desc">
-                            Lorem ipsum, dolor sit amet
+                            Haz clic en el botón para ver las vacantes de tu interes guardadas.
                         </div>
+                        <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                     </div>
                 </div>
             </div>
