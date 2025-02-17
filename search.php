@@ -17,6 +17,10 @@
             </div>
             <div class="row">
 
+                <?php
+                    if(get_search_query()){
+                ?>
+
                 <!-- Search Input de vacantes -->
                 <div class="input-search">
                     <input type="text" placeholder="Ingresa palabras clave del puesto" class="search-input" value="<?php echo get_search_query(); ?>">
@@ -32,6 +36,14 @@
                         ?>
                     </ul>
                 </div><!-- Search Input de vacantes -->
+
+                <?php
+                }
+                ?>
+
+                <?php
+                    if(esc_html( $_GET['ubicacion'] )){
+                ?>
 
                 <!-- Search Input de ubicaciones -->
                 <div class="input-search">
@@ -52,6 +64,10 @@
                        ?>
                     </ul>
                 </div> <!-- Search Input de ubicaciones -->
+
+                <?php
+                }
+                ?>
             </div>
 
             <div class="columns">
