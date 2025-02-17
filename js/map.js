@@ -86,6 +86,11 @@ function add_markers(data) {
 
         let coord = element.coordenadas ? element.coordenadas.split(',').map(Number) : null;
         if (!coord || coord.length !== 2 || isNaN(coord[0]) || isNaN(coord[1])) {
+            let nombre = element.nombre_de_tienda;
+            let ubicacion = element.ubicacion;
+            console.log('Ubicación inválida:', ubicacion);
+            console.log('nombre inválida:', nombre);
+
             console.error('Coordenadas inválidas:', element.coordenadas);
             return;
         }

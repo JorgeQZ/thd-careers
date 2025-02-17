@@ -254,8 +254,9 @@ iframe {
   margin-top: 10px;
 }
 .popup-cont .container .button:hover {
-  background-color: #fff;
-  color: #f96302;
+  color: #fff;
+  background-color: #C14C00;
+  border-color: #C14C00;
 }
 .popup-cont .container .button_sub {
   font-family: "Helvetica Neue LT Std BdCn";

@@ -280,6 +280,28 @@ function duplicate_post_action() {
         foreach ($acf_fields as $field) {
             $value = get_field($field, $post_id); // Obtiene el valor del campo original
 
+            if ($field === 'emi') {
+                error_log('Valor original de emi: ' . print_r($value, true)); // Depuración
+
+                if (empty($value)) {
+                    // Si el valor está vacío, intentar obtenerlo con get_post_meta
+                    $value = get_post_meta($post_id, 'emi', true);
+                    error_log('Valor de emi obtenido con get_post_meta: ' . print_r($value, true));
+                }
+
+                if (!empty($value)) {
+                    // Guardar el valor en el nuevo post
+                    update_post_meta($new_post_id, 'emi', $value); // Guarda en la base de datos
+                    update_field('emi', $value, $new_post_id); // Guarda con ACF
+                    error_log('Valor de emi guardado en el duplicado: ' . print_r(get_field('emi', $new_post_id), true));
+                }
+            } else {
+                // Guardar otros campos normalmente
+                if ($value !== null) {
+                    update_field($field, $value, $new_post_id);
+                }
+            }
+
             if ($field === 'video' && strpos($value, '<iframe') !== false) {
                 // Procesar el campo "video" para extraer el src del iframe
                 preg_match('/src="([^"]+)"/', $value, $matches);
@@ -325,7 +347,7 @@ function duplicate_post_action() {
             }
 
         }
-
+        acf_flush_value_cache($new_post_id);
         // Copiar la taxonomía personalizada "categorias_vacantes"
         $categories = wp_get_post_terms($post_id, 'categorias_vacantes');
         if (!is_wp_error($categories) && !empty($categories)) {

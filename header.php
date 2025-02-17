@@ -8,7 +8,36 @@
     <title><?php bloginfo();?></title>
     <?php wp_head();?>
 </head>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (localStorage.getItem("registro_exitoso") === "true") {
+
+        const pop_reg = document.getElementById("popup-registro");
+        pop_reg.style.display = "flex";
+        const close_reg = document.getElementById("close-reg");
+        if(close_reg){
+            close_reg.addEventListener("click", function() {
+                localStorage.removeItem("registro_exitoso");
+                pop_reg.style.display = "none";
+            });
+        }
+    }
+});
+
+
+
+</script>
 <body <?php body_class( );?>>
+    <!-- PopUp -->
+    <div class="popup-cont" id="popup-registro">
+        <div class="container">
+            <div class="close" id="close-reg">+</div>
+            <div class="title">¡Tu registro ha sido <br> <span>exitoso!</span></div>
+        </div>
+    </div><!-- PopUp -->
+
+
     <header id="header">
         <div>
             <div class="container">

@@ -152,6 +152,10 @@ function careers_styles()
         wp_enqueue_style('404', get_template_directory_uri() . '/css/404.css');
     }
 
+    if (is_page_template('templates/lost-password.php')) {
+        wp_enqueue_style('lost_password', get_template_directory_uri() . '/css/lost_password.css');
+    }
+
 }
 add_action('wp_enqueue_scripts', 'careers_styles');
 

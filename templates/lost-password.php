@@ -57,10 +57,10 @@ get_header( );
     <form method="post" action="">
         <p>
             <label for="user_email">Correo Electrónico</label>
-            <input type="email" name="user_email" id="user_email" required style="width: 100%; padding: 8px; margin-top: 5px;">
+            <input type="email" name="user_email" id="user_email" required >
         </p>
         <p>
-            <button type="submit" name="password_recovery" style="background-color: #0073aa; color: white; padding: 10px 20px; border: none; cursor: pointer;">Enviar Instrucciones</button>
+            <button type="submit" name="password_recovery">Enviar Instrucciones</button>
         </p>
     </form>
 </div>

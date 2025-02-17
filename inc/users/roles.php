@@ -215,23 +215,55 @@ function restrict_admin_access_by_capabilities() {
     }
 }
 add_action('admin_init', 'restrict_admin_access_by_capabilities');
-
 add_action('admin_menu', function() {
-	if (current_user_can('rh_general')) {
-		remove_menu_page('edit.php');
-		remove_menu_page('tools.php');
-		remove_menu_page('edit-comments.php');
-		remove_menu_page('edit.php?post_type=page');
-		remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
-		remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
-	}
-});
+    if (current_user_can('rh_general')) {
+        remove_menu_page('upload.php');
+        remove_menu_page('profile.php');
+        remove_menu_page('index.php');
+        remove_menu_page('edit.php');
+        remove_menu_page('tools.php');
+        remove_menu_page('edit-comments.php');
+        remove_menu_page('edit.php?post_type=page');
+        remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
+        remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
+
+		// Verificar el slug exacto de la página de ACF
+		remove_menu_page('catalogo-tiendas-acf');
+		remove_menu_page('catalogo-de-tiendas-y-distritos');
+
+		// Intentar remover también desde un submenú si es parte de ACF
+		remove_submenu_page('acf-options', 'catalogo-tiendas-acf');
+		remove_submenu_page('acf-options', 'catalogo-de-tiendas-y-distritos');
+    }
+
+    if (current_user_can('rh_oat')) {
+        remove_menu_page('index.php');
+        remove_menu_page('edit.php');
+        remove_menu_page('tools.php');
+        remove_menu_page('profile.php');
+        remove_menu_page('edit-comments.php');
+        remove_menu_page('edit.php?post_type=page');
+        remove_menu_page('admin.php?page=catalogo-de-tiendas-y-distritos');
+        remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
+
+        // Verificar el slug exacto de la página de ACF
+        remove_menu_page('catalogo-tiendas-acf');
+        remove_menu_page('catalogo-de-tiendas-y-distritos');
+
+        // Intentar remover también desde un submenú si es parte de ACF
+        remove_submenu_page('acf-options', 'catalogo-tiendas-acf');
+        remove_submenu_page('acf-options', 'catalogo-de-tiendas-y-distritos');
+    }
+}, 99);
+
 
 function hide_acf_options_page_for_specific_role() {
     // Check if the user has the restricted role
     if (current_user_can('rh_general')) {
         // Replace 'acf-options-page-slug' with the actual slug of the ACF options page you want to hide
         remove_menu_page('acf-options-catalogo-de-tiendas-y-distritos');
+        remove_menu_page('catalogo-tiendas-acf');
+        remove_menu_page('catalogo-de-tiendas-y-distritos');
     }
 }
 add_action('admin_menu', 'hide_acf_options_page_for_specific_role', 99);

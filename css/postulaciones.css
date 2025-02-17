@@ -502,11 +502,10 @@ body.admin-bar {
   font-family: "Helvetica Neue LT Std BdCn";
   font-size: 16px;
 }
-
 .boton-postulacion:hover {
-  background-color: white;
-  border: 1px solid #f96302;
-  color: #f96302;
+  background-color: #C14C00;
+  color: #fff;
+  border-color: #C14C00;
 }
 
 @media (max-width: 1400px) and (min-width: 501px) {

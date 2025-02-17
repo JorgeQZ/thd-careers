@@ -3,7 +3,7 @@ add_action('admin_menu', function () {
     add_menu_page(
         'CSV Uploader', // Título del menú principal
         'CSV Uploader', // Texto del menú principal
-        'manage_options', // Capacidad necesaria
+        'manage_csv_uploader', // Capacidad necesaria
         'csv-uploader', // Slug del menú principal
         'render_empty_page', // Función vacía para evitar redirección
         'dashicons-upload', // Icono del menú
@@ -14,7 +14,7 @@ add_action('admin_menu', function () {
         'csv-uploader', // Slug del menú padre
         'Cargar Catálogo de Tiendas', // Título de la página
         'Cargar Catálogo de Tiendas', // Texto del submenú
-        'manage_options', // Capacidad necesaria
+        'manage_csv_uploader', // Capacidad necesaria
         'cargar-catalogo-tiendas', // Slug de la página
         'render_csv_upload_page' // Función que renderiza la página
     );
@@ -23,12 +23,22 @@ add_action('admin_menu', function () {
         'csv-uploader',
         'Cargar Vacantes',
         'Cargar Vacantes',
-        'manage_options',
+        'manage_csv_uploader',
         'cargar-vacantes',
         'render_vacantes_upload_page'
     );
 });
 
+function agregar_capacidad_a_roles() {
+    $roles = ['administrator', 'rh_oat','rh_admin' ]; // Lista de roles que tendrán la capacidad
+    foreach ($roles as $role_name) {
+        $role = get_role($role_name);
+        if ($role) {
+            $role->add_cap('manage_csv_uploader');
+        }
+    }
+}
+add_action('init', 'agregar_capacidad_a_roles');
 function render_empty_page() {
     // Página en blanco para evitar redirección
     echo '<div class="wrap"><h1>CSV Uploader</h1><p>Selecciona una opción del menú.</p></div>';

@@ -255,9 +255,9 @@ form .act-datos {
   cursor: pointer;
 }
 form .act-datos:hover {
-  background-color: white;
-  color: #f96302;
-  border-width: 2px;
+  background-color: #C14C00;
+  color: #fff;
+  border-color: #C14C00;
 }
 form .contenedor-form input {
   width: 100%;

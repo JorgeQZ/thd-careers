@@ -69,8 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
                 $user = get_user_by('ID', $user_id);
                 wp_set_current_user($user_id);
                 wp_set_auth_cookie($user_id);
-                wp_redirect(home_url());
+                // wp_redirect(home_url());
+                echo "<script>
+                    localStorage.setItem('registro_exitoso', 'true');
+                    window.location.href = '".home_url()."';
+                </script>";
                 exit;
+
             } else {
                 $register_error_message = 'Hubo un error al registrar el usuario. Inténtalo más tarde.';
             }
@@ -93,7 +98,7 @@ get_header();
             <div style="position: relative;">
                 <input type="password" name="password" id="password" required style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
                 <button type="button" class="toggle-password" data-target="password" style="position: absolute; right: 10px; top: 30%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px; padding-right: 10px;">
+                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px; padding-right: 10px;" />
                 </button>
             </div>
         </p>
