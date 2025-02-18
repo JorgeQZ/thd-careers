@@ -3,7 +3,7 @@
 
 function restringir_acceso_rueda_de_valores() {
     // Verificar si el usuario tiene uno de los roles permitidos
-    if (!current_user_can('administrator') && !current_user_can('admin_ti')) {
+    if (!current_user_can('administrator') && !current_user_can('admin_ti_careers')) {
         // Remover la opción del menú
         remove_menu_page('rueda-de-valores-acf');
         remove_menu_page('rueda-de-valores');

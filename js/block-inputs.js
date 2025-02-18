@@ -1,6 +1,8 @@
 (function($) {
     $(document).ready(function() {
-        if(block_inputs_query_vars.user_role != 'administrator' &&block_inputs_query_vars.user_role != 'rh_admin') {
+        console.log(block_inputs_query_vars.user_role);
+
+        if(block_inputs_query_vars.user_role != 'administrator' &&block_inputs_query_vars.user_role != 'rh_admin' &&block_inputs_query_vars.user_role != 'admin_ti_careers') {
 
                 $('.input-search').prop('disabled', true)
 

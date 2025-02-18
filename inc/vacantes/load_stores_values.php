@@ -14,6 +14,10 @@ function load_stores_data()
     $current_user_id = get_current_user_id();
     $table = get_field('catalogo_de_tiendas', 'option');
     switch ($role):
+
+        case 'admin_ti_careers':
+            return $table;
+            break;
         case 'administrator':
             return $table;
             break;

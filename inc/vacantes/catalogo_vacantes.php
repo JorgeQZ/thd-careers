@@ -19,7 +19,7 @@ function seccion_catalogo_vacantes() {
 // Asignar capacidad personalizada a múltiples roles
 function agregar_capacidad_a_roles_personalizados() {
     // Lista de roles que deben tener acceso al menú
-    $roles_permitidos = ['administrator', 'rh_admin', 'rh_oat', 'rh_general'];
+    $roles_permitidos = ['administrator', 'rh_admin', 'rh_oat', 'rh_general', 'admin_ti_careers'];
 
     foreach ($roles_permitidos as $role_name) {
         $role = get_role($role_name);
@@ -393,7 +393,7 @@ function custom_vacante_slug_with_admin_check($slug, $post_ID, $post_status, $po
             $base_slug = sanitize_title($codigo_de_vacante . '-' . $extra_data_data_tienda);
 
             // Verificar si el usuario es administrador
-            if (current_user_can('administrator')) {
+            if (current_user_can('administrator') ) {
                 $slug = $base_slug . '-admin'; // Añadir sufijo para admins
             } else {
                 $slug = $base_slug; // Mantener el slug estándar
@@ -487,11 +487,17 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
         }
     }
 }
-
 add_action('save_post', 'update_slug_after_save', 10, 3);
+
 function update_slug_after_save($post_ID, $post, $update) {
     // Evitar que se ejecute en actualizaciones recursivas
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (wp_is_post_autosave($post_ID) || wp_is_post_revision($post_ID)) return;
+
+    // Evitar bucle infinito
+    static $updating = false;
+    if ($updating) return;
+    $updating = true;
 
     if ($post->post_type === 'vacantes') {
         $codigo_de_vacante = get_field('codigo_de_vacante', $post_ID);
@@ -499,25 +505,30 @@ function update_slug_after_save($post_ID, $post, $update) {
 
         if (!empty($codigo_de_vacante) && !empty($extra_data_data_tienda)) {
             $base_slug = sanitize_title($codigo_de_vacante . '-' . $extra_data_data_tienda);
-            $slug = current_user_can('administrator') ? $base_slug . '-admin' : $base_slug;
+            $slug = (current_user_can('administrator') || current_user_can('admin_ti_careers')) ? $base_slug . '-admin' : $base_slug;
 
             // Verificar si el slug realmente ha cambiado
             if ($post->post_name !== $slug) {
                 // Actualizar el slug directamente en la base de datos
+                remove_action('save_post', 'update_slug_after_save'); // Remover el hook temporalmente
                 wp_update_post(array(
                     'ID' => $post_ID,
                     'post_name' => $slug
                 ));
+                add_action('save_post', 'update_slug_after_save', 10, 3); // Reagregar el hook
             }
         }
     }
+
+    $updating = false;
 }
+
 
 
 function restringir_campos_acf_por_rol($field) {
     // Verificar si el usuario no es un administrador
 
-        if (!current_user_can('administrator') && !current_user_can('rh_admin')) {
+        if (!current_user_can('administrator') && !current_user_can('rh_admin') && !current_user_can('admin_ti_careers')) {
 
         // Para los campos de tipo "checkbox", deshabilitar las opciones
         if ($field['type'] == 'checkbox' || $field['type'] == 'radio' || $field['type'] == 'image') {
@@ -550,7 +561,7 @@ add_filter('acf/load_field/name=imagen_qr', 'restringir_campos_acf_por_rol');
 
 function agregar_script_desactivar_checkboxes() {
     // Asegurarse de que solo cargue en el admin
-    if (!current_user_can('administrator') && !current_user_can('rh_admin')) {
+    if (!current_user_can('administrator') && !current_user_can('rh_admin') && !current_user_can('admin_ti_careers')) {
 
         wp_enqueue_script('block-inputs', get_template_directory_uri() . '/js/block-inputs.js', array('jquery'), null, true);
 
@@ -589,7 +600,7 @@ function restrict_publish_for_admin_vacantes($post_ID, $post, $update) {
     // Asegurarnos de que solo se aplique al CPT 'vacantes'
     if ($post->post_type === 'vacantes') {
         // Verificar si el autor del post es un administrador
-        if (current_user_can('administrator')) {
+        if (current_user_can('administrator') || current_user_can('admin_ti_careers')) {
             // Si el post está siendo publicado (estado 'publish'), cambiarlo a 'draft'
             if ($post->post_status === 'publish') {
                 // Evitar la ejecución de la función si es un auto-guardado

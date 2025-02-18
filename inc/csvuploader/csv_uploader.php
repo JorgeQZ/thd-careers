@@ -30,7 +30,7 @@ add_action('admin_menu', function () {
 });
 
 function agregar_capacidad_a_roles() {
-    $roles = ['administrator', 'rh_oat','rh_admin' ]; // Lista de roles que tendrán la capacidad
+    $roles = ['administrator', 'rh_oat','rh_admin', 'admin_ti_careers']; // Lista de roles que tendrán la capacidad
     foreach ($roles as $role_name) {
         $role = get_role($role_name);
         if ($role) {
