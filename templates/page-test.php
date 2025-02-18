@@ -4,6 +4,37 @@
  */
 
 get_header();
+global $wpdb;
+
+$blog_id = get_current_blog_id(); // Obtiene el ID del subsitio actual
+$table_name = $wpdb->get_blog_prefix($blog_id) . 'options'; // Asegura que se use la tabla correcta
+
+echo $table_name . '<br>';
+
+$query = "SELECT * FROM {$table_name}  WHERE option_name LIKE %s";
+$results = $wpdb->get_results($wpdb->prepare($query, 'options_catalogo%'));
+
+if (!empty($results)) {
+    foreach ($results as $row) {
+        echo 'Option Name: ' . esc_html($row->option_name) . '<br>';
+        echo 'Option Value: ' . esc_html($row->option_value) . '<br><br>';
+    }
+} else {
+    echo 'No results found.';
+}
+
+echo '========================<br>';
+$query = "SELECT * FROM {$table_name}  WHERE option_name LIKE %s";
+$results = $wpdb->get_results($wpdb->prepare($query, '%options_catalogo%'));
+
+if (!empty($results)) {
+    foreach ($results as $row) {
+        echo 'Option Name: ' . esc_html($row->option_name) . '<br>';
+        echo 'Option Value: ' . esc_html($row->option_value) . '<br><br>';
+    }
+} else {
+    echo 'No results found.';
+}
 // $field = 'imagen_qr';
 
 // $value = get_field($field, 682);
