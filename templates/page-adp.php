@@ -8,11 +8,15 @@ get_header();
 
 <body>
 
-    <?php
-        while ( have_posts() ) : the_post();
-            the_content();
-        endwhile;
-    ?>
+    <div class="contenedor-adp">
+
+        <?php
+            while ( have_posts() ) : the_post();
+                the_content();
+            endwhile;
+        ?>
+
+    </div>
 
     <?php  get_footer(); ?>
 </body>

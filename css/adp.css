@@ -1,0 +1,18 @@
+.contenedor-adp {
+  margin: 0 auto;
+  width: 1280px;
+  padding: 50px 0px;
+}
+
+@media (max-width: 1300px) and (min-width: 687px) {
+  .contenedor-adp {
+    padding: 50px 80px;
+    width: auto;
+  }
+}
+@media (max-width: 686px) {
+  .contenedor-adp {
+    width: 90%;
+    padding: auto;
+  }
+}

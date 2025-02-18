@@ -130,6 +130,11 @@ function careers_styles()
         wp_enqueue_style('vacantes', get_template_directory_uri() . '/css/vacantes.css');
     }
 
+    if (is_page_template('templates/page-adp.php')) {
+        wp_enqueue_style('adp', get_template_directory_uri() . '/css/adp.css');
+    }
+
+
     if (is_singular('vacantes')) {
         wp_enqueue_style('postulaciones', get_template_directory_uri() . '/css/postulaciones.css');
     }
