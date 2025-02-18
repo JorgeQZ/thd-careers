@@ -233,6 +233,7 @@ p {
 
 .subcontenido-tab1-tab1 {
     border: solid #a6a6a6 1px;
+    background-color: #a6a6a6;
     width: 22.8%;
     height: 150px;
     display: grid;
@@ -244,7 +245,9 @@ p {
     background-color: #f96302;
 
     .titulo-contenido-tab1-tab1 {
-        display: none;
+        font-size: 25px;
+        margin-top: 10px;
+        z-index: 15;
     }
 
     .descripcion-contenido-tab1-tab1 {
@@ -252,19 +255,40 @@ p {
         text-align: center;
         margin: 0 auto;
         width: 80%;
+        margin-bottom: 10px;
+        z-index: 15;
+    }
+
+    .icono-contenido-tab1-tab1 {
+        display: none;
+    }
+
+    .icono-hover-contenido-tab1-tab1 {
+        display: block;
+        position: absolute;
     }
 }
 
 .titulo-contenido-tab1-tab1 {
     font-family: $ff-blkcn;
-    color: #a6a6a6;
-    padding-top: 10px;
+    color: white;
     font-size: 30px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .descripcion-contenido-tab1-tab1 {
     display: none;
     color: white;
+}
+
+.icono-contenido-tab1-tab1 {
+    padding-top: 10px;
+}
+
+.icono-hover-contenido-tab1-tab1 {
+    display: none;
 }
 
 // S3 - TAB 2
