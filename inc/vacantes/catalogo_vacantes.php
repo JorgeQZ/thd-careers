@@ -104,7 +104,7 @@ class Vacantes_List_Table extends WP_List_Table {
     public function prepare_items() {
         // Obtener los usuarios con los roles 'administrator' y 'rh_admin'
         $args_users = [
-            'role__in' => ['administrator', 'rh_admin'],
+            'role__in' => ['administrator', 'rh_admin', 'admin_ti_careers'],
             'fields'   => 'ID', // Solo queremos los IDs de los usuarios
         ];
 
@@ -393,7 +393,7 @@ function custom_vacante_slug_with_admin_check($slug, $post_ID, $post_status, $po
             $base_slug = sanitize_title($codigo_de_vacante . '-' . $extra_data_data_tienda);
 
             // Verificar si el usuario es administrador
-            if (current_user_can('administrator') ) {
+            if (current_user_can('administrator') || current_user_can('admin_ti_careers') || current_user_can('rh_admin')) {
                 $slug = $base_slug . '-admin'; // Añadir sufijo para admins
             } else {
                 $slug = $base_slug; // Mantener el slug estándar

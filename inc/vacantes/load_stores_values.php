@@ -71,6 +71,7 @@ function load_stores_data()
 // }
 
 add_filter('acf/load_field/name=ubicacion', 'load_values_values_catalogo');
+
 function load_values_values_catalogo($field)
 {
     static $is_executing = false;
@@ -81,15 +82,41 @@ function load_values_values_catalogo($field)
 
     $stores = load_stores_data();
 
-    // Asegúrate de que $stores sea un array antes de usar foreach
-    if (is_array($stores)) {
-        $field['required'] = true;
-        foreach ($stores as $store) {
-            $field['choices'][$store['numero_de_tienda'] . '-' . $store['distrito'] . '-' . $store['correo']] = $store['nombre_de_tienda'] . " (" . $store['ubicacion'] . ")";
+    // Asegurar que $stores sea un array antes de usar foreach
+    if (!is_array($stores)) {
+        error_log('load_stores_data no devolvió un array.');
+        return $field;
+    }
+
+    // Obtener el usuario actual
+    $current_user = wp_get_current_user();
+
+    // Verificar si el usuario tiene el rol "rh_general"
+    if (in_array('rh_general', $current_user->roles)) {
+        // Seleccionar una tienda específica (puedes modificar la lógica según necesidad)
+        $user_store = reset($stores); // Tomar la primera tienda de la lista
+
+        if ($user_store) {
+            // Crear la única opción disponible
+            $option_key = $user_store['numero_de_tienda'] . '-' . $user_store['distrito'];
+            $option_label = $user_store['nombre_de_tienda'] . " (" . $user_store['ubicacion'] . ")";
+
+            $field['choices'] = [$option_key => $option_label];
+            $field['default_value'] = $option_key;
+            $field['value'] = $option_key; // Asegurar que esté seleccionado por defecto
+            $field['readonly'] = true; // Hacer el campo solo lectura en lugar de deshabilitarlo
+            $field['required'] = true;  // Deshabilitar el campo
+
+        } else {
+            error_log("No se encontró tienda para el usuario 'rh_general'.");
         }
     } else {
-        // Manejar el caso donde $stores no es un array
-        error_log('load_stores_data no devolvió un array.');
+        // Cargar normalmente para otros roles
+        $field['required'] = true;
+        foreach ($stores as $store) {
+            $field['choices'][$store['numero_de_tienda'] . '-' . $store['distrito']] =
+                $store['nombre_de_tienda'] . " (" . $store['ubicacion'] . ")";
+        }
     }
 
     return $field;

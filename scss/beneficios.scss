@@ -235,7 +235,7 @@ p {
     border: solid #a6a6a6 1px;
     background-color: #a6a6a6;
     width: 22.8%;
-    height: 150px;
+    height: 250px;
     display: grid;
     justify-items: center;
     align-items: center;
@@ -245,7 +245,7 @@ p {
     background-color: #f96302;
 
     .titulo-contenido-tab1-tab1 {
-        font-size: 25px;
+        font-size: 16px;
         margin-top: 10px;
         z-index: 15;
     }
@@ -257,6 +257,7 @@ p {
         width: 80%;
         margin-bottom: 10px;
         z-index: 15;
+        font-size: 14px;
     }
 
     .icono-contenido-tab1-tab1 {
@@ -272,7 +273,7 @@ p {
 .titulo-contenido-tab1-tab1 {
     font-family: $ff-blkcn;
     color: white;
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
