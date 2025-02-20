@@ -97,8 +97,8 @@ get_header();
             <label for="password">Contraseña</label>
             <div style="position: relative;">
                 <input type="password" name="password" id="password" required style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
-                <button type="button" class="toggle-password" data-target="password" style="position: absolute; right: 10px; top: 30%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px; padding-right: 10px;" />
+                <button type="button" class="toggle-password" data-target="password" style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px;" />
                 </button>
             </div>
         </p>
@@ -132,12 +132,12 @@ get_header();
             <label for="reg_email">Correo electrónico</label>
             <input type="email" name="reg_email" id="reg_email" required style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box">
         </p>
-        <p>
+        <p style="margin-bottom: 0;">
             <label for="reg_password">Contraseña</label>
             <div style="position: relative;">
                 <input type="password" name="reg_password" id="reg_password" required style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
-                <button type="button" class="toggle-password" data-target="reg_password" style="position: absolute; right: 10px; top: 30%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px; padding-right: 10px;">
+                <button type="button" class="toggle-password" data-target="reg_password" style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px;">
                 </button>
             </div>
         </p>

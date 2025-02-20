@@ -22,6 +22,7 @@ body.admin-bar {
     position: relative;
     width: 100%;
     box-sizing: border-box;
+
     @media (max-width: 780px) {
         padding: 0 10px;
     }
@@ -59,6 +60,10 @@ body.admin-bar {
             .title-cont {
                 .term {
                     display: none;
+
+                    a {
+                        color: white;
+                    }
                 }
 
                 .title {
@@ -91,6 +96,10 @@ body.admin-bar {
                 font-family: $ff-roman;
                 text-decoration: underline;
                 text-transform: capitalize;
+
+                a {
+                    color: white;
+                }
             }
 
             .title {
@@ -142,9 +151,11 @@ body.admin-bar {
 
         .column {
             width: 50%;
+
             @media (max-width: 780px) {
                 width: 100%;
             }
+
             .desc {
                 padding-right: 20px;
                 font-family: $ff-roman;
@@ -288,6 +299,7 @@ body.admin-bar {
         width: 1265px;
         height: 100px;
         background-color: #b2b2b2;
+
         @media (max-width: 780px) {
             max-width: 100%
         }
@@ -446,7 +458,8 @@ body.admin-bar {
     padding-right: 25px;
     font-family: $ff-bdcn;
     font-size: 16px;
-    &:hover{
+
+    &:hover {
         background-color: #C14C00;
         color: #fff;
         border-color: #C14C00;

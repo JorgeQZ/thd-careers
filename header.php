@@ -16,12 +16,26 @@ document.addEventListener("DOMContentLoaded", function() {
         const pop_reg = document.getElementById("popup-registro");
         pop_reg.style.display = "flex";
         const close_reg = document.getElementById("close-reg");
+
+        var closeRegistro = document.getElementsByClassName("closebtnpopupRegistro");
+
+        var cerrarPopupRegistro = function() {
+            //localStorage.removeItem("registro_exitoso");
+            pop_reg.style.display = "none";
+        };
+
+        for (var i = 0; i < closeRegistro.length; i++) {
+            closeRegistro[i].addEventListener('click', cerrarPopupRegistro, false);
+        }
+
+        /*
         if(close_reg){
             close_reg.addEventListener("click", function() {
                 localStorage.removeItem("registro_exitoso");
                 pop_reg.style.display = "none";
             });
         }
+        */
     }
 });
 
@@ -32,8 +46,9 @@ document.addEventListener("DOMContentLoaded", function() {
     <!-- PopUp -->
     <div class="popup-cont" id="popup-registro">
         <div class="container">
-            <div class="close" id="close-reg">+</div>
+            <div class="close closebtnpopupRegistro" id="close-reg">+</div>
             <div class="title">¡Tu registro ha sido <br> <span>exitoso!</span></div>
+            <button class="button closebtnpopupRegistro">Cerrar</button>
         </div>
     </div><!-- PopUp -->
 

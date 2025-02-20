@@ -75,8 +75,9 @@ if (isset($_POST['submit'])) {
 
 <div class="popup-cont" id="mensajeExito">
     <div class="container">
-        <div class="close" id="close-mensaje">+</div>
+        <div class="close closebtnpopup" id="close-mensaje">+</div>
         <div class="title">Tu perfil ha <br> sido actualizado<span> correctamente</span></div>
+        <button class="button closebtnpopup">Cerrar</button>
     </div>
 </div><!-- PopUp -->
 
@@ -397,16 +398,26 @@ if (isset($_POST['submit'])) {
     document.addEventListener('DOMContentLoaded', function () {
         // Mostrar el mensaje de éxito por 5 segundos
 
-        const close = document.getElementById("close-mensaje");
+        //const close = document.getElementById("close-mensaje");
 
         const mensaje = document.getElementById('mensajeExito');
 
+        var close = document.getElementsByClassName("closebtnpopup");
+
+        var cerrarPopup = function() {
+            mensaje.style.display = "none";
+        };
+
+        for (var i = 0; i < close.length; i++) {
+            close[i].addEventListener('click', cerrarPopup, false);
+        }
+/*
         if(close){
             close.addEventListener("click", function() {
                 mensaje.style.display = "none";
             });
         }
-
+*/
         // Configurar visibilidad inicial según los valores actuales
         const pregunta1Actual = "<?php echo esc_js($pregunta1_actual); ?>";
         const pregunta2Actual = "<?php echo esc_js($pregunta2_actual); ?>";
