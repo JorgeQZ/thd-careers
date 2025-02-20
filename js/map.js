@@ -165,7 +165,7 @@ function loadMoreVacantes(numeroDeTienda, currentPage, nombre, ubicacion, circle
                             ${ubicacion}<br>
                         </div>
                         <ul>${existingLinks}</ul>
-                        <p style="padding: 5px;">No hay más vacantes disponibles.</p>
+                        <p style="padding: 5px;">Por el momento, no hay vacantes disponibles</p>
                     `;
                     circle.setPopupContent(popupContent);
                     return;
@@ -182,7 +182,7 @@ function loadMoreVacantes(numeroDeTienda, currentPage, nombre, ubicacion, circle
                     <ul>${combinedLinks}</ul>
                     ${responseData.data.length > 0 ?
                         `<button class="load-more" onclick="loadMoreVacantes('${numeroDeTienda}', ${currentPage + 1}, '${nombre}', '${ubicacion}', ${circleId})">Cargar más vacantes</button>` :
-                        `<p style="padding: 5px;">No hay más vacantes disponibles.</p>`}
+                        `<p style="padding: 5px;">Por el momento, no hay vacantes disponibles.</p>`}
                 `;
                 circle.setPopupContent(popupContent);
             } else {

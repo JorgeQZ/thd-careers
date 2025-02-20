@@ -235,9 +235,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if(butto_login){
-
-
-
         butto_login.addEventListener("click", function() {
             login.style.display = "flex";
         });

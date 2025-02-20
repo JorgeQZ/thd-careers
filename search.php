@@ -13,7 +13,7 @@
         <div class="container">
             <?php the_content(); ?>
             <div class="title">
-                Nuestra <span>vacantes</span>
+                Nuestras <span>vacantes</span>
             </div>
             <div class="row">
 
@@ -129,10 +129,10 @@
                 <div class="column">
                     <div class="saved-jobs">
                         <div class="title">
-                            Vacantes de interes
+                            Vacantes de interés
                         </div>
                         <div class="desc">
-                            Haz clic en el botón para ver las vacantes de tu interes guardadas.
+                            Haz clic en el botón para ver las vacantes de tu interés guardadas.
                         </div>
                         <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                     </div>
