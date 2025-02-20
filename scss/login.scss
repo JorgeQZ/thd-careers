@@ -2,30 +2,39 @@
 @import "variables";
 @import "fonts";
 
-.recuperar{
+.recuperar {
     color: #f96302;
-        // margin-left: auto;
-        &:hover{
-            color: #C14C00;
-        }
+
+    // margin-left: auto;
+    &:hover {
+        color: #C14C00;
+    }
 }
 
-.login-form{
-    input[type="text"], input[type="password"],  input[type="email"]{
+.login-form {
+    p {
+        margin-bottom: 0;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
         width: 100%;
         padding: 8px;
         margin-top: 5px;
         box-sizing: border-box;
     }
 
-    input[type="checkbox"]{
+    input[type="checkbox"] {
         margin-right: 5px;
         accent-color: #f96302;
-        &:hover{
+
+        &:hover {
             accent-color: #f96302;
         }
     }
 }
+
 .custom-login-wrapper {
     span {
         color: $orange;

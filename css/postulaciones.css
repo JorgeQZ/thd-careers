@@ -129,6 +129,9 @@ body.admin-bar {
 .banner.sticky .container .title-cont .term {
   display: none;
 }
+.banner.sticky .container .title-cont .term a {
+  color: white;
+}
 .banner.sticky .container .title-cont .title {
   font-size: 28px;
 }
@@ -158,6 +161,9 @@ body.admin-bar {
   font-family: "Helvetica Neue LT Std";
   text-decoration: underline;
   text-transform: capitalize;
+}
+.banner .container .title-cont .term a {
+  color: white;
 }
 .banner .container .title-cont .title {
   font-family: "Helvetica Neue LT Std HvCn";

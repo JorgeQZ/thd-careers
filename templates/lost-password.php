@@ -56,7 +56,7 @@ get_header( );
 
     <form method="post" action="">
         <p>
-            <label for="user_email">Correo Electrónico</label>
+            <label for="user_email">Correo electrónico</label>
             <input type="email" name="user_email" id="user_email" required >
         </p>
         <p>

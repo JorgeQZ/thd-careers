@@ -10,6 +10,9 @@ if ($current_post_id) {
             $terms = wp_get_post_terms($current_post_id, $taxonomy);
             $term = $terms[0];
             $term_name = $term->name;
+            $term_url_real = get_term_link($term);
+            $aux = strpos($term_url_real, "categorias_vacantes/");
+            $term_url = substr($term_url_real, $aux + strlen("categorias_vacantes/"));
     }
 }
 
@@ -79,7 +82,7 @@ $is_logged_in = is_user_logged_in();
 <div class="banner" id="vacante-banner" style="background-color: <?php echo getColorCat($term_name);?>; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>)">
     <div class="container">
         <div class="title-cont">
-            <div class="term"><?php echo $term_name; ?> </div>
+            <div class="term"> <a href="<?php echo $term_url; ?>"> <?php echo $term_name; ?> </a> </div>
             <div class="title"> <?php the_title(); ?> </div>
         </div>
         <?php if ($is_logged_in): ?>
