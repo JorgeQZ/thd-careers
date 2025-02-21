@@ -196,37 +196,34 @@ document.addEventListener('DOMContentLoaded', function () {
      * Se agrega logout el sub menu:
      */
     var isLoggedIn = document.body.classList.contains('logged-in');
-    if (isLoggedIn) {
-        // Selecciona el menú "Mi perfil" (ajusta la clase según tu estructura de menú)
-        var perfilMenuItem = document.querySelector('.menu-item-mi-perfil');
+    var perfilMenuItems = document.querySelectorAll('.menu-item-mi-perfil');
 
+    perfilMenuItems.forEach(perfilMenuItem => {
+        var subMenu = perfilMenuItem.querySelector('.sub-menu');
 
-        // Asegúrate de que el perfil del menú tenga un submenú
-        var subMenu = perfilMenuItem ? perfilMenuItem.querySelector('.sub-menu') : null;
+        if (isLoggedIn) {
+            if (subMenu) {
+                // Verifica si ya existe el botón de "Cerrar sesión" para evitar duplicados
+                if (!subMenu.querySelector('.logout')) {
+                    var logoutItem = document.createElement('li');
+                    logoutItem.classList.add('menu-item', 'logout');
 
-        if (subMenu) {
-            // Crea el elemento <li> para el botón de "Cerrar sesión"
-            var logoutItem = document.createElement('li');
-            logoutItem.classList.add('menu-item', 'logout');
+                    var logoutLink = document.createElement('a');
+                    logoutLink.href = ajax_query_vars?.logoutUrl || '/logout'; // Maneja posible undefined
+                    logoutLink.textContent = 'Cerrar sesión';
 
-            // Crea el enlace de "Cerrar sesión"
-            var logoutLink = document.createElement('a');
+                    logoutItem.appendChild(logoutLink);
+                    subMenu.appendChild(logoutItem);
+                }
+            }
+        } else {
+            // Si el usuario no está logueado, eliminar submenús y clases
+            perfilMenuItem.classList.remove('menu-item-has-children');
 
-            logoutLink.href = ajax_query_vars.logoutUrl;  // Utiliza la URL de cierre de sesión de PHP
-            logoutLink.textContent = 'Cerrar sesión';
-
-            // Agrega el enlace dentro del <li>
-            logoutItem.appendChild(logoutLink);
-
-            // Agrega el nuevo <li> al submenú
-            subMenu.appendChild(logoutItem);
+            if (subMenu) {
+                subMenu.remove();
+            }
         }
-    }else{
-        var perfilMenuItem = document.querySelector('.menu-item-mi-perfil');
-        var subMenu = perfilMenuItem ? perfilMenuItem.querySelector('.sub-menu') : null;
-
-        perfilMenuItem.classList.remove('menu-item-has-children');
-        subMenu.remove();
-    }
+    });
 });
 

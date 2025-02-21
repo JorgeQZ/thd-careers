@@ -139,41 +139,42 @@ $is_logged_in = is_user_logged_in();
                             }
                             ?>
                             <li class="item" data-id="<?php echo get_the_id(); ?>" data-tienda="<?php echo get_field('extra_data_data_tienda'); ?>" data-title="<?php echo get_the_title()?>">
-                                <div class="img">
-                                    <img src="<?php echo get_template_directory_uri() . '/imgs/logo-thd.jpg' ?>" alt="">
-                                </div>
-                                <div class="desc">
-                                    <a href="<?php the_permalink();?>"><?php echo get_the_title(); ?></a>
+                                <a href="<?php the_permalink();?>">
+                                    <div class="img">
+                                        <img src="<?php echo get_template_directory_uri() . '/imgs/logo-thd.jpg' ?>" alt="">
+                                    </div>
+                                    <div class="desc">
+                                        <div class="job-title"><?php echo get_the_title(); ?></div>
+                                        <div class="icon-cont">
+                                            <div class="img">
+                                                <?php
+                                                    $file_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
 
-                                    <div class="icon-cont">
+                                                    if (file_exists($file_path)) {
+                                                        // Mostrar el contenido del SVG directamente
+                                                        echo file_get_contents($file_path);
+                                                    } else {
+                                                        echo 'Archivo SVG no encontrado.';
+                                                    }
+                                                ?>
+                                            </div>
+                                            <div class="text"><?php echo $ubicacion_formateada; ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="fav">
                                         <div class="img">
                                             <?php
-                                                $file_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
+                                                $file_path = get_template_directory() . '/imgs/me-gusta.svg';
 
                                                 if (file_exists($file_path)) {
-                                                    // Mostrar el contenido del SVG directamente
-                                                    echo file_get_contents($file_path);
+                                                    echo file_get_contents($file_path); // Asegúrate de que el archivo sea seguro
                                                 } else {
-                                                    echo 'Archivo SVG no encontrado.';
+                                                    echo 'Archivo no encontrado.';
                                                 }
                                             ?>
                                         </div>
-                                        <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                     </div>
-                                </div>
-                                <div class="fav">
-                                    <div class="img">
-                                        <?php
-                                            $file_path = get_template_directory() . '/imgs/me-gusta.svg';
-
-                                            if (file_exists($file_path)) {
-                                                echo file_get_contents($file_path); // Asegúrate de que el archivo sea seguro
-                                            } else {
-                                                echo 'Archivo no encontrado.';
-                                            }
-                                        ?>
-                                    </div>
-                                </div>
+                                </a>
                             </li>
                         <?php
                         endwhile;
