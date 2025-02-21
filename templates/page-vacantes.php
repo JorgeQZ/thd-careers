@@ -16,9 +16,36 @@ if($term != ''){
     $unique_titles = get_unique_vacantes_titles();
     $ubicaciones = get_unique_locations();
 }
+$is_logged_in = is_user_logged_in();
 
 
 ?>
+<!-- PopUp -->
+
+<div class="popup-cont" id="popup-login">
+        <div class="container">
+            <div class="close" id="close-login">+</div>
+            <div class="title">Inicia sesión o <span>Regístrate</span></div>
+            <div class="desc">
+                Para poder postularte, es necesario que inicies sesión. Si aún no cuentas con una cuenta, puedes registrarte de manera rápida y sencilla. <br><br>
+            </div>
+            <div class="login-form">
+                <!-- Formulario de login -->
+                <form action="<?php echo wp_login_url(); ?>" method="post">
+                     <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
+
+                    <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
+                    <input type="hidden" name="redirect_to" value="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" />
+                    <br>
+                    <button type="submit" class="button_sub">Iniciar sesión</button>
+                </form>
+            </div>
+            <hr>
+            <div class="register-link">
+                ¿No tienes cuenta?  <a href="<?php echo site_url('/login/'); ?>" class="button_sub">Regístrate aquí</a>
+            </div>
+        </div>
+</div><!-- PopUp -->
 
 
 <!-- Banner con el titulo de la página -->
@@ -34,7 +61,7 @@ if($term != ''){
         <div class="container">
             <?php the_content(); ?>
             <div class="title">
-                Nuestra <span>vacantes</span>
+                Nuestras <span>vacantes</span>
             </div>
             <div class="row">
 
@@ -80,6 +107,7 @@ if($term != ''){
                     <?php
                     $args = array(
                         'post_type' => 'vacantes',
+                        'post_status' => 'publish',
                         'order' => 'ASC',
                         'orderby' => 'title',
                     );
@@ -157,10 +185,10 @@ if($term != ''){
                 <div class="column">
                     <div class="saved-jobs">
                         <div class="title">
-                            Vacantes de interes
+                            Vacantes de interés
                         </div>
                         <div class="desc">
-                            Haz clic en el botón para ver las vacantes de tu interes guardadas.
+                            Haz clic en el botón para ver las vacantes de tu interés guardadas.
                         </div>
                         <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                     </div>

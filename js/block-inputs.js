@@ -10,8 +10,16 @@
 
                 $('.edit-slug, .page-title-action, .categorias_vacantes-tabs .tabs, #categorias_vacantesdiv .hide-if-no-js').remove();
 
-                $('.deshabilitado-checkbox input[type="checkbox"], .deshabilitado-checkbox input[type="radio"], .deshabilitado-checkbox input[type="image"]').each(function() {
-                    $(this).prop('disabled', true);
+                $('.deshabilitado-checkbox input[type="checkbox"], .deshabilitado-checkbox input[type="radio"], .deshabilitado-checkbox input[type="image"],  .deshabilitado-checkbox select').each(function() {
+                    $(this).prop('readonly', true);
+                });
+
+                $('.deshabilitado-checkbox input[type="checkbox"]').each(function() {
+                    $(this).prop('readonly', true);
+                });
+
+                $('.deshabilitado-checkbox input[type="checkbox"]').on('click', function(e) {
+                    e.preventDefault(); // Evita que el usuario cambie el valor
                 });
 
                 $('.deshabilitado-checkbox .acf-actions').remove();

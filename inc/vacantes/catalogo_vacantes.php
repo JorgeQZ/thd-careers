@@ -527,23 +527,21 @@ function update_slug_after_save($post_ID, $post, $update) {
 
 function restringir_campos_acf_por_rol($field) {
     // Verificar si el usuario no es un administrador
-
-        if (!current_user_can('administrator') && !current_user_can('rh_admin') && !current_user_can('admin_ti_careers')) {
-
+    if (!current_user_can('administrator') && !current_user_can('rh_admin') && !current_user_can('admin_ti_careers')) {
         // Para los campos de tipo "checkbox", deshabilitar las opciones
-        if ($field['type'] == 'checkbox' || $field['type'] == 'radio' || $field['type'] == 'image') {
+        if ($field['type'] == 'checkbox' || $field['type'] == 'radio' || $field['type'] == 'image' || $field['type'] =='true_false' || $field['type'] == 'select') {
             // Añadir una clase específica para identificar el campo en JS
             $field['wrapper']['class'] .= ' deshabilitado-checkbox';
         }
-             // Para los campos de tipo "editor WYSIWYG", los ponemos en solo lectura
+        // Para los campos de tipo "editor WYSIWYG", los ponemos en solo lectura
         elseif ($field['type'] == 'wysiwyg') {
             $field['readonly'] = true;  // Solo lectura
-            $field['disabled'] = true;  // Desactivado completamente
+            // $field['disabled'] = true;  // Desactivado completamente
 
         } else {
             // Para otros campos, los ponemos en solo lectura
             $field['readonly'] = true;  // Solo lectura
-            $field['disabled'] = true;  // Desactivado completamente
+            // $field['disabled'] = true;  // Desactivado completamente
         }
     }
 
@@ -558,6 +556,7 @@ add_filter('acf/load_field/name=beneficios', 'restringir_campos_acf_por_rol');
 add_filter('acf/load_field/name=emi', 'restringir_campos_acf_por_rol');
 add_filter('acf/load_field/name=url_de_la_vacante', 'restringir_campos_acf_por_rol');
 add_filter('acf/load_field/name=imagen_qr', 'restringir_campos_acf_por_rol');
+add_filter('acf/load_field/name=ubicacion', 'restringir_campos_acf_por_rol');
 
 function agregar_script_desactivar_checkboxes() {
     // Asegurarse de que solo cargue en el admin
