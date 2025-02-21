@@ -95,19 +95,23 @@ if (isset($_POST['submit'])) {
                     <input type="text" name="nombre" value="<?php echo esc_attr($nombre_actual); ?>">
                 </div>
                 <div>
-                    <label for="apellido_paterno">Apellido Paterno</label>
+                    <label for="apellido_paterno">Apellido paterno</label>
                     <input type="text" name="apellido_paterno" value="<?php echo esc_attr($apellido_paterno_actual); ?>">
                 </div>
                 <div>
-                    <label for="apellido_materno">Apellido Materno</label>
+                    <label for="apellido_materno">Apellido materno</label>
                     <input type="text" name="apellido_materno" value="<?php echo esc_attr($apellido_materno_actual); ?>">
                 </div>
             </div>
 
             <div class="contenedor">
                 <div>
-                    <label for="correo">Correo</label>
-                    <input type="email" name="correo" value="<?php echo esc_attr($correo_actual); ?>">
+                    <label for="correo">Correo electrónico</label>
+                    <?php
+                        $current_user = wp_get_current_user();
+                        $user_email = $current_user->user_email;
+                    ?>
+                    <input type="email" name="correo" value="<?php echo $user_email; ?>">
                 </div>
             </div>
 
@@ -146,7 +150,7 @@ if (isset($_POST['submit'])) {
                     </select>
                 </div>
                 <div>
-                    <label for="estado_civil">Estado Civil</label>
+                    <label for="estado_civil">Estado civil</label>
                     <select id="estado_civil" name="estado_civil">
                         <option value="">Seleccione su estado civil</option>
                         <option value="soltero" <?php selected($estado_civil_actual, 'soltero'); ?>>Soltero/a</option>
@@ -158,7 +162,7 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="contenedor-cdt">
-                <p>¿En qué Centro de Trabajo estás interesado(a)?</p>
+                <p>¿En qué Centro de trabajo estás interesado(a)?</p>
 
                 <label>
                     <input type="radio" name="pr1" value="Oficinas de apoyo a tiendas" <?php checked($pr1_actual, 'Oficinas de apoyo a tiendas'); ?>> Oficinas de apoyo a tiendas
@@ -169,7 +173,7 @@ if (isset($_POST['submit'])) {
                 </label>
 
                 <label>
-                    <input type="radio" name="pr1" value="Centros de Distribución" <?php checked($pr1_actual, 'Centros de Distribución'); ?>> Centros de Distribución
+                    <input type="radio" name="pr1" value="Centros de Distribución" <?php checked($pr1_actual, 'Centros de Distribución'); ?>> Centros de distribución
                 </label>
 
                 <div class="contenedor-cdt2" style="display: none;">
@@ -180,7 +184,7 @@ if (isset($_POST['submit'])) {
                     </label>
 
                     <label>
-                    <input type="radio" name="pr2" value="Recursos Humanos" <?php checked($pr2_actual, 'Recursos Humanos'); ?>> Recursos Humanos
+                    <input type="radio" name="pr2" value="Recursos Humanos" <?php checked($pr2_actual, 'Recursos Humanos'); ?>> Recursos humanos
                     </label>
 
                     <label>
@@ -236,7 +240,7 @@ if (isset($_POST['submit'])) {
 
             <div class="contenedor detres">
                 <div>
-                    <label for="codigo_postal">Código Postal</label>
+                    <label for="codigo_postal">Código postal</label>
                     <input type="text" name="codigo_postal" value="<?php echo esc_attr($codigo_postal_actual); ?>">
                 </div>
 
@@ -277,7 +281,7 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div>
-                    <label for="telefono_fijo">Teléfono Fijo</label>
+                    <label for="telefono_fijo">Teléfono fijo</label>
                     <input type="text" name="telefono_fijo" value="<?php echo esc_attr($telefono_fijo_actual); ?>">
                 </div>
 

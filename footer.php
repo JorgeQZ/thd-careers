@@ -11,5 +11,18 @@ try {
     echo '<!-- Ocurrió un error al cargar el footer -->';
 }
 ?>
+
+<?php
+    if(is_user_logged_in(  )){
+?>
+    <style>
+        .footer-fondo-s1{
+            display: none;
+        }
+    </style>
+<?php
+    }
+?>
+
 </body>
 </html>
