@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const jobList = document.querySelector('.job-list');
+    const popup_login = document.getElementById('popup-login');
+    const close_login = document.getElementById('close-login');
+    close_login.addEventListener('click', function(){
+        popup_login.style.display = 'none';
+    });
+
     let favorites = [];
     // Verificar si la página actual es la de favoritos
     if(jobList){
@@ -20,12 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
             }
-
-            if(favorites.length > 0){
-                // console.log('Se han encontrado favoritos:', favorites);
-
-            }
-
         }
     }
 
@@ -55,11 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // Función para agregar un favorito
     function addFavorite(jobId){
-        if(!favs_query_vars.isUserLoggedIn){
-            alert('Debes iniciar sesión para guardar vacantes');
-            return;
-        }
-
 
         var data = {
             action: 'add_favorite',
@@ -71,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             data: data,
             success: function(response) {
+                console.log(response);
 
             },
             error: function(xhr, status, error) {
@@ -81,11 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
      // Función para eliminar un favorito
      function removeFavorite(jobId) {
-        if (!favs_query_vars.isUserLoggedIn) {
-            alert("Por favor, inicia sesión para eliminar favoritos.");
-            return;
-        }
-
         var data = {
             action: 'remove_favorite',
             user_id: favs_query_vars.currentUserId,
@@ -97,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             data: data,
             success: function(response) {
+                console.log(response);
+
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);
@@ -110,29 +103,29 @@ document.addEventListener('DOMContentLoaded', function () {
             const listItem = favButton.closest('li');
             const itemId = listItem.getAttribute('data-id');
 
-            if (listItem.classList.contains('add-fav')) {
+            if(favs_query_vars.isUserLoggedIn){
+                if (listItem.classList.contains('add-fav')) {
+                    if (!favorites.some(fav => fav.job_id === itemId)) {
+                        favorites.push({ "job_id": itemId });
+                        addFavorite(itemId);
+                    }
 
-
-                if (!favorites.some(fav => fav.job_id === itemId)) {
-                    favorites.push({ "job_id": itemId });
+                }else if (listItem.classList.contains('remove-fav')) {
+                    favorites = favorites.filter(fav => fav.job_id !== itemId);
+                    removeFavorite(itemId);
+                }else{
+                console.log('No se encontró la clase add-fav o remove-fav');
                 }
-                addFavorite(itemId);
 
-            } else if (listItem.classList.contains('remove-fav')) {
+                // Cambiar el color del ícono según si está o no en favoritos
+                toggleFavIcon(favButton, itemId);
 
-                favorites = favorites.filter(fav => fav.job_id !== itemId);
-                removeFavorite(itemId);
+                // Agregar o quitar la clase 'active' en el .item
+                toggleItemActiveState(listItem, itemId);
 
             }else{
-                console.log('No se encontró la clase add-fav o remove-fav');
+                popup_login.style.display = 'flex';
             }
-            // updateFavorites(itemId);
-
-            // Cambiar el color del ícono según si está o no en favoritos
-            toggleFavIcon(favButton, itemId);
-
-            // Agregar o quitar la clase 'active' en el .item
-            toggleItemActiveState(listItem, itemId);
         });
     });
 
