@@ -112,6 +112,9 @@
 .botones-s2 a:hover strong {
   color: white !important;
 }
+.botones-s2 a:hover span {
+  color: white !important;
+}
 .botones-s2 a:hover mark {
   color: white !important;
 }

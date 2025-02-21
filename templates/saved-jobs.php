@@ -30,12 +30,17 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy('centros-logisticos');
     <div class="vacantes-int-cont">
         <div class="container">
             <div class="title">
-                Tus vacantes
+                Mis vacantes
                 <span>de interés</span>
             </div>
-            <div class="display-cont">
+
+            <div id="contadorVacantes" class="display-cont">
                 <div class="text" id="count-jobs">Visualizando 0 de 0 vacantes</div>
                 <div class="line"></div>
+            </div>
+
+            <div id="sinVacantes" class="display-cont" style="text-align: center;">
+                   <div class="desc"> En este momento, no tienes vacantes guardadas. </div>
             </div>
             <ul class="list job-list" id="favorites-list"></ul>
              <?php
@@ -50,7 +55,7 @@ $unique_titles = get_unique_vacantes_titles_by_taxonomy('centros-logisticos');
         <div class="vacantes-int-cont">
             <div class="container">
                 <div class="title">
-                    Tus vacantes
+                    Mis vacantes
                     <span>de interés</span>
                 </div>
                 <div class="display-cont">

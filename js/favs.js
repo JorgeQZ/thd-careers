@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    const sinVacantes = document.getElementById("sinVacantes");
+    const contadorVacantes = document.getElementById("contadorVacantes");
+
     const jobList = document.querySelector('.job-list');
     let favorites = [];
     // Verificar si la página actual es la de favoritos
@@ -8,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
            favorites = getUserFavs();
             const listItems = jobList.querySelectorAll('li'); // Obtener todos los <li> dentro del UL
             if (listItems.length > 0) {
+                console.log("a");
                 listItems.forEach(li => {
                     const jobId = li.dataset.id; // Obtener el valor de data-id del <li>
                     const isFavorite = favorites.some(fav => fav.job_id === jobId);
@@ -19,13 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         li.classList.add('add-fav'); // Agregar la clase add-fav
                     }
                 });
+            }else{
+
+                if(favorites.length == 0){
+                    contadorVacantes.style.display = 'none';
+                }
+
             }
-
-            if(favorites.length > 0){
-                // console.log('Se han encontrado favoritos:', favorites);
-
-            }
-
         }
     }
 
@@ -144,6 +148,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const visibleCount = ulElement.querySelectorAll('li').length; // Elementos visibles
         const totalCount = favorites.length || 0; // Total de favoritos
         textElement.textContent = `Visualizando ${visibleCount} de ${totalCount} vacantes`;
+
+        if(favorites.length == 0){
+            sinVacantes.style.display = 'block';
+            contadorVacantes.style.display = 'none';
+        }else{
+            sinVacantes.style.display = 'none';
+        }
+
     }
 
     const ulElement = document.querySelector('#favorites-list'); // Contenedor principal
