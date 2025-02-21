@@ -299,6 +299,7 @@ body.admin-bar {
   margin-right: 5px;
   border: solid 0.5px;
   cursor: pointer;
+  accent-color: #f96302;
 }
 .contenedorgeneralcampos input[type=date] {
   width: 392px;

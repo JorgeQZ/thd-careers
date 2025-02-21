@@ -67,16 +67,16 @@
   padding-top: 30px;
 }
 .miperfil input {
-  padding-left: 10px;
+  padding: 0 10px;
 }
 
 .custom-date-input {
   padding-top: 0px !important;
-}
-.custom-date-input input {
-  height: 37px !important;
-  padding: 0px 10px !important;
-  width: 378px !important;
+  /*input {
+      height: 37px !important;
+      padding: 0px 10px !important;
+      width: 378px !important;
+  }*/
 }
 
 .icon-calendar {
@@ -84,7 +84,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 45%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
@@ -263,9 +263,11 @@ form .contenedor-form input {
   width: 100%;
   border: solid thin;
   border-radius: 3px;
-  height: 35px;
+  height: 39px;
   margin-top: 10px;
   max-width: 400px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 form .contenedor-form .contenedor.detres {
   gap: 40px;
@@ -273,15 +275,17 @@ form .contenedor-form .contenedor.detres {
 form .contenedor-form .contenedor.dedos {
   width: 100%;
   gap: 40px;
+  /*
+  select {
+      width: 400px;
+  }
+
+  input {
+      width: 381px;
+  }*/
 }
 form .contenedor-form .contenedor.dedos div {
   width: 400px;
-}
-form .contenedor-form .contenedor.dedos select {
-  width: 400px;
-}
-form .contenedor-form .contenedor.dedos input {
-  width: 381px;
 }
 form .contenedor-form .contenedor {
   display: -webkit-box;
@@ -345,10 +349,9 @@ form .contenedor-form .contenedor div select {
           flex-direction: column;
 }
 
-.input-nacionalidad {
-  width: 386px !important;
-}
-
+/*.input-nacionalidad {
+    width: 386px !important;
+}*/
 @media (max-width: 1300px) and (min-width: 801px) {
   .miperfil {
     padding-left: 80px;
@@ -356,14 +359,14 @@ form .contenedor-form .contenedor div select {
   }
 }
 @media (max-width: 800px) and (min-width: 501px) {
+  /*
   .icon-calendar {
-    right: 8px;
-    top: 45%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-    width: 15px;
-    height: 20px;
-  }
+      right: 8px;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 20px;
+  }*/
   form {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -403,14 +406,14 @@ form .contenedor-form .contenedor div select {
   }
 }
 @media (max-width: 500px) {
+  /*
   .icon-calendar {
-    right: -2px;
-    top: 45%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-    width: 15px;
-    height: 20px;
-  }
+      right: -2px;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 20px;
+  }*/
   form .contenedor-form .contenedor div {
     margin: 0 auto;
   }
@@ -457,5 +460,10 @@ form .contenedor-form .contenedor div select {
   .custom-date-input input {
     height: 37px !important;
     padding: 0px 3.3px !important;
+  }
+}
+@media screen and (max-width: 767px) {
+  .icon-calendar {
+    right: 8px;
   }
 }

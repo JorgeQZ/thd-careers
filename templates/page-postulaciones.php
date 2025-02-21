@@ -512,7 +512,7 @@ Template Name: Postulaciones
 
                     <div class="div-checkbox">
                         <input type="checkbox" name="acepto-voluntariamente" value="Sí" required>
-                        <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a THD.<span class="obligatorio">*</span></label>
+                        <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a The Home Depot.<span class="obligatorio">*</span></label>
                     </div>
 
                 </div>
