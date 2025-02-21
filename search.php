@@ -89,33 +89,45 @@
                             ?>
 
                             <li class="item" data-id="<?php echo get_the_id(); ?>" data-tienda="<?php echo get_field('extra_data_data_tienda'); ?>" data-title="<?php echo get_the_title()?>">
-                                <div class="img">
-                                    <img src="<?php echo get_template_directory_uri() . '/imgs/logo-thd.jpg' ?>" alt="">
-                                </div>
-                                <div class="desc">
-                                    <a href="<?php the_permalink();?>"><?php echo get_the_title(); ?></a>
+                                <a href="<?php the_permalink();?>">
+                                    <div class="img">
+                                        <img src="<?php echo get_template_directory_uri() . '/imgs/logo-thd.jpg' ?>" alt="">
+                                    </div>
+                                    <div class="desc">
+                                        <div class="job-title"><?php echo get_the_title(); ?></div>
+                                        <div class="icon-cont">
+                                            <div class="img">
+                                                <?php
+                                                    $svg_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
 
-                                    <div class="icon-cont">
+                                                    if (file_exists($svg_path) && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
+                                                        // Leer el contenido del archivo SVG
+                                                        $svg_content = file_get_contents($svg_path);
+
+                                                        // Escapar caracteres peligrosos para prevenir XSS
+                                                        echo $svg_content;
+                                                    } else {
+                                                        echo 'Archivo SVG no encontrado o no válido.';
+                                                    }
+                                                ?>
+                                            </div>
+                                            <div class="text"><?php echo $ubicacion_formateada; ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="fav">
                                         <div class="img">
                                             <?php
-                                                $svg_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
+                                                $file_path = get_template_directory() . '/imgs/me-gusta.svg';
 
-                                                if (file_exists($svg_path) && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
-                                                    // Leer el contenido del archivo SVG
-                                                    $svg_content = file_get_contents($svg_path);
-
-                                                    // Escapar caracteres peligrosos para prevenir XSS
-                                                    echo $svg_content;
+                                                if (file_exists($file_path)) {
+                                                    echo file_get_contents($file_path); // Asegúrate de que el archivo sea seguro
                                                 } else {
-                                                    echo 'Archivo SVG no encontrado o no válido.';
+                                                    echo 'Archivo no encontrado.';
                                                 }
                                             ?>
                                         </div>
-                                        <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                     </div>
-
-
-                                </div>
+                                </a>
                             </li>
                         <?php
                         endwhile;

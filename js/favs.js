@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             data: data,
             success: function(response) {
-                console.log(response);
+                console.log('add', response);
 
             },
             error: function(xhr, status, error) {
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             data: data,
             success: function(response) {
-                console.log(response);
+                console.log('remove', response);
 
             },
             error: function(xhr, status, error) {
@@ -112,33 +112,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Añadir el evento de clic a cada .fav
     document.querySelectorAll('.fav').forEach(function (favButton) {
-        favButton.addEventListener('click', function () {
-            const listItem = favButton.closest('li');
-            const itemId = listItem.getAttribute('data-id');
+        favButton.addEventListener('click', function (event) {
 
-            if(favs_query_vars.isUserLoggedIn){
-                if (listItem.classList.contains('add-fav')) {
-                    if (!favorites.some(fav => fav.job_id === itemId)) {
-                        favorites.push({ "job_id": itemId });
-                        addFavorite(itemId);
+            const listItem = favButton.closest('li');
+            if (!listItem) return;
+
+            const itemId = listItem.getAttribute('data-id');
+            if (!itemId) return;
+
+            try{
+                event.preventDefault();
+                event.stopPropagation();
+                if(favs_query_vars.isUserLoggedIn){
+                    if (listItem.classList.contains('add-fav')) {
+                        if (!favorites.some(fav => fav.job_id === itemId)) {
+                            favorites.push({ "job_id": itemId });
+                            addFavorite(itemId);
+                        }
+
+                    }else if (listItem.classList.contains('remove-fav')) {
+                        favorites = favorites.filter(fav => fav.job_id !== itemId);
+                        removeFavorite(itemId);
+                    }else{
+                    console.log('No se encontró la clase add-fav o remove-fav');
                     }
 
-                }else if (listItem.classList.contains('remove-fav')) {
-                    favorites = favorites.filter(fav => fav.job_id !== itemId);
-                    removeFavorite(itemId);
+                    // Cambiar el color del ícono según si está o no en favoritos
+                    toggleFavIcon(favButton, itemId);
+
+                    // Agregar o quitar la clase 'active' en el .item
+                    toggleItemActiveState(listItem, itemId);
+
                 }else{
-                console.log('No se encontró la clase add-fav o remove-fav');
+                    popup_login.style.display = 'flex';
                 }
-
-                // Cambiar el color del ícono según si está o no en favoritos
-                toggleFavIcon(favButton, itemId);
-
-                // Agregar o quitar la clase 'active' en el .item
-                toggleItemActiveState(listItem, itemId);
-
-            }else{
-                popup_login.style.display = 'flex';
+            }catch(e){
+                console.log(e);
             }
+
         });
     });
 

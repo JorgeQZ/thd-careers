@@ -127,6 +127,7 @@
 @media (max-width: 780px) {
   .vacantes-cont .container .row {
     max-width: 100%;
+    padding-right: 0;
   }
 }
 .vacantes-cont .container .row .input-search {
@@ -309,10 +310,21 @@
   padding-left: 0;
   margin: 0;
 }
+@media (max-width: 780px) {
+  .vacantes-cont .container .columns .column .list {
+    padding-right: 0;
+  }
+}
 .vacantes-cont .container .columns .column .list .item {
   list-style: none;
+}
+.vacantes-cont .container .columns .column .list .item.active a .fav .img svg path {
+  fill: #f96302;
+}
+.vacantes-cont .container .columns .column .list .item a {
   border: 1px solid #a6a6a6;
   padding: 20px;
+  text-decoration: none;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -326,68 +338,66 @@
   -webkit-transition: all 300ms;
   transition: all 300ms;
 }
-.vacantes-cont .container .columns .column .list .item.active {
+.vacantes-cont .container .columns .column .list .item a:hover {
   border-color: #f96302;
 }
-.vacantes-cont .container .columns .column .list .item.active .fav .img svg path {
-  fill: #f96302;
-}
-.vacantes-cont .container .columns .column .list .item .img {
+.vacantes-cont .container .columns .column .list .item a .img {
   width: 55px;
   height: 55px;
   margin-right: 20px;
 }
-.vacantes-cont .container .columns .column .list .item .img img {
+.vacantes-cont .container .columns .column .list .item a .img img {
   width: 100%;
 }
-.vacantes-cont .container .columns .column .list .item .desc {
+.vacantes-cont .container .columns .column .list .item a .desc {
   font-family: "Helvetica Neue LT Std Bd";
+  color: black;
 }
-.vacantes-cont .container .columns .column .list .item .desc a {
+.vacantes-cont .container .columns .column .list .item a .desc .job-title {
   color: #f96302;
   text-decoration: none;
   font-size: 14px;
   letter-spacing: 1px;
 }
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont {
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: start;
   margin-bottom: 0px;
 }
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .img {
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img {
   height: 20px;
   width: 10px;
   margin-right: 5px;
 }
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .img svg {
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img svg {
   width: 10px;
   fill: #f96302;
 }
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .img svg path,
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .img svg circle {
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img svg path,
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img svg circle {
   fill: #f96302;
 }
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .img svg path.cls-2, .vacantes-cont .container .columns .column .list .item .desc .icon-cont .img svg path.cls-4,
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .img svg circle.cls-2,
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .img svg circle.cls-4 {
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img svg path.cls-2, .vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img svg path.cls-4,
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img svg circle.cls-2,
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .img svg circle.cls-4 {
   fill: white;
 }
-.vacantes-cont .container .columns .column .list .item .desc .icon-cont .text {
+.vacantes-cont .container .columns .column .list .item a .desc .icon-cont .text {
   font-family: "Helvetica Neue LT Std";
   font-size: 12px;
   text-transform: capitalize;
 }
-.vacantes-cont .container .columns .column .list .item .fav {
+.vacantes-cont .container .columns .column .list .item a .fav {
   margin-left: auto;
 }
-.vacantes-cont .container .columns .column .list .item .fav .img {
+.vacantes-cont .container .columns .column .list .item a .fav .img {
   margin-left: auto;
   margin-right: 0;
   display: -webkit-box;
@@ -400,14 +410,11 @@
       -ms-flex-pack: center;
           justify-content: center;
 }
-.vacantes-cont .container .columns .column .list .item .fav .img svg {
+.vacantes-cont .container .columns .column .list .item a .fav .img svg {
   height: 35px;
   cursor: pointer;
 }
-.vacantes-cont .container .columns .column .list .item .fav .img svg:hover path {
-  fill: #f96302;
-}
-.vacantes-cont .container .columns .column .list .item .fav .img svg path {
+.vacantes-cont .container .columns .column .list .item a .fav .img svg path {
   fill: #a6a6a6;
   -webkit-transition: all 300ms;
   transition: all 300ms;

@@ -60,7 +60,8 @@
             box-sizing: border-box;
 
             @media (max-width: 780px) {
-                max-width: 100%
+                max-width: 100%;
+                padding-right: 0;
             }
 
             .input-search {
@@ -222,113 +223,126 @@
                     padding-left: 0;
                     margin: 0;
 
+                    @media (max-width: 780px) {
+                        padding-right: 0;
+                    }
+
                     .item {
                         list-style: none;
-                        border: 1px solid $ligth_grey;
-                        padding: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: start;
-                        margin-bottom: 30px;
-                        transition: all 300ms;
-
-                        &.active {
-                            border-color: $orange;
-
-                            .fav {
-                                .img {
-                                    svg {
-                                        path {
-                                            fill: $orange;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        .img {
-                            width: 55px;
-                            height: 55px;
-                            margin-right: 20px;
-
-                            img {
-                                width: 100%;
-                            }
-                        }
-
-                        .desc {
-                            font-family: $ff-bd;
-
-                            a {
-                                color: $orange;
-                                text-decoration: none;
-                                font-size: 14px;
-                                letter-spacing: 1px;
-                            }
-
-                            .icon-cont {
-                                display: flex;
-                                align-items: center;
-                                justify-content: start;
-                                margin-bottom: 0px;
-
-                                .img {
-                                    height: 20px;
-                                    width: 10px;
-                                    margin-right: 5px;
-
-                                    svg {
-                                        width: 10px;
-                                        fill: $orange;
-
-                                        path,
-                                        circle {
-                                            fill: $orange;
-
-                                            &.cls-2,
-                                            &.cls-4 {
-                                                fill: white;
+                        &.active{
+                            a{
+                                // border-color: $orange;
+                                .fav {
+                                    .img {
+                                        svg {
+                                            path {
+                                                fill: $orange;
                                             }
                                         }
                                     }
                                 }
-
-                                .text {
-                                    font-family: $ff-roman;
-                                    font-size: 12px;
-                                    text-transform: capitalize;
-                                }
                             }
                         }
 
-                        .fav {
-                            margin-left: auto;
+                        a{
+                            border: 1px solid $ligth_grey;
+                            padding: 20px;
+                            text-decoration: none;
+                            display: flex;
+                            align-items: center;
+                            justify-content: start;
+                            margin-bottom: 30px;
+                            transition: all 300ms;
+
+                            &:hover{
+                                border-color: $orange;
+                            }
 
                             .img {
-                                margin-left: auto;
-                                margin-right: 0;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
+                                width: 55px;
+                                height: 55px;
+                                margin-right: 20px;
 
-                                svg {
-                                    height: 35px;
-                                    cursor: pointer;
+                                img {
+                                    width: 100%;
+                                }
+                            }
 
-                                    &:hover {
-                                        path {
+                            .desc {
+                                font-family: $ff-bd;
+                                color: black;
+
+                                .job-title{
+                                    color: $orange;
+                                    text-decoration: none;
+                                    font-size: 14px;
+                                    letter-spacing: 1px;
+                                }
+
+                                .icon-cont {
+                                    display: flex;
+                                    align-items: start;
+                                    justify-content: start;
+                                    margin-bottom: 0px;
+
+                                    .img {
+                                        height: 20px;
+                                        width: 10px;
+                                        margin-right: 5px;
+
+                                        svg {
+                                            width: 10px;
                                             fill: $orange;
+
+                                            path,
+                                            circle {
+                                                fill: $orange;
+
+                                                &.cls-2,
+                                                &.cls-4 {
+                                                    fill: white;
+                                                }
+                                            }
                                         }
                                     }
 
-                                    path {
-                                        fill: $ligth_grey;
-                                        transition: all 300ms;
+                                    .text {
+                                        font-family: $ff-roman;
+                                        font-size: 12px;
+                                        text-transform: capitalize;
                                     }
                                 }
+                            }
+
+                            .fav {
+                                margin-left: auto;
+
+                                .img {
+                                    margin-left: auto;
+                                    margin-right: 0;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+
+                                    svg {
+                                        height: 35px;
+                                        cursor: pointer;
+
+                                        &:hover {
+                                            path {
+                                                // fill: $orange;
+                                            }
+                                        }
+
+                                        path {
+                                            fill: $ligth_grey;
+                                            transition: all 300ms;
+                                        }
+                                    }
 
 
 
+                                }
                             }
                         }
                     }
