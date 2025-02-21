@@ -6,9 +6,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const jobList = document.querySelector('.job-list');
     const popup_login = document.getElementById('popup-login');
     const close_login = document.getElementById('close-login');
-    close_login.addEventListener('click', function(){
-        popup_login.style.display = 'none';
-    });
+
+    if(close_login){
+        close_login.addEventListener('click', function(){
+            popup_login.style.display = 'none';
+        });
+    }
 
     let favorites = [];
     // Verificar si la página actual es la de favoritos
