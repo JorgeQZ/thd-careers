@@ -69,6 +69,13 @@
 .miperfil input {
   padding: 0 10px;
 }
+.miperfil input[type=radio] {
+  accent-color: #f96302;
+}
+
+.ajustesr input[type=radio] {
+  margin: 12px 0;
+}
 
 .custom-date-input {
   padding-top: 0px !important;

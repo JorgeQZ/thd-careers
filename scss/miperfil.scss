@@ -4,9 +4,18 @@
 .miperfil {
     padding-top: 30px;
 
-
     input {
         padding: 0 10px;
+    }
+
+    input[type="radio"] {
+        accent-color: #f96302;
+    }
+}
+
+.ajustesr {
+    input[type="radio"] {
+        margin: 12px 0;
     }
 }
 

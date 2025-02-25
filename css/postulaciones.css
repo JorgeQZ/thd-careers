@@ -308,12 +308,17 @@ body.admin-bar {
   padding-right: 10px;
   border-radius: 2px;
 }
+.contenedorgeneralcampos input[type=radio] {
+  width: auto;
+  height: initial;
+  accent-color: #f96302;
+}
 .contenedorgeneralcampos .icon-calendar {
   background-image: url("../imgs/calendario-icon.jpg");
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
-  right: 20px;
+  right: 12px;
   top: 55%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
@@ -392,9 +397,11 @@ body.admin-bar {
 }
 .contenedorgeneralcampos .seccion .subtitulo.puesto1 {
   padding-top: 20px;
+  font-weight: bold;
 }
 .contenedorgeneralcampos .seccion .subtitulo.puesto2 {
   padding-top: 40px;
+  font-weight: bold;
 }
 .contenedorgeneralcampos .seccion .div-cvguardado {
   padding-bottom: 30px;
