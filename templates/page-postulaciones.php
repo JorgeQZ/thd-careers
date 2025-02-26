@@ -572,6 +572,8 @@ Template Name: Postulaciones
                         <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a The Home Depot.<span class="obligatorio">*</span></label>
                     </div>
 
+                    <a href="<?php echo esc_url(home_url('/carreras/aviso-de-privacidad-candidatos/')); ?>" class="a-tyc">Haz click aquí para conocer los Términos y Condiciones de nuestros Candidatos(as)</a>
+
                 </div>
             </div>
         </div>

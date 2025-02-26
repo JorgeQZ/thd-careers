@@ -59,10 +59,20 @@ get_header();
                                                       while (have_rows('repetidor-beneficios-tab1-tab1')) : the_row();
                                                           $titulo = get_sub_field('grupo-2-beneficios-tab1-tab1')['titulo-contenedor-beneficios-tab1-tab1'];
                                                           $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab1')['descripcion-contenedor-beneficios-tab1-tab1'];
+                                                          $icono = get_sub_field('grupo-2-beneficios-tab1-tab1')['icono-contenedor-beneficios-tab1-tab1'];
+                                                          $tam_icono = get_sub_field('grupo-2-beneficios-tab1-tab1')['tam-icono-contenedor-beneficios-tab1-tab1'];
+                                                          $icono_hover = get_sub_field('grupo-2-beneficios-tab1-tab1')['icono-hover-contenedor-beneficios-tab1-tab1'];
+                                                          $tam_icono_hover = get_sub_field('grupo-2-beneficios-tab1-tab1')['tam-icono-hover-contenedor-beneficios-tab1-tab1'];
                                                           ?>
                                                           <div class="subcontenido-tab1-tab1">
+                                                              <?php if ($icono): ?>
+                                                                <img src="<?php echo esc_url($icono['url']); ?>" alt="<?php echo esc_attr($icono['alt']); ?>" class="icono-contenido-tab1-tab1" style="width: <?php echo esc_attr($tam_icono ?: '40px'); ?>;">
+                                                              <?php endif; ?>
                                                               <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
                                                               <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
+                                                              <?php if ($icono_hover): ?>
+                                                                <img src="<?php echo esc_url($icono_hover['url']); ?>" alt="<?php echo esc_attr($icono_hover['alt']); ?>" class="icono-hover-contenido-tab1-tab1" style="width: <?php echo esc_attr($tam_icono_hover ?: '80px'); ?>;">
+                                                              <?php endif; ?>
                                                           </div>
                                                           <?php
                                                       endwhile;
@@ -106,10 +116,20 @@ get_header();
                                                       while (have_rows('repetidor-beneficios-tab1-tab2')) : the_row();
                                                           $titulo = get_sub_field('grupo-2-beneficios-tab1-tab2')['titulo-contenedor-beneficios-tab1-tab2'];
                                                           $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab2')['descripcion-contenedor-beneficios-tab1-tab2'];
+                                                          $icono = get_sub_field('grupo-2-beneficios-tab1-tab2')['icono-contenedor-beneficios-tab1-tab2'];
+                                                          $tam_icono = get_sub_field('grupo-2-beneficios-tab1-tab2')['tam-icono-contenedor-beneficios-tab1-tab2'];
+                                                          $icono_hover = get_sub_field('grupo-2-beneficios-tab1-tab2')['icono-hover-contenedor-beneficios-tab1-tab2'];
+                                                          $tam_icono_hover = get_sub_field('grupo-2-beneficios-tab1-tab2')['tam-icono-hover-contenedor-beneficios-tab1-tab2'];
                                                           ?>
                                                           <div class="subcontenido-tab1-tab1">
+                                                              <?php if ($icono): ?>
+                                                                <img src="<?php echo esc_url($icono['url']); ?>" alt="<?php echo esc_attr($icono['alt']); ?>" class="icono-contenido-tab1-tab1" style="width: <?php echo esc_attr($tam_icono ?: '40px'); ?>;">
+                                                              <?php endif; ?>
                                                               <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
                                                               <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
+                                                              <?php if ($icono_hover): ?>
+                                                                <img src="<?php echo esc_url($icono_hover['url']); ?>" alt="<?php echo esc_attr($icono_hover['alt']); ?>" class="icono-hover-contenido-tab1-tab1" style="width: <?php echo esc_attr($tam_icono_hover ?: '80px'); ?>;">
+                                                              <?php endif; ?>
                                                           </div>
                                                           <?php
                                                       endwhile;
@@ -152,10 +172,20 @@ get_header();
                                                       while (have_rows('repetidor-beneficios-tab1-tab3')) : the_row();
                                                           $titulo = get_sub_field('grupo-2-beneficios-tab1-tab3')['titulo-contenedor-beneficios-tab1-tab3'];
                                                           $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab3')['descripcion-contenedor-beneficios-tab1-tab3'];
+                                                          $icono = get_sub_field('grupo-2-beneficios-tab1-tab3')['icono-contenedor-beneficios-tab1-tab3'];
+                                                          $tam_icono = get_sub_field('grupo-2-beneficios-tab1-tab3')['tam-icono-contenedor-beneficios-tab1-tab3'];
+                                                          $icono_hover = get_sub_field('grupo-2-beneficios-tab1-tab3')['icono-hover-contenedor-beneficios-tab1-tab3'];
+                                                          $tam_icono_hover = get_sub_field('grupo-2-beneficios-tab1-tab3')['tam-icono-hover-contenedor-beneficios-tab1-tab3'];
                                                           ?>
                                                           <div class="subcontenido-tab1-tab1">
+                                                              <?php if ($icono): ?>
+                                                                <img src="<?php echo esc_url($icono['url']); ?>" alt="<?php echo esc_attr($icono['alt']); ?>" class="icono-contenido-tab1-tab1" style="width: <?php echo esc_attr($tam_icono ?: '40px'); ?>;">
+                                                              <?php endif; ?>
                                                               <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
                                                               <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
+                                                              <?php if ($icono_hover): ?>
+                                                                <img src="<?php echo esc_url($icono_hover['url']); ?>" alt="<?php echo esc_attr($icono_hover['alt']); ?>" class="icono-hover-contenido-tab1-tab1" style="width: <?php echo esc_attr($tam_icono_hover ?: '80px'); ?>;">
+                                                              <?php endif; ?>
                                                           </div>
                                                           <?php
                                                       endwhile;
@@ -174,125 +204,6 @@ get_header();
             </div>
 
           </div>
-
-          <!-- <div class="contenedor-s3-desktop">
-
-            <div class="contenedor-contenido-tabs-tab1">
-              <p class="titulo-tab1-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab1']['titulo-beneficios-tab1-tab1']); ?> </p>
-              <p class="descripcion-tab1-tab1"> <?php echo nl2br(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab1']['descripcion-beneficios-tab1-tab1']); ?> </p>
-
-              <div class="contenido-tab1-tab1">
-                <?php
-                if (have_rows('tabs-beneficios')) :
-                    while (have_rows('tabs-beneficios')) : the_row();
-                        if (have_rows('tab1-beneficios')) :
-                            while (have_rows('tab1-beneficios')) : the_row();
-                                if (have_rows('grupo-1-beneficios-tab1')) :
-                                    while (have_rows('grupo-1-beneficios-tab1')) : the_row();
-                                        if (have_rows('grupo-1-beneficios-tab1-tab1')) :
-                                            while (have_rows('grupo-1-beneficios-tab1-tab1')) : the_row();
-                                                if (have_rows('repetidor-beneficios-tab1-tab1')) :
-                                                    while (have_rows('repetidor-beneficios-tab1-tab1')) : the_row();
-                                                        $titulo = get_sub_field('grupo-2-beneficios-tab1-tab1')['titulo-contenedor-beneficios-tab1-tab1'];
-                                                        $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab1')['descripcion-contenedor-beneficios-tab1-tab1'];
-                                                        ?>
-                                                        <div class="subcontenido-tab1-tab1">
-                                                            <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
-                                                            <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
-                                                        </div>
-                                                        <?php
-                                                    endwhile;
-                                                endif;
-                                            endwhile;
-                                        endif;
-                                    endwhile;
-                                endif;
-                            endwhile;
-                        endif;
-                    endwhile;
-                endif;
-                ?>
-              </div>
-
-            </div>
-
-            <div class="contenedor-contenido-tabs-tab1">
-              <p class="titulo-tab1-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab2']['titulo-beneficios-tab1-tab2']); ?> </p>
-              <p class="descripcion-tab1-tab1"> <?php echo nl2br(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab2']['descripcion-beneficios-tab1-tab2']); ?> </p>
-
-              <div class="contenido-tab1-tab1">
-                <?php
-                if (have_rows('tabs-beneficios')) :
-                    while (have_rows('tabs-beneficios')) : the_row();
-                        if (have_rows('tab1-beneficios')) :
-                            while (have_rows('tab1-beneficios')) : the_row();
-                                if (have_rows('grupo-1-beneficios-tab1')) :
-                                    while (have_rows('grupo-1-beneficios-tab1')) : the_row();
-                                        if (have_rows('grupo-1-beneficios-tab1-tab2')) :
-                                            while (have_rows('grupo-1-beneficios-tab1-tab2')) : the_row();
-                                                if (have_rows('repetidor-beneficios-tab1-tab2')) :
-                                                    while (have_rows('repetidor-beneficios-tab1-tab2')) : the_row();
-                                                        $titulo = get_sub_field('grupo-2-beneficios-tab1-tab2')['titulo-contenedor-beneficios-tab1-tab2'];
-                                                        $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab2')['descripcion-contenedor-beneficios-tab1-tab2'];
-                                                        ?>
-                                                        <div class="subcontenido-tab1-tab1">
-                                                            <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
-                                                            <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
-                                                        </div>
-                                                        <?php
-                                                    endwhile;
-                                                endif;
-                                            endwhile;
-                                        endif;
-                                    endwhile;
-                                endif;
-                            endwhile;
-                        endif;
-                    endwhile;
-                endif;
-                ?>
-              </div>
-            </div>
-
-            <div class="contenedor-contenido-tabs-tab1">
-              <p class="titulo-tab1-tab1"> <?php echo wp_kses_post(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab3']['titulo-beneficios-tab1-tab3']); ?> </p>
-              <p class="descripcion-tab1-tab1"> <?php echo nl2br(get_field('tabs-beneficios')['tab1-beneficios']['grupo-1-beneficios-tab1']['grupo-1-beneficios-tab1-tab3']['descripcion-beneficios-tab1-tab3']); ?> </p>
-
-              <div class="contenido-tab1-tab1">
-                <?php
-                if (have_rows('tabs-beneficios')) :
-                    while (have_rows('tabs-beneficios')) : the_row();
-                        if (have_rows('tab1-beneficios')) :
-                            while (have_rows('tab1-beneficios')) : the_row();
-                                if (have_rows('grupo-1-beneficios-tab1')) :
-                                    while (have_rows('grupo-1-beneficios-tab1')) : the_row();
-                                        if (have_rows('grupo-1-beneficios-tab1-tab3')) :
-                                            while (have_rows('grupo-1-beneficios-tab1-tab3')) : the_row();
-                                                if (have_rows('repetidor-beneficios-tab1-tab3')) :
-                                                    while (have_rows('repetidor-beneficios-tab1-tab3')) : the_row();
-                                                        $titulo = get_sub_field('grupo-2-beneficios-tab1-tab3')['titulo-contenedor-beneficios-tab1-tab3'];
-                                                        $descripcion = get_sub_field('grupo-2-beneficios-tab1-tab3')['descripcion-contenedor-beneficios-tab1-tab3'];
-                                                        ?>
-                                                        <div class="subcontenido-tab1-tab1">
-                                                            <p class="titulo-contenido-tab1-tab1"><?php echo esc_html($titulo); ?></p>
-                                                            <p class="descripcion-contenido-tab1-tab1"><?php echo esc_html($descripcion); ?></p>
-                                                        </div>
-                                                        <?php
-                                                    endwhile;
-                                                endif;
-                                            endwhile;
-                                        endif;
-                                    endwhile;
-                                endif;
-                            endwhile;
-                        endif;
-                    endwhile;
-                endif;
-                ?>
-              </div>
-            </div>
-
-          </div> -->
         </div>
       </div>
     </div>

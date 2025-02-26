@@ -1,6 +1,10 @@
 @import "fonts";
 @import "variables";
 
+.a-tyc {
+    color: #f96302;
+}
+
 body.admin-bar {
     --sticky-offset: 32px; // Altura estándar de la barra
 
@@ -121,7 +125,7 @@ body.admin-bar {
             padding-top: 15px;
             display: flex;
             border: 1px solid #fff;
-
+            text-align: center;
             align-items: center;
             justify-content: center;
             width: fit-content;
