@@ -228,31 +228,34 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div>
-                    <label for="municipiociudad">Ciudad</label>
-                    <input type="text" name="municipiociudad" value="<?php echo esc_attr($municipiociudad_actual); ?>">
+                    <label for="colonia">Colonia</label>
+                    <input type="text" name="colonia" value="<?php echo esc_attr($colonia_actual); ?>">
                 </div>
 
-                <div>
-                    <label for="estado">Estado</label>
-                    <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
-                </div>
-            </div>
-
-            <div class="contenedor detres">
                 <div>
                     <label for="codigo_postal">Código postal</label>
                     <input type="text" name="codigo_postal" value="<?php echo esc_attr($codigo_postal_actual); ?>">
                 </div>
 
+            </div>
+
+            <div class="contenedor detres">
+
                 <div>
-                    <label for="municipiociudad">País</label>
-                    <input type="text" name="pais" value="<?php echo esc_attr($pais_actual); ?>">
+                    <label for="municipiociudad">Ciudad</label>
+                    <input type="text" class="validar_ubi" name="municipiociudad" value="<?php echo esc_attr($municipiociudad_actual); ?>">
                 </div>
 
+                <div>
+                    <label for="estado">Estado</label>
+                    <input type="text" class="validar_ubi" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
+                </div>
+<!--
                 <div style="visibility: hidden;">
                     <label for="estado">Estado</label>
                     <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
                 </div>
+-->
             </div>
 
             <h1>INFORMACIÓN DE CONTACTO</h1>
@@ -277,12 +280,12 @@ if (isset($_POST['submit'])) {
             <div class="contenedor detres">
                 <div>
                     <label for="telefono_celular">Celular</label>
-                    <input type="text" name="telefono_celular" value="<?php echo esc_attr($telefono_celular_actual); ?>">
+                    <input type="text" class="validar_tel" name="telefono_celular" value="<?php echo esc_attr($telefono_celular_actual); ?>">
                 </div>
 
                 <div>
                     <label for="telefono_fijo">Teléfono fijo</label>
-                    <input type="text" name="telefono_fijo" value="<?php echo esc_attr($telefono_fijo_actual); ?>">
+                    <input type="text" class="validar_tel" name="telefono_fijo" value="<?php echo esc_attr($telefono_fijo_actual); ?>">
                 </div>
 
                 <div>
@@ -526,6 +529,15 @@ if (isset($_POST['submit'])) {
 
         $('.validar_tel').on('keypress', function(e) {
             var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ+()0-9 ]+$/;
+            var key = String.fromCharCode(event.which);
+
+            if (!regex.test(key)) {
+                event.preventDefault();
+            }
+        });
+
+        $('.validar_ubi').on('keypress', function(e) {
+            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
             var key = String.fromCharCode(event.which);
 
             if (!regex.test(key)) {
