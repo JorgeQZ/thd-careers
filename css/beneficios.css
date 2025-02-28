@@ -207,6 +207,56 @@ p {
   text-decoration: none;
 }
 
+.tabs-tab1movil {
+  border: solid #a6a6a6 1px;
+  border-radius: 2px;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  position: relative;
+  -webkit-transition: none;
+  transition: none;
+  text-decoration: none;
+  width: 320px;
+  margin: 0 auto;
+  height: 320px;
+  margin-bottom: 30px;
+}
+
+.tabs-tab1movil:hover {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tabs-tab1movil:hover .p3-tab1 {
+  color: white;
+}
+.tabs-tab1movil:hover .plus-tab1 {
+  display: none;
+}
+
+.contenedor-contenido-tabs-tab1-movil {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.tabs-tab1movil.active {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tabs-tab1movil.active .p3-tab1 {
+  color: white;
+}
+.tabs-tab1movil.active .pico-tab1 {
+  display: block;
+}
+.tabs-tab1movil.active .plus-tab1 {
+  display: none;
+}
+
 .tabs-tab1:hover {
   background-color: #f96302;
   border: solid #f96302 1px;
@@ -392,6 +442,47 @@ p {
 }
 .tab-tab2.active .p1-tab2 {
   color: white;
+}
+
+.tab-tab2-movil {
+  border: solid #a6a6a6 1px;
+  border-radius: 2px;
+  width: 15.67%;
+  height: 178px;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  position: relative;
+  -webkit-transition: none;
+  transition: none;
+  margin-top: 60px;
+}
+
+.tab-tab2-movil:hover {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tab-tab2-movil:hover .p1-tab2 {
+  color: white;
+}
+.tab-tab2-movil:hover .plus-tab2 {
+  display: none;
+}
+
+.tab-tab2-movil.active {
+  background-color: #f96302;
+  border: solid #f96302 1px;
+}
+.tab-tab2-movil.active .p1-tab2 {
+  color: white;
+}
+.tab-tab2-movil.active .pico-tab2 {
+  display: block;
+}
+.tab-tab2-movil.active .plus-tab2 {
+  display: none;
 }
 
 .subcontenedor-tab2 {
@@ -617,14 +708,14 @@ p {
     aspect-ratio: 1/1;
   }
   .p3-tab1 {
-    padding-left: 30px;
+    padding-left: 20px;
   }
   .plus-tab1 {
     top: 195px;
   }
   .pico-tab1 {
     width: 120px;
-    top: 255px;
+    top: 290px;
   }
   .contenedor-tabs-tab1 {
     padding-bottom: 150px;
@@ -646,6 +737,9 @@ p {
     font-size: 35px;
   }
   .tab-tab2 {
+    width: 25%;
+  }
+  .tab-tab2-movil {
     width: 25%;
   }
   .rectangulo-tab2 {
@@ -674,6 +768,9 @@ p {
   }
   .contenedor-contenido-tabs-tab1-movil .titulo-tab1-tab1 {
     padding-top: 80px;
+  }
+  .contenedor-tab1movil {
+    display: block;
   }
   .contenedor-s3-movil {
     display: block;
@@ -728,6 +825,11 @@ p {
     width: 320px;
     margin: 0 auto;
     height: 320px;
+  }
+  .subcontenido-tab2-movil {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    gap: 10px;
   }
   .p1-tab1 {
     font-size: 35px;
@@ -786,6 +888,9 @@ p {
   .tab-tab2 {
     width: 30%;
   }
+  .tab-tab2-movil {
+    width: 30%;
+  }
   .rectangulo-tab2 {
     width: calc(50.5% - 11.3px);
   }
@@ -826,6 +931,18 @@ p {
   .contenedor-contenido-tabs-tab1-movil .titulo-tab1-tab1 {
     padding-top: 80px;
   }
+  .contenedor-tab1movil {
+    display: block;
+  }
+  .tabs-tab1movil {
+    width: 320px;
+    margin: 0 auto;
+    height: 320px;
+    margin-bottom: 30px;
+  }
+  .tab-tab2-movil {
+    width: 46%;
+  }
   .contenedor-s3-movil {
     display: block;
   }
@@ -854,6 +971,11 @@ p {
     font-size: 16px;
     padding: 30px 0px;
   }
+  .subcontenido-tab2-movil {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    gap: 25px;
+  }
   .contenedor-s2 {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -877,6 +999,7 @@ p {
     margin: 0 auto;
     height: 320px;
     margin-bottom: 30px;
+    margin-top: 30px;
   }
   .p1-tab1 {
     font-size: 35px;
@@ -981,6 +1104,18 @@ p {
   .contenedor-contenido-tabs-tab1-movil .titulo-tab1-tab1 {
     padding-top: 80px;
   }
+  .contenedor-tab1movil {
+    display: block;
+  }
+  .tabs-tab1movil {
+    width: 280px;
+    margin: 0 auto;
+    height: 280px;
+    margin-bottom: 40px;
+  }
+  .tab-tab2-movil {
+    width: 46%;
+  }
   .contenedor-s3-movil {
     display: block;
   }
@@ -1012,6 +1147,11 @@ p {
     font-size: 16px;
     padding: 30px 0px;
   }
+  .subcontenido-tab2-movil {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    gap: 25px;
+  }
   .contenedor-s2 {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -1035,6 +1175,7 @@ p {
     margin: 0 auto;
     height: 280px;
     margin-bottom: 40px;
+    margin-top: 40px;
   }
   .p1-tab1 {
     font-size: 35px;

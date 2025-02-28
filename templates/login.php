@@ -90,7 +90,7 @@ get_header();
     <h2>Iniciar Sesión</h2>
     <form method="post" action="" class="login-form">
         <p>
-            <label for="username">Correo eléctronico</label>
+            <label for="username">Correo electrónico</label>
             <input type="text" name="email" id="email" required>
         </p>
         <p>
@@ -151,7 +151,7 @@ get_header();
             </div>
         <?php endif; ?>
         <br>
-        <p style="margin-top: 20px">
+        <p style="margin-top: 0px">
             <button type="submit" name="custom_register">Registrarse</button>
         </p>
     </form>

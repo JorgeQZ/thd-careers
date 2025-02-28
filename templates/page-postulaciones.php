@@ -255,33 +255,33 @@ Template Name: Postulaciones
 
                     <div>
                         <label>Nombre(s)<span class="obligatorio">*</span></label>
-                        <input type="text" name="acf_postulacion_nombre" value="<?php echo esc_attr($nombre_rellenar); ?>" required>
+                        <input type="text" class="req validar" name="acf_postulacion_nombre" value="<?php echo esc_attr($nombre_rellenar); ?>" required>
                     </div>
 
                     <div>
-                        <label>Apellido Paterno<span class="obligatorio">*</span></label>
-                        <input type="text" name="acf_postulacion_apellidopaterno" value="<?php echo esc_attr($apellido_paterno_rellenar); ?>" required>
+                        <label>Apellido paterno<span class="obligatorio">*</span></label>
+                        <input type="text" class="req validar" name="acf_postulacion_apellidopaterno" value="<?php echo esc_attr($apellido_paterno_rellenar); ?>" required>
                     </div>
 
                     <div>
-                        <label>Apellido Materno<span class="obligatorio">*</span></label>
-                        <input type="text" name="acf_postulacion_apellidomaterno" value="<?php echo esc_attr($apellido_materno_rellenar); ?>" required>
+                        <label>Apellido materno<span class="obligatorio">*</span></label>
+                        <input type="text" class="req validar" name="acf_postulacion_apellidomaterno" value="<?php echo esc_attr($apellido_materno_rellenar); ?>" required>
                     </div>
 
                     <div>
-                        <label>Correo<span class="obligatorio">*</span></label>
-                        <input type="text" name="acf_postulacion_correo" value="<?php echo esc_attr($correo_rellenar); ?>" required>
+                        <label>Correo electrónico<span class="obligatorio">*</span></label>
+                        <input type="text" class="req" name="acf_postulacion_correo" value="<?php echo esc_attr($correo_rellenar); ?>" required>
                     </div>
 
                     <div>
                         <label>Celular<span class="obligatorio">*</span></label>
-                        <input type="text" name="acf_postulacion_telefono" value="<?php echo esc_attr($telefono_rellenar); ?>" required>
+                        <input type="text" class="req validar_tel" name="acf_postulacion_telefono" value="<?php echo esc_attr($telefono_rellenar); ?>" required>
                     </div>
 
                     <div class="divall">
                         <label>¿Cómo te enteraste de nosotros?</label>
                         <select name="Select1-postulacion">
-                            <option value="Sin selección">Seleccione una opción</option>
+                            <option value="Sin selección">Selecciona una opción</option>
                             <option value="Familia o amigo">Familia o amigo</option>
                             <option value="Bolsa de empleo">Bolsa de empleo</option>
                             <option value="Facebook">Facebook</option>
@@ -304,17 +304,17 @@ Template Name: Postulaciones
 
                     <div>
                         <label>Puesto de trabajo<span class="obligatorio">*</span></label>
-                        <input type="text" name="puesto-1_puesto-de-trabajo-1" required>
+                        <input type="text" class="req" name="puesto-1_puesto-de-trabajo-1" required>
                     </div>
 
                     <div>
-                        <label>Compañia<span class="obligatorio">*</span></label>
-                        <input type="text" name="puesto-1_compania-1" required>
+                        <label>Compañía<span class="obligatorio">*</span></label>
+                        <input type="text" class="req" name="puesto-1_compania-1" required>
                     </div>
 
                     <div>
                         <label>Ubicación<span class="obligatorio">*</span></label>
-                        <input type="text" name="puesto-1_ubicacion-1" required>
+                        <input type="text" class="req" name="puesto-1_ubicacion-1" required>
                     </div>
 
                     <div class="div-checkbox">
@@ -325,7 +325,7 @@ Template Name: Postulaciones
                     <div>
                         <label>Desde<span class="obligatorio">*</span></label>
                         <div class="custom-date-input">
-                            <input type="date" name="puesto-1_desde-1" required>
+                            <input type="date" class="req" name="puesto-1_desde-1" required>
                             <span class="icon-calendar"></span>
                         </div>
                     </div>
@@ -333,7 +333,7 @@ Template Name: Postulaciones
                     <div>
                         <label>Hasta<span class="obligatorio hasta">*</span></label>
                         <div class="custom-date-input">
-                            <input type="date" name="puesto-1_hasta-1" required>
+                            <input type="date" class="req" name="puesto-1_hasta-1" required>
                             <span class="icon-calendar"></span>
                         </div>
                     </div>
@@ -342,7 +342,7 @@ Template Name: Postulaciones
 
                     <div class="div-allarea">
                         <label>Descripción del rol<span class="obligatorio">*</span></label>
-                        <textarea name="puesto-1_descripcion-del-rol-1" required></textarea>
+                        <textarea class="req" name="puesto-1_descripcion-del-rol-1" required></textarea>
                     </div>
 
                 </div>
@@ -397,7 +397,7 @@ Template Name: Postulaciones
                     <div class="trabajasaqui">
                         <label style="width: 200%;">¿Actualmente trabajas o has trabajado en The Home Depot?</label>
                         <select name="has-trabajado">
-                            <option value="Sin Selección">Seleccione una respuesta</option>
+                            <option value="Sin Selección">Selecciona una respuesta</option>
                             <option value="Sí">Sí</option>
                             <option value="No">No</option>
                         </select>
@@ -413,13 +413,13 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div>
-                        <label>Escuela o Universidad<span class="obligatorio">*</span></label>
-                        <input type="text" name="escuela-o-universidad" required>
+                        <label>Escuela o universidad<span class="obligatorio">*</span></label>
+                        <input type="text" class="req" name="escuela-o-universidad" required>
                     </div>
 
                     <div>
                         <label>Título<span class="obligatorio">*</span></label>
-                        <input type="text" name="titulo-1" required>
+                        <input type="text" class="req" name="titulo-1" required>
                     </div>
 
                     <div class="divall">
@@ -450,7 +450,7 @@ Template Name: Postulaciones
                             $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
                             echo $cv_gcs_url
                                 ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz click aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
-                                : 'Sin archivo seleccionado';
+                                : '';
                         ?>
                     </span>
                 </div>
@@ -474,16 +474,72 @@ Template Name: Postulaciones
 
                     <div class="div-allarea">
                         <label class="requieres" style="width: 1000px;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
+
+                        <span>
+                            <input type="radio" name="tipo-de-apoyo" value="Sí" style="margin-bottom: 15px;">
+                            Sí
+                        </span>
+
+                        <span>
+                            <input type="radio" name="tipo-de-apoyo" value="No">
+                            No
+                        </span>
+<!--
                         <select id="support-select" name="tipo-de-apoyo">
                             <option value="Sin Selección" <?php echo ($ar1 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
                             <option value="Sí" <?php echo ($ar1 === 'Sí') ? 'selected' : ''; ?>>Sí</option>
                             <option value="No" <?php echo ($ar1 === 'No') ? 'selected' : ''; ?>>No</option>
                         </select>
+-->
                     </div>
 
                     <div class="div-allarea" id="support-details" style="display: none;">
                         <label class="requieres" style="width: 1000px;">¿Qué tipo de apoyo o ajuste requieres para tu proceso de selección?</label>
-                        <select id="support-type-select" name="que-tipo">
+
+                        <span>
+                        <input type="radio" name="que-tipo"
+                            value="Uso de notas escritas mediante libreta o pizarra de comunicación">
+                            Uso de notas escritas mediante libreta o pizarra de comunicación
+                        </span><br>
+
+                        <span>
+                            <input type="radio" name="que-tipo" value="Intérprete de LSM (lengua de señas mexicana)">
+                            Intérprete de LSM (lengua de señas mexicana)
+                        </span><br>
+
+                        <span>
+                            <input type="radio" name="que-tipo"
+                                value="Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)">
+                            Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)
+                        </span><br>
+
+                        <span>
+                            <input type="radio" name="que-tipo" value="Poder tomar asiento con frecuencia">
+                            Poder tomar asiento con frecuencia
+                        </span><br>
+
+                        <span>
+                            <input type="radio" name="que-tipo" value="Magnificadores de pantalla o lupa portátil">
+                            Magnificadores de pantalla o lupa portátil
+                        </span><br>
+
+                        <span>
+                            <input type="radio" name="que-tipo" value="Uso de lector de pantalla">
+                            Uso de lector de pantalla
+                        </span><br>
+
+                        <span>
+                            <input type="radio" name="que-tipo" value="Control de estímulos sonoros, como aislamiento de ruido">
+                            Control de estímulos sonoros, como aislamiento de ruido
+                        </span><br>
+
+                        <span>
+                            <input type="radio" name="que-tipo" value="Otro">
+                            Otro
+                        </span><br>
+
+
+<!--                    <select id="support-type-select" name="que-tipo">
                             <option value="Sin Selección" <?php echo ($ar2 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
                             <option value="Uso de notas escritas mediante libreta o pizarra de comunicación" <?php echo ($ar2 === 'Uso de notas escritas mediante libreta o pizarra de comunicación') ? 'selected' : ''; ?>>Uso de notas escritas mediante libreta o pizarra de comunicación</option>
                             <option value="Intérprete de LSM (lengua de señas mexicana)" <?php echo ($ar2 === 'Intérprete de LSM (lengua de señas mexicana)') ? 'selected' : ''; ?>>Intérprete de LSM (lengua de señas mexicana)</option>
@@ -494,6 +550,7 @@ Template Name: Postulaciones
                             <option value="Control de estímulos sonoros, como aislamiento de ruido" <?php echo ($ar2 === 'Control de estímulos sonoros, como aislamiento de ruido') ? 'selected' : ''; ?>>Control de estímulos sonoros, como aislamiento de ruido</option>
                             <option value="Otro" <?php echo ($ar2 === 'Otro') ? 'selected' : ''; ?>>Otro</option>
                         </select>
+-->
                     </div>
 
                     <div class="div-allarea" id="textareaotro" style="display: none;">
@@ -511,9 +568,14 @@ Template Name: Postulaciones
                 <div class="campos">
 
                     <div class="div-checkbox">
-                        <input type="checkbox" name="acepto-voluntariamente" value="Sí" required>
+                        <input type="checkbox" class="check_terminos" name="acepto-voluntariamente" value="Sí" required>
                         <label>Acepto voluntariamente los Términos y Condiciones para enviar mi solicitud a The Home Depot.<span class="obligatorio">*</span></label>
                     </div>
+
+                    <a href="<?php echo esc_url(home_url('/carreras/aviso-de-privacidad-candidatos/')); ?>" class="a-tyc" target="_blank" rel="noopener noreferrer">
+                        Haz click aquí para conocer los Términos y Condiciones de nuestros Candidatos(as)
+                    </a>
+
 
                 </div>
             </div>
@@ -543,9 +605,17 @@ Template Name: Postulaciones
         const supportSelect = document.getElementById('support-select');
         const supportDetails = document.getElementById('support-details');
 
+        var supportRadio = document.getElementsByName('tipo-de-apoyo');
+/*
+        for (var i = 0; i < supportRadio.length; i++) {
+            if (supportRadio[i].checked) {
+                console.log('Valor seleccionado: ' + supportRadio[i].value);
+            }
+        }
+*/
         // Función para manejar la visibilidad de supportDetails
         function handleSupportDetails() {
-            if (supportSelect.value === 'Sí') {
+            if (supportRadio === 'Sí') {
                 supportDetails.style.display = 'flex';
             } else {
                 supportDetails.style.display = 'none';
@@ -556,7 +626,16 @@ Template Name: Postulaciones
         handleSupportDetails();
 
         // Evento change para actualizar la visibilidad
-        supportSelect.addEventListener('change', handleSupportDetails);
+        //supportSelect.addEventListener('change', handleSupportDetails);
+
+        // Configurar eventos para la primera pregunta (mostrar/ocultar segunda pregunta)
+        document.querySelectorAll('input[name="tipo-de-apoyo"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                supportRadio = this.value;
+                handleSupportDetails();
+            });
+        });
+
     });
 </script>
 
@@ -584,9 +663,11 @@ Template Name: Postulaciones
         const supportTypeSelect = document.getElementById('support-type-select');
         const textareaOtro = document.getElementById('textareaotro');
 
+        var supportTypeRadio = document.getElementsByName('que-tipo');
+
         // Función para manejar la visibilidad de textareaOtro
         function handleTextareaOtro() {
-            if (supportTypeSelect.value === 'Otro') {
+            if (supportTypeRadio == 'Otro') {
                 textareaOtro.style.display = 'flex';
             } else {
                 textareaOtro.style.display = 'none';
@@ -597,7 +678,15 @@ Template Name: Postulaciones
         handleTextareaOtro();
 
         // Evento change para actualizar la visibilidad
-        supportTypeSelect.addEventListener('change', handleTextareaOtro);
+        //supportTypeSelect.addEventListener('change', handleTextareaOtro);
+
+        document.querySelectorAll('input[name="que-tipo"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                supportTypeRadio = this.value;
+                handleTextareaOtro();
+            });
+        });
+
     });
 </script>
 
@@ -658,4 +747,75 @@ Template Name: Postulaciones
             handleCheckboxToggle(checkbox2, checkbox1, hasta2, null, false); // hasta2 nunca es required
         });
     });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+
+        function verificarCampos() {
+            let todosLlenos = true;
+
+            $('.contenedorgeneralcampos input.req, .contenedorgeneralcampos input.req, .contenedorgeneralcampos textarea.req').each(function(index) {
+                if ($(this).val() === '') {
+                    todosLlenos = false;
+                }
+            });
+
+            if (!$('input.check_terminos').is(':checked')){
+                todosLlenos = false;
+            }
+
+/*
+            $('.contenedorgeneralcampos select').each(function(index) {
+                if ($(this).children('option:first-child').is(':selected')) {
+                    todosLlenos = false;
+                }
+            });
+*/
+            if (todosLlenos) {
+                $('.boton-postulacion').prop('disabled', false);
+            } else {
+                $('.boton-postulacion').prop('disabled', true);
+            }
+        }
+
+        $('.contenedorgeneralcampos input.req, .contenedorgeneralcampos textarea.req, .contenedorgeneralcampos input.check_terminos').on('input', function() {
+            verificarCampos();
+        });
+
+        $('.validar').on('keypress', function(e) {
+            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]+$/;
+            var key = String.fromCharCode(event.which);
+
+            if (!regex.test(key)) {
+                event.preventDefault();
+            }
+        });
+
+        $('.validar_tel').on('keypress', function(e) {
+            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ+()0-9 ]+$/;
+            var key = String.fromCharCode(event.which);
+
+            if (!regex.test(key)) {
+                event.preventDefault();
+            }
+        });
+
+        var hoy = new Date().toISOString().split('T')[0];
+        $('.contenedorgeneralcampos input[type="date"]').each(function(index) {
+            $(this).attr('max', hoy);
+            $(this).attr('min', "1965-01-01");
+        });
+
+/*
+        $('select').change(function() {
+            verificarCampos();
+        });
+*/
+        verificarCampos();
+
+    });
+
 </script>

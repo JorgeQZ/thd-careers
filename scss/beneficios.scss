@@ -147,6 +147,55 @@ p {
     text-decoration: none;
 }
 
+.tabs-tab1movil {
+    border: solid #a6a6a6 1px;
+    border-radius: 2px;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: none;
+    text-decoration: none;
+    width: 320px;
+    margin: 0 auto;
+    height: 320px;
+    margin-bottom: 30px;
+}
+
+.tabs-tab1movil:hover {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p3-tab1 {
+        color: white;
+    }
+
+    .plus-tab1 {
+        display: none;
+    }
+}
+
+.contenedor-contenido-tabs-tab1-movil {
+    flex-direction: column;
+}
+
+.tabs-tab1movil.active {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p3-tab1 {
+        color: white;
+    }
+
+    .pico-tab1 {
+        display: block;
+    }
+
+    .plus-tab1 {
+        display: none;
+    }
+}
+
 .tabs-tab1:hover {
     background-color: #f96302;
     border: solid #f96302 1px;
@@ -327,6 +376,49 @@ p {
 
     .p1-tab2 {
         color: white;
+    }
+}
+
+.tab-tab2-movil {
+    border: solid #a6a6a6 1px;
+    border-radius: 2px;
+    width: 15.67%;
+    height: 178px;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: none;
+    margin-top: 60px;
+}
+
+.tab-tab2-movil:hover {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-tab2 {
+        color: white;
+    }
+
+    .plus-tab2 {
+        display: none;
+    }
+}
+
+.tab-tab2-movil.active {
+    background-color: #f96302;
+    border: solid #f96302 1px;
+
+    .p1-tab2 {
+        color: white;
+    }
+
+    .pico-tab2 {
+        display: block;
+    }
+
+    .plus-tab2 {
+        display: none;
     }
 }
 
@@ -544,7 +636,7 @@ p {
     }
 
     .p3-tab1 {
-        padding-left: 30px;
+        padding-left: 20px;
     }
 
     .plus-tab1 {
@@ -553,7 +645,7 @@ p {
 
     .pico-tab1 {
         width: 120px;
-        top: 255px;
+        top: 290px;
     }
 
     .contenedor-tabs-tab1 {
@@ -579,6 +671,10 @@ p {
     }
 
     .tab-tab2 {
+        width: 25%;
+    }
+
+    .tab-tab2-movil {
         width: 25%;
     }
 
@@ -620,6 +716,10 @@ p {
         .titulo-tab1-tab1 {
             padding-top: 80px;
         }
+    }
+
+    .contenedor-tab1movil {
+        display: block;
     }
 
     .contenedor-s3-movil {
@@ -692,6 +792,11 @@ p {
         height: 320px;
     }
 
+    .subcontenido-tab2-movil {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
     // S3 - TAB 1
 
     .p1-tab1 {
@@ -761,6 +866,10 @@ p {
         width: 30%;
     }
 
+    .tab-tab2-movil {
+        width: 30%;
+    }
+
     .rectangulo-tab2 {
         width: calc(50.5% - 11.3px);
     }
@@ -816,6 +925,21 @@ p {
         }
     }
 
+    .contenedor-tab1movil {
+        display: block;
+    }
+
+    .tabs-tab1movil {
+        width: 320px;
+        margin: 0 auto;
+        height: 320px;
+        margin-bottom: 30px;
+    }
+
+    .tab-tab2-movil {
+        width: 46%;
+    }
+
     .contenedor-s3-movil {
         display: block;
 
@@ -858,6 +982,11 @@ p {
 
     // S2
 
+    .subcontenido-tab2-movil {
+        flex-wrap: wrap;
+        gap: 25px;
+    }
+
     .contenedor-s2 {
         flex-direction: column;
         gap: 0px;
@@ -882,6 +1011,7 @@ p {
         margin: 0 auto;
         height: 320px;
         margin-bottom: 30px;
+        margin-top: 30px;
     }
 
     // S3 - TAB 1
@@ -1008,6 +1138,21 @@ p {
         }
     }
 
+    .contenedor-tab1movil {
+        display: block;
+    }
+
+    .tabs-tab1movil {
+        width: 280px;
+        margin: 0 auto;
+        height: 280px;
+        margin-bottom: 40px;
+    }
+
+    .tab-tab2-movil {
+        width: 46%;
+    }
+
     .contenedor-s3-movil {
         display: block;
 
@@ -1053,6 +1198,11 @@ p {
 
     // S2
 
+    .subcontenido-tab2-movil {
+        flex-wrap: wrap;
+        gap: 25px;
+    }
+
     .contenedor-s2 {
         flex-direction: column;
         gap: 0px;
@@ -1077,6 +1227,7 @@ p {
         margin: 0 auto;
         height: 280px;
         margin-bottom: 40px;
+        margin-top: 40px;
     }
 
     // S3 - TAB 1

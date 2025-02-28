@@ -92,15 +92,15 @@ if (isset($_POST['submit'])) {
             <div class="contenedor detres">
                 <div>
                     <label for="nombre">Nombre(s)</label>
-                    <input type="text" name="nombre" value="<?php echo esc_attr($nombre_actual); ?>">
+                    <input type="text" class="validar" name="nombre" value="<?php echo esc_attr($nombre_actual); ?>">
                 </div>
                 <div>
                     <label for="apellido_paterno">Apellido paterno</label>
-                    <input type="text" name="apellido_paterno" value="<?php echo esc_attr($apellido_paterno_actual); ?>">
+                    <input type="text" class="validar" name="apellido_paterno" value="<?php echo esc_attr($apellido_paterno_actual); ?>">
                 </div>
                 <div>
                     <label for="apellido_materno">Apellido materno</label>
-                    <input type="text" name="apellido_materno" value="<?php echo esc_attr($apellido_materno_actual); ?>">
+                    <input type="text" class="validar" name="apellido_materno" value="<?php echo esc_attr($apellido_materno_actual); ?>">
                 </div>
             </div>
 
@@ -131,9 +131,9 @@ if (isset($_POST['submit'])) {
 
             <div class="contenedor dedos">
                 <div>
-                    <label for="grado_escolaridad">Elige tu grado de escolaridad:</label>
+                    <label for="grado_escolaridad">Elige tu grado de escolaridad</label>
                     <select id="grado_escolaridad" name="grado_escolaridad">
-                        <option value="">Escolaridad - Grado de estudios</option>
+                        <option value="">Selecciona una opción</option>
                         <option value="Primaria" <?php selected($grado_escolaridad_actual, 'Primaria'); ?>>Primaria</option>
                         <option value="Secundaria" <?php selected($grado_escolaridad_actual, 'Secundaria'); ?>>Secundaria
                         </option>
@@ -152,7 +152,7 @@ if (isset($_POST['submit'])) {
                 <div>
                     <label for="estado_civil">Estado civil</label>
                     <select id="estado_civil" name="estado_civil">
-                        <option value="">Seleccione su estado civil</option>
+                        <option value="">Selecciona una opción</option>
                         <option value="soltero" <?php selected($estado_civil_actual, 'soltero'); ?>>Soltero/a</option>
                         <option value="casado" <?php selected($estado_civil_actual, 'casado'); ?>>Casado/a</option>
                         <option value="divorciado" <?php selected($estado_civil_actual, 'divorciado'); ?>>Divorciado/a</option>
@@ -162,10 +162,10 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="contenedor-cdt">
-                <p>¿En qué Centro de trabajo estás interesado(a)?</p>
+                <p>¿En qué centro de trabajo estás interesado(a)?</p>
 
                 <label>
-                    <input type="radio" name="pr1" value="Oficinas de apoyo a tiendas" <?php checked($pr1_actual, 'Oficinas de apoyo a tiendas'); ?>> Oficinas de apoyo a tiendas
+                    <input type="radio" name="pr1" value="Oficinas de Apoyo a Tiendas" <?php checked($pr1_actual, 'Oficinas de apoyo a tiendas'); ?>> Oficinas de Apoyo a Tiendas
                 </label>
 
                 <label>
@@ -228,31 +228,34 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div>
-                    <label for="municipiociudad">Ciudad</label>
-                    <input type="text" name="municipiociudad" value="<?php echo esc_attr($municipiociudad_actual); ?>">
+                    <label for="colonia">Colonia</label>
+                    <input type="text" name="colonia" value="<?php echo esc_attr($colonia_actual); ?>">
                 </div>
 
-                <div>
-                    <label for="estado">Estado</label>
-                    <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
-                </div>
-            </div>
-
-            <div class="contenedor detres">
                 <div>
                     <label for="codigo_postal">Código postal</label>
                     <input type="text" name="codigo_postal" value="<?php echo esc_attr($codigo_postal_actual); ?>">
                 </div>
 
+            </div>
+
+            <div class="contenedor detres">
+
                 <div>
-                    <label for="municipiociudad">País</label>
-                    <input type="text" name="pais" value="<?php echo esc_attr($pais_actual); ?>">
+                    <label for="municipiociudad">Ciudad</label>
+                    <input type="text" class="validar_ubi" name="municipiociudad" value="<?php echo esc_attr($municipiociudad_actual); ?>">
                 </div>
 
+                <div>
+                    <label for="estado">Estado</label>
+                    <input type="text" class="validar_ubi" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
+                </div>
+<!--
                 <div style="visibility: hidden;">
                     <label for="estado">Estado</label>
                     <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
                 </div>
+-->
             </div>
 
             <h1>INFORMACIÓN DE CONTACTO</h1>
@@ -277,12 +280,12 @@ if (isset($_POST['submit'])) {
             <div class="contenedor detres">
                 <div>
                     <label for="telefono_celular">Celular</label>
-                    <input type="text" name="telefono_celular" value="<?php echo esc_attr($telefono_celular_actual); ?>">
+                    <input type="text" class="validar_tel" name="telefono_celular" value="<?php echo esc_attr($telefono_celular_actual); ?>">
                 </div>
 
                 <div>
                     <label for="telefono_fijo">Teléfono fijo</label>
-                    <input type="text" name="telefono_fijo" value="<?php echo esc_attr($telefono_fijo_actual); ?>">
+                    <input type="text" class="validar_tel" name="telefono_fijo" value="<?php echo esc_attr($telefono_fijo_actual); ?>">
                 </div>
 
                 <div>
@@ -477,6 +480,86 @@ if (isset($_POST['submit'])) {
             segundaPregunta.style.display = mostrar ? "block" : "none";
         }
     }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+
+        function verificarCampos() {
+            let todosLlenos = true;
+
+            $('.contenedorgeneralcampos input.req, .contenedorgeneralcampos input.req, .contenedorgeneralcampos textarea.req').each(function(index) {
+                if ($(this).val() === '') {
+                    todosLlenos = false;
+                }
+            });
+
+            if (!$('input.check_terminos').is(':checked')){
+                todosLlenos = false;
+            }
+
+/*
+            $('.contenedorgeneralcampos select').each(function(index) {
+                if ($(this).children('option:first-child').is(':selected')) {
+                    todosLlenos = false;
+                }
+            });
+*/
+            if (todosLlenos) {
+                $('.boton-postulacion').prop('disabled', false);
+            } else {
+                $('.boton-postulacion').prop('disabled', true);
+            }
+        }
+
+        $('.contenedorgeneralcampos input.req, .contenedorgeneralcampos textarea.req, .contenedorgeneralcampos input.check_terminos').on('input', function() {
+            verificarCampos();
+        });
+
+        $('.validar').on('keypress', function(e) {
+            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]+$/;
+            var key = String.fromCharCode(event.which);
+
+            if (!regex.test(key)) {
+                event.preventDefault();
+            }
+        });
+
+        $('.validar_tel').on('keypress', function(e) {
+            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ+()0-9 ]+$/;
+            var key = String.fromCharCode(event.which);
+
+            if (!regex.test(key)) {
+                event.preventDefault();
+            }
+        });
+
+        $('.validar_ubi').on('keypress', function(e) {
+            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
+            var key = String.fromCharCode(event.which);
+
+            if (!regex.test(key)) {
+                event.preventDefault();
+            }
+        });
+
+        var hoy = new Date().toISOString().split('T')[0];
+        $('.contenedorgeneralcampos input[type="date"]').each(function(index) {
+            $(this).attr('max', hoy);
+            $(this).attr('min', "1965-01-01");
+        });
+
+/*
+        $('select').change(function() {
+            verificarCampos();
+        });
+*/
+        verificarCampos();
+
+    });
+
 </script>
 
 
