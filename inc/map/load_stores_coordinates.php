@@ -6,14 +6,30 @@ add_action('wp_ajax_nopriv_get_stores_locations', 'get_stores_locations');
 function get_stores_locations()
 {
     $cache_key = 'cached_stores';
-    $stores = get_transient($cache_key);
+    $cached_stores = get_transient($cache_key);
 
-    if (!$stores) {
-        $stores = get_field('catalogo_de_tiendas', 'option');
-        if (!$stores) {
-            wp_send_json_error('No se encontraron tiendas.', 404);
+    if (!$cached_stores) {
+        $allStores = get_field('catalogo_de_tiendas', 'option');
+        $stores_and_vacancies = get_vacancies_by_store();
+
+        $filtered_stores = [];
+
+        if(!empty($allStores) && !empty($stores_and_vacancies)){
+            foreach ($allStores as $store) {
+                $numero_tienda = $store['numero_de_tienda'];
+                if (isset($stores_and_vacancies[$numero_tienda])) {
+                    $store['vacantes'] = $stores_and_vacancies[$numero_tienda];
+                    $filtered_stores[] = $store;
+                }
+            }
         }
+
+        if (empty($filtered_stores)) {
+            wp_send_json_error('No se encontraron tiendas con vacantes.', 404);
+        }
+
         set_transient($cache_key, $stores, HOUR_IN_SECONDS); // Cache por 1 hora
+        $stores = $filtered_stores;
     }
 
 
@@ -76,4 +92,32 @@ function get_related_vacantes() {
     wp_reset_postdata();
 
     wp_send_json_success($vacantes);
+}
+
+function get_vacancies_by_store(){
+    $args = array(
+        'post_type'      => 'vacantes',  // Reemplaza con el nombre de tu CPT
+        'post_status'    => 'publish',   // Solo obtener publicaciones publicadas
+        'posts_per_page' => -1,          // Obtener todos los posts
+        'fields'         => 'ids'        // Solo obtener los IDs de los posts
+    );
+
+    $posts = get_posts($args);
+
+    $contador_tiendas = [];
+
+    if (!empty($posts)) {
+        foreach ($posts as $post_id) {
+            $numero_tienda = get_field('extra_data_data_tienda', $post_id);
+            if (!empty($numero_tienda)) {
+                // Incrementar contador por cada número de tienda
+                if (!isset($contador_tiendas[$numero_tienda])) {
+                    $contador_tiendas[$numero_tienda] = 1;
+                } else {
+                    $contador_tiendas[$numero_tienda]++;
+                }
+            }
+        }
+    }
+    return $contador_tiendas;
 }

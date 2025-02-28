@@ -268,4 +268,46 @@ function hide_acf_options_page_for_specific_role() {
 }
 add_action('admin_menu', 'hide_acf_options_page_for_specific_role', 99);
 
+
+/** Verificación de tipo de negocio asignado a roles */
+function verify_tn_role($user_login, $user){
+	$roles_permitidos = array('rh_general', 'rh_admin', 'rh_oat'); // Roles permitidos para asignar tipo de negocio
+	if(array_intersect($roles_permitidos, $user->roles)){
+		$tipo_negocio = get_user_meta($user->ID, 'tipo_de_negocio', true); // Obtener el tipo de negocio del usuario
+		if(empty($tipo_negocio)){ // Verificación si el campo esta vacío
+			$numero_tienda_objetivo = get_user_meta($user->ID, 'tienda', true); // Obtener el número de tienda del usuario
+			$tipo_negocio = ''; // Inicializar variable para asignar el tipo de negocio
+
+			if ( have_rows('catalogo_de_tiendas', 'option') ) {
+				while ( have_rows('catalogo_de_tiendas', 'option') ) {
+					the_row();
+					$numero_tienda = get_sub_field('numero_de_tienda'); // Obtener el número de tienda del catálogo
+					if ( $numero_tienda == $numero_tienda_objetivo ) {
+						$tipo_negocio = get_sub_field('tipo_de_negocio'); // Obtener el tipo de negocio del catálogo
+						break;
+					}
+				}
+			}
+
+			/** Switch para asignar el tipo de negocio al user */
+			switch ($tipo_negocio) {
+				case 'Tienda':
+					update_user_meta( $user->ID, 'tipo_de_negocio', sanitize_text_field( 'Tiendas' ) ); // Asignar el tipo de negocio a la meta del usuario
+					break;
+				case 'Centros Logísticos':
+					update_user_meta( $user->ID, 'tipo_de_negocio', sanitize_text_field( 'Centros Logísticos' ) ); // Asignar el tipo de negocio a la meta del usuario
+					break;
+				case 'Oficina de Apoyo a tiendas':
+					update_user_meta( $user->ID, 'tipo_de_negocio', sanitize_text_field( 'Oficinas de Apoyo a Tiendas' ) ); // Asignar el tipo de negocio a la meta del usuario
+					break;
+				default:
+					echo 'No se encontró el tipo de negocio'; // Mensaje de error
+					break;
+			}
+		}
+	}
+}
+add_action( 'wp_login', 'verify_tn_role', 10, 2 ); // Ejecutar la función al iniciar sesión
+
+
 ?>

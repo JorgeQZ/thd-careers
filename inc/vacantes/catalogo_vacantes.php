@@ -431,7 +431,7 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
         // Buscar si ya existe otro post con la misma combinación de campos
         $existing_posts = get_posts([
             'post_type'   => 'vacantes',
-            'post_status' => ['publish', 'draft', 'pending'], // Verificar todos los estados
+            'post_status' => ['publish'], // Verificar todos los estados
             'meta_query'  => [
                 'relation' => 'AND',
                 [
