@@ -459,7 +459,7 @@ Template Name: Postulaciones
 
                     <div class="div-cv">
                         <img class="img-file-icon" src="<?php echo get_template_directory_uri(); ?>/imgs/attach-file.svg" alt="file icon">
-                        <span class="file-name">Haz click aquí para subir un CV</span>
+                        <span class="file-name">Haz clic aquí para subir un CV</span>
                         <input id="file-input" type="file" name="cv_file">
                     </div>
 
