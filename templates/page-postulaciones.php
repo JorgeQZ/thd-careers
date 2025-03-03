@@ -774,11 +774,14 @@ Template Name: Postulaciones
                 }
             });
 */
+
+/*
             if (todosLlenos) {
                 $('.boton-postulacion').prop('disabled', false);
             } else {
                 $('.boton-postulacion').prop('disabled', true);
             }
+*/
         }
 
         $('.contenedorgeneralcampos input.req, .contenedorgeneralcampos textarea.req, .contenedorgeneralcampos input.check_terminos').on('input', function() {

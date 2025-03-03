@@ -67,7 +67,7 @@
 }
 
 .leaflet-container {
-  margin-bottom: 2000px;
+  margin-bottom: 0px;
 }
 .leaflet-container .search-container {
   background-color: #a6a6a6;

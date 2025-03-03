@@ -323,7 +323,7 @@ body.admin-bar {
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
-  right: 12px;
+  right: 20px;
   top: 55%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);

@@ -1,12 +1,14 @@
 @import "variables";
 @import "fonts";
 
-#map{
+#map {
     height: 560px;
 }
-.leaflet-container{
-    margin-bottom: 2000px;
-    .search-container{
+
+.leaflet-container {
+    margin-bottom: 0px;
+
+    .search-container {
         background-color: rgba($ligth_grey, 1);
         width: 280px;
         position: absolute;
@@ -17,23 +19,27 @@
         transition: 0ms;
         border-radius: 4px;
         z-index: 1000;
-        @media screen and (max-width: 768px){
+
+        @media screen and (max-width: 768px) {
             top: 10px;
             left: 50px;
             transform: translateX(0px);
 
         }
-        .search-container-title{
+
+        .search-container-title {
             transition: 0ms;
             display: flex;
             align-items: center;
-            .logo{
+
+            .logo {
                 width: 50px;
                 height: 50px;
                 margin-right: 10px;
                 transition: 0ms;
             }
-            .title{
+
+            .title {
                 transition: 0ms;
                 font-size: 24px;
                 font-family: $ff-hvcn;
@@ -42,7 +48,8 @@
                 color: #FFF;
             }
         }
-        .search-box{
+
+        .search-box {
             width: 100%;
             border: none;
             border-radius: 3px;
@@ -55,7 +62,7 @@
             padding: 5px;
         }
 
-        .list{
+        .list {
             list-style: none;
             max-height: 280px;
             overflow-y: scroll;
@@ -64,25 +71,29 @@
             padding: 0;
             position: relative;
             margin-bottom: 0;
-            li{
+
+            li {
                 margin: 10px 0px;
                 transition: 0ms;
                 font-size: 15px;
                 padding: 10px;
                 border-radius: 4px;
                 background-color: white;
-                &:hover{
-                   background-color: $orange;
-                   color: white;
+
+                &:hover {
+                    background-color: $orange;
+                    color: white;
                 }
-                .li-title{
+
+                .li-title {
                     font-size: 20px;
                     line-height: 1;
                     margin-bottom: 4px;
                     display: flex;
                     align-items: center;
                     font-family: $ff-hvcn;
-                    img{
+
+                    img {
                         width: 25px;
                         height: 25px;
                         margin-right: 10px;
@@ -90,17 +101,21 @@
                         background-color: #fff;
                     }
                 }
-                .small{
+
+                .small {
                     font-size: 10px;
                     line-height: 1.2;
                     text-align: left;
 
                 }
+
                 cursor: pointer;
-                &:first-child{
+
+                &:first-child {
                     margin-top: 0;
                 }
-                &:last-child{
+
+                &:last-child {
                     margin-bottom: 0;
                 }
             }
@@ -108,70 +123,77 @@
     }
 }
 
-.leaflet-bottom.leaflet-right{
+.leaflet-bottom.leaflet-right {
     display: none !important;
 }
 
-.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive{
+.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive {
     font-family: $ff-bdcn;
 }
-.leaflet-popup-close-button{
-    span{
+
+.leaflet-popup-close-button {
+    span {
         transition: all 300ms;
 
     }
-    &:hover{
-        span{
+
+    &:hover {
+        span {
             color: $orange;
         }
     }
 }
 
-.vacantes-label{
+.vacantes-label {
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
     font-family: $ff-hvcn;
     pointer-events: none;
-    .vacantes-number{
+
+    .vacantes-number {
         margin-top: 2px;
         pointer-events: none;
     }
 }
 
-.leaflet-popup-content-wrapper{
+.leaflet-popup-content-wrapper {
     padding: 0;
-    .leaflet-popup-content{
-        margin: 0 ;
+
+    .leaflet-popup-content {
+        margin: 0;
         padding-bottom: 5px;
         min-width: 260px;
         max-width: 260px;
 
-        .header{
+        .header {
             background-color: $dark_grey;
             color: white;
             padding: 10px;
             font-family: $ff-roman;
-            .title{
+
+            .title {
                 font-size: 16px;
                 font-family: $ff-hvcn;
                 margin-bottom: 5px;
             }
         }
 
-        ul{
+        ul {
             padding: 0px 5px;
-            li{
+
+            li {
                 box-sizing: content-box;
                 list-style: none;
                 transition: all 300ms;
                 background-color: #fff;
-                &:nth-child(odd){
+
+                &:nth-child(odd) {
                     background-color: rgba($ligth_grey, 0.2);
                 }
 
-                a{
+                a {
                     text-decoration: none;
                     text-transform: capitalize;
                     font-family: $ff-mdcn;
@@ -184,9 +206,9 @@
                     transition: all 300ms;
                 }
 
-                &:hover{
+                &:hover {
 
-                    a{
+                    a {
                         background-color: $dark_grey;
                         color: white;
                     }
@@ -195,7 +217,7 @@
             }
         }
 
-        .load-more{
+        .load-more {
             appearance: none;
             background-color: $orange;
             color: #fff;
