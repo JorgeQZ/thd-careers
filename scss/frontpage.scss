@@ -90,7 +90,7 @@ $paragraph-font-size: 1.2rem;
 
       select {
         width: calc(59% - 230px);
-        min-width: 280px;
+        min-width: 314px;
         appearance: none;
         padding: 0 15px;
         height: 54px;
@@ -121,12 +121,12 @@ $paragraph-font-size: 1.2rem;
         transition: all 300ms;
         margin: 10px auto;
 
-            &:hover{
-              background-color: #C14C00;
-              color: #fff;
-              border-color: #C14C00;
-            }
+        &:hover {
+          background-color: #C14C00;
+          color: #fff;
+          border-color: #C14C00;
         }
+      }
 
       button {
         background-color: $orange;
@@ -147,11 +147,11 @@ $paragraph-font-size: 1.2rem;
         transition: all 300ms;
         margin: 10px auto;
 
-          &:hover{
-            background-color: #C14C00;
-            color: #fff;
-            border-color: #C14C00;
-          }
+        &:hover {
+          background-color: #C14C00;
+          color: #fff;
+          border-color: #C14C00;
+        }
       }
 
     }

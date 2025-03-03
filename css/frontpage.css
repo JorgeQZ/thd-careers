@@ -152,7 +152,7 @@
 }
 .hero-banner .hero-content .search-form select {
   width: calc(59% - 230px);
-  min-width: 280px;
+  min-width: 314px;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
