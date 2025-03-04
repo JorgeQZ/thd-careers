@@ -228,18 +228,112 @@ add_action('admin_init', 'cambiar_estado_al_abrir_edicion');
 
 // CORREOS
 
-function custom_phpmailer_smtp( $phpmailer ) {
-    // Configuración del remitente
-    $phpmailer->isSMTP();
-    $phpmailer->Host       = 'mail.akevia.mx'; // Servidor SMTP de tu dominio
-    $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
-    $phpmailer->Username   = 'javiertrevino@akevia.mx'; // Correo
-    $phpmailer->Password   = 'Akevia09'; // Contraseña del correo
-    $phpmailer->SMTPSecure = 'ssl'; // Método de encriptación ('ssl' o 'tls')
-    $phpmailer->Port       = 465; // Puerto SMTP (587 para TLS o 465 para SSL)
-}
+// function custom_phpmailer_smtp( $phpmailer ) {
+//     // Configuración del remitente
+//     $phpmailer->isSMTP();
+//     $phpmailer->Host       = 'mail.akevia.mx'; // Servidor SMTP de tu dominio
+//     $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
+//     $phpmailer->Username   = 'javiertrevino@akevia.mx'; // Correo
+//     $phpmailer->Password   = 'Akevia09'; // Contraseña del correo
+//     $phpmailer->SMTPSecure = 'ssl'; // Método de encriptación ('ssl' o 'tls')
+//     $phpmailer->Port       = 465; // Puerto SMTP (587 para TLS o 465 para SSL)
+// }
 
-add_action( 'phpmailer_init', 'custom_phpmailer_smtp' );
+// add_action( 'phpmailer_init', 'custom_phpmailer_smtp' );
+
+// // Función para enviar correos cuando se cree un nuevo post con estado "Postulado"
+// function enviar_correo_cambio_estado( $post_id ) {
+//     // Verifica si el post type es 'postulaciones' y no es un autosave
+//     if ( get_post_type($post_id) != 'postulaciones' || wp_is_post_autosave($post_id) ) {
+//         return;
+//     }
+
+//     // Obtener el nuevo estado del campo ACF
+//     $nuevo_estado = get_field('Estado', $post_id);
+
+//     // Asegurarse de que el estado no esté vacío y eliminar posibles espacios en blanco
+//     $nuevo_estado = trim($nuevo_estado);
+
+//     // Verificar que el estado sea 'Postulado'
+//     if ($nuevo_estado !== 'Postulado') {
+//         return;
+//     }
+
+//     // Verifica si es un nuevo post (estado anterior no existe)
+//     $estado_anterior = get_post_meta($post_id, '_estado_anterior', true);
+//     if (!empty($estado_anterior)) {
+//         return; // Si hay estado anterior, no enviar el correo (no es un nuevo post)
+//     }
+
+//     // Obtener los datos del postulante
+//     $nombre_postulante = get_field('Nombre', $post_id);
+//     $apellido_paterno = get_field('Apellidopaterno', $post_id);
+//     $apellido_materno = get_field('Apellidomaterno', $post_id);
+//     $correo_postulante = get_field('Correo', $post_id);
+//     $telefono_postulante = get_field('Telefono', $post_id);
+
+//     // Obtener los datos de la vacante
+//     $vacante = get_field('vacante_vacante', $post_id);
+//     $correo_vacante = get_field('correo_vacante', $post_id);
+
+//     // Verificar que el correo de la vacante esté disponible
+//     if (empty($correo_vacante)) {
+//         error_log('No se encontró un correo para la vacante en el post ID: ' . $post_id);
+//         return;
+//     }
+
+//     // Configurar el correo al encargado de la vacante
+//     $to_vacante = $correo_vacante; // Dirección de correo de la vacante
+//     $subject_vacante = 'Nueva postulación para la vacante: ' . esc_html($vacante); // Asunto del correo
+
+//     $link_edit_post = get_edit_post_link($post_id);
+
+//     if (empty($link_edit_post)) {
+//         $link_edit_post = admin_url('post.php?post=' . $post_id . '&action=edit');
+//     }
+
+//     $message_vacante = '<p>Un candidato se ha postulado para la vacante: <strong>' . esc_html($vacante) . '</strong>.</p>';
+//     $message_vacante .= '<p><strong>Información del postulante:</strong></p>';
+//     $message_vacante .= '<ul>';
+//     $message_vacante .= '<li><strong>Nombre:</strong> ' . esc_html($nombre_postulante) . '</li>';
+//     $message_vacante .= '<li><strong>Apellido Paterno:</strong> ' . esc_html($apellido_paterno) . '</li>';
+//     $message_vacante .= '<li><strong>Apellido Materno:</strong> ' . esc_html($apellido_materno) . '</li>';
+//     $message_vacante .= '<li><strong>Correo:</strong> ' . esc_html($correo_postulante) . '</li>';
+//     $message_vacante .= '<li><strong>Teléfono:</strong> ' . esc_html($telefono_postulante) . '</li>';
+//     $message_vacante .= '</ul>';
+//     $message_vacante .= '<p><strong>Enlace de la postulación:</strong> <a href="' . esc_url($link_edit_post) . '" target="_blank">' . esc_url($link_edit_post) . '</a></p>';
+//     $message_vacante .= '<p>Por favor, revisa la plataforma para más detalles.</p>';
+
+//     $headers = array('Content-Type: text/html; charset=UTF-8'); // Cabeceras del correo
+
+//     // Enviar el correo al encargado de la vacante
+//     wp_mail($to_vacante, $subject_vacante, $message_vacante, $headers);
+
+//     // Configurar el correo al postulante
+//     $to_postulante = $correo_postulante; // Dirección de correo del postulante
+//     $subject_postulante = '¡Postulación exitosa para la vacante: ' . esc_html($vacante) . '!';
+//     $message_postulante = '<p>Hola <strong>' . esc_html($nombre_postulante) . '</strong>,</p>';
+//     $message_postulante .= '<p>Tu postulación para la vacante <strong>' . esc_html($vacante) . '</strong> ha sido exitosa.</p>';
+//     $message_postulante .= '<p>Por favor, mantente atento a tus medios de contacto para el seguimiento de tu postulación.</p>';
+//     $message_postulante .= '<p>¡Gracias por tu interés!</p>';
+//     $message_postulante .= '<p>Atentamente,<br>El equipo de Recursos Humanos.</p>';
+
+//     // Enviar el correo al postulante
+//     wp_mail($to_postulante, $subject_postulante, $message_postulante, $headers);
+
+//     // Actualiza el estado anterior para marcar que ya se envió la notificación
+//     update_post_meta($post_id, '_estado_anterior', $nuevo_estado);
+
+//     // /**
+//     //  * Agregar notificacion a la BBDD
+//     //  */
+//     // $user_id = 1;
+//     // $vacancy_id = 613M;
+//     //  add_postulation_notification($user_id, $user_id, $vacancy_id, $message_postulante);
+// }
+
+// // Hook para ejecutar la función al guardar el post manualmente desde el backend
+// add_action('acf/save_post', 'enviar_correo_cambio_estado', 20);
 
 // Función para enviar correos cuando se cree un nuevo post con estado "Postulado"
 function enviar_correo_cambio_estado( $post_id ) {
@@ -250,9 +344,7 @@ function enviar_correo_cambio_estado( $post_id ) {
 
     // Obtener el nuevo estado del campo ACF
     $nuevo_estado = get_field('Estado', $post_id);
-
-    // Asegurarse de que el estado no esté vacío y eliminar posibles espacios en blanco
-    $nuevo_estado = trim($nuevo_estado);
+    $nuevo_estado = trim($nuevo_estado); // Eliminar espacios en blanco
 
     // Verificar que el estado sea 'Postulado'
     if ($nuevo_estado !== 'Postulado') {
@@ -282,15 +374,17 @@ function enviar_correo_cambio_estado( $post_id ) {
         return;
     }
 
+    // Configurar encabezados para SMTP
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'From: Carreras Home Depot <noreply@homedepot.com.mx>'
+    );
+
     // Configurar el correo al encargado de la vacante
-    $to_vacante = $correo_vacante; // Dirección de correo de la vacante
-    $subject_vacante = 'Nueva postulación para la vacante: ' . esc_html($vacante); // Asunto del correo
+    $to_vacante = $correo_vacante;
+    $subject_vacante = 'Nueva postulación para la vacante: ' . esc_html($vacante);
 
-    $link_edit_post = get_edit_post_link($post_id);
-
-    if (empty($link_edit_post)) {
-        $link_edit_post = admin_url('post.php?post=' . $post_id . '&action=edit');
-    }
+    $link_edit_post = get_edit_post_link($post_id) ?: admin_url('post.php?post=' . $post_id . '&action=edit');
 
     $message_vacante = '<p>Un candidato se ha postulado para la vacante: <strong>' . esc_html($vacante) . '</strong>.</p>';
     $message_vacante .= '<p><strong>Información del postulante:</strong></p>';
@@ -302,34 +396,27 @@ function enviar_correo_cambio_estado( $post_id ) {
     $message_vacante .= '<li><strong>Teléfono:</strong> ' . esc_html($telefono_postulante) . '</li>';
     $message_vacante .= '</ul>';
     $message_vacante .= '<p><strong>Enlace de la postulación:</strong> <a href="' . esc_url($link_edit_post) . '" target="_blank">' . esc_url($link_edit_post) . '</a></p>';
-    $message_vacante .= '<p>Por favor, revisa la plataforma para más detalles.</p>';
-
-    $headers = array('Content-Type: text/html; charset=UTF-8'); // Cabeceras del correo
 
     // Enviar el correo al encargado de la vacante
-    wp_mail($to_vacante, $subject_vacante, $message_vacante, $headers);
+    if (!wp_mail($to_vacante, $subject_vacante, $message_vacante, $headers)) {
+        error_log('Error al enviar correo a la vacante: ' . $to_vacante);
+    }
 
     // Configurar el correo al postulante
-    $to_postulante = $correo_postulante; // Dirección de correo del postulante
+    $to_postulante = $correo_postulante;
     $subject_postulante = '¡Postulación exitosa para la vacante: ' . esc_html($vacante) . '!';
     $message_postulante = '<p>Hola <strong>' . esc_html($nombre_postulante) . '</strong>,</p>';
     $message_postulante .= '<p>Tu postulación para la vacante <strong>' . esc_html($vacante) . '</strong> ha sido exitosa.</p>';
     $message_postulante .= '<p>Por favor, mantente atento a tus medios de contacto para el seguimiento de tu postulación.</p>';
     $message_postulante .= '<p>¡Gracias por tu interés!</p>';
-    $message_postulante .= '<p>Atentamente,<br>El equipo de Recursos Humanos.</p>';
 
     // Enviar el correo al postulante
-    wp_mail($to_postulante, $subject_postulante, $message_postulante, $headers);
+    if (!wp_mail($to_postulante, $subject_postulante, $message_postulante, $headers)) {
+        error_log('Error al enviar correo al postulante: ' . $to_postulante);
+    }
 
     // Actualiza el estado anterior para marcar que ya se envió la notificación
     update_post_meta($post_id, '_estado_anterior', $nuevo_estado);
-
-    // /**
-    //  * Agregar notificacion a la BBDD
-    //  */
-    // $user_id = 1;
-    // $vacancy_id = 613M;
-    //  add_postulation_notification($user_id, $user_id, $vacancy_id, $message_postulante);
 }
 
 // Hook para ejecutar la función al guardar el post manualmente desde el backend

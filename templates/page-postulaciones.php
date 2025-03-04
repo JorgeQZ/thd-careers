@@ -37,8 +37,10 @@ Template Name: Postulaciones
         $escuela = sanitize_text_field($_POST['escuela-o-universidad']);
         $titulo = sanitize_text_field($_POST['titulo-1']);
         $gradodeestudios = sanitize_text_field($_POST['ultimo-grado-de-estudios']);
-        $tipo_apoyo = sanitize_text_field($_POST['tipo-de-apoyo']);
-        $que_tipo = sanitize_text_field($_POST['que-tipo']);
+        // $tipo_apoyo = sanitize_text_field($_POST['tipo-de-apoyo']);
+        // $que_tipo = sanitize_text_field($_POST['que-tipo']);
+        $tipo_apoyo = isset($_POST['tipo-de-apoyo']) ? sanitize_text_field($_POST['tipo-de-apoyo']) : '';
+        $que_tipo = isset($_POST['que-tipo']) ? sanitize_text_field($_POST['que-tipo']) : '';
         $especifique = sanitize_text_field($_POST['especifique-otro']);
         $acepto = isset($_POST['acepto-voluntariamente']) && $_POST['acepto-voluntariamente'] === 'Sí' ? 'Sí' : 'No';
 
