@@ -63,7 +63,8 @@ $is_logged_in = is_user_logged_in();
             <div class="title">
                 Nuestras <span>vacantes</span>
             </div>
-            <div class="row">
+            <p>Comienza realizando una búsqueda mediante palabras clave o ubicación para mostrar resultados</p>
+            <div class="row <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>" >
 
                 <!-- Search Input de vacantes -->
                 <div class="input-search">
@@ -103,7 +104,7 @@ $is_logged_in = is_user_logged_in();
             </div>
 
             <div class="columns">
-                <div class="column">
+                <div class="column <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>">
                     <?php
                     $args = array(
                         'post_type' => 'vacantes',
@@ -183,6 +184,7 @@ $is_logged_in = is_user_logged_in();
                     </ul>
                 </div>
 
+                <?php if (is_user_logged_in()): ?>
                 <div class="column">
                     <div class="saved-jobs">
                         <div class="title">
@@ -194,6 +196,7 @@ $is_logged_in = is_user_logged_in();
                         <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div><!-- Contenido de la página -->

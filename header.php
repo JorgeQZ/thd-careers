@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const pop_reg = document.getElementById("popup-registro");
         pop_reg.style.display = "flex";
         const close_reg = document.getElementById("close-reg");
+        const close_reg_button = document.getElementById("close-reg-button");
+
 
         var closeRegistro = document.getElementsByClassName("closebtnpopupRegistro");
 
@@ -28,14 +30,20 @@ document.addEventListener("DOMContentLoaded", function() {
             closeRegistro[i].addEventListener('click', cerrarPopupRegistro, false);
         }
 
-        /*
+
         if(close_reg){
             close_reg.addEventListener("click", function() {
                 localStorage.removeItem("registro_exitoso");
                 pop_reg.style.display = "none";
             });
         }
-        */
+
+        if(close_reg_button){
+            close_reg_button.addEventListener("click", function() {
+                localStorage.removeItem("registro_exitoso");
+                pop_reg.style.display = "none";
+            });
+        }
     }
 });
 
@@ -48,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="container">
             <div class="close closebtnpopupRegistro" id="close-reg">+</div>
             <div class="title">¡Tu registro ha sido <br> <span>exitoso!</span></div>
-            <button class="button closebtnpopupRegistro">Cerrar</button>
+            <button id="close-reg-button" class="button closebtnpopupRegistro">Cerrar</button>
         </div>
     </div><!-- PopUp -->
 

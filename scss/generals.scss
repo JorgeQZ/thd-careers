@@ -204,8 +204,9 @@ iframe {
             margin-top: 10px;
 
             &:hover {
-                background-color: #fff;
-                color: $orange;
+                color: #fff;
+                background-color: #C14C00;
+                border-color: #C14C00;
             }
         }
 
@@ -229,9 +230,14 @@ iframe {
             .button_sub {
                 letter-spacing: normal;
                 margin-left: 10px;
-                background-color: #fff;
-                color: $orange;
+                background-color: $orange;
+                color: #fff;
                 border-color: $orange;
+                &:hover {
+                    color: #fff;
+                    background-color: #C14C00;
+                    border-color: #C14C00;
+                }
             }
         }
     }

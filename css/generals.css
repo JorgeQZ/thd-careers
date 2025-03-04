@@ -287,8 +287,9 @@ iframe {
   margin-top: 10px;
 }
 .popup-cont .container .button_sub:hover {
-  background-color: #fff;
-  color: #f96302;
+  color: #fff;
+  background-color: #C14C00;
+  border-color: #C14C00;
 }
 .popup-cont .container hr {
   width: 100%;
@@ -315,9 +316,14 @@ iframe {
 .popup-cont .container .register-link .button_sub {
   letter-spacing: normal;
   margin-left: 10px;
-  background-color: #fff;
-  color: #f96302;
+  background-color: #f96302;
+  color: #fff;
   border-color: #f96302;
+}
+.popup-cont .container .register-link .button_sub:hover {
+  color: #fff;
+  background-color: #C14C00;
+  border-color: #C14C00;
 }
 
 body.admin-bar {

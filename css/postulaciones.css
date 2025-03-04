@@ -206,9 +206,9 @@ body.admin-bar {
   margin-top: 50px;
 }
 .banner .container .button:hover {
-  border: 1px solid #fff;
   color: #fff;
-  background-color: #f96302;
+  background-color: #C14C00;
+  border-color: #C14C00;
 }
 
 .container .desc-video {

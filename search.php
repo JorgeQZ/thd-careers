@@ -15,7 +15,7 @@
             <div class="title">
                 Nuestras <span>vacantes</span>
             </div>
-            <div class="row">
+            <div class="row <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>">
 
                 <?php
                     if(get_search_query()){
@@ -23,7 +23,7 @@
 
                 <!-- Search Input de vacantes -->
                 <div class="input-search">
-                    <input type="text" placeholder="Ingresa palabras clave del puesto" class="search-input" value="<?php echo get_search_query(); ?>">
+                    <input disabled type="text" placeholder="Ingresa palabras clave del puesto" class="search-input disabled" value="<?php echo get_search_query(); ?>">
                     <ul class="suggestions-list hidden">
                         <?php
                          foreach ($unique_titles as $title) {
@@ -47,7 +47,7 @@
 
                 <!-- Search Input de ubicaciones -->
                 <div class="input-search">
-                    <input type="text" placeholder="Ingresa tu ubicación" class="search-input" value="<?php echo esc_html( $_GET['ubicacion'] ); ?>">
+                    <input disabled type="text" placeholder="Ingresa tu ubicación" class="search-input disabled" value="<?php echo esc_html( $_GET['ubicacion'] ); ?>">
                     <ul class="suggestions-list hidden">
                         <?php
                         $processed_values = array(); // Para almacenar valores únicos
@@ -71,7 +71,7 @@
             </div>
 
             <div class="columns">
-                <div class="column">
+                <div class="column <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>">
 
                     <?php
                     if ( have_posts() ) :
@@ -138,17 +138,20 @@
                     </ul>
                 </div>
 
-                <div class="column">
-                    <div class="saved-jobs">
-                        <div class="title">
-                            Vacantes de interés
+                <?php if(is_user_logged_in(  )): ?>
+                    <div class="column">
+                        <div class="saved-jobs">
+                            <div class="title">
+                                Vacantes de interés
+                            </div>
+                            <div class="desc">
+                                Haz clic en el botón para ver las vacantes de tu interés guardadas.
+                            </div>
+                            <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                         </div>
-                        <div class="desc">
-                            Haz clic en el botón para ver las vacantes de tu interés guardadas.
-                        </div>
-                        <a href="<?php echo home_url().'/vacantes-de-interes/' ?>" class="button">Ir a mis vacantes</a>
                     </div>
-                </div>
+                <?php endif; ?>
+
             </div>
         </div>
     </div><!-- Contenido de la página -->
