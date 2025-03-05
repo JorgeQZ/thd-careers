@@ -204,14 +204,14 @@ if (isset($_POST['submit'])) {
                         ?>
                         <div class="file-wrapper">
                             <input type="file" id="cv" name="file_to_upload" class="file-input">
-                            <span class="span-place">Haz click aquí para subir un archivo</span>
+                            <span class="span-place">Haz clic aquí para subir un archivo</span>
                             <span class="icon-attachment"></span>
                         </div>
                         <span class="file-name <?php echo !$cv_gcs_url ? 'noactive' : ''; ?>">
                             <?php
                                 $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
                                 echo $cv_gcs_url
-                                    ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
+                                    ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz clic aquí para ver el CV actual</a>'
                                     : 'Sin archivo seleccionado';
                             ?>
                         </span>
@@ -305,14 +305,14 @@ if (isset($_POST['submit'])) {
             <label>
                 <input type="radio" name="pregunta1" value="Sí"
                     <?php checked($pregunta1_actual, 'Sí'); ?>
-                    onclick="mostrarSegundaPregunta(true)">
+                    onclic="mostrarSegundaPregunta(true)">
                 Sí
             </label><br>
 
             <label>
                 <input type="radio" name="pregunta1" value="No"
                     <?php checked($pregunta1_actual, 'No'); ?>
-                    onclick="mostrarSegundaPregunta(false)">
+                    onclic="mostrarSegundaPregunta(false)">
                 No
             </label><br>
 
@@ -395,7 +395,7 @@ if (isset($_POST['submit'])) {
                 spanPlace.textContent = fileName;
             } else {
                 // Restaurar el texto original si no hay archivo
-                spanPlace.textContent = "Haz click aquí para subir un CV";
+                spanPlace.textContent = "Haz clic aquí para subir un CV";
             }
         });
     });
@@ -416,11 +416,11 @@ if (isset($_POST['submit'])) {
         };
 
         for (var i = 0; i < close.length; i++) {
-            close[i].addEventListener('click', cerrarPopup, false);
+            close[i].addEventListener('clic', cerrarPopup, false);
         }
 /*
         if(close){
-            close.addEventListener("click", function() {
+            close.addEventListener("clic", function() {
                 mensaje.style.display = "none";
             });
         }

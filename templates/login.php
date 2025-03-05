@@ -151,7 +151,7 @@ get_header();
             </div>
         <?php endif; ?>
         <br>
-        <p style="margin-top: 0px">
+        <p style="margin-top: -15px">
             <button type="submit" name="custom_register">Registrarse</button>
         </p>
     </form>

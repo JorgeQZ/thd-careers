@@ -451,7 +451,7 @@ Template Name: Postulaciones
                         <?php
                             $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
                             echo $cv_gcs_url
-                                ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz click aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
+                                ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz clic aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
                                 : '';
                         ?>
                     </span>
@@ -575,7 +575,7 @@ Template Name: Postulaciones
                     </div>
 
                     <a href="<?php echo esc_url(home_url('/carreras/aviso-de-privacidad-candidatos/')); ?>" class="a-tyc" target="_blank" rel="noopener noreferrer">
-                        Haz click aquí para conocer los Términos y Condiciones de nuestros Candidatos(as)
+                        Haz clic aquí para conocer los Términos y Condiciones de nuestros Candidatos(as)
                     </a>
 
 
@@ -597,7 +597,7 @@ Template Name: Postulaciones
         if (fileInput.files.length > 0) {
             fileNameSpan.textContent = fileInput.files[0].name;
         } else {
-            fileNameSpan.textContent = 'Haz click aquí para subir un CV';
+            fileNameSpan.textContent = 'Haz clic aquí para subir un CV';
         }
     });
 </script>
