@@ -86,7 +86,17 @@ function process_csv_to_vacantes()
 
     fclose($file);
 
-    $beneficios_permitidos = ['Sueldo aprox.', 'Vales de despensa', 'Bono Variable', 'Seguro de vida', 'Fondo de ahorro'];
+    $beneficios_permitidos = [
+        'Prestaciones superiores a la ley',
+        'Bono por objetivos',
+        'Fondo de Ahorro',
+        'Flexibilidad Laboral',
+        'Caja de Ahorro',
+        'Seguros y Apoyos económicos',
+        'Compra de acciones',
+        'Vales de despensa'
+    ];
+
 
     foreach ($data as $entry) {
         $beneficios = isset($entry['beneficios']) ? explode(',', $entry['beneficios']) : [];

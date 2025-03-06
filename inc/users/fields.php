@@ -10,6 +10,9 @@ function careers_profile_fields($user){
     $idempleado = get_user_meta($user->ID, 'idempleado', true);
     $tipo_de_negocio = get_user_meta($user->ID, 'tipo_de_negocio', true);
     $cv_gcs_url = get_user_meta($user->ID, 'cv_gcs_url', true);
+    $gcs_url_name = get_user_meta($user->ID, 'gcs_url_name', true);
+
+    $link_cv = obtener_url_archivo($gcs_url_name);
 
     ?>
     <h3>Información adicional</h3>
@@ -40,7 +43,7 @@ function careers_profile_fields($user){
             </td>
         </tr>
 
-        <tr>
+        <!-- <tr>
             <th><label for="cv">CV</label></th>
             <td>
 
@@ -66,6 +69,12 @@ function careers_profile_fields($user){
             }
         }
         ?>
+            </td>
+        </tr> -->
+        <tr>
+            <th><label for="gcs_url_name">CV</label></th>
+            <td>
+                <a download href="<?php echo $link_cv?>">Descargar archivo</a>
             </td>
         </tr>
     </table>

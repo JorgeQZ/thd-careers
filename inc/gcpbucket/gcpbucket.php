@@ -25,8 +25,9 @@ function generate_jwt($credentials) {
     $message = $encodedHeader . '.' . $encodedPayload;
 
     // Generar la firma
-    // $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json'); // Ruta a tu archivo JSON
-    $privateKey = file_get_contents( get_template_directory_uri(  ).'/json/thdmx-careers-bucket-test-daa3254feacf.json'); // Ruta a tu archivo JSON
+    // $privateKey = file_get_contents(get_template_directory() . '/json/thd-careers-447904-b68e48031aa6.json');
+    $privateKey = file_get_contents(get_template_directory() . '/json/thdmx-careers-bucket-test-daa3254feacf.json');
+
     $decodedPrivateKey = json_decode($privateKey, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('Error al decodificar el JSON de la clave privada: ' . json_last_error_msg());
@@ -146,3 +147,64 @@ function permitir_archivos_json($mime_types) {
     return $mime_types;
 }
 add_filter('upload_mimes', 'permitir_archivos_json');
+
+
+// Genera un nuevo token de acceso para ver archivos en el bucket
+function generar_token_acceso() {
+    $json_key_file = get_template_directory() . '/json/thdmx-careers-bucket-test-daa3254feacf.json';
+
+    // Leer las credenciales desde el archivo JSON
+    $jsonContent = file_get_contents($json_key_file);
+    if ($jsonContent === false) {
+        throw new Exception('Error al leer el archivo JSON: ' . $json_key_file);
+    }
+
+    $credentials = json_decode($jsonContent, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception('Error al decodificar el archivo JSON: ' . json_last_error_msg());
+    }
+
+    // Generar el JWT utilizando la función existente
+    $jwt = generate_jwt($credentials);
+
+    // Solicitar el token de acceso usando el JWT
+    $auth_url = 'https://oauth2.googleapis.com/token';
+    $data = [
+        'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        'assertion' => $jwt
+    ];
+
+    // Realizar la solicitud para obtener el token de acceso
+    $response = wp_remote_post($auth_url, [
+        'body' => $data
+    ]);
+
+    $body = wp_remote_retrieve_body($response);
+    if (empty($body)) {
+        throw new Exception('La respuesta del servidor está vacía.');
+    }
+
+    $auth_response = json_decode($body, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception('Error al decodificar el JSON de la respuesta: ' . json_last_error_msg());
+    }
+
+    // Retornar el token de acceso
+    if (isset($auth_response['access_token'])) {
+        return $auth_response['access_token'];
+    } else {
+        throw new Exception('Error al obtener el token de acceso.');
+    }
+}
+
+function obtener_url_archivo($file_name) {
+    try {
+        $access_token = generar_token_acceso(); // Generar un nuevo token de acceso
+        $bucket_name = 'thdmx-bucket-test-careers_docs';
+        $url = "https://storage.googleapis.com/download/storage/v1/b/{$bucket_name}/o/{$file_name}?alt=media&access_token={$access_token}";
+        return $url;
+    } catch (Exception $e) {
+        error_log('Error al generar la URL del archivo: ' . $e->getMessage());
+        return 'Error al generar la URL del archivo.';
+    }
+}

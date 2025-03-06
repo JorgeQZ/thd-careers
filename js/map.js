@@ -45,6 +45,7 @@ searchBox.addEventListener('input', function() {
     let query = searchBox.value.toLowerCase();
     searchResults.innerHTML = '';
     searchResults.style.display = 'none';
+    console.log(markers);
 
     if (query.length > 3) { // Solo buscar si hay al menos 3 caracteres
 

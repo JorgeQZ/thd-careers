@@ -50,14 +50,18 @@ if (isset($_POST['submit'])) {
 
                 // Asignar la URL del archivo
                 $gcs_url = $decoded_response->mediaLink;
+                $gcs_url_name = $decoded_response->name;
 
                 // Obtener el ID del usuario actual
                 $user_id = get_current_user_id();
 
                 // Guardar la URL del archivo de GCS como metadato del usuario
                 update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
+                update_user_meta($user_id, 'gcs_url_name', $gcs_url_name);
 
-                echo '<p>Archivo subido exitosamente y URL guardada.</p>';
+                // echo $gcs_url_name;
+
+                // echo '<p>Archivo subido exitosamente y URL guardada.</p>';
             } catch (Exception $e) {
                 // Registrar el error en los logs
                 error_log('Error en la respuesta de GCS: ' . $e->getMessage());
@@ -125,7 +129,7 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div>
                     <label for="nacionalidad">Nacionalidad</label>
-                    <input class="input-nacionalidad" type="text" name="nacionalidad" value="<?php echo esc_attr($nacionalidad_actual); ?>">
+                    <input class="input-nacionalidad validar" type="text" name="nacionalidad" value="<?php echo esc_attr($nacionalidad_actual); ?>">
                 </div>
             </div>
 
@@ -201,6 +205,8 @@ if (isset($_POST['submit'])) {
                         <label for="cv">CV</label>
                         <?php
                             $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                            $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
+                            $link_cv = obtener_url_archivo($gcs_url_name);
                         ?>
                         <div class="file-wrapper">
                             <input type="file" id="cv" name="file_to_upload" class="file-input">
@@ -209,9 +215,12 @@ if (isset($_POST['submit'])) {
                         </div>
                         <span class="file-name <?php echo !$cv_gcs_url ? 'noactive' : ''; ?>">
                             <?php
-                                $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
-                                echo $cv_gcs_url
-                                    ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
+                                // $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                                $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
+                                $link_cv = obtener_url_archivo($gcs_url_name);
+
+                                echo $link_cv
+                                    ? '<a class="a-cvguardado" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
                                     : 'Sin archivo seleccionado';
                             ?>
                         </span>
@@ -519,7 +528,7 @@ if (isset($_POST['submit'])) {
         });
 
         $('.validar').on('keypress', function(e) {
-            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]+$/;
+            var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
             var key = String.fromCharCode(event.which);
 
             if (!regex.test(key)) {

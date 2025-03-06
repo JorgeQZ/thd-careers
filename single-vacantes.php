@@ -126,12 +126,15 @@ $is_logged_in = is_user_logged_in();
                     $benefits = get_field('beneficios');
                     // Asociación entre los valores y su contenido HTML
                     $icons = array(
-                        'Sueldo aprox.' => '<img src="'.get_template_directory_uri(  ).'/imgs/icon-money.png" >Sueldo Aproximado',
-                        'Vales de despensa' => '<img src="'.get_template_directory_uri(  ).'/imgs/icon-bono.png" >Vales de Despensa',
-                        'Bono Variable' => '<img src="'.get_template_directory_uri(  ).'/imgs/icon-coins.png" >Bono Variable',
-                        'Fondo de ahorro' => '<img src="'.get_template_directory_uri(  ).'/imgs/icon-savings.png" >Fondo de Ahorro',
+                        'Prestaciones superiores a la ley' => '<img src="'.get_template_directory_uri(  ).'/imgs/prestaciones_superiores.png" >Prestaciones superiores a la ley',
+                        'Bono por objetivos' => '<img src="'.get_template_directory_uri(  ).'/imgs/bono_por_objetivos.png" >Bono por objetivos',
+                        'Fondo de Ahorro' => '<img src="'.get_template_directory_uri(  ).'/imgs/fondo_de_ahorro.png" >Fondo de Ahorro',
+                        'Flexibilidad Laboral' => '<img src="'.get_template_directory_uri(  ).'/imgs/flexibilidad_laboral.png" >Flexibilidad Laboral',
+                        'Caja de Ahorro' => '<img src="'.get_template_directory_uri(  ).'/imgs/caja_de_ahorro.png" >Caja de Ahorro',
+                        'Seguros y Apoyos económicos' => '<img src="'.get_template_directory_uri(  ).'/imgs/seguro_y_apoyos_econonicos.png" >Seguros y Apoyos económicos',
+                        'Compra de acciones' => '<img src="'.get_template_directory_uri(  ).'/imgs/compra_de_acciones.png" >Compra de acciones',
+                        'Vales de despensa' => '<img src="'.get_template_directory_uri(  ).'/imgs/vales_de_despensa.png" >Vales de despensa',
                     );
-
                     // Recorrer el array y generar HTML para los valores existentes
                     foreach ($benefits as $benefit) {
                         if (array_key_exists($benefit, $icons)) {
