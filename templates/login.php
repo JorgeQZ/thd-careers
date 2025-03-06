@@ -109,7 +109,7 @@ get_header();
             <a class="recuperar" href="<?php echo get_permalink(get_page_by_path('recuperar-contrasena')); ?>">¿Olvidaste tu contraseña?</a>
         </p>
         <?php if (!empty($error_message)) : ?>
-            <div class="error-message" style="color: red;">
+            <div class="error-message" style="color: red; margin-bottom: 15px;">
                 <?php if (!empty($error_message)) : ?>
                     <div class="error-message" style="color: red;">
                         <?php echo sanitize_text_field($error_message); ?>
@@ -151,7 +151,7 @@ get_header();
             </div>
         <?php endif; ?>
         <br>
-        <p style="margin-top: 0px">
+        <p style="margin-top: -15px">
             <button type="submit" name="custom_register">Registrarse</button>
         </p>
     </form>
