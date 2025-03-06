@@ -250,6 +250,8 @@ if (isset($_POST['submit'])) {
                     <label for="estado">Estado</label>
                     <input type="text" class="validar_ubi" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
                 </div>
+
+                <div></div>
 <!--
                 <div style="visibility: hidden;">
                     <label for="estado">Estado</label>
