@@ -562,6 +562,10 @@ if (isset($_POST['submit'])) {
             $(this).attr('min', "1965-01-01");
         });
 
+        $('.closebtnpopup').on('click', function() {
+            $('#mensajeExito').hide();
+        });
+
 /*
         $('select').change(function() {
             verificarCampos();

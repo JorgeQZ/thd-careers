@@ -75,7 +75,7 @@ $is_logged_in = is_user_logged_in();
             <div class="row <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>" >
 
                 <!-- Search Input de vacantes -->
-                <div class="input-search">
+                <div class="input-search wide">
                     <input type="text" placeholder="Ingresa palabras clave del puesto"  class="search-input">
                     <ul class="suggestions-list hidden">
                         <?php
@@ -91,7 +91,7 @@ $is_logged_in = is_user_logged_in();
                 </div><!-- Search Input de vacantes -->
 
                 <!-- Search Input de ubicaciones -->
-                <div class="input-search">
+                <div class="input-search wide">
                     <input type="text" placeholder="Ingresa tu ubicación"  class="search-input">
                     <ul class="suggestions-list hidden">
                         <?php

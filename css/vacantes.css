@@ -152,6 +152,9 @@
   letter-spacing: 1px;
   position: relative;
 }
+.vacantes-cont .container .row .input-search.wide {
+  width: 48%;
+}
 .vacantes-cont .container .row .input-search .disabled {
   background-color: rgba(166, 166, 166, 0.2);
   cursor: default !important;

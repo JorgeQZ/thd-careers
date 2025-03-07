@@ -80,6 +80,10 @@
                 margin-top: 15px;
                 letter-spacing: 1px;
                 position: relative;
+                &.wide{
+                    width: 48%;
+
+                }
                 .disabled{
                     background-color: rgba($ligth_grey, 0.2);
                     cursor: default !important;

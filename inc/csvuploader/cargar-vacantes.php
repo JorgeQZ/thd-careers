@@ -133,7 +133,7 @@ function process_csv_to_vacantes()
                 'video'             => $entry['video'],
                 'ubicacion'         => $entry['ubicacion'],
                 'beneficios'        => $beneficios,
-                'emi'               => $entry['emi'],
+                'emi' => (!empty($entry['emi']) && in_array(strtolower($entry['emi']), ['true', 'verdadero', '1', 'sí', 'si', 'SÍ', 'SI'])) ? 1 : 0,
                 'imagen_qr'         => $entry['imagen_qr'],
                 'url_de_la_vacante' => $entry['url_de_la_vacante']
             ]
