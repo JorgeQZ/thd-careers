@@ -203,7 +203,7 @@ if (isset($_POST['submit'])) {
                             $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
                         ?>
                         <div class="file-wrapper">
-                            <input type="file" id="cv" name="file_to_upload" class="file-input">
+                            <input type="file" id="cv" name="file_to_upload" class="file-input" accept=".pdf,.doc,.docx">
                             <span class="span-place">Haz clic aquí para subir un archivo</span>
                             <span class="icon-attachment"></span>
                         </div>
