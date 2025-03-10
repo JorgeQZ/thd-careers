@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const items = document.querySelectorAll('ul.list .item');
     const checkboxesUbicacion = document.querySelectorAll('input[name="ubicacion[]"]');
     const checkboxesTitle = document.querySelectorAll('input[name="title[]"]');
+    const isHome = document.body.classList.contains('home');
+    const isSearchResult = document.body.classList.contains('search-results');
+
 
 
     // Inputs de filtros de vacantes
@@ -67,10 +70,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const suggestionsList = searchContainer.querySelector('.suggestions-list');
         const suggestionItems = suggestionsList.querySelectorAll('li');
 
-        // searchContainer.addEventListener('click', function () {
-        //     searchContainer.classList.add('active');
-        //     suggestionsList.classList.remove('hidden'); // Mostrar la lista
-        // });
+        searchContainer.addEventListener('click', function () {
+            searchContainer.classList.add('active');
+            suggestionsList.classList.remove('hidden'); // Mostrar la lista
+        });
 
         // Al hacer clic en el input
         input.addEventListener('focus', function () {
@@ -87,12 +90,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 200); // Retraso para permitir seleccionar un elemento de la lista
         });
 
-        // Manejador de clics en los <li>
-        suggestionsList.addEventListener('click', function (e) {
-            if (e.target.tagName === 'LI') {
-                input.value = e.target.textContent; // Poner el texto seleccionado en el input
-                suggestionsList.classList.add('hidden'); // Ocultar la lista
-            }
+        suggestionItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                const isLiUbicacion = item.classList.contains('ubicacion_values');
+                const isLilabel = item.classList.contains('li-label');
+
+
+                if(isHome && !isLilabel || isSearchResult && !isLilabel) {
+                    input.value = item.textContent; // Poner el texto seleccionado en el input
+                    if(isLiUbicacion) {
+                        const input_ubicacion = document.getElementById('ubicacion');
+                        input_ubicacion.value = item.dataset.value;
+                    }
+                }
+            });
         });
 
         input.addEventListener('input', function () {
@@ -106,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
-
     });
 
     // Filtros aplicados a la pagina de vacantes
@@ -225,5 +235,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+
+
 });
+
 

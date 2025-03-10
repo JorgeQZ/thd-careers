@@ -6,7 +6,7 @@ get_header();
 ?>
 
 
-
+<!--
 <div class="hero-banner">
     <video autoplay loop muted playsinline>
         <source src="<?php echo get_template_directory_uri(  ).'/video/HOME2.webm'; ?>" type="video/mp4">
@@ -18,7 +18,7 @@ get_header();
 
         <form class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
             <input type="text" name="s" placeholder="Ingresa palabras clave del puesto" value="<?php echo get_search_query(); ?>" />
-            <!--<input type="text" name="custom_field" placeholder="Buscar por campo personalizado" />-->
+
             <select name="ubicacion_key">
                 <option value="">Ingresa tu ubicación</option>
             <?php
@@ -43,15 +43,15 @@ get_header();
             </select>
             <input type="hidden" name="ubicacion" value="">
             <button type="submit">Buscar vacantes</button>
-        </form>
+        </form> -->
 
-        <!--
+<!--
         <div class="search-form">
             <input type="text" placeholder="Ingresa palabra clave del puesto">
             <input type="text" placeholder="Ingresa tu ubicación">
             <input type="submit" value="Buscar vacantes">
-        </div>
-        -->
+        </div> -->
+
     </div>
 </div>
 

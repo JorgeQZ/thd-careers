@@ -1,4 +1,36 @@
-<?php get_header(); ?>
+<?php get_header();
+
+$unique_titles = get_unique_vacantes_titles();
+$ubicaciones = get_unique_locations();
+?>
+
+<!-- PopUp -->
+
+<div class="popup-cont" id="popup-login">
+        <div class="container">
+            <div class="close" id="close-login">+</div>
+            <div class="title">Inicia sesión o <span>Regístrate</span></div>
+            <div class="desc">
+                Para poder postularte, es necesario que inicies sesión. Si aún no cuentas con una cuenta, puedes registrarte de manera rápida y sencilla. <br><br>
+            </div>
+            <div class="login-form">
+                <!-- Formulario de login -->
+                <form action="<?php echo wp_login_url(); ?>" method="post">
+                     <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
+
+                    <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
+                    <input type="hidden" name="redirect_to" value="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" />
+                    <br>
+                    <button type="submit" class="button_sub">Iniciar sesión</button>
+                </form>
+            </div>
+            <hr>
+            <div class="register-link">
+                ¿No tienes cuenta?  <a href="<?php echo site_url('/login/'); ?>" class="button_sub">Regístrate aquí</a>
+            </div>
+        </div>
+</div><!-- PopUp -->
+
 
 <!-- Banner con el titulo de la página -->
 <div class="header" style="background-color: #f96302; background-image: url(<?php echo get_template_directory_uri() ?>/imgs/banner-resultadoss.jpg);">
@@ -15,21 +47,17 @@
             <div class="title">
                 Nuestras <span>vacantes</span>
             </div>
-            <div class="row <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>">
 
-                <?php
-                    if(get_search_query()){
-                ?>
+            <form class="row <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>" action="<?php echo esc_url( home_url("/")  ); ?> " method="get">
 
                 <!-- Search Input de vacantes -->
-                <div class="input-search">
-                    <input disabled type="text" placeholder="Ingresa palabras clave del puesto" class="search-input disabled" value="<?php echo get_search_query(); ?>">
+                <div class="input-search" id="search-vacante">
+                    <input type="text" id="titulo" name="s" placeholder="Ingresa palabra(s) clave de la vacante" class="search-input" placeholder="Ingresa palabras clave del puesto" class="search-input " value="<?php echo get_search_query(); ?>">
                     <ul class="suggestions-list hidden">
+                        <li  class="li-label"><label><span class="text"><h3>Vacantes disponibles</span></h3></label></li>
                         <?php
                          foreach ($unique_titles as $title) {
                             echo '<li><label>';
-                            echo '<input type="checkbox" name="title[]" id="'. esc_html($title).'" value="'. esc_html($title).'">';
-                            echo '<span class="checkbox"></span>';
                             echo '<span class="text">' . esc_html($title) . '</span>';
                             echo '</label></li>';
                          }
@@ -37,38 +65,30 @@
                     </ul>
                 </div><!-- Search Input de vacantes -->
 
-                <?php
-                }
-                ?>
-
-                <?php
-                    if(esc_html( $_GET['ubicacion'] )){
-                ?>
-
                 <!-- Search Input de ubicaciones -->
-                <div class="input-search">
-                    <input disabled type="text" placeholder="Ingresa tu ubicación" class="search-input disabled" value="<?php echo esc_html( $_GET['ubicacion'] ); ?>">
+                <div class="input-search" id="search-ubicacion">
+                    <input id="inp-sear" class="search-input" type="text" name="ubicacion_label" placeholder="Ingresa tu ubicación" value="<?php echo esc_html( $_GET['ubicacion_label'] ); ?>">
+                    <input name="ubicacion" type="hidden" id="ubicacion">
                     <ul class="suggestions-list hidden">
+                        <li  class="li-label"><label><span class="text"><h3>Ubicaciones disponibles</span></h3></label></li>
                         <?php
                         $processed_values = array(); // Para almacenar valores únicos
                         foreach ($ubicaciones as $ubicacion) {
-                            if (!in_array($ubicacion['value'], $processed_values)) {
-                                echo '<li><label>';
-                                echo '<input type="checkbox" name="ubicacion[]" value="' . esc_attr($ubicacion['value']) . '" id="ubicacion-' . esc_attr($ubicacion['value']) . '">';
-                                echo '<span class="checkbox"></span>';
-                                echo '<span class="text">' . esc_html($ubicacion['label']) . '</span>';
+                            $ubicacion_label = ucwords(strtolower($ubicacion['label']));
+                            $ubicacion_value = strtolower($ubicacion['value']); // Mantener el valor original en minúscula para evitar conflictos
+                            if (!in_array($ubicacion_value, $processed_values)) {
+                                echo '<li class="ubicacion_values" data-value="'. esc_attr($ubicacion_value) . '"><label>';
+                                echo '<span class="text">' . esc_html($ubicacion_label) . '</span>';
                                 echo '</label></li>';
-                                $processed_values[] = $ubicacion['value'];
+                                $processed_values[] = $ubicacion_value;
                             }
                         }
                        ?>
                     </ul>
                 </div> <!-- Search Input de ubicaciones -->
 
-                <?php
-                }
-                ?>
-            </div>
+                <input type="submit" value="Buscar vacante" id="boton">
+            </form>
 
             <div class="columns">
                 <div class="column <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>">
@@ -76,7 +96,7 @@
                     <?php
                     if ( have_posts() ) :
                     ?>
-                    <ul class="list">
+                    <ul class="list job-list">
 
                     <?php
                         while ( have_posts() ) : the_post();

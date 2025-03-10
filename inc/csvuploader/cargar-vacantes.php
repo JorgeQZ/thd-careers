@@ -86,7 +86,17 @@ function process_csv_to_vacantes()
 
     fclose($file);
 
-    $beneficios_permitidos = ['Sueldo aprox.', 'Vales de despensa', 'Bono Variable', 'Seguro de vida', 'Fondo de ahorro'];
+    $beneficios_permitidos = [
+        'Prestaciones superiores a la ley',
+        'Bono por objetivos',
+        'Fondo de Ahorro',
+        'Flexibilidad Laboral',
+        'Caja de Ahorro',
+        'Seguros y Apoyos económicos',
+        'Compra de acciones',
+        'Vales de despensa'
+    ];
+
 
     foreach ($data as $entry) {
         $beneficios = isset($entry['beneficios']) ? explode(',', $entry['beneficios']) : [];
@@ -123,7 +133,7 @@ function process_csv_to_vacantes()
                 'video'             => $entry['video'],
                 'ubicacion'         => $entry['ubicacion'],
                 'beneficios'        => $beneficios,
-                'emi'               => $entry['emi'],
+                'emi' => (!empty($entry['emi']) && in_array(strtolower($entry['emi']), ['true', 'verdadero', '1', 'sí', 'si', 'SÍ', 'SI'])) ? 1 : 0,
                 'imagen_qr'         => $entry['imagen_qr'],
                 'url_de_la_vacante' => $entry['url_de_la_vacante']
             ]

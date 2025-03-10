@@ -317,7 +317,7 @@ add_filter( 'pre_get_posts', 'limitar_busqueda_a_post_types' );
 function buscar_por_titulo_y_custom_field( $query ) {
     if ( $query->is_search && !is_admin() ) {
 
-        $custom_field_value = isset( $_GET['ubicacion_key'] ) ? sanitize_text_field( $_GET['ubicacion_key'] ) : '';
+        $custom_field_value = isset( $_GET['ubicacion'] ) ? sanitize_text_field( $_GET['ubicacion'] ) : '';
 
         if ( ! empty( $custom_field_value ) ) {
             $meta_query = array(
@@ -376,3 +376,86 @@ function replace_mark_with_span($content) {
 }
 add_filter('the_content', 'replace_mark_with_span', 20);
 
+function search_form_home_banner(){
+    // Obtener títulos únicos y ubicaciones
+    $unique_titles = get_unique_vacantes_titles();
+    $ubicaciones = get_unique_locations();
+
+    // Pasar datos a JavaScript
+    wp_localize_script('map', 'map_vars', array(
+        'theme_uri' => get_template_directory_uri(),
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'stores' => get_vacancies_by_store()
+    ));
+
+    // Iniciar la salida HTML
+    $output = '<div class="wp-block-group search-form">
+      <form class="search-form" action="'.esc_url( home_url("/") ).'" method="get">
+                    <div class="search-cont input-search" id="search-vacante">
+                        <input type="text" id="titulo" name="s" placeholder="Ingresa palabra(s) clave de la vacante" class="search-input" value="'.get_search_query().'">
+                        <ul class="suggestions-list hidden">
+                         <li class="li-label"><label><span class="text"><h3>Vacantes disponibles</span></h3></label></li>';
+                            foreach ($unique_titles as $title) {
+                                $title_capitalized = ucwords(strtolower($title));
+                                $output .= '<li><label>';
+
+                                $output .= '<span class="text">' . esc_html($title_capitalized) . '</span>';
+                                $output .= '</label></li>';
+                            }
+    $output .=        '</ul>
+                    </div>';
+
+    // Campo de búsqueda para ubicaciones
+    $output .=  '<div class="search-cont input-search" id="search-ubicacion">
+                    <input id="inp-sear" class="search-input" type="text" name="ubicacion_label" placeholder="Ingresa tu ubicación">
+                    <input name="ubicacion" type="hidden" id="ubicacion">
+                    <ul id="suges" class="suggestions-list hidden">
+                        <li  class="li-label"><label><span class="text"><h3>Ubicaciones disponibles</span></h3></label></li>';
+                        $processed_values = array();
+                        foreach ($ubicaciones as $ubicacion) {
+                            $ubicacion_label = ucwords(strtolower($ubicacion['label']));
+                            $ubicacion_value = strtolower($ubicacion['value']); // Mantener el valor original en minúscula para evitar conflictos
+                            if (!in_array($ubicacion_value, $processed_values)) {
+                                $output .= '<li class="ubicacion_values" data-value="'. esc_attr($ubicacion_value) . '"><label>';
+                                // $output .= '<input type="checkbox" name="ubicacion_values[]" value="' . esc_attr($ubicacion_value) . '" id="ubicacion-' . esc_attr($ubicacion_value) . '">';
+                                // $output .= '<span class="checkbox"></span>';
+                                $output .= '<span class="text">' . esc_html($ubicacion_label) . '</span>';
+                                $output .= '</label></li>';
+                                $processed_values[] = $ubicacion_value;
+                            }
+                        }
+    $output .=        '</ul>
+                    </div>
+                    <input type="submit" value="Buscar vacante" id="boton">
+                </form>
+                </div>';
+
+    return $output;
+}
+
+add_shortcode('searchFormHome', 'search_form_home_banner');
+
+add_action('wp_login_failed', function() {
+    $referrer = wp_get_referer();
+    if ($referrer && !strstr($referrer, 'wp-login') && !strstr($referrer, 'wp-admin')) {
+        wp_redirect(add_query_arg('login', 'failed', $referrer));
+        exit;
+    }
+});
+
+// // Mantener al usuario en la misma página después de iniciar sesión exitosamente
+// add_filter('login_redirect', function($redirect_to, $request, $user) {
+//     // Si hay un error, mantenemos la misma URL
+//     if (isset($_GET['login']) && $_GET['login'] == 'failed') {
+//         return wp_get_referer();
+//     }
+
+//     // Si el inicio de sesión es exitoso
+//     if (isset($user->roles) && is_array($user->roles)) {
+//         // Redireccionar a la misma página desde la que se envió el formulario
+//         return wp_get_referer() ? wp_get_referer() : home_url();
+//     }
+
+//     // Redirección por defecto
+//     return $redirect_to;
+// }, 10, 3);

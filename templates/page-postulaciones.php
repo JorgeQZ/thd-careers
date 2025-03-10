@@ -171,10 +171,11 @@ Template Name: Postulaciones
 
                         // Asignar la URL del archivo
                         $gcs_url = $decoded_response->mediaLink;
+                        $gcs_url_name = $decoded_response->name;
 
                         // Actualizar el campo personalizado 'CV' con la URL del archivo en GCS
                         update_field('CV', $gcs_url, $postulacion_id);
-
+                        update_field('nombre_de_cv', $gcs_url_name, $postulacion_id);
                         // Mostrar mensaje de éxito
                         ?>
                         <script>
@@ -450,8 +451,10 @@ Template Name: Postulaciones
                     <span class="file-saved <?php echo !$cv_gcs_url ? 'noactive' : ''; ?>">
                         <?php
                             $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
-                            echo $cv_gcs_url
-                                ? '<a class="a-cvguardado" href="' . esc_url($cv_gcs_url) . '" target="_blank">Haz clic aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
+                            $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
+                            $link_cv = obtener_url_archivo($gcs_url_name);
+                            echo $link_cv
+                                ? '<a class="a-cvguardado" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
                                 : '';
                         ?>
                     </span>
