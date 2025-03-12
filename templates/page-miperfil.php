@@ -38,6 +38,14 @@ if (isset($_POST['submit'])) {
                 // Decodificar la respuesta JSON
                 $decoded_response = json_decode($gcs_response);
 
+                try {
+                    $decoded_response = json_decode($gcs_response, true, 512, JSON_THROW_ON_ERROR);
+                } catch (JsonException $e) {
+                    echo "<p class='error'>Hubo un problema al procesar los datos. Inténtalo de nuevo más tarde.</p>";
+                    error_log("JSON Decode Error en page-postulaciones.php: " . $e->getMessage());
+                    $decoded_response = [];
+                }
+
                 // Verificar errores en la decodificación
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     throw new Exception('Error al decodificar el JSON: ' . json_last_error_msg());
@@ -493,7 +501,8 @@ if (isset($_POST['submit'])) {
     }
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="<?php echo get_template_directory(  ).'/js/jquery.min.js' ?>"></script>
+
 <script>
 
     $(document).ready(function() {

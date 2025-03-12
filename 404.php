@@ -4,7 +4,11 @@
  */
 
 get_header(); ?>
-
+<script>
+    if (window.top !== window.self) {
+        window.top.location = window.self.location;
+    }
+</script>
 <div class="page-404">
     <div class="container">
         <h1 class="error-title">404</h1>

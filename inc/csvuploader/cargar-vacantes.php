@@ -63,29 +63,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
         echo '<div class="notice notice-error"><p>' . esc_html($e->getMessage()) . '</p></div>';
     }
 }
+
+
+
 function process_csv_to_vacantes()
 {
-    $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
-    if ($file === false) {
-        throw new Exception('No se pudo abrir el archivo CSV.');
+    // Asegurar que WordPress ha sido cargado
+    if (!defined('ABSPATH')) {
+        exit;
     }
 
-    $csv_data = file_get_contents($_FILES['csv_file']['tmp_name']);
-    $csv_data = preg_replace('/^\xEF\xBB\xBF/', '', $csv_data); // Elimina BOM
+    // Verificar si el archivo se ha subido correctamente
+    if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+        echo '<div class="error"><p>Error: No se ha subido un archivo válido.</p></div>';
+        return;
+    }
 
-    $headers = fgetcsv($file);
+    $file = $_FILES['csv_file'];
+
+    // Validar MIME type y extensión
+    $allowed_types = ['text/csv', 'application/vnd.ms-excel'];
+    $file_mime = mime_content_type($file['tmp_name']);
+    $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+    if (!in_array($file_mime, $allowed_types) || strtolower($file_ext) !== 'csv') {
+        echo '<div class="error"><p>Error: Solo se permiten archivos CSV.</p></div>';
+        return;
+    }
+
+    // Validar que el archivo no sea mayor a 5MB
+    if ($file['size'] > 5 * 1024 * 1024) {
+        echo '<div class="error"><p>Error: El archivo es demasiado grande.</p></div>';
+        return;
+    }
+
+    // Asegurar que el archivo es realmente local
+    if (!is_uploaded_file($file['tmp_name'])) {
+        echo '<div class="error"><p>Error: Archivo no válido o manipulado.</p></div>';
+        return;
+    }
+
+    // Abrir archivo CSV de forma segura
+    $handle = fopen($file['tmp_name'], 'r');
+    if ($handle === false) {
+        echo '<div class="error"><p>Error: No se pudo abrir el archivo CSV.</p></div>';
+        return;
+    }
+
+    // Eliminar BOM si existe
+    $csv_data = stream_get_contents($handle);
+    $csv_data = preg_replace('/^\xEF\xBB\xBF/', '', $csv_data);
+    fseek($handle, 0); // Reiniciar la lectura del archivo después de eliminar BOM
+
+    // Leer encabezados y sanitizar
+    $headers = fgetcsv($handle);
     if ($headers === false) {
-        fclose($file);
-        throw new Exception('El archivo CSV no tiene encabezados válidos.');
+        fclose($handle);
+        echo '<div class="error"><p>Error: El archivo CSV no tiene encabezados válidos.</p></div>';
+        return;
     }
 
+    $headers = array_map('trim', $headers);
     $data = [];
-    while (($row = fgetcsv($file)) !== false) {
-        $data[] = array_combine($headers, $row);
+
+    while (($row = fgetcsv($handle)) !== false) {
+        $line_number++;
+
+        // Verificar que la fila tiene el mismo número de columnas que los encabezados
+        if (count($row) !== count($headers)) {
+            fclose($handle);
+            echo '<div class="error"><p>Error en la línea ' . $line_number . ': Número incorrecto de columnas.</p></div>';
+            return;
+        }
+
+        // Sanitizar cada campo antes de procesarlo
+        $row = array_map('trim', $row);
+        $entry = array_combine($headers, array_map('esc_html', $row));
+        $data[] = $entry;
     }
 
-    fclose($file);
-
+    fclose($handle);
+    // Validación de Beneficios
     $beneficios_permitidos = [
         'Prestaciones superiores a la ley',
         'Bono por objetivos',
@@ -97,7 +155,6 @@ function process_csv_to_vacantes()
         'Vales de despensa'
     ];
 
-
     foreach ($data as $entry) {
         $beneficios = isset($entry['beneficios']) ? explode(',', $entry['beneficios']) : [];
         $beneficios = array_map('trim', $beneficios);
@@ -108,7 +165,7 @@ function process_csv_to_vacantes()
         // VERIFICAR SI YA EXISTE LA VACANTE PARA EVITAR DUPLICADOS
         $existing_post = get_posts([
             'post_type'  => 'vacantes',
-            'numberposts' => 1, // Solo recuperar 1 resultado
+            'numberposts' => 1,
             'meta_query' => [
                 [
                     'key'   => 'codigo_de_vacante',
@@ -118,24 +175,24 @@ function process_csv_to_vacantes()
         ]);
 
         if (!empty($existing_post)) {
-            continue; // Si ya existe, saltar a la siguiente
+            continue;
         }
 
-         $featured_image_url = !empty($entry['imagen_destacada']) ? trim($entry['imagen_destacada']) : 'https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/01/fondo-footer.png';
+        $featured_image_url = !empty($entry['imagen_destacada']) ? trim($entry['imagen_destacada']) : 'https://homedepotmexico-develop.go-vip.net/carreras/wp-content/uploads/sites/9/2025/01/fondo-footer.png';
 
         $vacante_data = [
-            'post_title'  => $entry['titulo'],
+            'post_title'  => esc_html($entry['titulo']),
             'post_type'   => 'vacantes',
             'post_status' => 'draft',
             'meta_input'  => [
-                'codigo_de_vacante' => $entry['codigo_de_vacante'],
-                'descripcion'       => $entry['descripcion'],
-                'video'             => $entry['video'],
-                'ubicacion'         => $entry['ubicacion'],
+                'codigo_de_vacante' => esc_html($entry['codigo_de_vacante']),
+                'descripcion'       => esc_html($entry['descripcion']),
+                'video'             => esc_url($entry['video']),
+                'ubicacion'         => esc_html($entry['ubicacion']),
                 'beneficios'        => $beneficios,
                 'emi' => (!empty($entry['emi']) && in_array(strtolower($entry['emi']), ['true', 'verdadero', '1', 'sí', 'si', 'SÍ', 'SI'])) ? 1 : 0,
-                'imagen_qr'         => $entry['imagen_qr'],
-                'url_de_la_vacante' => $entry['url_de_la_vacante']
+                'imagen_qr'         => esc_url($entry['imagen_qr']),
+                'url_de_la_vacante' => esc_url($entry['url_de_la_vacante'])
             ]
         ];
 
@@ -150,6 +207,7 @@ function process_csv_to_vacantes()
         }
     }
 }
+
 
 function set_featured_image($post_id, $image_url) {
     require_once(ABSPATH . 'wp-admin/includes/file.php');

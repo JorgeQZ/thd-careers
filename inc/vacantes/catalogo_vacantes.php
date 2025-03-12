@@ -422,7 +422,7 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
 
         // Si ambos campos están vacíos, permitir duplicar
         if (empty($codigo_de_vacante) || empty($extra_data_data_tienda)) {
-            return; // No se realiza ninguna validación adicional
+            return;
         }
 
         // Construir el slug propuesto
@@ -431,7 +431,7 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
         // Buscar si ya existe otro post con la misma combinación de campos
         $existing_posts = get_posts([
             'post_type'   => 'vacantes',
-            'post_status' => ['publish'], // Verificar todos los estados
+            'post_status' => ['publish'],
             'meta_query'  => [
                 'relation' => 'AND',
                 [
@@ -443,41 +443,38 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
                     'value' => $extra_data_data_tienda,
                 ],
             ],
-            'exclude' => [$post_ID], // Excluir el post actual
-            'fields' => 'ids', // Solo recuperar IDs
+            'exclude' => [$post_ID],
+            'fields' => 'ids',
         ]);
 
-        // Si existe un duplicado, detener la acción y mostrar un error
+        // Si existe un duplicado, eliminar el post actual y mostrar error
         if (!empty($existing_posts)) {
-            wp_delete_post($post_ID, true); // Elimina el post actual permanentemente
+            wp_delete_post($post_ID, true);
 
-            // URL para redirigir a "Mis Vacantes"
+            // URL de redirección
             $mis_vacantes_url = admin_url('admin.php?page=mis_vacantes');
 
             try {
-                // Validar la URL antes de usarla
+                // Validar URL antes de usarla
                 if (empty($mis_vacantes_url) || !filter_var($mis_vacantes_url, FILTER_VALIDATE_URL)) {
                     throw new Exception('La URL proporcionada no es válida o está vacía.');
                 }
 
-                // Terminar el script con un mensaje de error y enlace de retorno
-                wp_die(
-                    sprintf(
-                        __(
-                            'Error: No se puede crear este post porque ya existe otro con el mismo código y tienda. El post actual ha sido eliminado.<br><br>
-                            <a href="%s" class="button button-primary">Regresar a Mis Vacantes</a>',
-                            'tu-text-domain'
-                        ),
-                        esc_url($mis_vacantes_url)
-                    ),
-                    __('Error de creación', 'tu-text-domain'),
-                    ['response' => 403]
+                // Construir el mensaje con sprintf dentro del try-catch
+                $error_message = sprintf(
+                    __('Error: No se puede crear este post porque ya existe otro con el mismo código y tienda. El post actual ha sido eliminado.<br><br>
+                    <a href="%s" class="button button-primary">Regresar a Mis Vacantes</a>', 'tu-text-domain'),
+                    esc_url($mis_vacantes_url)
                 );
-            } catch (Exception $e) {
-                // Registrar el error en el log para depuración
-                error_log('Error en wp_die: ' . $e->getMessage());
 
-                // Mostrar un mensaje genérico al usuario
+                // Terminar el script con un mensaje de error
+                wp_die($error_message, __('Error de creación', 'tu-text-domain'), ['response' => 403]);
+
+            } catch (Exception $e) {
+                // Registrar el error en el log
+                error_log('Error en prevent_duplicate_vacantes_creation_conditional: ' . $e->getMessage());
+
+                // Mensaje de error genérico para el usuario
                 wp_die(
                     __('Ocurrió un error inesperado. Por favor, contacte al administrador.', 'tu-text-domain'),
                     __('Error de creación', 'tu-text-domain'),
@@ -487,6 +484,7 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
         }
     }
 }
+
 add_action('save_post', 'update_slug_after_save', 10, 3);
 
 function update_slug_after_save($post_ID, $post, $update) {

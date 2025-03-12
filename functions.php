@@ -229,48 +229,57 @@ function highlight_and_break_title($title)
 
 
 function get_favorites_handler() {
-    // Verifica que se hayan enviado los datos
-    if (!isset($_POST['favorites'])) {
-        wp_send_json_error('No se enviaron datos.');
-        wp_die();
-    }
-
-    $favorite_ids = json_decode(stripslashes($_POST['favorites']), true);
-    if (empty($favorite_ids)) {
-        wp_send_json_error('La lista de favoritos está vacía.');
-        wp_die();
-    }
-
-    $posts = [];
-    foreach ($favorite_ids as $id) {
-        $post = get_post($id);
-        if ($post && $post->post_type === 'vacantes') { // Slug del CPT
-
-            $ubicacion_label = get_field('ubicacion', $post->ID)['label'];
-
-            if ($ubicacion_label) {
-                // Convertir el texto a formato más formal (capitalización correcta)
-                $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
-            } else {
-                $ubicacion_formateada = 'Ubicación no disponible';
-            }
-            $posts[] = [
-                'id'           => $post->ID,
-                'title'        => get_the_title($post),
-                'permalink'    => get_permalink($post),
-                'image'        => get_template_directory_uri() . '/imgs/logo-thd.jpg',
-                'location'     => $ubicacion_formateada, // Usamos la ubicación formateada
-                'location_icon'=> file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'),
-                'time_text'    => 'Lorem ipsum dolor sit, amet', // Texto genérico, personalízalo
-                'time_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'),
-                'like_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/me-gusta.svg'),
-                'tienda'       => get_field('extra_data_data_tienda', $post->ID) ?: 'Sin tienda', // ACF o campo personalizado
-            ];
+    try {
+        // Verifica que se hayan enviado los datos
+        if (!isset($_POST['favorites'])) {
+            wp_send_json_error('No se enviaron datos.');
+            wp_die();
         }
-    }
 
-    wp_send_json($posts);
-    wp_die();
+        $favorites_json = stripslashes($_POST['favorites']);
+        $favorite_ids = json_decode($favorites_json, true);
+        if (empty($favorite_ids)) {
+            wp_send_json_error('La lista de favoritos está vacía.');
+            wp_die();
+        }
+
+        $posts = [];
+        foreach ($favorite_ids as $id) {
+            $post = get_post($id);
+            if ($post && $post->post_type === 'vacantes') { // Slug del CPT
+
+                $ubicacion_label = get_field('ubicacion', $post->ID)['label'];
+
+                if ($ubicacion_label) {
+                    // Convertir el texto a formato más formal (capitalización correcta)
+                    $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
+                } else {
+                    $ubicacion_formateada = 'Ubicación no disponible';
+                }
+                $posts[] = [
+                    'id'           => $post->ID,
+                    'title'        => get_the_title($post),
+                    'permalink'    => get_permalink($post),
+                    'image'        => get_template_directory_uri() . '/imgs/logo-thd.jpg',
+                    'location'     => $ubicacion_formateada, // Usamos la ubicación formateada
+                    'location_icon'=> file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'),
+                    'time_text'    => 'Lorem ipsum dolor sit, amet', // Texto genérico, personalízalo
+                    'time_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'),
+                    'like_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/me-gusta.svg'),
+                    'tienda'       => get_field('extra_data_data_tienda', $post->ID) ?: 'Sin tienda', // ACF o campo personalizado
+                ];
+            }
+        }
+
+        wp_send_json($posts);
+        wp_die();
+    } catch (Exception $e) {
+        // Registrar el error en el log
+        error_log('Error en get_favorites_handler: ' . $e->getMessage());
+
+        // Retornar error como JSON
+        wp_send_json_error(['message' => 'Ocurrió un error al procesar la solicitud.']);
+    }
 }
 
 // Registrar AJAX

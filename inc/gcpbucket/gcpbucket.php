@@ -1,50 +1,74 @@
 <?php
 function generate_jwt($credentials) {
-    // Cabecera del JWT (Header)
-    $header = [
-        'alg' => 'RS256',
-        'typ' => 'JWT'
-    ];
+    try {
+        // Cabecera del JWT (Header)
+        $header = [
+            'alg' => 'RS256',
+            'typ' => 'JWT'
+        ];
 
-    // Carga útil (Payload) del JWT
-    $issuedAt = time(); // Hora de emisión
-    $expirationTime = $issuedAt + 3600;  // Expira en una hora
-    $payload = [
-        'iss' => $credentials['client_email'],
-        'scope' => 'https://www.googleapis.com/auth/devstorage.read_write',
-        'aud' => 'https://oauth2.googleapis.com/token',
-        'iat' => $issuedAt,
-        'exp' => $expirationTime,
-    ];
+        // Carga útil (Payload) del JWT
+        $issuedAt = time(); // Hora de emisión
+        $expirationTime = $issuedAt + 3600;  // Expira en una hora
+        $payload = [
+            'iss' => $credentials['client_email'],
+            'scope' => 'https://www.googleapis.com/auth/devstorage.read_write',
+            'aud' => 'https://oauth2.googleapis.com/token',
+            'iat' => $issuedAt,
+            'exp' => $expirationTime,
+        ];
 
-    // Codificar el encabezado y la carga útil en base64url
-    $encodedHeader = base64url_encode(json_encode($header, JSON_THROW_ON_ERROR));
-    $encodedPayload = base64url_encode(json_encode($payload, JSON_THROW_ON_ERROR));
+        // Codificar el encabezado y la carga útil en base64url
+        $encodedHeader = base64url_encode(json_encode($header, JSON_THROW_ON_ERROR));
+        $encodedPayload = base64url_encode(json_encode($payload, JSON_THROW_ON_ERROR));
 
-    // Concatenar el encabezado y la carga útil
-    $message = $encodedHeader . '.' . $encodedPayload;
+        // Concatenar el encabezado y la carga útil
+        $message = $encodedHeader . '.' . $encodedPayload;
 
-    // Generar la firma
-    // $privateKey = file_get_contents(get_template_directory() . '/json/thd-careers-447904-b68e48031aa6.json');
-    $privateKey = file_get_contents(get_template_directory() . '/json/thdmx-careers-bucket-test-daa3254feacf.json');
+        // Leer la clave privada desde el archivo JSON
+        $jsonPath = get_template_directory() . '/json/thdmx-careers-bucket-test-daa3254feacf.json';
 
-    $decodedPrivateKey = json_decode($privateKey, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception('Error al decodificar el JSON de la clave privada: ' . json_last_error_msg());
+        if (!file_exists($jsonPath)) {
+            throw new Exception("El archivo JSON con la clave privada no existe: $jsonPath");
+        }
+
+        $privateKeyContent = file_get_contents($jsonPath);
+        if ($privateKeyContent === false) {
+            throw new Exception("Error al leer el archivo JSON de la clave privada.");
+        }
+
+        // Decodificar el JSON de la clave privada
+        // $decodedPrivateKey = json_decode($privateKeyContent, true, 512, JSON_THROW_ON_ERROR);
+        try {
+            // Ensure $privateKey is a valid JSON string
+            $decodedPrivateKey = json_decode($privateKeyContent, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            error_log("JSON decoding error in generate_jwt: " . $e->getMessage());
+            return null; // Handle the error gracefully
+        }
+
+        if (!isset($decodedPrivateKey['private_key']) || empty($decodedPrivateKey['private_key'])) {
+            throw new Exception("La clave privada no se encontró en el JSON proporcionado.");
+        }
+
+        $privateKey = $decodedPrivateKey['private_key'];
+
+        // Generar la firma
+        $signature = sign_message($message, $privateKey);
+
+        // Codificar la firma en base64url
+        $encodedSignature = base64url_encode($signature);
+
+        // Retornar el JWT
+        return $message . '.' . $encodedSignature;
+
+    } catch (JsonException $e) {
+        error_log("Error en JSON durante la generación del JWT: " . $e->getMessage());
+        return false;
+    } catch (Exception $e) {
+        error_log("Error en generate_jwt: " . $e->getMessage());
+        return false;
     }
-
-    $privateKey = $decodedPrivateKey['private_key'] ?? null;
-
-    if (is_null($privateKey)) {
-        throw new Exception('La clave privada no se encontró en el JSON proporcionado.');
-    }
-    $signature = sign_message($message, $privateKey);
-
-    // Codificar la firma en base64url
-    $encodedSignature = base64url_encode($signature);
-
-    // Retornar el JWT
-    return $message . '.' . $encodedSignature;
 }
 
 function sign_message($message, $privateKey) {
@@ -112,11 +136,19 @@ function upload_to_gcp($file) {
             throw new Exception('La respuesta del servidor está vacía.');
         }
 
-        $auth_response = json_decode($body, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Error al decodificar el JSON de la respuesta: ' . json_last_error_msg());
+        try {
+            $auth_response = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            error_log("Error al decodificar JSON en upload_to_gcp: " . $e->getMessage());
+            $auth_response = null; // O asigna un valor predeterminado
         }
+
+        // Continuar con la ejecución solo si $auth_response es válido
+        if ($auth_response === null) {
+            return false; // O manejar el error de otra forma
+        }
+
+
     } catch (Exception $e) {
         error_log('Error en upload_to_gcp: ' . $e->getMessage());
         throw $e; // Opcional: volver a lanzar la excepción para manejarla en otro nivel
@@ -159,9 +191,13 @@ function generar_token_acceso() {
         throw new Exception('Error al leer el archivo JSON: ' . $json_key_file);
     }
 
-    $credentials = json_decode($jsonContent, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception('Error al decodificar el archivo JSON: ' . json_last_error_msg());
+    // $credentials = json_decode($jsonContent, true);
+    try {
+        // Ensure JSON decoding throws exceptions on failure
+        $credentials = json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR);
+    } catch (JsonException $e) {
+        error_log("JSON decoding error in generar_token_acceso: " . $e->getMessage());
+        return null; // Handle error appropriately, maybe return a default value or exit
     }
 
     // Generar el JWT utilizando la función existente
@@ -184,7 +220,17 @@ function generar_token_acceso() {
         throw new Exception('La respuesta del servidor está vacía.');
     }
 
-    $auth_response = json_decode($body, true);
+    // $auth_response = json_decode($body, true);
+
+    try {
+        // Ensure the response body contains valid JSON
+        $auth_response = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+    } catch (JsonException $e) {
+        error_log("JSON decoding error in generar_token_acceso: " . $e->getMessage());
+        return null; // Handle error gracefully (return null, empty array, etc.)
+    }
+
+
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('Error al decodificar el JSON de la respuesta: ' . json_last_error_msg());
     }

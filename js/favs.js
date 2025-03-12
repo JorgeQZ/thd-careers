@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
            favorites = getUserFavs();
             const listItems = jobList.querySelectorAll('li'); // Obtener todos los <li> dentro del UL
             if (listItems.length > 0) {
-                console.log("a");
                 listItems.forEach(li => {
                     const jobId = li.dataset.id; // Obtener el valor de data-id del <li>
                     const isFavorite = favorites.some(fav => fav.job_id === jobId);
@@ -291,28 +290,75 @@ document.addEventListener('DOMContentLoaded', function () {
                             const li = document.createElement('li');
                             li.className = 'item remove-fav active';
                             li.setAttribute('data-id', post.id);
-                            li.innerHTML = `
-                            <div class="img">
-                                <img src="${post.image}" alt="">
-                            </div>
-                            <div class="desc">
-                                <a href="${post.permalink}">${post.title}</a>
-                                <div class="icon-cont">
-                                    <div class="img">${post.location_icon}</div>
-                                    <div class="text">${post.location}</div>
-                                </div>
-                                <div class="icon-cont">
-                                    <div class="img">${post.time_icon}</div>
-                                    <div class="text">${post.time_text}</div>
-                                </div>
-                            </div>
-                            <div class="fav">
-                                <div class="img">${post.like_icon}</div>
-                            </div>
-                        `;
+
+                            // Crear contenedor de imagen
+                            const imgDiv = document.createElement('div');
+                            imgDiv.className = 'img';
+                            const img = document.createElement('img');
+                            img.src = post.image;
+                            img.alt = '';
+                            imgDiv.appendChild(img);
+
+                            // Crear descripción
+                            const descDiv = document.createElement('div');
+                            descDiv.className = 'desc';
+
+                            const titleLink = document.createElement('a');
+                            titleLink.href = post.permalink;
+                            titleLink.textContent = post.title;
+
+                            // Crear contenedor de ubicación
+                            const iconCont1 = document.createElement('div');
+                            iconCont1.className = 'icon-cont';
+
+                            const icon1Img = document.createElement('div');
+                            icon1Img.className = 'img';
+                            icon1Img.innerHTML = post.location_icon; // Si es SVG o HTML permitido
+
+                            const icon1Text = document.createElement('div');
+                            icon1Text.className = 'text';
+                            icon1Text.textContent = post.location; // Evita inyecciones
+
+                            iconCont1.appendChild(icon1Img);
+                            iconCont1.appendChild(icon1Text);
+
+                            // Crear contenedor de tiempo
+                            const iconCont2 = document.createElement('div');
+                            iconCont2.className = 'icon-cont';
+
+                            const icon2Img = document.createElement('div');
+                            icon2Img.className = 'img';
+                            icon2Img.innerHTML = post.time_icon; // Si es SVG o HTML permitido
+
+                            const icon2Text = document.createElement('div');
+                            icon2Text.className = 'text';
+                            icon2Text.textContent = post.time_text; // Evita inyecciones
+
+                            iconCont2.appendChild(icon2Img);
+                            iconCont2.appendChild(icon2Text);
+
+                            // Crear botón de favoritos
+                            const favDiv = document.createElement('div');
+                            favDiv.className = 'fav';
+
+                            const favImg = document.createElement('div');
+                            favImg.className = 'img';
+                            favImg.innerHTML = post.like_icon; // Si es SVG o HTML permitido
+
+                            favDiv.appendChild(favImg);
+
+                            // Agregar elementos al `descDiv`
+                            descDiv.appendChild(titleLink);
+                            descDiv.appendChild(iconCont1);
+                            descDiv.appendChild(iconCont2);
+
+                            // Agregar elementos al `li`
+                            li.appendChild(imgDiv);
+                            li.appendChild(descDiv);
+                            li.appendChild(favDiv);
+
                             ulElement.appendChild(li);
                         });
-
 
                         // Si no hay más elementos, ocultamos el botón
                         if (currentIndex >= favorites.length) {
