@@ -309,5 +309,40 @@ function verify_tn_role($user_login, $user){
 }
 add_action( 'wp_login', 'verify_tn_role', 10, 2 ); // Ejecutar la función al iniciar sesión
 
+function allow_super_admin_access_to_menus() {
+    if (is_super_admin()) {
+        add_filter('user_has_cap', function ($allcaps, $cap, $args) {
+            $required_caps = [
+                'edit_posts',
+                'edit_pages',
+                'upload_files',
+                'edit_others_posts',
+                'publish_posts',
+                'manage_categories',
+                'edit_published_posts',
+                'edit_private_posts',
+                'edit_others_pages',
+                'edit_private_pages',
+                'edit_published_pages',
+                'publish_pages',
+                'delete_posts',
+                'delete_published_posts',
+                'delete_others_posts',
+                'delete_pages',
+                'delete_others_pages',
+                'delete_private_pages',
+                'delete_published_pages',
+            ];
 
+            foreach ($required_caps as $capability) {
+                if (!empty($cap) && in_array($capability, $cap)) {
+                    $allcaps[$capability] = true;
+                }
+            }
+
+            return $allcaps;
+        }, 10, 3);
+    }
+}
+add_action('init', 'allow_super_admin_access_to_menus');
 ?>
