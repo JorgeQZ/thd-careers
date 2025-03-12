@@ -217,7 +217,7 @@ if (isset($_POST['submit'])) {
                             $link_cv = obtener_url_archivo($gcs_url_name);
                         ?>
                         <div class="file-wrapper">
-                            <input type="file" id="cv" name="file_to_upload" class="file-input">
+                            <input type="file" id="cv" name="file_to_upload" class="file-input" accept=".pdf,.doc,.docx">
                             <span class="span-place">Haz clic aquí para subir un archivo</span>
                             <span class="icon-attachment"></span>
                         </div>
