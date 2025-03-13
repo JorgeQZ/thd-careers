@@ -163,6 +163,32 @@ function add_admin_ti_careers_role() {
 }
 add_action('init', 'add_admin_ti_careers_role');
 
+function personalizar_menus_admin() {
+    // Obtener el usuario actual
+    $usuario_actual = wp_get_current_user();
+
+    // Verificar si el usuario tiene el rol "admin_ti_careers" y NO es Super Admin
+    if (in_array('admin_ti_careers', $usuario_actual->roles) && !is_super_admin()) {
+        // Ocultar estos menús solo para "admin_ti_careers"
+        remove_menu_page('tools.php');             // Herramientas
+        remove_menu_page('options-general.php');   // Ajustes
+        remove_menu_page('users.php');             // Usuarios
+        remove_menu_page('plugins.php');           // Plugins
+    }
+
+    // Asegurar que "Administrador" y "Super Admin" vean todo
+    if (in_array('administrator', $usuario_actual->roles) || is_super_admin()) {
+        // Restaurar menús en caso de que hubieran sido ocultados por otras configuraciones
+        add_menu_page('edit.php', 'Entradas', 'edit_posts', 'edit.php', '', 'dashicons-admin-post', 5);
+        add_menu_page('upload.php', 'Medios', 'upload_files', 'upload.php', '', 'dashicons-admin-media', 10);
+        add_menu_page('edit.php?post_type=page', 'Páginas', 'edit_pages', 'edit.php?post_type=page', '', 'dashicons-admin-page', 20);
+        add_menu_page('tools.php', 'Herramientas', 'manage_options', 'tools.php', '', 'dashicons-admin-tools', 30);
+        add_menu_page('options-general.php', 'Ajustes', 'manage_options', 'options-general.php', '', 'dashicons-admin-settings', 60);
+    }
+}
+
+add_action('admin_menu', 'personalizar_menus_admin', 999);
+
 function otorgar_capacidad_publicar_a_rh_oat() {
     $role = get_role('rh_admin');
 
@@ -345,4 +371,6 @@ function allow_super_admin_access_to_menus() {
     }
 }
 add_action('init', 'allow_super_admin_access_to_menus');
+
+
 ?>
