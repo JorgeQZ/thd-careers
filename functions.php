@@ -298,7 +298,7 @@ function modify_menu_items($items, $args) {
 
                     // Modifica el título para incluir la imagen y el texto
                     $item->title = '<img src="' . esc_url($icon_url) . '" alt="Icono Perfil" class="menu-profile-icon" style="display: block; margin: 0 auto; width: 35px; padding-bottom: 10px; padding-right: 10px;"><span>INICIA SESIÓN / REGÍSTRATE</span>';
-                    $item->url = home_url().'/login/';
+                    $item->url = home_url().'/login?saml_sso=false';
 
                     // Si el usuario está en la URL de login, añade una clase personalizada
                     if (is_page() && strpos($_SERVER['REQUEST_URI'], '/thd-careers/login/') !== false) {
