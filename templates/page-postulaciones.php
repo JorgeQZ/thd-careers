@@ -461,7 +461,7 @@ Template Name: Postulaciones
                             $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
                             $link_cv = obtener_url_archivo($gcs_url_name);
                             echo $link_cv
-                                ? '<a class="a-cvguardado" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
+                                ? '<a class="a-cvguardado" href="' . esc_url($link_cv) . '" target="_blank" rel="noopener noreferrer">Haz click aquí para ver el CV guardado del perfil (de no subir un archivo nuevo se enviara el CV guardado)</a>'
                                 : '';
                         ?>
                     </span>

@@ -251,7 +251,7 @@ function loadMoreVacantes(numeroDeTienda, currentPage, nombre, ubicacion, circle
                     .filter(vacante => !loadedVacanciesByCircle[circle._leaflet_id].has(vacante.title))
                     .map(vacante => {
                         loadedVacanciesByCircle[circle._leaflet_id].add(vacante.title);
-                        return `<li><a href="${vacante.url}" target="_blank">${vacante.title} <span>+</span></a></li>`;
+                        return `<li><a href="${vacante.url}" rel="noopener noreferrer" target="_blank">${vacante.title} <span>+</span></a></li>`;
                     }).join('');
 
                 if (!newLinks && responseData.data.length === 0) {

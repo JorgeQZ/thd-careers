@@ -1,8 +1,20 @@
+
+<?php
+// Encabezados de seguridad
+header("X-Frame-Options: SAMEORIGIN");
+header("Content-Security-Policy: frame-ancestors 'self';");
+?>
 <!DOCTYPE html>
 <html lang="es-MX">
 
 
 <head>
+    <script>
+        if (window.top !== window.self) {
+            document.body.innerHTML = "";
+            window.top.location = window.self.location;
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php bloginfo();?></title>

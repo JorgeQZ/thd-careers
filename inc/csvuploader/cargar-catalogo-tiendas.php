@@ -49,9 +49,22 @@ function process_csv_to_repeater(){
     $file = $_FILES['csv_file'];
 
     // Validar el tipo MIME y extensión del archivo
+    $allowed_exts = ['csv'];
     $allowed_types = ['text/csv', 'application/vnd.ms-excel'];
     $file_mime = mime_content_type($file['tmp_name']);
     $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+
+    // Validar la extensión
+    if (!in_array($file_mime, $allowed_types) || !in_array($file_ext, $allowed_exts)) {
+        echo '<div class="error"><p>Error: Solo se permiten archivos CSV.</p></div>';
+        return;
+    }
+
+    // Validar el tipo MIME
+    if (!in_array($file_mime, $allowed_types)) {
+        die("Error: Tipo MIME no permitido.");
+    }
 
     if (!in_array($file_mime, $allowed_types) || strtolower($file_ext) !== 'csv') {
         echo '<div class="error"><p>Error: Solo se permiten archivos CSV.</p></div>';
@@ -103,7 +116,19 @@ function process_csv_to_repeater(){
 
     // Procesar filas del CSV
     $data = [];
+    $max_rows = 5000; // Límite de filas procesadas
+    $row_count = 0;
     while (($row = fgetcsv($handle)) !== false) {
+
+        $row_count++;
+
+        if ($row_count > $max_rows) {
+            echo '<div class="error"><p>Error: El archivo CSV excede el límite de ' . $max_rows . ' filas.</p></div>';
+            fclose($handle);
+            return;
+        }
+
+
         if (count($row) === count($headers)) {
             $row = array_map('trim', $row);
             $entry = array_combine($headers, $row);

@@ -35,48 +35,48 @@ if (isset($_POST['submit'])) {
 
         if ($gcs_response) {
             try {
-                // Decodificar la respuesta JSON
-                $decoded_response = json_decode($gcs_response);
-
-                try {
-                    $decoded_response = json_decode($gcs_response, true, 512, JSON_THROW_ON_ERROR);
-                } catch (JsonException $e) {
-                    echo "<p class='error'>Hubo un problema al procesar los datos. Inténtalo de nuevo más tarde.</p>";
-                    error_log("JSON Decode Error en page-postulaciones.php: " . $e->getMessage());
-                    $decoded_response = [];
+                // Validar que la respuesta no está vacía
+                if (empty($gcs_response)) {
+                    throw new Exception('La respuesta del servidor está vacía.');
                 }
 
-                // Verificar errores en la decodificación
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    throw new Exception('Error al decodificar el JSON: ' . json_last_error_msg());
-                }
+                // Decodificar JSON con excepciones activadas
+                $decoded_response = json_decode($gcs_response, true, 512, JSON_THROW_ON_ERROR);
 
                 // Validar que la propiedad 'mediaLink' existe en la respuesta
-                if (!isset($decoded_response->mediaLink)) {
-                    throw new Exception('La respuesta JSON no contiene la propiedad "mediaLink".');
+                if (!isset($decoded_response['mediaLink']) || !isset($decoded_response['name'])) {
+                    throw new Exception('La respuesta JSON no contiene los datos esperados.');
                 }
 
                 // Asignar la URL del archivo
-                $gcs_url = $decoded_response->mediaLink;
-                $gcs_url_name = $decoded_response->name;
+                $gcs_url = $decoded_response['mediaLink'];
+                $gcs_url_name = $decoded_response['name'];
 
                 // Obtener el ID del usuario actual
                 $user_id = get_current_user_id();
 
                 // Guardar la URL del archivo de GCS como metadato del usuario
-                update_user_meta($user_id, 'cv_gcs_url', $gcs_url);
-                update_user_meta($user_id, 'gcs_url_name', $gcs_url_name);
+                update_user_meta($user_id, 'cv_gcs_url', esc_url_raw($gcs_url));
+                update_user_meta($user_id, 'gcs_url_name', sanitize_text_field($gcs_url_name));
 
-                // echo $gcs_url_name;
-
+                // Mensaje de éxito (puedes activarlo si lo necesitas)
                 // echo '<p>Archivo subido exitosamente y URL guardada.</p>';
-            } catch (Exception $e) {
+
+            } catch (JsonException $e) {
                 // Registrar el error en los logs
+                error_log('Error al decodificar JSON en page-postulaciones.php: ' . $e->getMessage());
+
+                // Mensaje seguro para el usuario
+                echo '<p class="error">Hubo un problema al procesar los datos. Inténtalo de nuevo más tarde.</p>';
+
+            } catch (Exception $e) {
+                // Registrar otros errores en los logs
                 error_log('Error en la respuesta de GCS: ' . $e->getMessage());
 
                 // Mostrar un mensaje genérico al usuario
-                echo '<p>Hubo un error al procesar la respuesta del servidor. Por favor, inténtelo más tarde.</p>';
+                echo '<p class="error">Hubo un error al procesar la respuesta del servidor. Por favor, inténtelo más tarde.</p>';
             }
+
         } else {
             echo '<p>Hubo un error al subir el archivo a GCS.</p>';
         }
@@ -228,7 +228,7 @@ if (isset($_POST['submit'])) {
                                 $link_cv = obtener_url_archivo($gcs_url_name);
 
                                 echo $link_cv
-                                    ? '<a class="a-cvguardado" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
+                                    ? '<a class="a-cvguardado" rel="noopener noreferrer" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
                                     : 'Sin archivo seleccionado';
                             ?>
                         </span>
@@ -501,7 +501,7 @@ if (isset($_POST['submit'])) {
     }
 </script>
 
-<script src="<?php echo get_template_directory(  ).'/js/jquery.min.js' ?>"></script>
+<script src="<?php echo get_template_directory().'/js/jquery.min.js' ?>"></script>
 
 <script>
 

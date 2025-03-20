@@ -258,6 +258,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Carga los primeros 5 saved jobs
+    function createSafeSVG(svgString) {
+        if (!svgString || typeof svgString !== 'string') return null; // Validar entrada
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgString, "image/svg+xml");
+
+        // Validar que el contenido realmente es un SVG
+        const svgElement = doc.documentElement;
+        if (svgElement.tagName.toLowerCase() !== "svg") return null; // Bloquear contenido sospechoso
+
+        return svgElement; // Devolver solo el SVG sin scripts
+    }
     const existPageTemplate = !!document.querySelector('.page-template-saved-jobs');
 
 
@@ -313,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             const icon1Img = document.createElement('div');
                             icon1Img.className = 'img';
-                            icon1Img.innerHTML = post.location_icon; // Si es SVG o HTML permitido
+                            icon1Img.appendChild(createSafeSVG(post.location_icon));
 
                             const icon1Text = document.createElement('div');
                             icon1Text.className = 'text';
@@ -322,20 +334,20 @@ document.addEventListener('DOMContentLoaded', function () {
                             iconCont1.appendChild(icon1Img);
                             iconCont1.appendChild(icon1Text);
 
-                            // Crear contenedor de tiempo
-                            const iconCont2 = document.createElement('div');
-                            iconCont2.className = 'icon-cont';
+                            // // Crear contenedor de tiempo
+                            // const iconCont2 = document.createElement('div');
+                            // iconCont2.className = 'icon-cont';
 
-                            const icon2Img = document.createElement('div');
-                            icon2Img.className = 'img';
-                            icon2Img.innerHTML = post.time_icon; // Si es SVG o HTML permitido
+                            // const icon2Img = document.createElement('div');
+                            // icon2Img.className = 'img';
+                            // icon2Img.appendChild(createSafeSVG(post.time_icon));
 
-                            const icon2Text = document.createElement('div');
-                            icon2Text.className = 'text';
-                            icon2Text.textContent = post.time_text; // Evita inyecciones
+                            // const icon2Text = document.createElement('div');
+                            // icon2Text.className = 'text';
+                            // icon2Text.textContent = post.time_text; // Evita inyecciones
 
-                            iconCont2.appendChild(icon2Img);
-                            iconCont2.appendChild(icon2Text);
+                            // iconCont2.appendChild(icon2Img);
+                            // iconCont2.appendChild(icon2Text);
 
                             // Crear botón de favoritos
                             const favDiv = document.createElement('div');
@@ -343,14 +355,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             const favImg = document.createElement('div');
                             favImg.className = 'img';
-                            favImg.innerHTML = post.like_icon; // Si es SVG o HTML permitido
+                            favImg.appendChild(createSafeSVG(post.like_icon));
 
                             favDiv.appendChild(favImg);
 
                             // Agregar elementos al `descDiv`
                             descDiv.appendChild(titleLink);
                             descDiv.appendChild(iconCont1);
-                            descDiv.appendChild(iconCont2);
+                            // descDiv.appendChild(iconCont2);
 
                             // Agregar elementos al `li`
                             li.appendChild(imgDiv);

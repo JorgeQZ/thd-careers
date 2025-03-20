@@ -93,20 +93,29 @@ function upload_to_gcp($file) {
     // $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json';
     $json_key_file = get_template_directory_uri(  ).'/json/thdmx-careers-bucket-test-daa3254feacf.json';
     try {
-        $jsonContent = file_get_contents($json_key_file);
+        // Validar que la ruta del archivo no está vacía y el archivo existe
+        if (empty($json_key_file) || !file_exists($json_key_file)) {
+            throw new Exception('El archivo de credenciales JSON no existe o la ruta está vacía.');
+        }
 
+        // Leer el contenido del archivo JSON
+        $jsonContent = @file_get_contents($json_key_file); // Suprimir warning y manejar errores manualmente
         if ($jsonContent === false) {
-            throw new Exception('Error al leer el archivo JSON: ' . $json_key_file);
+            throw new Exception('Error al leer el archivo JSON: ' . basename($json_key_file));
         }
 
-        $credentials = json_decode($jsonContent, true);
+        // Decodificar JSON con manejo de errores
+        $credentials = json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Error al decodificar el archivo JSON: ' . json_last_error_msg());
-        }
+    } catch (JsonException $e) {
+        // Manejo de error específico para JSON
+        error_log('Error al decodificar el JSON en upload_to_gcp: ' . $e->getMessage());
+        throw new Exception('Error en el formato del archivo JSON. Verifique que sea válido.');
+
     } catch (Exception $e) {
+        // Manejo de otros errores
         error_log('Error en upload_to_gcp: ' . $e->getMessage());
-        throw $e; // Opcional: volver a lanzar la excepción para manejarla en otro nivel
+        throw new Exception('Hubo un error al procesar el archivo de credenciales.');
     }
 
     // Generar el JWT para la autenticación
@@ -223,11 +232,18 @@ function generar_token_acceso() {
     // $auth_response = json_decode($body, true);
 
     try {
-        // Ensure the response body contains valid JSON
+        // Intentar decodificar la respuesta JSON de autenticación
         $auth_response = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+
     } catch (JsonException $e) {
-        error_log("JSON decoding error in generar_token_acceso: " . $e->getMessage());
-        return null; // Handle error gracefully (return null, empty array, etc.)
+        // Registrar error sin exponer detalles específicos del JSON
+        error_log("Error en la decodificación de JSON en generar_token_acceso.");
+
+        // Opcionalmente, devolver un error controlado en lugar de null
+        return [
+            'success' => false,
+            'message' => 'Hubo un problema al procesar la respuesta del servidor.'
+        ];
     }
 
 

@@ -230,17 +230,16 @@ function highlight_and_break_title($title)
 
 function get_favorites_handler() {
     try {
-        // Verifica que se hayan enviado los datos
-        if (!isset($_POST['favorites'])) {
-            wp_send_json_error('No se enviaron datos.');
-            wp_die();
+        // Verificar si el POST contiene el parámetro necesario
+        if (!isset($_POST['favorites']) || empty($_POST['favorites'])) {
+            throw new Exception('La lista de favoritos está vacía o no se recibió.');
         }
 
         $favorites_json = stripslashes($_POST['favorites']);
-        $favorite_ids = json_decode($favorites_json, true);
-        if (empty($favorite_ids)) {
-            wp_send_json_error('La lista de favoritos está vacía.');
-            wp_die();
+        $favorite_ids = json_decode($favorites_json, true, 512, JSON_THROW_ON_ERROR);
+         // Verificar que el JSON decodificado sea un array válido
+         if (!is_array($favorite_ids) || empty($favorite_ids)) {
+            throw new Exception('La lista de favoritos no es válida.');
         }
 
         $posts = [];
@@ -273,12 +272,13 @@ function get_favorites_handler() {
 
         wp_send_json($posts);
         wp_die();
-    } catch (Exception $e) {
-        // Registrar el error en el log
-        error_log('Error en get_favorites_handler: ' . $e->getMessage());
+    } catch (JsonException $e) {
+        error_log('Error al decodificar JSON en get_favorites_handler: ' . $e->getMessage());
+        wp_send_json_error('Hubo un problema al procesar los datos. Inténtalo de nuevo.');
 
-        // Retornar error como JSON
-        wp_send_json_error(['message' => 'Ocurrió un error al procesar la solicitud.']);
+    } catch (Exception $e) {
+        error_log('Error en get_favorites_handler: ' . $e->getMessage());
+        wp_send_json_error($e->getMessage());
     }
 }
 
@@ -451,6 +451,18 @@ add_action('wp_login_failed', function() {
         exit;
     }
 });
+
+function manejar_errores_404($errno, $errstr, $errfile, $errline) {
+    error_log("Error en 404.php: [$errno] $errstr en $errfile línea $errline");
+    return true; // Prevenir que PHP muestre el error
+}
+set_error_handler('manejar_errores_404');
+
+function set_security_headers() {
+    header("X-Frame-Options: SAMEORIGIN");
+    header("Content-Security-Policy: frame-ancestors 'self';");
+}
+add_action('send_headers', 'set_security_headers');
 
 // // Mantener al usuario en la misma página después de iniciar sesión exitosamente
 // add_filter('login_redirect', function($redirect_to, $request, $user) {

@@ -159,11 +159,16 @@ $is_logged_in = is_user_logged_in();
                                                 <?php
                                                     $file_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
 
+
                                                     if (file_exists($file_path)) {
-                                                        // Mostrar el contenido del SVG directamente
-                                                        echo file_get_contents($file_path);
+                                                        $content = file_get_contents($file_path);
+
+                                                        // Permitir solo etiquetas básicas de SVG
+                                                        $safe_content = strip_tags($content, '<svg><path><circle><rect><g><use>');
+
+                                                        echo $safe_content;
                                                     } else {
-                                                        echo 'Archivo SVG no encontrado.';
+                                                        echo 'Archivo no encontrado.';
                                                     }
                                                 ?>
                                             </div>
@@ -176,7 +181,12 @@ $is_logged_in = is_user_logged_in();
                                                 $file_path = get_template_directory() . '/imgs/me-gusta.svg';
 
                                                 if (file_exists($file_path)) {
-                                                    echo file_get_contents($file_path); // Asegúrate de que el archivo sea seguro
+                                                    $content = file_get_contents($file_path);
+
+                                                    // Permitir solo etiquetas básicas de SVG
+                                                    $safe_content = strip_tags($content, '<svg><path><circle><rect><g><use>');
+
+                                                    echo $safe_content;
                                                 } else {
                                                     echo 'Archivo no encontrado.';
                                                 }

@@ -37,7 +37,7 @@ $is_logged_in = is_user_logged_in();
         <div class="img-cont">
             <img src="<?php echo $qr; ?>" alt="">
         </div>
-        <a href="<?php echo $url_de_la_vacante; ?>"  target="_blank" class="button">Haz clic aquí</a>
+        <a href="<?php echo $url_de_la_vacante; ?>" rel="noopener noreferrer" target="_blank" class="button">Haz clic aquí</a>
     </div>
 </div><!-- PopUp -->
 

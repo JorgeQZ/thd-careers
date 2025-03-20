@@ -17,8 +17,6 @@ function validate_password_security($password) {
         return 'La contraseña debe incluir al menos un carácter especial.';
     }
 
-    // Puedes integrar aquí un servicio externo para verificar contraseñas comprometidas, como Have I Been Pwned.
-
     return true;
 }
 

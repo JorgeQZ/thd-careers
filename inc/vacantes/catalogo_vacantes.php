@@ -454,33 +454,26 @@ function prevent_duplicate_vacantes_creation_conditional($post_ID, $post, $updat
             // URL de redirección
             $mis_vacantes_url = admin_url('admin.php?page=mis_vacantes');
 
-            try {
-                // Validar URL antes de usarla
-                if (empty($mis_vacantes_url) || !filter_var($mis_vacantes_url, FILTER_VALIDATE_URL)) {
-                    throw new Exception('La URL proporcionada no es válida o está vacía.');
-                }
+            // Validar URL antes de usarla
+            if (empty($mis_vacantes_url) || !filter_var($mis_vacantes_url, FILTER_VALIDATE_URL)) {
+                error_log('Error en prevent_duplicate_vacantes_creation_conditional: URL no válida o vacía.');
 
-                // Construir el mensaje con sprintf dentro del try-catch
-                $error_message = sprintf(
-                    __('Error: No se puede crear este post porque ya existe otro con el mismo código y tienda. El post actual ha sido eliminado.<br><br>
-                    <a href="%s" class="button button-primary">Regresar a Mis Vacantes</a>', 'tu-text-domain'),
-                    esc_url($mis_vacantes_url)
-                );
-
-                // Terminar el script con un mensaje de error
-                wp_die($error_message, __('Error de creación', 'tu-text-domain'), ['response' => 403]);
-
-            } catch (Exception $e) {
-                // Registrar el error en el log
-                error_log('Error en prevent_duplicate_vacantes_creation_conditional: ' . $e->getMessage());
-
-                // Mensaje de error genérico para el usuario
                 wp_die(
                     __('Ocurrió un error inesperado. Por favor, contacte al administrador.', 'tu-text-domain'),
                     __('Error de creación', 'tu-text-domain'),
-                    ['response' => 500]
+                    ['response' => 400]
                 );
             }
+
+            // Construir el mensaje con sprintf
+            $error_message = sprintf(
+                __('Error: No se puede crear este post porque ya existe otro con el mismo código y tienda. El post actual ha sido eliminado.<br><br>
+                <a href="%s" class="button button-primary">Regresar a Mis Vacantes</a>', 'tu-text-domain'),
+                esc_url($mis_vacantes_url)
+            );
+
+            // Terminar el script con un mensaje de error
+            wp_die($error_message, __('Error de creación', 'tu-text-domain'), ['response' => 403]);
         }
     }
 }

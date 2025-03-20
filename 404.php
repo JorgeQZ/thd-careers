@@ -5,8 +5,13 @@
 
 get_header(); ?>
 <script>
-    if (window.top !== window.self) {
-        window.top.location = window.self.location;
+   if (window.top !== window.self) {
+        const allowedOrigin = window.location.origin;
+        if (new URL(window.self.location).origin === allowedOrigin) {
+            window.top.location.replace(window.self.location.href);
+        } else {
+            console.warn("Intento de redirección a un dominio no autorizado bloqueado.");
+        }
     }
 </script>
 <div class="page-404">

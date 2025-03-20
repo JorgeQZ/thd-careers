@@ -65,7 +65,7 @@ function careers_profile_fields($user){
                 echo '<img src="' . esc_url($cv_gcs_url) . '" width="200" alt="Vista previa del CV" /></div>';
             } else {
                 // Si no es un archivo previsible, mostrar un enlace al archivo
-                echo '<div><strong>Vista previa no disponible. </strong><a href="' . esc_url($cv_gcs_url) . '" target="_blank">Ver CV completo</a></div>';
+                echo '<div><strong>Vista previa no disponible. </strong><a href="' . esc_url($cv_gcs_url) . '" target="_blank" rel="noopener noreferrer">Ver CV completo</a></div>';
             }
         }
         ?>
