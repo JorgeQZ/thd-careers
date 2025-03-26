@@ -226,6 +226,21 @@ function cambiar_estado_al_abrir_edicion() {
 }
 add_action('admin_init', 'cambiar_estado_al_abrir_edicion');
 
+// CORREOS
+
+function custom_phpmailer_smtp( $phpmailer ) {
+    // Configuración del remitente
+    $phpmailer->isSMTP();
+    $phpmailer->Host       = 'smtp.sendgrid.net'; // Servidor SMTP de tu dominio
+    $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
+    $phpmailer->Username   = 'apikey'; // Correo
+    $phpmailer->Password   = base64_decode('U0cuQlQ4ZFZIb3ZSUW0wTy1HVlo0eUNOZy5qVkpQOU9OS081ZjFzc2ZUTkNPMlY1Ulc2Ymk4eDczMnEweHhjejA='); // Contraseña del correo
+    $phpmailer->SMTPSecure = 'ssl'; // Método de encriptación ('ssl' o 'tls')
+    $phpmailer->Port       = 465; // Puerto SMTP (587 para TLS o 465 para SSL)
+}
+
+add_action( 'phpmailer_init', 'custom_phpmailer_smtp' );
+
 // Función para enviar correos cuando se cree un nuevo post con estado "Postulado"
 function enviar_correo_cambio_estado( $post_id ) {
     // Verifica si el post type es 'postulaciones' y no es un autosave
