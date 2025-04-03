@@ -501,10 +501,11 @@ if (isset($_POST['submit'])) {
     }
 </script>
 
-<script src="<?php echo get_template_directory().'/js/jquery.min.js' ?>"></script>
+<script src="<?php echo get_template_directory_uri().'/js/jquery.min.js' ?>"></script>
 
 <script>
 
+    $ = jQuery;
     $(document).ready(function() {
 
         function verificarCampos() {

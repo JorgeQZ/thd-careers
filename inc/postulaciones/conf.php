@@ -327,3 +327,44 @@ function enviar_correo_cambio_estado( $post_id ) {
 
 // Hook para ejecutar la función al guardar el post manualmente desde el backend
 add_action('acf/save_post', 'enviar_correo_cambio_estado', 20);
+
+
+
+add_filter('acf/load_value/name=CV', 'mostrar_cv_url_actualizado_en_admin', 10, 3);
+function mostrar_cv_url_actualizado_en_admin($value, $post_id, $field) {
+    // Obtener el ID del postulante desde ACF
+    $user_id = get_field('id_postulante', $post_id);
+    if ($user_id) {
+        // Obtener el nombre del archivo guardado en user_meta con la clave 'CV'
+        $file_name = get_user_meta($user_id, 'gcs_url_name', true);
+
+        if ($file_name) {
+            // Generar la URL temporal con access token
+            $cv_url = obtener_url_archivo($file_name);
+
+            return esc_url_raw($cv_url); // Mostrar la URL generada dinámicamente
+        }
+    }
+
+    return $value; // Si no hay nada, mostrar lo que había
+}
+
+add_action('acf/render_field/name=CV', 'renderizar_solo_boton_cv_url');
+function renderizar_solo_boton_cv_url($field) {
+    $cv_url = $field['value'];
+    echo '<style>
+    .acf-field[data-name="CV"] .link-wrap {
+        display: none !important;
+    }
+</style>';
+    echo '<div style="margin-top: 5px;">';
+
+    if ($cv_url) {
+        echo '<a href="' . esc_url($cv_url) . '" target="_blank" class="button button-primary" rel="noopener noreferrer">Ver CV</a>';
+    } else {
+        echo '<em>CV no disponible</em>';
+    }
+
+    echo '</div>';
+
+}
