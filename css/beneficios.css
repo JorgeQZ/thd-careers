@@ -632,7 +632,7 @@ p {
   margin: 0 auto;
   padding: 50px 0 25px 0;
   width: 640px;
-  text-align: center;
+  text-align: justify;
   font-family: "Helvetica Neue LT Std";
 }
 
@@ -681,6 +681,7 @@ p {
 .p2-tab3 {
   font-family: "Helvetica Neue LT Std";
   font-size: 21.8px;
+  text-align: justify;
 }
 
 @media (max-width: 1150px) and (min-width: 901px) {
