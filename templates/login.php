@@ -127,7 +127,7 @@ get_header();
 
     <hr>
     <h2>¿No tienes cuenta? <span>Regístrate</span></h2>
-    <form method="post" action="">
+    <form method="post" action="" class="register-form">
         <p>
             <label for="reg_email">Correo electrónico</label>
             <input type="email" name="reg_email" id="reg_email" required style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box">
@@ -177,6 +177,68 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+/**
+ * Funcion para saltar el SSO de SAML para QA
+ */
+document.addEventListener("DOMContentLoaded", function() {
+   const loginForm = document.querySelector('.login-form');
+   const loginButton = loginForm.querySelector('button[name="custom_login"]');
+   const registerForm = document.querySelector('.register-form');
+   const registerButton = loginForm.querySelector('button[name="custom_register"]');
+
+   function addSaml(form){
+    const currentAction = form.getAttribute('action') || window.location.href;
+    const url = new URL(currentAction, window.location.href);
+
+    url.searchParams.set('saml_sso', 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f');
+    form.setAttribute('action', url.toString());
+   }
+
+   loginButton.addEventListener('click', function(event) {
+       event.preventDefault();
+       addSaml(loginForm);
+       loginForm.submit();
+   });
+
+   registerButton.addEventListener('click', function(event) {
+       event.preventDefault();
+       addSaml(loginForm);
+       loginForm.submit();
+   });
+});
+
+
+/**
+ * Funcion para saltar el SSO de SAML para PROD
+ */
+// document.addEventListener("DOMContentLoaded", function() {
+//    const loginForm = document.querySelector('.login-form');
+//    const loginButton = loginForm.querySelector('button[name="custom_login"]');
+//    const registerForm = document.querySelector('.register-form');
+//    const registerButton = loginForm.querySelector('button[name="custom_register"]');
+
+//    function addSaml(form){
+//     const currentAction = form.getAttribute('action') || window.location.href;
+//     const url = new URL(currentAction, window.location.href);
+
+//     url.searchParams.set('saml_sso', '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65');
+//     form.setAttribute('action', url.toString());
+//    }
+
+//    loginButton.addEventListener('click', function(event) {
+//        event.preventDefault();
+//        addSaml(loginForm);
+//        loginForm.submit();
+//    });
+
+//    registerButton.addEventListener('click', function(event) {
+//        event.preventDefault();
+//        addSaml(loginForm);
+//        loginForm.submit();
+//    });
+// });
+
 </script>
 
 

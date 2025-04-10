@@ -234,9 +234,11 @@ function custom_phpmailer_smtp( $phpmailer ) {
     $phpmailer->Host       = 'smtp.sendgrid.net'; // Servidor SMTP de tu dominio
     $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
     $phpmailer->Username   = 'apikey'; // Correo
-    $phpmailer->Password   = base64_decode('U0cuQlQ4ZFZIb3ZSUW0wTy1HVlo0eUNOZy5qVkpQOU9OS081ZjFzc2ZUTkNPMlY1Ulc2Ymk4eDczMnEweHhjejA='); // Contraseña del correo
-    $phpmailer->SMTPSecure = 'ssl'; // Método de encriptación ('ssl' o 'tls')
-    $phpmailer->Port       = 465; // Puerto SMTP (587 para TLS o 465 para SSL)
+    $phpmailer->Password   = 'U0cuQlQ4ZFZIb3ZSUW0wTy1HVlo0eUNOZy5qVkpQOU9OS081ZjFzc2ZUTkNPMlY1Ulc2Ymk4eDczMnEweHhjejA='; // Contraseña del correo
+    $phpmailer->SMTPSecure = 'tls';
+    $phpmailer->Port       = 587;
+    $phpmailer->From       = "noreply@wordpressvip.com";
+    $phpmailer->FromName   = "Construyendo Carreras - The Home Depot";
 }
 
 add_action( 'phpmailer_init', 'custom_phpmailer_smtp' );
