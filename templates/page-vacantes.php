@@ -68,9 +68,16 @@ $is_logged_in = is_user_logged_in();
     <div class="vacantes-cont">
         <div class="container">
             <?php the_content(); ?>
-            <div class="title">
+            <!-- <div class="title">
                 Nuestras <span>vacantes</span>
-            </div>
+            </div> -->
+
+            <?php $slug = get_post_field( 'post_name', get_post() );
+            if ( $slug !== 'nuestras-vacantes' && $slug !== 'ver-todo' ) : ?>
+                <div class="title">
+                    Nuestras <span>vacantes</span>
+                </div>
+            <?php endif; ?>
             <p>Comienza realizando una búsqueda mediante palabras clave o ubicación para mostrar resultados</p>
             <div class="row <?php if(!is_user_logged_in(  )){ echo 'wide-column'; }?>" >
 

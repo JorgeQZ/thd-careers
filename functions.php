@@ -480,3 +480,12 @@ add_action('send_headers', 'set_security_headers');
 //     // Redirección por defecto
 //     return $redirect_to;
 // }, 10, 3);
+
+
+add_filter('login_redirect', 'custom_login_redirect', 10, 3);
+function custom_login_redirect($redirect_to, $requested_redirect_to, $user) {
+    if (!empty($requested_redirect_to)) {
+        return $requested_redirect_to;
+    }
+    return $redirect_to;
+}

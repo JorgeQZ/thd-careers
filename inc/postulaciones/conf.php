@@ -230,11 +230,16 @@ add_action('admin_init', 'cambiar_estado_al_abrir_edicion');
 
 function custom_phpmailer_smtp( $phpmailer ) {
     // Configuración del remitente
+
+
+    require_once get_template_directory() . '/config-sendgrid.php';
+
+    $phpmailer->Password = SENDGRID_PASSWORD;
     $phpmailer->isSMTP();
     $phpmailer->Host       = 'smtp.sendgrid.net'; // Servidor SMTP de tu dominio
     $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
     $phpmailer->Username   = 'apikey'; // Correo
-    $phpmailer->Password   = 'U0cuQlQ4ZFZIb3ZSUW0wTy1HVlo0eUNOZy5qVkpQOU9OS081ZjFzc2ZUTkNPMlY1Ulc2Ymk4eDczMnEweHhjejA='; // Contraseña del correo
+    $phpmailer->Password = SENDGRID_PASSWORD;
     $phpmailer->SMTPSecure = 'tls';
     $phpmailer->Port       = 587;
     $phpmailer->From       = "noreply@wordpressvip.com";

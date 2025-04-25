@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
    const loginForm = document.querySelector('.login-form');
    const loginButton = loginForm.querySelector('button[name="custom_login"]');
    const registerForm = document.querySelector('.register-form');
-   const registerButton = loginForm.querySelector('button[name="custom_register"]');
+   const registerButton = registerForm.querySelector('button[name="custom_register"]');
 
    function addSaml(form){
     const currentAction = form.getAttribute('action') || window.location.href;
@@ -196,13 +196,13 @@ document.addEventListener("DOMContentLoaded", function() {
    }
 
    loginButton.addEventListener('click', function(event) {
-       event.preventDefault();
+    //    event.preventDefault();
        addSaml(loginForm);
        loginForm.submit();
    });
 
    registerButton.addEventListener('click', function(event) {
-       event.preventDefault();
+    //    event.preventDefault();
        addSaml(loginForm);
        loginForm.submit();
    });

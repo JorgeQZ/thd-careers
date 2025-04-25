@@ -62,7 +62,7 @@ $is_logged_in = is_user_logged_in();
             </div>
             <div class="login-form">
                 <!-- Formulario de login -->
-                <form action="<?php echo wp_login_url(); ?>" method="post">
+                <form action="<?php echo esc_url( wp_login_url() ); ?>" method="post">
                      <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
 
                     <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
@@ -282,6 +282,53 @@ document.addEventListener("DOMContentLoaded", function() {
         formDiv.style.display = "block"; // Asegurarse de que sea visible
         formDiv.classList.add("fade-in");
     });
+
+
+
+    /**
+     * SAML SSO
+     */
+
+    const popupLoginForm = document.querySelector('#popup-login form'); // El formulario dentro del popup
+    const popupLoginButton = popupLoginForm?.querySelector('button[type="submit"]');
+
+    function addSaml(form) {
+        const currentAction = form.getAttribute('action') || window.location.href;
+        const url = new URL(currentAction, window.location.href);
+
+        url.searchParams.set('saml_sso', 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f');
+        form.setAttribute('action', url.toString());
+    }
+
+    if (popupLoginForm && popupLoginButton) {
+        popupLoginButton.addEventListener('click', function () {
+            addSaml(popupLoginForm);
+        });
+    }
+
+    /**
+     * Función para saltar el SSO de SAML para PROD desde el popup
+     */
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';
+
+    //     const popupLoginForm = document.querySelector('#popup-login form');
+    //     const popupLoginButton = popupLoginForm?.querySelector('button[type="submit"]');
+
+    //     function addSaml(form) {
+    //         const currentAction = form.getAttribute('action') || window.location.href;
+    //         const url = new URL(currentAction, window.location.href);
+    //         url.searchParams.set('saml_sso', SAML_TOKEN_PROD);
+    //         form.setAttribute('action', url.toString());
+    //     }
+
+    //     if (popupLoginForm && popupLoginButton) {
+    //         popupLoginButton.addEventListener('click', function () {
+    //             addSaml(popupLoginForm);
+    //         });
+    //     }
+    // });
+
 });
 </script>
 
