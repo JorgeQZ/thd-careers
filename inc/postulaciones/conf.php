@@ -228,25 +228,25 @@ add_action('admin_init', 'cambiar_estado_al_abrir_edicion');
 
 // CORREOS
 
-function custom_phpmailer_smtp( $phpmailer ) {
-    // Configuración del remitente
+// function custom_phpmailer_smtp( $phpmailer ) {
+//     // Configuración del remitente
 
 
-    require_once get_template_directory() . '/config-sendgrid.php';
+//     require_once get_template_directory() . '/config-sendgrid.php';
 
-    $phpmailer->Password = SENDGRID_PASSWORD;
-    $phpmailer->isSMTP();
-    $phpmailer->Host       = 'smtp.sendgrid.net'; // Servidor SMTP de tu dominio
-    $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
-    $phpmailer->Username   = 'apikey'; // Correo
-    $phpmailer->Password = SENDGRID_PASSWORD;
-    $phpmailer->SMTPSecure = 'tls';
-    $phpmailer->Port       = 587;
-    $phpmailer->From       = "noreply@wordpressvip.com";
-    $phpmailer->FromName   = "Construyendo Carreras - The Home Depot";
-}
+//     $phpmailer->Password = SENDGRID_PASSWORD;
+//     $phpmailer->isSMTP();
+//     $phpmailer->Host       = 'smtp.sendgrid.net'; // Servidor SMTP de tu dominio
+//     $phpmailer->SMTPAuth   = true; // Activar autenticación SMTP
+//     $phpmailer->Username   = 'apikey'; // Correo
+//     $phpmailer->Password = SENDGRID_PASSWORD;
+//     $phpmailer->SMTPSecure = 'tls';
+//     $phpmailer->Port       = 587;
+//     $phpmailer->From       = "noreply@wordpressvip.com";
+//     $phpmailer->FromName   = "Construyendo Carreras - The Home Depot";
+// }
 
-add_action( 'phpmailer_init', 'custom_phpmailer_smtp' );
+// add_action( 'phpmailer_init', 'custom_phpmailer_smtp' );
 
 // Función para enviar correos cuando se cree un nuevo post con estado "Postulado"
 function enviar_correo_cambio_estado( $post_id ) {
