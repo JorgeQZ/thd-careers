@@ -203,6 +203,8 @@
   background-color: #fff;
   display: block;
   z-index: 1;
+  max-height: 300px;
+  overflow: scroll;
 }
 .vacantes-cont .container .row .input-search .suggestions-list.hidden {
   display: none;

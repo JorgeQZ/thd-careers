@@ -180,6 +180,8 @@
   padding: 0;
   background-color: #fff;
   display: block;
+  max-height: 300px;
+  overflow: scroll;
 }
 .vacantes-cont .container .row .input-search .suggestions-list.hidden {
   display: none;

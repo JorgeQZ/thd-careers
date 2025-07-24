@@ -104,6 +104,8 @@
                     padding: 0;
                     background-color: #fff;
                     display: block;
+                    max-height: 300px;
+                    overflow: scroll;
 
                     &.hidden {
                         display: none;

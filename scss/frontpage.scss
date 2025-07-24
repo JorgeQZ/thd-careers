@@ -145,6 +145,8 @@ $paragraph-font-size: 1.2rem;
               background-color: #fff;
               display: block;
               z-index: 1;
+              max-height: 300px;
+              overflow: scroll;
 
               &.hidden {
                   display: none;

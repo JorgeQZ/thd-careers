@@ -225,6 +225,8 @@
   background-color: #fff;
   display: block;
   z-index: 1;
+  max-height: 300px;
+  overflow: scroll;
 }
 .hero-banner .hero-content .search-form .search-cont .suggestions-list.hidden {
   display: none;
