@@ -63,7 +63,7 @@ $is_logged_in = is_user_logged_in();
             <div class="login-form">
                 <!-- Formulario de login -->
                 <form action="<?php echo esc_url( wp_login_url() ); ?>" method="post">
-                     <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
+                     <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
 
                     <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
                     <input type="hidden" name="redirect_to" value="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" />

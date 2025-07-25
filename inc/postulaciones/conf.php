@@ -341,6 +341,15 @@ add_filter('acf/load_value/name=CV', 'mostrar_cv_url_actualizado_en_admin', 10, 
 function mostrar_cv_url_actualizado_en_admin($value, $post_id, $field) {
     // Obtener el ID del postulante desde ACF
     $user_id = get_field('id_postulante', $post_id);
+
+    $nombre_de_cv = get_field('nombre_de_cv', $post_id);
+
+    if (!empty($nombre_de_cv)) {
+        // Se usó un archivo nuevo en la postulación
+        $cv_url = obtener_url_archivo($nombre_de_cv);
+        return esc_url_raw($cv_url);
+    }
+
     if ($user_id) {
         // Obtener el nombre del archivo guardado en user_meta con la clave 'CV'
         $file_name = get_user_meta($user_id, 'gcs_url_name', true);

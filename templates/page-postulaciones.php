@@ -9,10 +9,65 @@ Template Name: Postulaciones
 
 <?php
 
-    if (isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
-        !empty($_POST['acf_postulacion_nombre']) &&
-        !empty($_POST['acf_postulacion_correo'])) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
+    if (!function_exists('es_valido')) {
+        function es_valido($valor) {
+            return preg_match('/^[\p{L}0-9 ._\-@áéíóúÁÉÍÓÚñÑ]+$/u', $valor);
+        }
+    }
+
+    if (
+        is_user_logged_in() &&
+        isset($_POST['acf_postulacion_nombre'], $_POST['acf_postulacion_correo']) &&
+        !empty($_POST['acf_postulacion_nombre']) &&
+        !empty($_POST['acf_postulacion_correo'])
+    ) {
+        $errores = [];
+
+        // --- Campos a validar con la función es_valido ---
+        $campos_validar = [
+            'acf_postulacion_nombre',
+            'acf_postulacion_apellidopaterno',
+            'acf_postulacion_apellidomaterno',
+            'acf_postulacion_telefono',
+            'Select1-postulacion',
+            'puesto-1_puesto-de-trabajo-1',
+            'puesto-1_compania-1',
+            'puesto-1_ubicacion-1',
+            'puesto-1_descripcion-del-rol-1',
+            'puesto-2_puesto-de-trabajo-2',
+            'puesto-2_compania-2',
+            'puesto-2_ubicacion-2',
+            'puesto-2_descripcion-del-rol-2',
+            'has-trabajado',
+            'escuela-o-universidad',
+            'titulo-1',
+            'ultimo-grado-de-estudios',
+            'especifique-otro',
+        ];
+
+        // Correo se valida por separado
+        $correo = $_POST['acf_postulacion_correo'] ?? '';
+        if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+            $errores[] = 'acf_postulacion_correo';
+        }
+
+        foreach ($campos_validar as $campo) {
+            if (!empty($_POST[$campo]) && !es_valido($_POST[$campo])) {
+                $errores[] = $campo;
+            }
+        }
+
+        // Si hay errores, no guardar nada y regresa a home
+        if (!empty($errores)) {
+            echo "<script>window.location.href = '" . home_url() . "';</script>";
+            return;
+        }
+
+        // Sanitización y guardado
         $nombre = sanitize_text_field($_POST['acf_postulacion_nombre']);
         $correo = sanitize_text_field($_POST['acf_postulacion_correo']);
         $apellidopaterno = sanitize_text_field($_POST['acf_postulacion_apellidopaterno']);
@@ -37,13 +92,10 @@ Template Name: Postulaciones
         $escuela = sanitize_text_field($_POST['escuela-o-universidad']);
         $titulo = sanitize_text_field($_POST['titulo-1']);
         $gradodeestudios = sanitize_text_field($_POST['ultimo-grado-de-estudios']);
-        // $tipo_apoyo = sanitize_text_field($_POST['tipo-de-apoyo']);
-        // $que_tipo = sanitize_text_field($_POST['que-tipo']);
         $tipo_apoyo = isset($_POST['tipo-de-apoyo']) ? sanitize_text_field($_POST['tipo-de-apoyo']) : '';
         $que_tipo = isset($_POST['que-tipo']) ? sanitize_text_field($_POST['que-tipo']) : '';
         $especifique = sanitize_text_field($_POST['especifique-otro']);
         $acepto = isset($_POST['acepto-voluntariamente']) && $_POST['acepto-voluntariamente'] === 'Sí' ? 'Sí' : 'No';
-
 
         // Crear la nueva postulación en el post-type 'postulaciones'
         $nueva_postulacion = array(
@@ -152,45 +204,32 @@ Template Name: Postulaciones
                 $upload_overrides = array('test_form' => false);
 
                 $file = $_FILES['cv_file'];
+
                 $gcs_response = upload_to_gcp($file);  // Llamar a la función para subir a GCS
 
                 if ($gcs_response) {
+
                     try {
-                        // Decodificar la respuesta JSON
-                        try {
-                            $decoded_response = json_decode($gcs_response, true, 512, JSON_THROW_ON_ERROR);
-                        } catch (JsonException $e) {
-                            echo "<p class='error'>Hubo un problema al procesar los datos. Inténtalo de nuevo más tarde.</p>";
-                            error_log("JSON Decode Error en page-postulaciones.php: " . $e->getMessage());
-                            $decoded_response = [];
+                        // Validar que la respuesta no está vacía
+                        if (empty($gcs_response)) {
+                            throw new Exception('La respuesta del servidor está vacía.');
                         }
 
-
-                        // Verificar errores en la decodificación JSON
-                        if (json_last_error() !== JSON_ERROR_NONE) {
-                            throw new Exception('Error al decodificar el JSON: ' . json_last_error_msg());
-                        }
+                        // Decodificar JSON con excepciones activadas
+                        $decoded_response = json_decode($gcs_response, true, 512, JSON_THROW_ON_ERROR);
 
                         // Validar que la propiedad 'mediaLink' existe en la respuesta
-                        if (!isset($decoded_response->mediaLink)) {
-                            throw new Exception('La respuesta JSON no contiene la propiedad "mediaLink".');
+                        if (!isset($decoded_response['mediaLink']) || !isset($decoded_response['name'])) {
+                            throw new Exception('La respuesta JSON no contiene los datos esperados.');
                         }
 
                         // Asignar la URL del archivo
-                        $gcs_url = $decoded_response->mediaLink;
-                        $gcs_url_name = $decoded_response->name;
+                        $gcs_url = $decoded_response['mediaLink'];
+                        $gcs_url_name = $decoded_response['name'];
 
-                        // Actualizar el campo personalizado 'CV' con la URL del archivo en GCS
-                        update_field('CV', $gcs_url, $postulacion_id);
-                        update_field('nombre_de_cv', $gcs_url_name, $postulacion_id);
-                        // Mostrar mensaje de éxito
-                        ?>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                document.getElementById('mensajeExito').style.display = 'flex';
-                            });
-                        </script>
-                        <?php
+                        // Guardar el campo 'CV' correctamente como un link
+                        update_field('nombre_de_cv', sanitize_text_field($gcs_url_name), $postulacion_id);
+
                     } catch (Exception $e) {
                         // Registrar el error en los logs
                         error_log('Error en la respuesta de GCS: ' . $e->getMessage());
@@ -212,7 +251,6 @@ Template Name: Postulaciones
                     if ($cv_perfil) {
                         // Guardar el CV en el campo correspondiente de la postulación
                         update_field('CV', $cv_perfil, $postulacion_id);
-                        echo '<div class="container"><p>¡Postulación enviada correctamente!</p></div>';
                     }
                 }
             }
@@ -236,7 +274,7 @@ Template Name: Postulaciones
     $apellido_materno = get_field('apellido_materno', 'user_' . $user_id); // Usar el nombre exacto del campo
 
     // $cv = get_field('cv_general', 'user_' . $user_id); // Obtener el ID del archivo
-    // // Obtener la URL del archivo CV si existe
+    // Obtener la URL del archivo CV si existe
     // $cv_url = $cv ? wp_get_attachment_url($cv['ID']) : '';
 
     $nombre_rellenar = get_field('nombre_general', 'user_' . $user_id); // Usar el nombre exacto del campo
@@ -488,21 +526,15 @@ Template Name: Postulaciones
                         <label class="requieres" style="width: 1000px;">¿Requieres algún tipo de apoyo para que tu proceso de selección sea incluyente? </label>
 
                         <span>
-                            <input type="radio" name="tipo-de-apoyo" value="Sí" style="margin-bottom: 15px;">
+                            <input type="radio" name="tipo-de-apoyo" value="Sí" style="margin-bottom: 15px;" <?php echo ($ar1 === 'Sí') ? 'checked' : ''; ?>>
                             Sí
                         </span>
 
                         <span>
-                            <input type="radio" name="tipo-de-apoyo" value="No">
+                            <input type="radio" name="tipo-de-apoyo" value="No" <?php echo ($ar1 === 'No') ? 'checked' : ''; ?>>
                             No
                         </span>
-<!--
-                        <select id="support-select" name="tipo-de-apoyo">
-                            <option value="Sin Selección" <?php echo ($ar1 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
-                            <option value="Sí" <?php echo ($ar1 === 'Sí') ? 'selected' : ''; ?>>Sí</option>
-                            <option value="No" <?php echo ($ar1 === 'No') ? 'selected' : ''; ?>>No</option>
-                        </select>
--->
+
                     </div>
 
                     <div class="div-allarea" id="support-details" style="display: none;">
@@ -510,59 +542,46 @@ Template Name: Postulaciones
 
                         <span>
                         <input type="radio" name="que-tipo"
-                            value="Uso de notas escritas mediante libreta o pizarra de comunicación">
+                            value="Uso de notas escritas mediante libreta o pizarra de comunicación" <?php echo ($ar2 === 'Uso de notas escritas mediante libreta o pizarra de comunicación') ? 'checked' : ''; ?>>
                             Uso de notas escritas mediante libreta o pizarra de comunicación
                         </span><br>
 
                         <span>
-                            <input type="radio" name="que-tipo" value="Intérprete de LSM (lengua de señas mexicana)">
+                            <input type="radio" name="que-tipo" value="Intérprete de LSM (lengua de señas mexicana)" <?php echo ($ar2 === 'Intérprete de LSM (lengua de señas mexicana)') ? 'checked' : ''; ?>>
                             Intérprete de LSM (lengua de señas mexicana)
                         </span><br>
 
                         <span>
                             <input type="radio" name="que-tipo"
-                                value="Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)">
+                                value="Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)" <?php echo ($ar2 === 'Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)') ? 'checked' : ''; ?>>
                             Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)
                         </span><br>
 
                         <span>
-                            <input type="radio" name="que-tipo" value="Poder tomar asiento con frecuencia">
+                            <input type="radio" name="que-tipo" value="Poder tomar asiento con frecuencia" <?php echo ($ar2 === 'Poder tomar asiento con frecuencia') ? 'checked' : ''; ?>>
                             Poder tomar asiento con frecuencia
                         </span><br>
 
                         <span>
-                            <input type="radio" name="que-tipo" value="Magnificadores de pantalla o lupa portátil">
+                            <input type="radio" name="que-tipo" value="Magnificadores de pantalla o lupa portátil" <?php echo ($ar2 === 'Magnificadores de pantalla o lupa portátil') ? 'checked' : ''; ?>>
                             Magnificadores de pantalla o lupa portátil
                         </span><br>
 
                         <span>
-                            <input type="radio" name="que-tipo" value="Uso de lector de pantalla">
+                            <input type="radio" name="que-tipo" value="Uso de lector de pantalla" <?php echo ($ar2 === 'Uso de lector de pantalla') ? 'checked' : ''; ?>>
                             Uso de lector de pantalla
                         </span><br>
 
                         <span>
-                            <input type="radio" name="que-tipo" value="Control de estímulos sonoros, como aislamiento de ruido">
+                            <input type="radio" name="que-tipo" value="Control de estímulos sonoros, como aislamiento de ruido" <?php echo ($ar2 === 'Control de estímulos sonoros, como aislamiento de ruido') ? 'checked' : ''; ?>>
                             Control de estímulos sonoros, como aislamiento de ruido
                         </span><br>
 
                         <span>
-                            <input type="radio" name="que-tipo" value="Otro">
+                            <input type="radio" name="que-tipo" value="Otro" <?php echo ($ar2 === 'Otro') ? 'checked' : ''; ?>>
                             Otro
                         </span><br>
 
-
-<!--                    <select id="support-type-select" name="que-tipo">
-                            <option value="Sin Selección" <?php echo ($ar2 === 'Sin Selección') ? 'selected' : ''; ?>>Seleccione una respuesta</option>
-                            <option value="Uso de notas escritas mediante libreta o pizarra de comunicación" <?php echo ($ar2 === 'Uso de notas escritas mediante libreta o pizarra de comunicación') ? 'selected' : ''; ?>>Uso de notas escritas mediante libreta o pizarra de comunicación</option>
-                            <option value="Intérprete de LSM (lengua de señas mexicana)" <?php echo ($ar2 === 'Intérprete de LSM (lengua de señas mexicana)') ? 'selected' : ''; ?>>Intérprete de LSM (lengua de señas mexicana)</option>
-                            <option value="Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)" <?php echo ($ar2 === 'Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)') ? 'selected' : ''; ?>>Rutas accesibles para los desplazamientos (rampas, sitio de trabajo ubicado en primer piso, etc.)</option>
-                            <option value="Poder tomar asiento con frecuencia" <?php echo ($ar2 === 'Poder tomar asiento con frecuencia') ? 'selected' : ''; ?>>Poder tomar asiento con frecuencia</option>
-                            <option value="Magnificadores de pantalla o lupa portátil" <?php echo ($ar2 === 'Magnificadores de pantalla o lupa portátil') ? 'selected' : ''; ?>>Magnificadores de pantalla o lupa portátil</option>
-                            <option value="Uso de lector de pantalla" <?php echo ($ar2 === 'Uso de lector de pantalla') ? 'selected' : ''; ?>>Uso de lector de pantalla</option>
-                            <option value="Control de estímulos sonoros, como aislamiento de ruido" <?php echo ($ar2 === 'Control de estímulos sonoros, como aislamiento de ruido') ? 'selected' : ''; ?>>Control de estímulos sonoros, como aislamiento de ruido</option>
-                            <option value="Otro" <?php echo ($ar2 === 'Otro') ? 'selected' : ''; ?>>Otro</option>
-                        </select>
--->
                     </div>
 
                     <div class="div-allarea" id="textareaotro" style="display: none;">
@@ -614,40 +633,31 @@ Template Name: Postulaciones
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const supportSelect = document.getElementById('support-select');
         const supportDetails = document.getElementById('support-details');
+        const supportRadio = document.getElementsByName('tipo-de-apoyo');
 
-        var supportRadio = document.getElementsByName('tipo-de-apoyo');
-/*
-        for (var i = 0; i < supportRadio.length; i++) {
-            if (supportRadio[i].checked) {
-                console.log('Valor seleccionado: ' + supportRadio[i].value);
-            }
-        }
-*/
-        // Función para manejar la visibilidad de supportDetails
         function handleSupportDetails() {
-            if (supportRadio === 'Sí') {
+            let selectedValue = '';
+            supportRadio.forEach(radio => {
+                if (radio.checked) {
+                    selectedValue = radio.value;
+                }
+            });
+
+            if (selectedValue === 'Sí') {
                 supportDetails.style.display = 'flex';
             } else {
                 supportDetails.style.display = 'none';
             }
         }
 
-        // Ejecutar la lógica inicial
+        // Ejecutar lógica inicial
         handleSupportDetails();
 
-        // Evento change para actualizar la visibilidad
-        //supportSelect.addEventListener('change', handleSupportDetails);
-
-        // Configurar eventos para la primera pregunta (mostrar/ocultar segunda pregunta)
-        document.querySelectorAll('input[name="tipo-de-apoyo"]').forEach(radio => {
-            radio.addEventListener('change', function () {
-                supportRadio = this.value;
-                handleSupportDetails();
-            });
+        // Escuchar cambios correctamente sin sobrescribir supportRadio
+        supportRadio.forEach(radio => {
+            radio.addEventListener('change', handleSupportDetails);
         });
-
     });
 </script>
 
@@ -672,33 +682,31 @@ Template Name: Postulaciones
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const supportTypeSelect = document.getElementById('support-type-select');
         const textareaOtro = document.getElementById('textareaotro');
+        const supportTypeRadio = document.getElementsByName('que-tipo');
 
-        var supportTypeRadio = document.getElementsByName('que-tipo');
-
-        // Función para manejar la visibilidad de textareaOtro
         function handleTextareaOtro() {
-            if (supportTypeRadio == 'Otro') {
+            let selectedValue = '';
+            supportTypeRadio.forEach(radio => {
+                if (radio.checked) {
+                    selectedValue = radio.value;
+                }
+            });
+
+            if (selectedValue === 'Otro') {
                 textareaOtro.style.display = 'flex';
             } else {
                 textareaOtro.style.display = 'none';
             }
         }
 
-        // Ejecutar la lógica inicial
+        // Ejecutar al cargar
         handleTextareaOtro();
 
-        // Evento change para actualizar la visibilidad
-        //supportTypeSelect.addEventListener('change', handleTextareaOtro);
-
-        document.querySelectorAll('input[name="que-tipo"]').forEach(radio => {
-            radio.addEventListener('change', function () {
-                supportTypeRadio = this.value;
-                handleTextareaOtro();
-            });
+        // Agregar eventos a los radios
+        supportTypeRadio.forEach(radio => {
+            radio.addEventListener('change', handleTextareaOtro);
         });
-
     });
 </script>
 
@@ -778,22 +786,6 @@ Template Name: Postulaciones
             if (!$('input.check_terminos').is(':checked')){
                 todosLlenos = false;
             }
-
-/*
-            $('.contenedorgeneralcampos select').each(function(index) {
-                if ($(this).children('option:first-child').is(':selected')) {
-                    todosLlenos = false;
-                }
-            });
-*/
-
-/*
-            if (todosLlenos) {
-                $('.boton-postulacion').prop('disabled', false);
-            } else {
-                $('.boton-postulacion').prop('disabled', true);
-            }
-*/
         }
 
         $('.contenedorgeneralcampos input.req, .contenedorgeneralcampos textarea.req, .contenedorgeneralcampos input.check_terminos').on('input', function() {
@@ -824,11 +816,6 @@ Template Name: Postulaciones
             $(this).attr('min', "1965-01-01");
         });
 
-/*
-        $('select').change(function() {
-            verificarCampos();
-        });
-*/
         verificarCampos();
 
     });
