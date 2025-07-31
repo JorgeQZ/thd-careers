@@ -118,19 +118,15 @@ $ubicaciones = get_unique_locations();
                                         <div class="icon-cont">
                                             <div class="img">
                                                 <?php
-                                                   $svg_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
+                                                    $svg_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
+                                                    $svg_content = @file_get_contents($svg_path);
 
-                                                   if (file_exists($svg_path) && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
-                                                       $svg_content = file_get_contents($svg_path);
-
-                                                       // Eliminar etiquetas peligrosas (ej. <script>, <iframe>)
-                                                       $safe_svg = strip_tags($svg_content, '<svg><path><circle><rect><g><use><line><polyline><polygon><text>');
-
-                                                       echo $safe_svg;
-                                                   } else {
-                                                       echo 'Archivo SVG no encontrado o no válido.';
-                                                   }
-
+                                                    if ($svg_content !== false && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
+                                                        $safe_svg = strip_tags($svg_content, '<svg><path><circle><rect><g><use><line><polyline><polygon><text>');
+                                                        echo $safe_svg;
+                                                    }  else {
+                                                        echo 'Archivo SVG no encontrado o no válido.';
+                                                    }
                                                 ?>
                                             </div>
                                             <div class="text"><?php echo $ubicacion_formateada; ?></div>
@@ -140,12 +136,10 @@ $ubicaciones = get_unique_locations();
                                         <div class="img">
                                             <?php
                                                 $svg_path = get_template_directory() . '/imgs/me-gusta.svg';
-                                                if (file_exists($svg_path) && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
-                                                    $svg_content = file_get_contents($svg_path);
+                                                $svg_content = @file_get_contents($svg_path);
 
-                                                    // Eliminar etiquetas peligrosas (ej. <script>, <iframe>)
+                                                if ($svg_content !== false && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
                                                     $safe_svg = strip_tags($svg_content, '<svg><path><circle><rect><g><use><line><polyline><polygon><text>');
-
                                                     echo $safe_svg;
                                                 } else {
                                                     echo 'Archivo SVG no encontrado o no válido.';

@@ -166,13 +166,10 @@ $is_logged_in = is_user_logged_in();
                                                 <?php
                                                     $file_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
 
+                                                    $content = @file_get_contents($file_path);
 
-                                                    if (file_exists($file_path)) {
-                                                        $content = file_get_contents($file_path);
-
-                                                        // Permitir solo etiquetas básicas de SVG
+                                                    if ($content !== false) {
                                                         $safe_content = strip_tags($content, '<svg><path><circle><rect><g><use>');
-
                                                         echo $safe_content;
                                                     } else {
                                                         echo 'Archivo no encontrado.';
@@ -187,12 +184,10 @@ $is_logged_in = is_user_logged_in();
                                             <?php
                                                 $file_path = get_template_directory() . '/imgs/me-gusta.svg';
 
-                                                if (file_exists($file_path)) {
-                                                    $content = file_get_contents($file_path);
+                                                $content = @file_get_contents($file_path);
 
-                                                    // Permitir solo etiquetas básicas de SVG
+                                                if ($content !== false) {
                                                     $safe_content = strip_tags($content, '<svg><path><circle><rect><g><use>');
-
                                                     echo $safe_content;
                                                 } else {
                                                     echo 'Archivo no encontrado.';
