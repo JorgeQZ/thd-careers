@@ -24,9 +24,9 @@ if (is_user_logged_in()) {
 
 // Procesar el formulario de inicio de sesión si se envía.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
-    $email = sanitize_email($_POST['email']);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error_message = 'El correo no tiene un formato válido.';
+    $raw_email = trim($_POST['email']);
+    if (!preg_match('/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $raw_email)) {
+        $error_message = 'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", ".", "_" y "-". Otros caracteres no se pueden ingresar.';
     } else {
         $password = !empty($_POST['password']) ? trim($_POST['password']) : null;
         $remember = isset($_POST['remember']) && $_POST['remember'] === 'true';
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
         $error_message = handle_failed_login_attempts($email);
 
         if (!$error_message && $password) {
-            $user = get_user_by('email', $email);
+            $user = get_user_by('email', $raw_email);
             if ($user) {
                 $credentials = [
                     'user_login'    => $user->user_login,
@@ -57,23 +57,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
 
 // Procesar el formulario de registro si se envía.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
-    $email = sanitize_email($_POST['reg_email']);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $register_error_message = 'El correo no tiene un formato válido.';
+    $raw_email = trim($_POST['reg_email']); // Email original del usuario
+
+    // Validación estricta con regex (solo letras, números y ._%+- antes de @)
+    if (!preg_match('/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $raw_email)) {
+        $register_error_message = 'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", "." "_" y "-". Otros caracteres no se pueden ingresar.';
     } else {
         $password = !empty($_POST['reg_password']) ? trim($_POST['reg_password']) : null;
 
+        // Validar seguridad de la contraseña
         $password_validation = validate_password_security($password);
         if ($password_validation !== true) {
             $register_error_message = $password_validation;
         } else {
-            if (email_exists($email)) {
+            // Verificar si el correo ya existe
+            if (email_exists($raw_email)) {
                 $register_error_message = 'Este correo ya está registrado.';
             } else {
-                $user_id = wp_create_user($email, $password, $email);
+                // Crear usuario con correo validado
+                $user_id = wp_create_user($raw_email, $password, $raw_email);
+
                 if (!is_wp_error($user_id)) {
                     wp_set_current_user($user_id);
                     wp_set_auth_cookie($user_id);
+
                     echo "<script>
                         localStorage.setItem('registro_exitoso', 'true');
                         window.location.href = '".home_url()."';
