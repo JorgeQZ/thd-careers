@@ -636,7 +636,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const filtrar = (str, re) => Array.from(str).filter(ch => re.test(ch)).join('');
 
   function addFilter(el, re, msg) {
-    // Permite composición (para á, é...) y dead keys
     el.addEventListener('beforeinput', (e) => {
       if (e.inputType && e.inputType.includes('Composition')) return;
 

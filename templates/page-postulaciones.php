@@ -823,18 +823,14 @@ Template Name: Postulaciones
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Mensajes
     const MSG_SIMBOLOS = 'Este campo solo acepta los siguientes símbolos: "@", ".", "_" , "-" y "´". Otros caracteres no se pueden ingresar.';
     const MSG_TEL = 'Este campo solo acepta números y los símbolos: "+", "(", ")" y espacio.';
 
-    // Permitir letras Unicode + marcas combinadas + dígitos + espacio + . _ - @
     const permitido = /^[\p{L}\p{M}0-9 ._\-@´]+$/u;
 
-    // Teléfono: 0-9 + + ( ) espacio
     const permitidoTel = /^[0-9+() ]+$/;
 
-    // Acentos "sueltos" comunes que llegan antes de componer (teclas muertas o layouts)
-    const deadKeys = /[\u00B4\u0060\u005E\u007E\u02C6\u02DC]/; // ´ ` ^ ~ ˆ ˜
+    const deadKeys = /[\u00B4\u0060\u005E\u007E\u02C6\u02DC]/;
 
     const selectorCampos = 'input[type="text"]:not([name="acf_postulacion_telefono"]), textarea';
     const telField = document.querySelector('input[name="acf_postulacion_telefono"]');
@@ -882,7 +878,6 @@ Template Name: Postulaciones
 
         if (!data) return;
 
-        // Permite dead keys (´ ` ^ ~ …) para que luego compongan con la letra
         if (data.length === 1 && deadKeys.test(data)) return;
 
         // Si cualquier char no es válido, bloquea
