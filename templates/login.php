@@ -252,6 +252,75 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Mensaje de error
+  const MSG_EMAIL = 'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", ".", "_" y "-". Otros caracteres no se pueden ingresar.';
+
+  // Regex de email (caracteres permitidos en tiempo real)
+  const regexEmailAllowed = /^[A-Za-z0-9._@-]+$/;
+
+  function mostrarError(input, mensaje) {
+    // Elimina mensaje previo
+    let prev = input.parentElement.querySelector(".error-msg");
+    if (prev) prev.remove();
+
+    // Crear el span
+    const span = document.createElement("span");
+    span.className = "error-msg";
+    span.style.color = "red";
+    span.style.fontSize = "12px";
+    span.style.marginTop = "5px";
+    span.style.display = "block";
+    span.textContent = mensaje;
+
+    input.insertAdjacentElement("afterend", span);
+
+    // Quitar mensaje después de 3s
+    setTimeout(() => {
+      if (span && span.parentNode) {
+        span.style.transition = "opacity .3s";
+        span.style.opacity = "0";
+        setTimeout(() => span.remove(), 300);
+      }
+    }, 3000);
+  }
+
+  function filtrar(str) {
+    return Array.from(str).filter(ch => regexEmailAllowed.test(ch)).join("");
+  }
+
+  // Selecciona todos los inputs de email (login y register)
+  const emailFields = document.querySelectorAll('input[name="email"], input[name="reg_email"]');
+
+  emailFields.forEach(input => {
+    // Antes de insertar
+    input.addEventListener("beforeinput", (e) => {
+      if (!e.inputType || !e.inputType.startsWith("insert")) return;
+      const data = e.data ?? (e.clipboardData ? e.clipboardData.getData("text") : "");
+      if (!data) return;
+
+      for (const ch of data) {
+        if (!regexEmailAllowed.test(ch)) {
+          e.preventDefault();
+          mostrarError(input, MSG_EMAIL);
+          return;
+        }
+      }
+    });
+
+    // Si algo raro se cuela (ej: pegar)
+    input.addEventListener("input", () => {
+      const val = input.value;
+      const filtrado = filtrar(val);
+      if (val !== filtrado) {
+        input.value = filtrado;
+        mostrarError(input, MSG_EMAIL);
+      }
+    });
+  });
+});
+</script>
 
 <?php
 get_footer();

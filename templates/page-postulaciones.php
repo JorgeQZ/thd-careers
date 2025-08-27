@@ -770,8 +770,8 @@ Template Name: Postulaciones
 </script>
 
 <script src="<?php echo get_template_directory(  ).'/js/jquery.min.js' ?>"></script>
-<script>
 
+<script>
     $(document).ready(function() {
 
         function verificarCampos() {
@@ -819,5 +819,121 @@ Template Name: Postulaciones
         verificarCampos();
 
     });
+</script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Mensajes
+    const MSG_SIMBOLOS = 'Este campo solo acepta los siguientes símbolos: "@", ".", "_" , "-" y "´". Otros caracteres no se pueden ingresar.';
+    const MSG_TEL = 'Este campo solo acepta números y los símbolos: "+", "(", ")" y espacio.';
+
+    // Permitir letras Unicode + marcas combinadas + dígitos + espacio + . _ - @
+    const permitido = /^[\p{L}\p{M}0-9 ._\-@´]+$/u;
+
+    // Teléfono: 0-9 + + ( ) espacio
+    const permitidoTel = /^[0-9+() ]+$/;
+
+    // Acentos "sueltos" comunes que llegan antes de componer (teclas muertas o layouts)
+    const deadKeys = /[\u00B4\u0060\u005E\u007E\u02C6\u02DC]/; // ´ ` ^ ~ ˆ ˜
+
+    const selectorCampos = 'input[type="text"]:not([name="acf_postulacion_telefono"]), textarea';
+    const telField = document.querySelector('input[name="acf_postulacion_telefono"]');
+
+    function mostrarError(input, mensaje) {
+      const prev = input.parentElement.querySelector('.error-msg');
+      if (prev) prev.remove();
+
+      const span = document.createElement('span');
+      span.className = 'error-msg';
+      span.setAttribute('role', 'alert');
+      span.style.color = 'red';
+      span.style.fontSize = '12px';
+      span.style.display = 'block';
+      span.style.marginTop = '5px';
+      span.textContent = mensaje;
+
+      input.insertAdjacentElement('afterend', span);
+
+      setTimeout(() => {
+        if (span && span.parentNode) {
+          span.style.transition = 'opacity .3s';
+          span.style.opacity = '0';
+          setTimeout(() => span.remove(), 300);
+        }
+      }, 3000);
+    }
+
+    const charOk = (ch) => permitido.test(ch);
+    const charOkTel = (ch) => permitidoTel.test(ch);
+    const filtrar = (str, fn) => Array.from(str).filter(fn).join('');
+
+    // === Campos generales (texto/textarea, excepto teléfono) ===
+    document.querySelectorAll(selectorCampos).forEach((el) => {
+
+      el.addEventListener('beforeinput', (e) => {
+        // No bloquear composición; deja que se forme "á" y luego validamos en 'input'
+        if (e.inputType && e.inputType.includes('Composition')) return;
+
+        // Obtenemos el texto que intenta entrar
+        const data =
+          e.data ??
+          (e.clipboardData && e.clipboardData.getData && e.clipboardData.getData('text')) ??
+          '';
+
+        if (!data) return;
+
+        // Permite dead keys (´ ` ^ ~ …) para que luego compongan con la letra
+        if (data.length === 1 && deadKeys.test(data)) return;
+
+        // Si cualquier char no es válido, bloquea
+        for (const ch of data) {
+          if (!charOk(ch)) {
+            e.preventDefault();
+            mostrarError(el, MSG_SIMBOLOS);
+            return;
+          }
+        }
+      });
+
+      el.addEventListener('input', () => {
+        const val = el.value;
+        const filtrado = filtrar(val, charOk);
+        if (val !== filtrado) {
+          el.value = filtrado;
+          mostrarError(el, MSG_SIMBOLOS);
+        }
+      });
+    });
+
+    // === Teléfono ===
+    if (telField) {
+      telField.addEventListener('beforeinput', (e) => {
+        if (e.inputType && e.inputType.includes('Composition')) return;
+
+        const data =
+          e.data ??
+          (e.clipboardData && e.clipboardData.getData && e.clipboardData.getData('text')) ??
+          '';
+
+        if (!data) return;
+
+        for (const ch of data) {
+          if (!charOkTel(ch)) {
+            e.preventDefault();
+            mostrarError(telField, MSG_TEL);
+            return;
+          }
+        }
+      });
+
+      telField.addEventListener('input', () => {
+        const val = telField.value;
+        const filtrado = filtrar(val, charOkTel);
+        if (val !== filtrado) {
+          telField.value = filtrado;
+          mostrarError(telField, MSG_TEL);
+        }
+      });
+    }
+  });
 </script>
