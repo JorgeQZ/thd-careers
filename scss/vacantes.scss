@@ -9,8 +9,9 @@
     justify-content: start;
     padding: 0 80px;
     position: relative;
+
     @media (max-width: 780px) {
-       padding: 0 20px;
+        padding: 0 20px;
     }
 
 
@@ -58,7 +59,8 @@
             max-width: 70%;
             padding-right: 20px;
             box-sizing: border-box;
-            &.wide-column{
+
+            &.wide-column {
                 max-width: 100%;
             }
 
@@ -80,11 +82,13 @@
                 margin-top: 15px;
                 letter-spacing: 1px;
                 position: relative;
-                &.wide{
+
+                &.wide {
                     width: 48%;
 
                 }
-                .disabled{
+
+                .disabled {
                     background-color: rgba($ligth_grey, 0.2);
                     cursor: default !important;
                     height: 40px;
@@ -130,6 +134,7 @@
                     z-index: 1;
                     max-height: 300px;
                     overflow: scroll;
+
                     &.hidden {
                         display: none;
                     }
@@ -226,15 +231,15 @@
                 box-sizing: border-box;
 
                 @media (max-width: 780px) {
-                  width: 90%;
-                  margin: 0 auto;
-                  margin-bottom: 20px;
+                    width: 90%;
+                    margin: 0 auto;
+                    margin-bottom: 20px;
                 }
 
                 &:hover {
-                  background-color: #C14C00;
-                  color: #fff;
-                  border-color: #C14C00;
+                    background-color: #C14C00;
+                    color: #fff;
+                    border-color: #C14C00;
                 }
             }
         }
@@ -251,19 +256,22 @@
             .column {
                 &:first-child {
                     width: 70%;
-                    &.wide-column{
+
+                    &.wide-column {
                         width: 100%;
                     }
+
                     @media (max-width: 780px) {
-                       width: 100%;
+                        width: 100%;
                     }
                 }
 
-                &:nth-child(2){
+                &:nth-child(2) {
                     width: 30%;
+
                     @media (max-width: 780px) {
                         width: 100%;
-                     }
+                    }
                 }
 
                 .list {
@@ -277,11 +285,18 @@
 
                     .item {
                         list-style: none;
-                        &.active{
-                            a{
+
+                        &.active {
+                            a {
+
                                 // border-color: $orange;
                                 .fav {
                                     .img {
+
+                                        img {
+                                            filter: brightness(1) invert(0);
+                                        }
+
                                         svg {
                                             path {
                                                 fill: $orange;
@@ -292,7 +307,7 @@
                             }
                         }
 
-                        a{
+                        a {
                             border: 1px solid $ligth_grey;
                             padding: 20px;
                             text-decoration: none;
@@ -302,7 +317,7 @@
                             margin-bottom: 30px;
                             transition: all 300ms;
 
-                            &:hover{
+                            &:hover {
                                 border-color: $orange;
                             }
 
@@ -320,7 +335,7 @@
                                 font-family: $ff-bd;
                                 color: black;
 
-                                .job-title{
+                                .job-title {
                                     color: $orange;
                                     text-decoration: none;
                                     font-size: 14px;
@@ -332,6 +347,11 @@
                                     align-items: start;
                                     justify-content: start;
                                     margin-bottom: 0px;
+
+                                    img {
+                                        width: 8px;
+                                        margin-right: 2px;
+                                    }
 
                                     .img {
                                         height: 20px;
@@ -372,15 +392,14 @@
                                     align-items: center;
                                     justify-content: center;
 
+                                    img {
+                                        width: 35px;
+                                        filter: brightness(0) invert(0.7);
+                                    }
+
                                     svg {
                                         height: 35px;
                                         cursor: pointer;
-
-                                        &:hover {
-                                            path {
-                                                // fill: $orange;
-                                            }
-                                        }
 
                                         path {
                                             fill: $ligth_grey;
@@ -394,8 +413,8 @@
                             }
                         }
 
-                        &:last-child{
-                            a{
+                        &:last-child {
+                            a {
                                 margin-bottom: 0;
                             }
                         }
@@ -410,9 +429,8 @@
                     padding-bottom: 35px;
                     margin: 20px 0;
                     position: relative;
-                    @media (max-width: 780px) {
 
-                    }
+                    @media (max-width: 780px) {}
 
                     &:before {
                         content: '';

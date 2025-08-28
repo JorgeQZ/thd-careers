@@ -116,35 +116,13 @@ $ubicaciones = get_unique_locations();
                                     <div class="desc">
                                         <div class="job-title"><?php echo get_the_title(); ?></div>
                                         <div class="icon-cont">
-                                            <div class="img">
-                                                <?php
-                                                    $svg_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
-                                                    $svg_content = @file_get_contents($svg_path);
-
-                                                    if ($svg_content !== false && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
-                                                        $safe_svg = strip_tags($svg_content, '<svg><path><circle><rect><g><use><line><polyline><polygon><text>');
-                                                        echo $safe_svg;
-                                                    }  else {
-                                                        echo 'Archivo SVG no encontrado o no válido.';
-                                                    }
-                                                ?>
-                                            </div>
+                                            <img src="<?php echo esc_url( get_theme_file_uri('imgs/pin-de-ubicacion-2.png') ); ?>" alt="Icono de Ubicación">
                                             <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                         </div>
                                     </div>
                                     <div class="fav">
                                         <div class="img">
-                                            <?php
-                                                $svg_path = get_template_directory() . '/imgs/me-gusta.svg';
-                                                $svg_content = @file_get_contents($svg_path);
-
-                                                if ($svg_content !== false && pathinfo($svg_path, PATHINFO_EXTENSION) === 'svg') {
-                                                    $safe_svg = strip_tags($svg_content, '<svg><path><circle><rect><g><use><line><polyline><polygon><text>');
-                                                    echo $safe_svg;
-                                                } else {
-                                                    echo 'Archivo SVG no encontrado o no válido.';
-                                                }
-                                            ?>
+                                            <img src="<?php echo esc_url( get_theme_file_uri('imgs/me-gusta-2.png') ); ?>" alt="Icono de Me gusta">
                                         </div>
                                     </div>
                                 </a>
@@ -176,5 +154,14 @@ $ubicaciones = get_unique_locations();
         </div>
     </div><!-- Contenido de la página -->
 </main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const img = document.querySelector(".fav img");
+    img.addEventListener("click", function () {
+      img.classList.toggle("active");
+    });
+  });
+</script>
 
 <?php get_footer(); ?>

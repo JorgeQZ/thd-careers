@@ -162,37 +162,13 @@ $is_logged_in = is_user_logged_in();
                                     <div class="desc">
                                         <div class="job-title"><?php echo get_the_title(); ?></div>
                                         <div class="icon-cont">
-                                            <div class="img">
-                                                <?php
-                                                    $file_path = get_template_directory() . '/imgs/pin-de-ubicacion.svg';
-
-                                                    $content = @file_get_contents($file_path);
-
-                                                    if ($content !== false) {
-                                                        $safe_content = strip_tags($content, '<svg><path><circle><rect><g><use>');
-                                                        echo $safe_content;
-                                                    } else {
-                                                        echo 'Archivo no encontrado.';
-                                                    }
-                                                ?>
-                                            </div>
+                                            <img src="<?php echo esc_url( get_theme_file_uri('imgs/pin-de-ubicacion-2.png') ); ?>" alt="Icono de Ubicación">
                                             <div class="text"><?php echo $ubicacion_formateada; ?></div>
                                         </div>
                                     </div>
                                     <div class="fav">
                                         <div class="img">
-                                            <?php
-                                                $file_path = get_template_directory() . '/imgs/me-gusta.svg';
-
-                                                $content = @file_get_contents($file_path);
-
-                                                if ($content !== false) {
-                                                    $safe_content = strip_tags($content, '<svg><path><circle><rect><g><use>');
-                                                    echo $safe_content;
-                                                } else {
-                                                    echo 'Archivo no encontrado.';
-                                                }
-                                            ?>
+                                            <img src="<?php echo esc_url( get_theme_file_uri('imgs/me-gusta-2.png') ); ?>" alt="Icono de Me gusta">
                                         </div>
                                     </div>
                                 </a>
@@ -222,5 +198,13 @@ $is_logged_in = is_user_logged_in();
     </div><!-- Contenido de la página -->
 </main>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const img = document.querySelector(".fav img");
+    img.addEventListener("click", function () {
+      img.classList.toggle("active");
+    });
+  });
+</script>
 
 <?php get_footer();?>
