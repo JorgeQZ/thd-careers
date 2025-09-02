@@ -98,7 +98,7 @@ function load_values_values_catalogo($field)
 
         if ($user_store) {
             // Crear la única opción disponible
-            $option_key = $user_store['numero_de_tienda'] . '-' . $user_store['distrito'];
+            $option_key = $user_store['numero_de_tienda'] . '-' . $user_store['distrito'].'-' . $user_store['correo'];
             $option_label = $user_store['nombre_de_tienda'] . " (" . $user_store['ubicacion'] . ")";
 
             $field['choices'] = [$option_key => $option_label];
@@ -114,7 +114,7 @@ function load_values_values_catalogo($field)
         // Cargar normalmente para otros roles
         $field['required'] = true;
         foreach ($stores as $store) {
-            $field['choices'][$store['numero_de_tienda'] . '-' . $store['distrito']] =
+            $field['choices'][$store['numero_de_tienda'] . '-' . $store['distrito']. '-' . $store['correo']] =
                 $store['nombre_de_tienda'] . " (" . $store['ubicacion'] . ")";
         }
     }
@@ -149,10 +149,10 @@ function fill_extra_data($post_id)
     }
 
     // Verificar si el usuario actual tiene el rol de admin.
-    // $current_user = wp_get_current_user();
-    // if (in_array('administrator', $current_user->roles)) {
-    //     return; // Salir de la función si el usuario es admin.
-    // }
+    $current_user = wp_get_current_user();
+    if (in_array('administrator', $current_user->roles)) {
+        return; // Salir de la función si el usuario es admin.
+    }
 
     // Obtener el valor del campo ACF 'ubicacion'.
     $ubicacion = get_field('ubicacion', $post_id);
@@ -165,7 +165,7 @@ function fill_extra_data($post_id)
         if (count($ubicacion_exploded) >= 2) {
             $data_tienda = $ubicacion_exploded[0];
             $data_distrito = $ubicacion_exploded[1];
-            $data_correo = $ubicacion_exploded[2] . '' . $ubicacion_exploded[3];
+            $data_correo = $ubicacion_exploded[2] . '-' . $ubicacion_exploded[3];
 
             $extra_data = array(
                 'data_tienda' => $data_tienda,

@@ -78,6 +78,7 @@
           justify-content: center;
   color: #fff;
   text-align: center;
+  z-index: 10000;
 }
 .hero-banner video {
   position: absolute;

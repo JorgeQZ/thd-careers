@@ -64,7 +64,6 @@
 }
 #map {
   height: 560px;
-  z-index: -1;
 }
 
 .leaflet-container .search-container {
