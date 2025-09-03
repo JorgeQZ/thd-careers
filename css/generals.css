@@ -395,7 +395,7 @@ header {
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  z-index: 11;
+  z-index: 10001;
 }
 header .container {
   display: -webkit-box;

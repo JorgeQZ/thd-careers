@@ -63,8 +63,7 @@ header {
     width: 100%;
     position: relative;
     box-sizing: border-box;
-
-    z-index: 11;
+    z-index: 10001;
 
     .container {
         display: flex;
