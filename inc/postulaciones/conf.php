@@ -281,11 +281,11 @@ function enviar_correo_cambio_estado( $post_id ) {
     $vacante = get_field('vacante_vacante', $post_id);
     $correo_vacante = get_field('correo_vacante', $post_id);
 
-    // Verificar que el correo de la vacante esté disponible
-    if (empty($correo_vacante)) {
-        error_log('No se encontró un correo para la vacante en el post ID: ' . $post_id);
-        return;
-    }
+    // // Verificar que el correo de la vacante esté disponible
+    // if (empty($correo_vacante)) {
+    //     error_log('No se encontró un correo para la vacante en el post ID: ' . $post_id);
+    //     return;
+    // }
 
     // Configurar encabezados para SMTP
     $headers = array(
@@ -293,27 +293,27 @@ function enviar_correo_cambio_estado( $post_id ) {
         'From: Carreras Home Depot <noreply@homedepot.com.mx>'
     );
 
-    // Configurar el correo al encargado de la vacante
-    $to_vacante = $correo_vacante;
-    $subject_vacante = 'Nueva postulación para la vacante: ' . esc_html($vacante);
+    // // Configurar el correo al encargado de la vacante
+    // $to_vacante = $correo_vacante;
+    // $subject_vacante = 'Nueva postulación para la vacante: ' . esc_html($vacante);
 
-    $link_edit_post = get_edit_post_link($post_id) ?: admin_url('post.php?post=' . $post_id . '&action=edit');
+    // $link_edit_post = get_edit_post_link($post_id) ?: admin_url('post.php?post=' . $post_id . '&action=edit');
 
-    $message_vacante = '<p>Un candidato se ha postulado para la vacante: <strong>' . esc_html($vacante) . '</strong>.</p>';
-    $message_vacante .= '<p><strong>Información del postulante:</strong></p>';
-    $message_vacante .= '<ul>';
-    $message_vacante .= '<li><strong>Nombre:</strong> ' . esc_html($nombre_postulante) . '</li>';
-    $message_vacante .= '<li><strong>Apellido Paterno:</strong> ' . esc_html($apellido_paterno) . '</li>';
-    $message_vacante .= '<li><strong>Apellido Materno:</strong> ' . esc_html($apellido_materno) . '</li>';
-    $message_vacante .= '<li><strong>Correo:</strong> ' . esc_html($correo_postulante) . '</li>';
-    $message_vacante .= '<li><strong>Teléfono:</strong> ' . esc_html($telefono_postulante) . '</li>';
-    $message_vacante .= '</ul>';
-    $message_vacante .= '<p><strong>Enlace de la postulación:</strong> <a href="' . esc_url($link_edit_post) . '" target="_blank" rel="noopener noreferrer">' . esc_url($link_edit_post) . '</a></p>';
+    // $message_vacante = '<p>Un candidato se ha postulado para la vacante: <strong>' . esc_html($vacante) . '</strong>.</p>';
+    // $message_vacante .= '<p><strong>Información del postulante:</strong></p>';
+    // $message_vacante .= '<ul>';
+    // $message_vacante .= '<li><strong>Nombre:</strong> ' . esc_html($nombre_postulante) . '</li>';
+    // $message_vacante .= '<li><strong>Apellido Paterno:</strong> ' . esc_html($apellido_paterno) . '</li>';
+    // $message_vacante .= '<li><strong>Apellido Materno:</strong> ' . esc_html($apellido_materno) . '</li>';
+    // $message_vacante .= '<li><strong>Correo:</strong> ' . esc_html($correo_postulante) . '</li>';
+    // $message_vacante .= '<li><strong>Teléfono:</strong> ' . esc_html($telefono_postulante) . '</li>';
+    // $message_vacante .= '</ul>';
+    // $message_vacante .= '<p><strong>Enlace de la postulación:</strong> <a href="' . esc_url($link_edit_post) . '" target="_blank" rel="noopener noreferrer">' . esc_url($link_edit_post) . '</a></p>';
 
-    // Enviar el correo al encargado de la vacante
-    if (!wp_mail($to_vacante, $subject_vacante, $message_vacante, $headers)) {
-        error_log('Error al enviar correo a la vacante: ' . $to_vacante);
-    }
+    // // Enviar el correo al encargado de la vacante
+    // if (!wp_mail($to_vacante, $subject_vacante, $message_vacante, $headers)) {
+    //     error_log('Error al enviar correo a la vacante: ' . $to_vacante);
+    // }
 
     // Configurar el correo al postulante
     $to_postulante = $correo_postulante;
