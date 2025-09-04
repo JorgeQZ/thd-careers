@@ -171,95 +171,79 @@ function get_unique_locations_with_values($category_slug) {
 
   return $unique_locations;
 }
-
 function get_unique_locations() {
-    // Configuración de la consulta WP_Query
-    $query = new WP_Query(array(
+    // Consulta solo IDs por eficiencia
+    $q = new WP_Query(array(
         'post_type'      => 'vacantes',
-        'posts_per_page' => -1, // Recuperar todos los posts
-        'fields'         => 'ids', // Solo necesitamos los IDs para eficiencia
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'no_found_rows'  => true,
     ));
 
-    $unique_locations = array(); // Almacén de ubicaciones únicas
+    $unique = array();
 
-    if ($query->have_posts()) {
-        foreach ($query->posts as $post_id) {
-            // Obtener el valor del campo ACF "ubicacion"
+    if ($q->have_posts()) {
+        foreach ($q->posts as $post_id) {
             $ubicacion = get_field('ubicacion', $post_id);
 
+            // Normalizar a $raw_label / $raw_value
+            $raw_label = '';
+            $raw_value = '';
             if (is_array($ubicacion)) {
-                $label = $ubicacion['label'] ?? ''; // El texto del label
-                $value = $ubicacion['value'] ?? ''; // El valor completo
-
-                // Extraer el primer conjunto de números del value
-                preg_match('/^\d+/', $value, $matches);
-                $numeric_value = $matches[0] ?? '';
-
-                // Agregar la ubicación al array si es única
-                if ($label && $numeric_value) {
-                    $unique_locations[] = array(
-                        'label' => $label,
-                        'value' => $numeric_value,
-                    );
-                }
+                $raw_label = isset($ubicacion['label']) ? (string) $ubicacion['label'] : '';
+                $raw_value = isset($ubicacion['value']) ? (string) $ubicacion['value'] : '';
+            } elseif (is_string($ubicacion)) {
+                $raw_label = (string) $ubicacion;
+                $raw_value = (string) $ubicacion;
+            } else {
+                continue;
             }
+            $raw_label = trim($raw_label);
+            $raw_value = trim($raw_value);
+
+            // Extraer código de tienda: 1234 o 1234-56 al inicio
+            $source_for_code = $raw_value !== '' ? $raw_value : $raw_label;
+            if (!preg_match('/^\s*(\d+(?:-\d+)?)/', $source_for_code, $m)) {
+                // Si no hay código al inicio, ignora este registro
+                continue;
+            }
+            $code = $m[1];
+
+            // Construir label humano:
+            // Si el label es solo código, úsalo desde value quitando el código y separadores
+            $human = $raw_label;
+            if ($human === '' || preg_match('/^\d+(?:-\d+)?$/', $human)) {
+                // Quitar "1234-56", separadores tipo " - | : — – "
+                $human = preg_replace(
+                    '/^\s*' . preg_quote($code, '/') . '\s*([:\-\|\xE2\x80\x93\xE2\x80\x94])?\s*/u',
+                    '',
+                    $raw_value
+                );
+                $human = trim($human);
+            }
+            if ($human === '') {
+                // Último recurso: usa el code como label
+                $human = $code;
+            }
+
+            // Deduplicar por código
+            $unique[$code] = array(
+                'label' => $human,
+                'value' => $code,
+            );
         }
     }
-
-    // Liberar memoria de la consulta
     wp_reset_postdata();
 
-    return $unique_locations;
-  }
+    // Orden alfabético por label (case-insensitive)
+    if (!empty($unique)) {
+        uasort($unique, function ($a, $b) {
+            return strcasecmp($a['label'], $b['label']);
+        });
+    }
 
-
-function get_unique_locations_labels($category_slug) {
-  // Configuración de la consulta WP_Query
-  $query = new WP_Query(array(
-      'post_type'      => 'vacantes',
-      'posts_per_page' => -1, // Recuperar todos los posts
-      'tax_query'      => array(
-          array(
-              'taxonomy' => 'categorias_vacantes',
-              'field'    => 'slug',
-              'terms'    => $category_slug, // Filtrar por categoría
-          ),
-      ),
-      'fields'         => 'ids', // Solo necesitamos los IDs para eficiencia
-  ));
-
-  $unique_locations = array(); // Almacén de ubicaciones únicas
-
-  if ($query->have_posts()) {
-      foreach ($query->posts as $post_id) {
-          // Obtener el valor del campo ACF "ubicacion"
-          $ubicacion = get_field('ubicacion', $post_id);
-
-          if (is_array($ubicacion)) {
-              $label = $ubicacion['label'] ?? ''; // El texto del label
-              $value = $ubicacion['value'] ?? ''; // El valor completo
-
-              // Extraer el primer conjunto de números del value
-              preg_match('/^\d+/', $value, $matches);
-              $numeric_value = $matches[0] ?? '';
-
-              // Agregar la ubicación al array si es única
-              if ($label && $numeric_value) {
-                  $unique_locations[] = array(
-                      'label' => $label,
-                      'value' => $numeric_value,
-                  );
-              }
-          }
-      }
-  }
-
-  // Liberar memoria de la consulta
-  wp_reset_postdata();
-
-  return $unique_locations;
+    return array_values($unique);
 }
-
 
 function get_unique_vacantes_titles_by_taxonomy($taxonomy_slug) {
   // Argumentos de la consulta

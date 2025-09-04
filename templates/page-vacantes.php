@@ -17,8 +17,6 @@ if($term != ''){
     $ubicaciones = get_unique_locations();
 }
 $is_logged_in = is_user_logged_in();
-
-
 ?>
 <!-- PopUp -->
 <div class="popup-cont" id="popup-login">
@@ -100,6 +98,7 @@ $is_logged_in = is_user_logged_in();
                 <!-- Search Input de ubicaciones -->
                 <div class="input-search wide">
                     <input type="text" placeholder="Ingresa tu ubicación"  class="search-input">
+                    <?php if($term != ''): ?>
                     <ul class="suggestions-list hidden">
                         <?php
                         $processed_values = array(); // Para almacenar valores únicos
@@ -115,6 +114,34 @@ $is_logged_in = is_user_logged_in();
                         }
                        ?>
                     </ul>
+                    <?php else: ?>
+                        <ul class="suggestions-list hidden">
+                    <?php
+                    $processed_values = array(); // Para almacenar valores únicos
+                    foreach ($ubicaciones as $ubicacion) {
+                        if (!in_array($ubicacion['value'], $processed_values, true)) {
+
+                            $value_raw = (string)$ubicacion['value'];
+                            // Solo cambiar el VALUE del input cuando $term esté definido y sea cadena vacía
+                            $input_value = $value_raw;
+                            if (isset($term) && trim((string)$term) === '') {
+                                if (preg_match('/^\d+/', $value_raw, $m)) {
+                                    $input_value = $m[0]; // primer número (ej. "1123" de "1123-60")
+                                }
+                            }
+
+                            echo '<li><label>';
+                            echo '<input type="checkbox" name="ubicacion[]" value="' . esc_attr($input_value) . '" id="ubicacion-' . esc_attr($value_raw) . '">';
+                            echo '<span class="checkbox"></span>';
+                            echo '<span class="text">' . esc_html($ubicacion['label']) . '</span>'; // NO se modifica el label
+                            echo '</label></li>';
+
+                            $processed_values[] = $ubicacion['value'];
+                        }
+                    }
+                    ?>
+                    </ul>
+                    <?php endif; ?>
                 </div> <!-- Search Input de ubicaciones -->
             </div>
 

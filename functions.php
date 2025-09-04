@@ -415,29 +415,29 @@ function search_form_home_banner(){
                     </div>';
 
     // Campo de búsqueda para ubicaciones
-    $output .=  '<div class="search-cont input-search" id="search-ubicacion">
-                    <input id="inp-sear" class="search-input" type="text" name="ubicacion_label" placeholder="Ingresa tu ubicación">
-                    <input name="ubicacion" type="hidden" id="ubicacion">
-                    <ul id="suges" class="suggestions-list hidden">
-                        <li  class="li-label"><label><span class="text"><h3>Ubicaciones disponibles</span></h3></label></li>';
-                        $processed_values = array();
-                        foreach ($ubicaciones as $ubicacion) {
-                            $ubicacion_label = ucwords(strtolower($ubicacion['label']));
-                            $ubicacion_value = strtolower($ubicacion['value']); // Mantener el valor original en minúscula para evitar conflictos
-                            if (!in_array($ubicacion_value, $processed_values)) {
-                                $output .= '<li class="ubicacion_values" data-value="'. esc_attr($ubicacion_value) . '"><label>';
-                                // $output .= '<input type="checkbox" name="ubicacion_values[]" value="' . esc_attr($ubicacion_value) . '" id="ubicacion-' . esc_attr($ubicacion_value) . '">';
-                                // $output .= '<span class="checkbox"></span>';
-                                $output .= '<span class="text">' . esc_html($ubicacion_label) . '</span>';
-                                $output .= '</label></li>';
-                                $processed_values[] = $ubicacion_value;
-                            }
+$output .=  '<div class="search-cont input-search" id="search-ubicacion">
+                <input id="inp-sear" class="search-input" type="text" name="ubicacion_label" placeholder="Ingresa tu ubicación">
+                <input name="ubicacion" type="hidden" id="ubicacion">
+                <ul id="suges" class="suggestions-list hidden">
+                    <li class="li-label"><label><span class="text"><h3>Ubicaciones disponibles</h3></span></label></li>';
+                    $processed_values = array();
+                    foreach ($ubicaciones as $ubicacion) {
+                        $ubicacion_label = ucwords(strtolower(trim($ubicacion['label'])));
+                        $ubicacion_value = strtolower(trim($ubicacion['value'])); // Mantener el valor en minúscula para evitar conflictos
+                        if (!in_array($ubicacion_value, $processed_values, true)) {
+                            $output .= '<li class="ubicacion_values" data-value="' . esc_attr($ubicacion_value) . '"><label>';
+                            // $output .= '<input type="checkbox" name="ubicacion_values[]" value="' . esc_attr($ubicacion_value) . '" id="ubicacion-' . esc_attr($ubicacion_value) . '">';
+                            // $output .= '<span class="checkbox"></span>';
+                            $output .= '<span class="text">' . esc_html($ubicacion_label) . '</span>';
+                            $output .= '</label></li>';
+                            $processed_values[] = $ubicacion_value;
                         }
-    $output .=        '</ul>
-                    </div>
-                    <input type="submit" value="Buscar vacante" id="boton">
-                </form>
-                </div>';
+                    }
+$output .=        '</ul>
+                </div>
+                <input type="submit" value="Buscar vacante" id="boton">
+            </form>
+            </div>';
 
     return $output;
 }
