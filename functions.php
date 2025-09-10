@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Requires
  */
@@ -64,7 +65,7 @@ require_once "inc/rueda_valores.php";
 
 if (!function_exists('careers_setup')):
     function careers_setup()
-{
+    {
         add_theme_support('post-thumbnails');
         add_theme_support('page-attributes');
         add_theme_support('custom-logo');
@@ -84,12 +85,12 @@ function careers_styles()
     wp_enqueue_style('generals', get_template_directory_uri() . '/css/generals.css');
     wp_enqueue_script('generals', get_template_directory_uri() . '/js/generals.js');
     wp_enqueue_script('favs', get_template_directory_uri() . '/js/favs.js');
-    wp_enqueue_script('search', get_stylesheet_directory_uri(). '/js/search.js', array('jquery'), '2', true );
+    wp_enqueue_script('search', get_stylesheet_directory_uri(). '/js/search.js', array('jquery'), '2', true);
 
 
     wp_localize_script('generals', 'ajax_query_vars', array(
         'ajax_url' => admin_url('admin-ajax.php'),
-        'logoutUrl' => wp_logout_url(home_url() ),
+        'logoutUrl' => wp_logout_url(home_url()),
         'isUserLoggedIn' => is_user_logged_in(),
         'currentUserId' => get_current_user_id()
     ));
@@ -228,7 +229,8 @@ function highlight_and_break_title($title)
 // add_filter('the_title', 'highlight_and_break_title');
 
 
-function get_favorites_handler() {
+function get_favorites_handler()
+{
     try {
         // Verificar si el POST contiene el parámetro necesario
         if (!isset($_POST['favorites']) || empty($_POST['favorites'])) {
@@ -237,8 +239,8 @@ function get_favorites_handler() {
 
         $favorites_json = stripslashes($_POST['favorites']);
         $favorite_ids = json_decode($favorites_json, true, 512, JSON_THROW_ON_ERROR);
-         // Verificar que el JSON decodificado sea un array válido
-         if (!is_array($favorite_ids) || empty($favorite_ids)) {
+        // Verificar que el JSON decodificado sea un array válido
+        if (!is_array($favorite_ids) || empty($favorite_ids)) {
             throw new Exception('La lista de favoritos no es válida.');
         }
 
@@ -261,7 +263,7 @@ function get_favorites_handler() {
                     'permalink'    => get_permalink($post),
                     'image'        => get_template_directory_uri() . '/imgs/logo-thd.jpg',
                     'location'     => $ubicacion_formateada, // Usamos la ubicación formateada
-                    'location_icon'=> file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'),
+                    'location_icon' => file_get_contents(get_template_directory_uri() . '/imgs/pin-de-ubicacion.svg'),
                     'time_text'    => 'Lorem ipsum dolor sit, amet', // Texto genérico, personalízalo
                     'time_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/Hora.svg'),
                     'like_icon'    => file_get_contents(get_template_directory_uri() . '/imgs/me-gusta.svg'),
@@ -286,7 +288,8 @@ function get_favorites_handler() {
 add_action('wp_ajax_get_favorites', 'get_favorites_handler');
 add_action('wp_ajax_nopriv_get_favorites', 'get_favorites_handler');
 
-function modify_menu_items($items, $args) {
+function modify_menu_items($items, $args)
+{
     if ($args->menu === 'Header') { // Asegúrate de que el menú sea el correcto
         foreach ($items as &$item) {
             if ($item->title === 'MI PERFIL') {
@@ -315,20 +318,22 @@ add_filter('wp_nav_menu_objects', 'modify_menu_items', 10, 2);
 
 
 
-function limitar_busqueda_a_post_types( $query ) {
-    if ( ! is_admin() && $query->is_search ) {
-        $query->set( 'post_type', 'vacantes' );
+function limitar_busqueda_a_post_types($query)
+{
+    if (! is_admin() && $query->is_search) {
+        $query->set('post_type', 'vacantes');
     }
     return $query;
 }
-add_filter( 'pre_get_posts', 'limitar_busqueda_a_post_types' );
+add_filter('pre_get_posts', 'limitar_busqueda_a_post_types');
 
-function buscar_por_titulo_y_custom_field( $query ) {
-    if ( $query->is_search && !is_admin() ) {
+function buscar_por_titulo_y_custom_field($query)
+{
+    if ($query->is_search && !is_admin()) {
 
-        $custom_field_value = isset( $_GET['ubicacion'] ) ? sanitize_text_field( $_GET['ubicacion'] ) : '';
+        $custom_field_value = isset($_GET['ubicacion']) ? sanitize_text_field($_GET['ubicacion']) : '';
 
-        if ( ! empty( $custom_field_value ) ) {
+        if (! empty($custom_field_value)) {
             $meta_query = array(
                 array(
                     'key'   => 'ubicacion',
@@ -336,22 +341,22 @@ function buscar_por_titulo_y_custom_field( $query ) {
                     'compare' => 'LIKE',
                 ),
             );
-            $query->set( 'meta_query', $meta_query );
+            $query->set('meta_query', $meta_query);
         }
 
-        if ( ! empty( $_GET['s'] ) ) {
+        if (! empty($_GET['s'])) {
         }
     }
 }
-add_action( 'pre_get_posts', 'buscar_por_titulo_y_custom_field' );
+add_action('pre_get_posts', 'buscar_por_titulo_y_custom_field');
 
-add_action('send_headers', function() {
+add_action('send_headers', function () {
     header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 });
 
 
 //  Page Options
-if( function_exists('acf_add_options_page') ) {
+if (function_exists('acf_add_options_page')) {
     acf_add_options_page(array(
         'page_title'    => 'Rueda de valores',
         'menu_title'    => 'Rueda de Valores',
@@ -364,7 +369,7 @@ if( function_exists('acf_add_options_page') ) {
 }
 
 //  Page Options
-if( function_exists('acf_add_options_page') ) {
+if (function_exists('acf_add_options_page')) {
     acf_add_options_page(array(
         'page_title'    => 'Catálogo de tiendas',
         'menu_title'    => 'Catálogo de tiendas',
@@ -376,7 +381,8 @@ if( function_exists('acf_add_options_page') ) {
     ));
 }
 
-function replace_mark_with_span($content) {
+function replace_mark_with_span($content)
+{
     // Reemplazar la apertura de <mark> con <span>
     $content = preg_replace('/<mark([^>]*)>/', '<span$1>', $content);
     // Reemplazar el cierre de </mark> con </span>
@@ -385,7 +391,8 @@ function replace_mark_with_span($content) {
 }
 add_filter('the_content', 'replace_mark_with_span', 20);
 
-function search_form_home_banner(){
+function search_form_home_banner()
+{
     // Obtener títulos únicos y ubicaciones
     $unique_titles = get_unique_vacantes_titles();
     $ubicaciones = get_unique_locations();
@@ -399,41 +406,51 @@ function search_form_home_banner(){
 
     // Iniciar la salida HTML
     $output = '<div class="wp-block-group search-form">
-      <form class="search-form" action="'.esc_url( home_url("/") ).'" method="get">
+      <form class="search-form" action="'.esc_url(home_url("/")).'" method="get">
                     <div class="search-cont input-search" id="search-vacante">
                         <input type="text" id="titulo" name="s" placeholder="Ingresa palabra(s) clave de la vacante" class="search-input" value="'.get_search_query().'">
                         <ul class="suggestions-list hidden">
                          <li class="li-label"><label><span class="text"><h3>Vacantes disponibles</span></h3></label></li>';
-                            foreach ($unique_titles as $title) {
-                                $title_capitalized = ucwords(strtolower($title));
-                                $output .= '<li><label>';
+    foreach ($unique_titles as $title) {
+        $title_capitalized = ucwords(strtolower($title));
+        $output .= '<li><label>';
 
-                                $output .= '<span class="text">' . esc_html($title_capitalized) . '</span>';
-                                $output .= '</label></li>';
-                            }
+        $output .= '<span class="text">' . esc_html($title_capitalized) . '</span>';
+        $output .= '</label></li>';
+    }
     $output .=        '</ul>
                     </div>';
 
     // Campo de búsqueda para ubicaciones
-$output .=  '<div class="search-cont input-search" id="search-ubicacion">
+    $output .=  '<div class="search-cont input-search" id="search-ubicacion">
                 <input id="inp-sear" class="search-input" type="text" name="ubicacion_label" placeholder="Ingresa tu ubicación">
                 <input name="ubicacion" type="hidden" id="ubicacion">
                 <ul id="suges" class="suggestions-list hidden">
                     <li class="li-label"><label><span class="text"><h3>Ubicaciones disponibles</h3></span></label></li>';
-                    $processed_values = array();
-                    foreach ($ubicaciones as $ubicacion) {
-                        $ubicacion_label = ucwords(strtolower(trim($ubicacion['label'])));
-                        $ubicacion_value = strtolower(trim($ubicacion['value'])); // Mantener el valor en minúscula para evitar conflictos
-                        if (!in_array($ubicacion_value, $processed_values, true)) {
-                            $output .= '<li class="ubicacion_values" data-value="' . esc_attr($ubicacion_value) . '"><label>';
-                            // $output .= '<input type="checkbox" name="ubicacion_values[]" value="' . esc_attr($ubicacion_value) . '" id="ubicacion-' . esc_attr($ubicacion_value) . '">';
-                            // $output .= '<span class="checkbox"></span>';
-                            $output .= '<span class="text">' . esc_html($ubicacion_label) . '</span>';
-                            $output .= '</label></li>';
-                            $processed_values[] = $ubicacion_value;
-                        }
-                    }
-$output .=        '</ul>
+    $processed_values = array();
+    foreach ($ubicaciones as $ubicacion) {
+        if (!is_array($ubicacion)) {
+            continue;
+        }
+
+        $label_raw = isset($ubicacion['label']) ? (string)$ubicacion['label'] : '';
+        $value_raw = isset($ubicacion['value']) ? (string)$ubicacion['value'] : '';
+
+        $ubicacion_label = ucwords(strtolower(trim($label_raw)));
+        $ubicacion_value = strtolower(trim($value_raw)); // el código ya viene como 1234 o 1234-56
+
+        if ($ubicacion_value === '') {
+            continue;
+        } // nada que pintar
+
+        if (!in_array($ubicacion_value, $processed_values, true)) {
+            $output .= '<li class="ubicacion_values" data-value="' . esc_attr($ubicacion_value) . '"><label>';
+            $output .= '<span class="text">' . esc_html($ubicacion_label) . '</span>';
+            $output .= '</label></li>';
+            $processed_values[] = $ubicacion_value;
+        }
+    }
+    $output .=        '</ul>
                 </div>
                 <input type="submit" value="Buscar vacante" id="boton">
             </form>
@@ -444,7 +461,7 @@ $output .=        '</ul>
 
 add_shortcode('searchFormHome', 'search_form_home_banner');
 
-add_action('wp_login_failed', function() {
+add_action('wp_login_failed', function () {
     $referrer = wp_get_referer();
     if ($referrer && !strstr($referrer, 'wp-login') && !strstr($referrer, 'wp-admin')) {
         wp_redirect(add_query_arg('login', 'failed', $referrer));
@@ -452,13 +469,15 @@ add_action('wp_login_failed', function() {
     }
 });
 
-function manejar_errores_404($errno, $errstr, $errfile, $errline) {
+function manejar_errores_404($errno, $errstr, $errfile, $errline)
+{
     error_log("Error en 404.php: [$errno] $errstr en $errfile línea $errline");
     return true; // Prevenir que PHP muestre el error
 }
 set_error_handler('manejar_errores_404');
 
-function set_security_headers() {
+function set_security_headers()
+{
     header("X-Frame-Options: SAMEORIGIN");
     header("Content-Security-Policy: frame-ancestors 'self';");
 }
@@ -483,7 +502,8 @@ add_action('send_headers', 'set_security_headers');
 
 
 add_filter('login_redirect', 'custom_login_redirect', 10, 3);
-function custom_login_redirect($redirect_to, $requested_redirect_to, $user) {
+function custom_login_redirect($redirect_to, $requested_redirect_to, $user)
+{
     if (!empty($requested_redirect_to)) {
         return $requested_redirect_to;
     }
