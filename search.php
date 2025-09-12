@@ -144,47 +144,76 @@ foreach ((array) $ubicaciones as $ubicacion) {
                     if (have_posts()) :
                         ?>
                     <ul class="list job-list">
-
                         <?php
-                            while (have_posts()) : the_post();
-                                $ubicacion_label = get_field('ubicacion')['label'];
+while (have_posts()) : the_post();
 
-                                if ($ubicacion_label) {
-                                    // Convertir el texto a formato más formal
-                                    $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
-                                }
-                                ?>
+    static $choices = null;
+    if (!is_array($choices)) {
+        $f = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
+        $choices = (is_array($f) && isset($f['choices']) && is_array($f['choices'])) ? $f['choices'] : array();
+    }
 
-                        <li class="item" data-id="<?php echo get_the_id(); ?>"
-                            data-tienda="<?php echo get_field('extra_data_data_tienda'); ?>"
-                            data-title="<?php echo get_the_title()?>">
-                            <a href="<?php the_permalink();?>">
+    $raw   = get_field('ubicacion', get_the_ID());
+    $label = '';
+    $value = '';
+
+    if (is_array($raw)) {
+        $label = (string) ($raw['label'] ?? '');
+        $value = (string) ($raw['value'] ?? '');
+    } elseif (is_string($raw) || is_numeric($raw)) {
+        $value = (string) $raw;
+    }
+
+    if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+        if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
+            $label = trim((string) $choices[$value]);
+        }
+        if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+            $tmp = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string) $value);
+            $tmp = trim((string) $tmp);
+            if ($tmp !== '') {
+                $label = $tmp;
+            }
+        }
+    }
+
+    if ($label === '') {
+        $label = (string) $value;
+    }
+
+    $display = function_exists('mb_convert_case')
+        ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
+        : ucwords(strtolower($label));
+    ?>
+                        <li class="item" data-id="<?php echo get_the_ID(); ?>"
+                            data-tienda="<?php echo esc_attr(get_field('extra_data_data_tienda')); ?>"
+                            data-title="<?php echo esc_attr(get_the_title()); ?>">
+                            <a href="<?php the_permalink(); ?>">
                                 <div class="img">
-                                    <img src="<?php echo get_template_directory_uri() . '/imgs/logo-thd.jpg' ?>" alt="">
+                                    <img src="<?php echo esc_url(get_template_directory_uri() . '/imgs/logo-thd.jpg'); ?>"
+                                        alt="">
                                 </div>
                                 <div class="desc">
-                                    <div class="job-title"><?php echo get_the_title(); ?></div>
+                                    <div class="job-title"><?php the_title(); ?></div>
                                     <div class="icon-cont">
                                         <img src="<?php echo esc_url(get_theme_file_uri('imgs/pin-de-ubicacion-2.png')); ?>"
-                                            alt="Icono de Ubicación">
-                                        <div class="text"><?php echo $ubicacion_formateada; ?></div>
+                                            alt="Location">
+                                        <div class="text"><?php echo esc_html($display); ?></div>
                                     </div>
                                 </div>
                                 <div class="fav">
                                     <div class="img">
                                         <img src="<?php echo esc_url(get_theme_file_uri('imgs/me-gusta-2.png')); ?>"
-                                            alt="Icono de Me gusta">
+                                            alt="Like">
                                     </div>
                                 </div>
                             </a>
                         </li>
-                        <?php
-                            endwhile;
-                        ?>
-                        <?php else : ?>
-                        <p><?php _e('No se encontraron resultados para tu búsqueda.'); ?></p>
-                        <?php endif; ?>
+                        <?php endwhile; ?>
                     </ul>
+                    <?php else : ?>
+                    <p><?php _e('No se encontraron resultados para tu búsqueda.'); ?></p>
+                    <?php endif; ?>
                 </div>
 
                 <?php if (is_user_logged_in()): ?>

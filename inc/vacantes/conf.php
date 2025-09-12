@@ -181,90 +181,96 @@ function get_unique_locations_with_values($category_slug)
 
     return $unique_locations;
 }
-
 function get_unique_locations()
 {
+    static $choices = null;
+
     $q = new WP_Query(array(
-        'post_type'      => 'vacantes',
-        'posts_per_page' => -1,
-        'fields'         => 'ids',
-        'no_found_rows'  => true,
+        'post_type'        => 'vacantes',
+        'posts_per_page'   => -1,
+        'fields'           => 'ids',
+        'no_found_rows'    => true,
+        'suppress_filters' => true,
     ));
+
+    if (!is_array($choices)) {
+        $ref_id = (!empty($q->posts) && is_array($q->posts)) ? (int) $q->posts[0] : 0;
+        $fobj = function_exists('get_field_object') ? get_field_object('ubicacion', $ref_id) : null;
+        $choices = (is_array($fobj) && isset($fobj['choices']) && is_array($fobj['choices'])) ? $fobj['choices'] : array();
+    }
 
     $unique = array();
 
     if ($q->have_posts()) {
         foreach ($q->posts as $post_id) {
             $u = get_field('ubicacion', $post_id);
-
-            // Normaliza a una lista de pares ['label'=>..., 'value'=>...]
-            $entries = array();
+            $items = array();
 
             if (is_array($u)) {
-                // ¿Lista (multiple) o asociativo (single)?
                 $is_list = array_keys($u) === range(0, count($u) - 1);
-
                 if ($is_list) {
                     foreach ($u as $item) {
                         if (is_array($item)) {
-                            $label = isset($item['label']) ? (string)$item['label'] : (isset($item['value']) ? (string)$item['value'] : '');
-                            $value = isset($item['value']) ? (string)$item['value'] : $label;
+                            $label = isset($item['label']) ? (string) $item['label'] : (isset($item['value']) ? (string) $item['value'] : '');
+                            $value = isset($item['value']) ? (string) $item['value'] : $label;
                             if ($label !== '' || $value !== '') {
-                                $entries[] = array('label' => $label, 'value' => $value);
+                                $items[] = array('label' => $label, 'value' => $value);
                             }
                         } elseif (is_string($item) || is_numeric($item)) {
-                            $entries[] = array('label' => (string)$item, 'value' => (string)$item);
+                            $items[] = array('label' => (string) $item, 'value' => (string) $item);
                         }
                     }
                 } else {
-                    // Asociativo: esperamos keys 'label'/'value'
-                    $label = isset($u['label']) ? (string)$u['label'] : (isset($u['value']) ? (string)$u['value'] : '');
-                    $value = isset($u['value']) ? (string)$u['value'] : $label;
+                    $label = isset($u['label']) ? (string) $u['label'] : (isset($u['value']) ? (string) $u['value'] : '');
+                    $value = isset($u['value']) ? (string) $u['value'] : $label;
                     if ($label !== '' || $value !== '') {
-                        $entries[] = array('label' => $label, 'value' => $value);
+                        $items[] = array('label' => $label, 'value' => $value);
                     }
                 }
             } elseif (is_string($u) || is_numeric($u)) {
-                $entries[] = array('label' => (string)$u, 'value' => (string)$u);
+                $items[] = array('label' => (string) $u, 'value' => (string) $u);
             } else {
-                // Nada usable
                 continue;
             }
 
-            // Por cada entrada, extrae código y arma label humano
-            foreach ($entries as $e) {
-                $raw_label = trim((string)$e['label']);
-                $raw_value = trim((string)$e['value']);
-
-                // Para obtener el código (1234 o 1234-56) buscamos al inicio
-                $source_for_code = $raw_value !== '' ? $raw_value : $raw_label;
-                if (!preg_match('/^\s*(\d+(?:-\d+)?)/', $source_for_code, $m)) {
-                    continue; // si no empieza con código, descartamos
+            foreach ($items as $e) {
+                $label_raw = trim((string) $e['label']);
+                $value_raw = trim((string) $e['value']);
+                $source = ($value_raw !== '') ? $value_raw : $label_raw;
+                if (!preg_match('/^\s*(\d+(?:-\d+)?)/', $source, $m)) {
+                    continue;
                 }
                 $code = $m[1];
 
-                // Label humano: si label es solo el código, intentamos quitarlo del value
-                $human = $raw_label;
-                if ($human === '' || preg_match('/^\d+(?:-\d+)?$/', $human)) {
-                    $human = preg_replace(
-                        '/^\s*' . preg_quote($code, '/') . '\s*([:\-\|\x{2013}\x{2014}])?\s*/u',
-                        '',
-                        $raw_value
-                    );
-                    $human = trim((string)$human);
-                }
-                if ($human === '') {
-                    $human = $code;
+                $text = $label_raw;
+                if ($text === '' || preg_match('/^\d+(?:-\d+)?$/', $text)) {
+                    if (isset($choices[$code]) && is_string($choices[$code])) {
+                        $cand = trim((string) $choices[$code]);
+                        if ($cand !== '') {
+                            $text = $cand;
+                        }
+                    }
+                    if ($text === '' || preg_match('/^\d+(?:-\d+)?$/', $text)) {
+                        $tmp = preg_replace('/^\s*' . preg_quote($code, '/') . '\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', $value_raw);
+                        $tmp = trim((string) $tmp);
+                        if ($tmp !== '') {
+                            $text = $tmp;
+                        }
+                    }
                 }
 
-                // Dedup por código (último gana)
+                if ($text === '') {
+                    $text = $code;
+                }
+
                 $unique[$code] = array(
-                    'label' => $human,
+                    'label' => $text,
                     'value' => $code,
                 );
             }
         }
     }
+
     wp_reset_postdata();
 
     if (!empty($unique)) {
@@ -273,10 +279,8 @@ function get_unique_locations()
         });
     }
 
-    // Devuelve lista de pares (no dependemos de índices externos)
     return array_values($unique);
 }
-
 function get_unique_vacantes_titles_by_taxonomy($taxonomy_slug)
 {
     // Argumentos de la consulta

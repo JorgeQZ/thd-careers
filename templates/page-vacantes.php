@@ -184,58 +184,91 @@ $processed_values = array(); // Para almacenar valores únicos
                         'orderby' => 'title',
                     );
 
-// Verificar si el slug está disponible en $term
-if (isset($term->slug) && !empty($term->slug)) {
+if (!empty($term) && !empty($term->slug)) {
     $args['tax_query'] = array(
         array(
             'taxonomy' => $tax_name,
-            'field' => 'slug',
-            'terms' => $term->slug,
+            'field'    => 'slug',
+            'terms'    => $term->slug,
         ),
     );
 }
-
 $query = new WP_Query($args);
 
 if ($query->have_posts()):
     ?>
                     <ul class="list job-list">
                         <?php
-        while ($query->have_posts()):
-            $query->the_post();
-            $ubicacion_label = get_field('ubicacion')['label'];
+while ($query->have_posts()):
+    $query->the_post();
 
-            if ($ubicacion_label) {
-                // Convertir el texto a formato más formal
-                $ubicacion_formateada = ucwords(strtolower($ubicacion_label));
-            }
-            ?>
-                        <li class="item" data-id="<?php echo get_the_id(); ?>"
-                            data-tienda="<?php echo get_field('extra_data_data_tienda'); ?>"
-                            data-title="<?php echo get_the_title()?>">
-                            <a href="<?php the_permalink();?>">
+    $raw = get_field('ubicacion', get_the_ID());
+    $label = '';
+    $value = '';
+
+    if (is_array($raw)) {
+        $label = (string) ($raw['label'] ?? '');
+        $value = (string) ($raw['value'] ?? '');
+    } elseif (is_string($raw) || is_numeric($raw)) {
+        $value = (string) $raw;
+    }
+
+    $fobj    = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
+    $choices = (is_array($fobj) && isset($fobj['choices']) && is_array($fobj['choices'])) ? $fobj['choices'] : array();
+
+    if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+        if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
+            $label = trim((string) $choices[$value]);
+        }
+    }
+
+    if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+        $guess = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string) $value);
+        $guess = trim((string) $guess);
+        if ($guess !== '') {
+            $label = $guess;
+        }
+    }
+
+    if ($label === '') {
+        $label = (string) $value;
+    }
+
+    $display = function_exists('mb_convert_case')
+        ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
+        : ucwords(strtolower($label));
+    ?>
+                        <li class="item" data-id="<?php echo get_the_ID(); ?>"
+                            data-tienda="<?php echo esc_attr(get_field('extra_data_data_tienda')); ?>"
+                            data-title="<?php echo esc_attr(get_the_title()); ?>">
+                            <a href="<?php the_permalink(); ?>">
                                 <div class="img">
-                                    <img src="<?php echo get_template_directory_uri() . '/imgs/logo-thd.jpg' ?>" alt="">
+                                    <img src="<?php echo esc_url(get_template_directory_uri() . '/imgs/logo-thd.jpg'); ?>"
+                                        alt="">
                                 </div>
                                 <div class="desc">
                                     <div class="job-title"><?php echo get_the_title(); ?></div>
                                     <div class="icon-cont">
                                         <img src="<?php echo esc_url(get_theme_file_uri('imgs/pin-de-ubicacion-2.png')); ?>"
-                                            alt="Icono de Ubicación">
-                                        <div class="text"><?php echo $ubicacion_formateada; ?></div>
+                                            alt="Location">
+                                        <div class="text"><?php echo esc_html($display); ?></div>
                                     </div>
                                 </div>
                                 <div class="fav">
                                     <div class="img">
                                         <img src="<?php echo esc_url(get_theme_file_uri('imgs/me-gusta-2.png')); ?>"
-                                            alt="Icono de Me gusta">
+                                            alt="Like">
                                     </div>
                                 </div>
                             </a>
                         </li>
                         <?php
-        endwhile;
+endwhile; ?>
+                    </ul>
+                    <?php
 endif;
+wp_reset_postdata();
+
 ?>
                     </ul>
                 </div>
