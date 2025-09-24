@@ -4,15 +4,15 @@ get_header();
 $current_post_id = get_the_ID();
 if ($current_post_id) {
     $current_post_type = get_post_type($current_post_id);
-        $taxonomies = get_object_taxonomies($current_post_type, 'names');
-        if (!empty($taxonomies)) {
-            $taxonomy = $taxonomies[0];
-            $terms = wp_get_post_terms($current_post_id, $taxonomy);
-            $term = $terms[0];
-            $term_name = $term->name;
-            $term_url_real = get_term_link($term);
-            $aux = strpos($term_url_real, "categorias_vacantes/");
-            $term_url = substr($term_url_real, $aux + strlen("categorias_vacantes/"));
+    $taxonomies = get_object_taxonomies($current_post_type, 'names');
+    if (!empty($taxonomies)) {
+        $taxonomy = $taxonomies[0];
+        $terms = wp_get_post_terms($current_post_id, $taxonomy);
+        $term = $terms[0];
+        $term_name = $term->name;
+        $term_url_real = get_term_link($term);
+        $aux = strpos($term_url_real, "categorias_vacantes/");
+        $term_url = substr($term_url_real, $aux + strlen("categorias_vacantes/"));
     }
 }
 
@@ -31,13 +31,14 @@ $is_logged_in = is_user_logged_in();
         <div class="close" id="close">+</div>
         <div class="title">¡Completa tu proceso <br> <span>de forma fácil y rápida!</span></div>
         <div class="desc">
-        Conéctate con nuestro reclutador virtual a través de WhatsApp y avanza en tu proceso. <br><br>
-        <span>Escanea el QR con tu móvil o haz clic en el botón inferior para acceder a la versión web.</span>
+            Conéctate con nuestro reclutador virtual a través de WhatsApp y avanza en tu proceso. <br><br>
+            <span>Escanea el QR con tu móvil o haz clic en el botón inferior para acceder a la versión web.</span>
         </div>
         <div class="img-cont">
             <img src="<?php echo $qr; ?>" alt="">
         </div>
-        <a href="<?php echo $url_de_la_vacante; ?>" rel="noopener noreferrer" target="_blank" class="button">Haz clic aquí</a>
+        <a href="<?php echo $url_de_la_vacante; ?>" rel="noopener noreferrer" target="_blank" class="button">Haz clic
+            aquí</a>
     </div>
 </div><!-- PopUp -->
 
@@ -54,51 +55,54 @@ $is_logged_in = is_user_logged_in();
 <!-- PopUp -->
 
 <div class="popup-cont" id="popup-login">
-        <div class="container">
-            <div class="close" id="close-login">+</div>
-            <div class="title">Inicia sesión o <span>Regístrate</span></div>
-            <div class="desc">
-                Para poder postularte, es necesario que inicies sesión. Si aún no cuentas con una cuenta, puedes registrarte de manera rápida y sencilla. <br><br>
-            </div>
-            <div class="login-form">
-                <!-- Formulario de login -->
-                <form action="<?php echo esc_url( wp_login_url() ); ?>" method="post">
-                     <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
-
-                    <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
-                    <input type="hidden" name="redirect_to" value="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" />
-                    <br>
-                    <button type="submit" class="button_sub">Iniciar sesión</button>
-                </form>
-            </div>
-            <hr>
-            <div class="register-link">
-                ¿No tienes cuenta?  <a href="<?php echo site_url('/login/'); ?>" class="button_sub">Regístrate aquí</a>
-            </div>
+    <div class="container">
+        <div class="close" id="close-login">+</div>
+        <div class="title">Inicia sesión o <span>Regístrate</span></div>
+        <div class="desc">
+            Para poder postularte, es necesario que inicies sesión. Si aún no cuentas con una cuenta, puedes registrarte
+            de manera rápida y sencilla. <br><br>
         </div>
+        <div class="login-form">
+            <!-- Formulario de login -->
+            <form action="<?php echo esc_url(wp_login_url()); ?>" method="post">
+                <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off"
+                    pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
+
+                <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
+                <input type="hidden" name="redirect_to" value="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" />
+                <br>
+                <button type="submit" class="button_sub">Iniciar sesión</button>
+            </form>
+        </div>
+        <hr>
+        <div class="register-link">
+            ¿No tienes cuenta? <a href="<?php echo site_url('/login/'); ?>" class="button_sub">Regístrate aquí</a>
+        </div>
+    </div>
 </div><!-- PopUp -->
 
 <!-- Banner con el titulo de la página -->
-<div class="banner" id="vacante-banner" style="background-color: <?php echo getColorCat($term_name);?>; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>)">
+<div class="banner" id="vacante-banner"
+    style="background-color: <?php echo getColorCat($term_name);?>; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>)">
     <div class="container">
         <div class="title-cont">
             <div class="term"> <a href="<?php echo $term_url; ?>"> <?php echo $term_name; ?> </a> </div>
             <div class="title"> <?php the_title(); ?> </div>
         </div>
         <?php if ($is_logged_in): ?>
-            <?php if($IsEMI == 'Si'): ?>
-                <div class="button" id="open-emi-form">
-                    Postulate aquí
-                </div>
-            <?php else: ?>
-                <div class="button" id="open-form">
-                    Postulate aquí
-                </div>
-            <?php endif; ?>
-            <?php else: ?>
-            <div class="button" id="login-prompt">
-                Postulate aquí
-            </div>
+        <?php if ($IsEMI == 'Si'): ?>
+        <div class="button" id="open-emi-form">
+            Postulate aquí
+        </div>
+        <?php else: ?>
+        <div class="button" id="open-form">
+            Postulate aquí
+        </div>
+        <?php endif; ?>
+        <?php else: ?>
+        <div class="button" id="login-prompt">
+            Postulate aquí
+        </div>
         <?php endif; ?>
     </div>
 </div><!-- Banner con el titulo de la página -->
@@ -115,7 +119,7 @@ $is_logged_in = is_user_logged_in();
             <div class="column">
                 <?php
                 echo get_field('video');
-                ?>
+?>
 
                 <div class="title_b">
                     Beneficios
@@ -123,25 +127,25 @@ $is_logged_in = is_user_logged_in();
 
                 <div class="desc">
                     <?php
-                    $benefits = get_field('beneficios');
-                    // Asociación entre los valores y su contenido HTML
-                    $icons = array(
-                        'Prestaciones superiores a la ley' => '<img src="'.get_template_directory_uri(  ).'/imgs/prestaciones_superiores.png" >Prestaciones superiores a la ley',
-                        'Bono por objetivos' => '<img src="'.get_template_directory_uri(  ).'/imgs/bono_por_objetivos.png" >Bono por objetivos',
-                        'Fondo de Ahorro' => '<img src="'.get_template_directory_uri(  ).'/imgs/fondo_de_ahorro.png" >Fondo de Ahorro',
-                        'Flexibilidad Laboral' => '<img src="'.get_template_directory_uri(  ).'/imgs/flexibilidad_laboral.png" >Flexibilidad Laboral',
-                        'Caja de Ahorro' => '<img src="'.get_template_directory_uri(  ).'/imgs/caja_de_ahorro.png" >Caja de Ahorro',
-                        'Seguros y Apoyos económicos' => '<img src="'.get_template_directory_uri(  ).'/imgs/seguro_y_apoyos_econonicos.png" >Seguros y Apoyos económicos',
-                        'Compra de acciones' => '<img src="'.get_template_directory_uri(  ).'/imgs/compra_de_acciones.png" >Compra de acciones',
-                        'Vales de despensa' => '<img src="'.get_template_directory_uri(  ).'/imgs/vales_de_despensa.png" >Vales de despensa',
-                    );
-                    // Recorrer el array y generar HTML para los valores existentes
-                    foreach ($benefits as $benefit) {
-                        if (array_key_exists($benefit, $icons)) {
-                            echo '<div class="benefit-item">' . $icons[$benefit] . '</div>';
-                        }
-                    }
-                    ?>
+    $benefits = get_field('beneficios');
+// Asociación entre los valores y su contenido HTML
+$icons = array(
+    'Prestaciones superiores a la ley' => '<img src="'.get_template_directory_uri().'/imgs/prestaciones_superiores.png" >Prestaciones superiores a la ley',
+    'Bono por objetivos' => '<img src="'.get_template_directory_uri().'/imgs/bono_por_objetivos.png" >Bono por objetivos',
+    'Fondo de Ahorro' => '<img src="'.get_template_directory_uri().'/imgs/fondo_de_ahorro.png" >Fondo de Ahorro',
+    'Flexibilidad Laboral' => '<img src="'.get_template_directory_uri().'/imgs/flexibilidad_laboral.png" >Flexibilidad Laboral',
+    'Caja de Ahorro' => '<img src="'.get_template_directory_uri().'/imgs/caja_de_ahorro.png" >Caja de Ahorro',
+    'Seguros y Apoyos económicos' => '<img src="'.get_template_directory_uri().'/imgs/seguro_y_apoyos_econonicos.png" >Seguros y Apoyos económicos',
+    'Compra de acciones' => '<img src="'.get_template_directory_uri().'/imgs/compra_de_acciones.png" >Compra de acciones',
+    'Vales de despensa' => '<img src="'.get_template_directory_uri().'/imgs/vales_de_despensa.png" >Vales de despensa',
+);
+// Recorrer el array y generar HTML para los valores existentes
+foreach ($benefits as $benefit) {
+    if (array_key_exists($benefit, $icons)) {
+        echo '<div class="benefit-item">' . $icons[$benefit] . '</div>';
+    }
+}
+?>
                 </div>
             </div>
         </div>
@@ -150,7 +154,7 @@ $is_logged_in = is_user_logged_in();
     <div class="form-post">
         <?php
         include get_template_directory() . '/templates/page-postulaciones.php';
-        ?>
+?>
     </div>
 </main>
 
@@ -186,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const button = document.getElementById("open-form");
     const formDiv = document.querySelector(".form-post");
 
-    if(button){
+    if (button) {
         button.addEventListener("click", function() {
             // Asegurarse de que el div sea visible
             formDiv.style.display = "block";
@@ -196,8 +200,10 @@ document.addEventListener("DOMContentLoaded", function() {
             if (formPost) {
                 // Función para calcular dinámicamente el offset
                 const calculateOffset = () => {
-                    const navHeight = document.querySelector('#header') ? document.querySelector('#header').offsetHeight : 0;
-                    const bannerHeight = document.querySelector('.banner') ? document.querySelector('.banner').offsetHeight : 0;
+                    const navHeight = document.querySelector('#header') ? document.querySelector(
+                        '#header').offsetHeight : 0;
+                    const bannerHeight = document.querySelector('.banner') ? document.querySelector(
+                        '.banner').offsetHeight : 0;
                     return navHeight + bannerHeight;
                 };
 
@@ -210,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Desplazamiento con scroll
                 window.scrollTo({
                     top: scrollToPosition,
-                    behavior: 'smooth'  // Desplazamiento suave
+                    behavior: 'smooth' // Desplazamiento suave
                 });
 
                 // Opcional: Recalcular el offset después de un pequeño retraso si el tamaño cambia de nuevo
@@ -220,9 +226,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     window.scrollTo({
                         top: recalculatedScrollPosition,
-                        behavior: 'smooth'  // Asegurarse de que el desplazamiento se ajusta correctamente
+                        behavior: 'smooth' // Asegurarse de que el desplazamiento se ajusta correctamente
                     });
-                }, 300);  // Ajusta este tiempo si es necesario para la transición de tamaño
+                }, 300); // Ajusta este tiempo si es necesario para la transición de tamaño
             }
         });
     }
@@ -233,21 +239,21 @@ document.addEventListener("DOMContentLoaded", function() {
     const login = document.getElementById("popup-login");
 
 
-    if(button_emi){
+    if (button_emi) {
 
         button_emi.addEventListener("click", function() {
             emi.style.display = "flex";
         });
     }
 
-    if(butto_login){
+    if (butto_login) {
         butto_login.addEventListener("click", function() {
             login.style.display = "flex";
         });
     }
 
     const close = document.getElementById("close");
-    if(close){
+    if (close) {
 
 
         close.addEventListener("click", function() {
@@ -256,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     const close_login = document.getElementById("close-login");
-    if(close_login){
+    if (close_login) {
         close_login.addEventListener("click", function() {
             login.style.display = "none";
         });
@@ -301,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if (popupLoginForm && popupLoginButton) {
-        popupLoginButton.addEventListener('click', function () {
+        popupLoginButton.addEventListener('click', function() {
             addSaml(popupLoginForm);
         });
     }

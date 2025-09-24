@@ -1,4 +1,5 @@
 <?php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -12,7 +13,8 @@ $errores = [];
 
 // --- FUNCIÓN DE VALIDACIÓN DE CARACTERES ---
 if (!function_exists('es_valido')) {
-    function es_valido($valor) {
+    function es_valido($valor)
+    {
         return preg_match('/^[\p{L}0-9 ._\-áéíóúÁÉÍÓÚñÑ]+$/u', $valor);
     }
 }
@@ -47,14 +49,19 @@ $campos_validados = [
 ];
 
 // --- VALIDACIONES ESPECÍFICAS ---
-function es_email($v) {
+function es_email($v)
+{
     return (bool) filter_var($v, FILTER_VALIDATE_EMAIL);
 }
-function es_url($v) {
-    if (!is_string($v) || $v === '') return false;
+function es_url($v)
+{
+    if (!is_string($v) || $v === '') {
+        return false;
+    }
     return (bool) filter_var($v, FILTER_VALIDATE_URL);
 }
-function es_tel($v) {
+function es_tel($v)
+{
     return (bool) preg_match('/^[0-9()+\-\s]{7,20}$/', $v);
 }
 
@@ -72,7 +79,9 @@ $campos_tel   = ['telefono_celular','telefono_fijo'];
 // --- VALIDAR CAMPOS ---
 // 1) Texto genérico (usa tu regex, pero solo si no está vacío)
 foreach ($campos_texto as $campo) {
-    if (!isset($_POST[$campo])) continue;
+    if (!isset($_POST[$campo])) {
+        continue;
+    }
     $valor = $_POST[$campo];
 
     if (is_array($valor)) {
@@ -93,7 +102,9 @@ foreach ($campos_texto as $campo) {
 
 // 2) Emails
 foreach ($campos_email as $campo) {
-    if (!isset($_POST[$campo])) continue;
+    if (!isset($_POST[$campo])) {
+        continue;
+    }
     $valor = trim((string)$_POST[$campo]);
     if ($valor !== '' && !es_email($valor)) {
         $errores[] = $campo;
@@ -102,7 +113,9 @@ foreach ($campos_email as $campo) {
 
 // 3) URLs
 foreach ($campos_url as $campo) {
-    if (!isset($_POST[$campo])) continue;
+    if (!isset($_POST[$campo])) {
+        continue;
+    }
     $valor = trim((string)$_POST[$campo]);
     if ($valor !== '' && !es_url($valor)) {
         $errores[] = $campo;
@@ -111,7 +124,9 @@ foreach ($campos_url as $campo) {
 
 // 4) Teléfonos
 foreach ($campos_tel as $campo) {
-    if (!isset($_POST[$campo])) continue;
+    if (!isset($_POST[$campo])) {
+        continue;
+    }
     $valor = trim((string)$_POST[$campo]);
     if ($valor !== '' && !es_tel($valor)) {
         $errores[] = $campo;
@@ -181,7 +196,8 @@ if (is_user_logged_in() && $_SERVER['REQUEST_METHOD'] === 'POST' && empty($error
 
 // --- OBTENER VALORES ACTUALES PARA RELLENAR CAMPOS ---
 if (!function_exists('obtener_valor_actual')) {
-    function obtener_valor_actual($key, $user_id) {
+    function obtener_valor_actual($key, $user_id)
+    {
         return get_field($key, 'user_' . $user_id);
     }
 
@@ -213,10 +229,12 @@ if (!function_exists('obtener_valor_actual')) {
     $pr2_actual = obtener_valor_actual('pr2', $user_id);
 
     // Formato para fecha
-    if ($fecha_de_nacimiento_actual) {
-        $fecha_de_nacimiento_actual = DateTime::createFromFormat('d/m/Y', $fecha_de_nacimiento_actual)?->format('Y-m-d') ?: '';
+    // Formato para fecha (compatible con PHP < 8)
+    if (!empty($fecha_de_nacimiento_actual)) {
+        $dt = DateTime::createFromFormat('d/m/Y', $fecha_de_nacimiento_actual);
+        $fecha_de_nacimiento_actual = ($dt instanceof DateTime) ? $dt->format('Y-m-d') : '';
     } else {
         $fecha_de_nacimiento_actual = '';
     }
+
 }
-?>

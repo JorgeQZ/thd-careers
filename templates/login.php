@@ -9,7 +9,8 @@ if (!defined('ABSPATH')) {
 }
 
 // Desregistrar los estilos del login predeterminado de WordPress.
-function custom_login_dequeue_styles() {
+function custom_login_dequeue_styles()
+{
     wp_dequeue_style('login');
 }
 add_action('wp_enqueue_scripts', 'custom_login_dequeue_styles', 100);
@@ -99,34 +100,42 @@ get_header();
 
 <div class="custom-login-wrapper" style="max-width: 500px; margin: 50px auto;">
     <h2>Iniciar Sesión</h2>
-    <form method="post" action="" class="login-form">
+    <form action="<?php echo esc_url(wp_login_url()); ?>" method="post" class="login-form">
+        <input type="hidden" name="redirect_to" value="<?php echo home_url(); ?>" />
         <p>
             <label for="username">Correo electrónico</label>
-            <input type="text" name="email" id="email" required>
+            <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
         </p>
         <p>
             <label for="password">Contraseña</label>
-            <div style="position: relative;">
-                <input type="password" name="password" id="password" required style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
-                <button type="button" class="toggle-password" data-target="password" style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px;" />
-                </button>
-            </div>
+        <div style="position: relative;">
+            <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required
+                style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
+
+            <button type="button" class="toggle-password" data-target="password"
+                style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
+                    style="width: 20px; height: 20px;" />
+            </button>
+        </div>
         </p>
         <p style="display: flex; justify-content: space-between; align-items: center;">
             <label>
                 <input type="checkbox" name="remember"> Recuérdame
             </label>
-            <a class="recuperar" href="<?php echo get_permalink(get_page_by_path('recuperar-contrasena')); ?>">¿Olvidaste tu contraseña?</a>
+            <a class="recuperar"
+                href="<?php echo get_permalink(get_page_by_path('recuperar-contrasena')); ?>">¿Olvidaste tu
+                contraseña?</a>
         </p>
+
         <?php if (!empty($error_message)) : ?>
-            <div class="error-message" style="color: red; margin-bottom: 15px;">
-                <?php if (!empty($error_message)) : ?>
-                    <div class="error-message" style="color: red;">
-                        <?php echo sanitize_text_field($error_message); ?>
-                    </div>
-                <?php endif; ?>
+        <div class="error-message" style="color: red; margin-bottom: 15px;">
+            <?php if (!empty($error_message)) : ?>
+            <div class="error-message" style="color: red;">
+                <?php echo sanitize_text_field($error_message); ?>
             </div>
+            <?php endif; ?>
+        </div>
         <?php endif; ?>
         <br>
         <p>
@@ -141,25 +150,29 @@ get_header();
     <form method="post" action="" class="register-form">
         <p>
             <label for="reg_email">Correo electrónico</label>
-            <input type="email" name="reg_email" id="reg_email" required style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box">
+            <input type="email" name="reg_email" id="reg_email" required
+                style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box">
         </p>
         <p style="margin-bottom: 0;">
             <label for="reg_password">Contraseña</label>
-            <div style="position: relative;">
-                <input type="password" name="reg_password" id="reg_password" required style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
-                <button type="button" class="toggle-password" data-target="reg_password" style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                    <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon" style="width: 20px; height: 20px;">
-                </button>
-            </div>
+        <div style="position: relative;">
+            <input type="password" name="reg_password" id="reg_password" required
+                style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
+            <button type="button" class="toggle-password" data-target="reg_password"
+                style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
+                    style="width: 20px; height: 20px;">
+            </button>
+        </div>
         </p>
         <?php if (!empty($register_error_message)) : ?>
-            <div class="error-message" style="color: red;">
-                <?php echo esc_html($register_error_message); ?>
-            </div>
+        <div class="error-message" style="color: red;">
+            <?php echo esc_html($register_error_message); ?>
+        </div>
         <?php elseif (!empty($register_success_message)) : ?>
-            <div class="success-message" style="color: green;">
-                <?php echo esc_html($register_success_message); ?>
-            </div>
+        <div class="success-message" style="color: green;">
+            <?php echo esc_html($register_success_message); ?>
+        </div>
         <?php endif; ?>
         <br>
         <p style="margin-top: -15px">
@@ -193,132 +206,97 @@ document.addEventListener("DOMContentLoaded", function() {
  * Funcion para saltar el SSO de SAML para QA
  */
 document.addEventListener("DOMContentLoaded", function() {
-   const loginForm = document.querySelector('.login-form');
-   const loginButton = loginForm.querySelector('button[name="custom_login"]');
-   const registerForm = document.querySelector('.register-form');
-   const registerButton = registerForm.querySelector('button[name="custom_register"]');
+    const loginForm = document.querySelector('.login-form');
+    const loginButton = loginForm.querySelector('button[name="custom_login"]');
+    const registerForm = document.querySelector('.register-form');
+    const registerButton = registerForm.querySelector('button[name="custom_register"]');
 
-   function addSaml(form){
-    const currentAction = form.getAttribute('action') || window.location.href;
-    const url = new URL(currentAction, window.location.href);
+    function addSaml(form) {
+        const currentAction = loginForm.getAttribute('action') || window.location.href;
+        const url = new URL(currentAction, window.location.href);
 
-    url.searchParams.set('saml_sso', 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f');
-    form.setAttribute('action', url.toString());
-   }
+        url.searchParams.set('saml_sso', 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f');
+        loginForm.setAttribute('action', url.toString());
+    }
 
-   loginButton.addEventListener('click', function(event) {
-    //    event.preventDefault();
-       addSaml(loginForm);
-       loginForm.submit();
-   });
+    loginButton.addEventListener('click', function(event) {
+        addSaml(loginForm);
+    });
 
-   registerButton.addEventListener('click', function(event) {
-    //    event.preventDefault();
-       addSaml(loginForm);
-       loginForm.submit();
-   });
+    registerButton.addEventListener('click', function(event) {
+        addSaml(loginForm);
+    });
 });
-
-
-/**
- * Funcion para saltar el SSO de SAML para PROD
- */
-// document.addEventListener("DOMContentLoaded", function() {
-//    const loginForm = document.querySelector('.login-form');
-//    const loginButton = loginForm.querySelector('button[name="custom_login"]');
-//    const registerForm = document.querySelector('.register-form');
-//    const registerButton = loginForm.querySelector('button[name="custom_register"]');
-
-//    function addSaml(form){
-//     const currentAction = form.getAttribute('action') || window.location.href;
-//     const url = new URL(currentAction, window.location.href);
-
-//     url.searchParams.set('saml_sso', '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65');
-//     form.setAttribute('action', url.toString());
-//    }
-
-//    loginButton.addEventListener('click', function(event) {
-//        event.preventDefault();
-//        addSaml(loginForm);
-//        loginForm.submit();
-//    });
-
-//    registerButton.addEventListener('click', function(event) {
-//        event.preventDefault();
-//        addSaml(loginForm);
-//        loginForm.submit();
-//    });
-// });
-
 </script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Mensaje de error
-  const MSG_EMAIL = 'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", ".", "_" y "-". Otros caracteres no se pueden ingresar.';
+    // Mensaje de error
+    const MSG_EMAIL =
+        'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", ".", "_" y "-". Otros caracteres no se pueden ingresar.';
 
-  // Regex de email (caracteres permitidos en tiempo real)
-  const regexEmailAllowed = /^[A-Za-z0-9._@-]+$/;
+    // Regex de email (caracteres permitidos en tiempo real)
+    const regexEmailAllowed = /^[A-Za-z0-9._@-]+$/;
 
-  function mostrarError(input, mensaje) {
-    // Elimina mensaje previo
-    let prev = input.parentElement.querySelector(".error-msg");
-    if (prev) prev.remove();
+    function mostrarError(input, mensaje) {
+        // Elimina mensaje previo
+        let prev = input.parentElement.querySelector(".error-msg");
+        if (prev) prev.remove();
 
-    // Crear el span
-    const span = document.createElement("span");
-    span.className = "error-msg";
-    span.style.color = "red";
-    span.style.fontSize = "12px";
-    span.style.marginTop = "5px";
-    span.style.display = "block";
-    span.textContent = mensaje;
+        // Crear el span
+        const span = document.createElement("span");
+        span.className = "error-msg";
+        span.style.color = "red";
+        span.style.fontSize = "12px";
+        span.style.marginTop = "5px";
+        span.style.display = "block";
+        span.textContent = mensaje;
 
-    input.insertAdjacentElement("afterend", span);
+        input.insertAdjacentElement("afterend", span);
 
-    // Quitar mensaje después de 3s
-    setTimeout(() => {
-      if (span && span.parentNode) {
-        span.style.transition = "opacity .3s";
-        span.style.opacity = "0";
-        setTimeout(() => span.remove(), 300);
-      }
-    }, 3000);
-  }
+        // Quitar mensaje después de 3s
+        setTimeout(() => {
+            if (span && span.parentNode) {
+                span.style.transition = "opacity .3s";
+                span.style.opacity = "0";
+                setTimeout(() => span.remove(), 300);
+            }
+        }, 3000);
+    }
 
-  function filtrar(str) {
-    return Array.from(str).filter(ch => regexEmailAllowed.test(ch)).join("");
-  }
+    function filtrar(str) {
+        return Array.from(str).filter(ch => regexEmailAllowed.test(ch)).join("");
+    }
 
-  // Selecciona todos los inputs de email (login y register)
-  const emailFields = document.querySelectorAll('input[name="email"], input[name="reg_email"]');
+    // Selecciona todos los inputs de email (login y register)
+    const emailFields = document.querySelectorAll('input[name="email"], input[name="reg_email"]');
 
-  emailFields.forEach(input => {
-    // Antes de insertar
-    input.addEventListener("beforeinput", (e) => {
-      if (!e.inputType || !e.inputType.startsWith("insert")) return;
-      const data = e.data ?? (e.clipboardData ? e.clipboardData.getData("text") : "");
-      if (!data) return;
+    emailFields.forEach(input => {
+        // Antes de insertar
+        input.addEventListener("beforeinput", (e) => {
+            if (!e.inputType || !e.inputType.startsWith("insert")) return;
+            const data = e.data ?? (e.clipboardData ? e.clipboardData.getData("text") : "");
+            if (!data) return;
 
-      for (const ch of data) {
-        if (!regexEmailAllowed.test(ch)) {
-          e.preventDefault();
-          mostrarError(input, MSG_EMAIL);
-          return;
-        }
-      }
+            for (const ch of data) {
+                if (!regexEmailAllowed.test(ch)) {
+                    e.preventDefault();
+                    mostrarError(input, MSG_EMAIL);
+                    return;
+                }
+            }
+        });
+
+        // Si algo raro se cuela (ej: pegar)
+        input.addEventListener("input", () => {
+            const val = input.value;
+            const filtrado = filtrar(val);
+            if (val !== filtrado) {
+                input.value = filtrado;
+                mostrarError(input, MSG_EMAIL);
+            }
+        });
     });
-
-    // Si algo raro se cuela (ej: pegar)
-    input.addEventListener("input", () => {
-      const val = input.value;
-      const filtrado = filtrar(val);
-      if (val !== filtrado) {
-        input.value = filtrado;
-        mostrarError(input, MSG_EMAIL);
-      }
-    });
-  });
 });
 </script>
 
