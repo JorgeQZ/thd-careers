@@ -1,11 +1,19 @@
-<?php get_header();
+<?php
+get_header();
 
 $unique_titles = get_unique_vacantes_titles();
-$ubicaciones = get_unique_locations();
+$ubicaciones   = get_unique_locations();
+
+// --- mapa código -> label humano desde $ubicaciones (NO cambia tus variables existentes)
+$loc_map = array();
+foreach ((array) $ubicaciones as $u) {
+    if (is_array($u) && isset($u['value'], $u['label'])) {
+        $loc_map[(string)$u['value']] = (string)$u['label']; // value esperado: NNNN-DD
+    }
+}
 ?>
 
 <!-- PopUp -->
-
 <div class="popup-cont" id="popup-login">
     <div class="container">
         <div class="close" id="close-login">+</div>
@@ -18,7 +26,6 @@ $ubicaciones = get_unique_locations();
             <!-- Formulario de login -->
             <form action="<?php echo wp_login_url(); ?>" method="post">
                 <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
-
                 <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
                 <input type="hidden" name="redirect_to" value="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" />
                 <br>
@@ -31,7 +38,6 @@ $ubicaciones = get_unique_locations();
         </div>
     </div>
 </div><!-- PopUp -->
-
 
 <!-- Banner con el titulo de la página -->
 <div class="header"
@@ -52,7 +58,8 @@ $ubicaciones = get_unique_locations();
 
             <form class="row <?php if (!is_user_logged_in()) {
                 echo 'wide-column';
-            }?>" action="<?php echo esc_url(home_url("/")); ?> " method="get">
+            }?>"
+                action="<?php echo esc_url(home_url("/")); ?> " method="get">
 
                 <!-- Search Input de vacantes -->
                 <div class="input-search" id="search-vacante">
@@ -101,7 +108,7 @@ foreach ((array) $ubicaciones as $ubicacion) {
     $label_raw = trim(wp_strip_all_tags($label_raw));
     $value_raw = trim((string) $value_raw);
 
-    // Valor en minúsculas para consistencia y comparación
+    // Valor en minúsculas para consistencia y comparación (conservamos tu variable)
     $ubicacion_value = strtolower($value_raw);
     if ($ubicacion_value === '') {
         continue;
@@ -145,46 +152,57 @@ foreach ((array) $ubicaciones as $ubicacion) {
                         ?>
                     <ul class="list job-list">
                         <?php
-while (have_posts()) : the_post();
+                        while (have_posts()) : the_post();
 
-    static $choices = null;
-    if (!is_array($choices)) {
-        $f = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
-        $choices = (is_array($f) && isset($f['choices']) && is_array($f['choices'])) ? $f['choices'] : array();
-    }
+                            static $choices = null;
+                            if (!is_array($choices)) {
+                                $f = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
+                                $choices = (is_array($f) && isset($f['choices']) && is_array($f['choices'])) ? $f['choices'] : array();
+                            }
 
-    $raw   = get_field('ubicacion', get_the_ID());
-    $label = '';
-    $value = '';
+                            $raw   = get_field('ubicacion', get_the_ID());
+                            $label = '';
+                            $value = '';
 
-    if (is_array($raw)) {
-        $label = (string) ($raw['label'] ?? '');
-        $value = (string) ($raw['value'] ?? '');
-    } elseif (is_string($raw) || is_numeric($raw)) {
-        $value = (string) $raw;
-    }
+                            if (is_array($raw)) {
+                                $label = (string) ($raw['label'] ?? '');
+                                $value = (string) ($raw['value'] ?? '');
+                            } elseif (is_string($raw) || is_numeric($raw)) {
+                                $value = (string) $raw;
+                            }
 
-    if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
-        if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
-            $label = trim((string) $choices[$value]);
-        }
-        if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
-            $tmp = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string) $value);
-            $tmp = trim((string) $tmp);
-            if ($tmp !== '') {
-                $label = $tmp;
-            }
-        }
-    }
+                            // ---- Normalización mínima sin cambiar tus variables ----
+                            // Si el value/label incluye correo u otros datos, extrae el código NNNN-DD
+                            $source = $value !== '' ? $value : $label;
+                            if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', (string)$source, $m)) {
+                                $code = $m[1];
+                                if (isset($loc_map[$code])) {
+                                    $label = $loc_map[$code]; // usa el label humano del catálogo
+                                }
+                            }
+                            // --------------------------------------------------------
 
-    if ($label === '') {
-        $label = (string) $value;
-    }
+                            if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+                                if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
+                                    $label = trim((string) $choices[$value]);
+                                }
+                                if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+                                    $tmp = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string) $value);
+                                    $tmp = trim((string) $tmp);
+                                    if ($tmp !== '') {
+                                        $label = $tmp;
+                                    }
+                                }
+                            }
 
-    $display = function_exists('mb_convert_case')
-        ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
-        : ucwords(strtolower($label));
-    ?>
+                            if ($label === '') {
+                                $label = (string) $value;
+                            }
+
+                            $display = function_exists('mb_convert_case')
+                                ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
+                                : ucwords(strtolower($label));
+                            ?>
                         <li class="item" data-id="<?php echo get_the_ID(); ?>"
                             data-tienda="<?php echo esc_attr(get_field('extra_data_data_tienda')); ?>"
                             data-title="<?php echo esc_attr(get_the_title()); ?>">
@@ -238,9 +256,13 @@ while (have_posts()) : the_post();
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const img = document.querySelector(".fav img");
-    img.addEventListener("click", function() {
-        img.classList.toggle("active");
-    });
+    if (img) {
+        img.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            img.classList.toggle("active");
+        });
+    }
 });
 </script>
 

@@ -9,6 +9,8 @@ get_header(); // Incluir el encabezado de WordPress
 $ubicaciones = get_unique_locations();
 
 print_r($ubicaciones);
+
+
 // echo 'test';
 // $q = new WP_Query(array(
 //     'post_type'      => 'vacantes',

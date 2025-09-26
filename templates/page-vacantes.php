@@ -16,6 +16,15 @@ if ($term != '') {
     $unique_titles = get_unique_vacantes_titles();
     $ubicaciones = get_unique_locations();
 }
+
+/** --- mapa código -> label humano desde $ubicaciones --- */
+$loc_map = array();
+foreach ((array) $ubicaciones as $u) {
+    if (is_array($u) && isset($u['value'], $u['label'])) {
+        $loc_map[(string)$u['value']] = (string)$u['label']; // value esperado: NNNN-DD
+    }
+}
+
 $is_logged_in = is_user_logged_in();
 ?>
 <!-- PopUp -->
@@ -40,7 +49,6 @@ $is_logged_in = is_user_logged_in();
                 <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
                 <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
                 <input type="hidden" name="redirect_to" value="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" />
-
                 <br>
                 <button type="submit" class="button_sub">Iniciar sesión</button>
             </form>
@@ -51,9 +59,7 @@ $is_logged_in = is_user_logged_in();
         </div>
     </div>
 </div>
-
 <!-- PopUp -->
-
 
 <!-- Banner con el titulo de la página -->
 <div class="header"
@@ -68,9 +74,6 @@ $is_logged_in = is_user_logged_in();
     <div class="vacantes-cont">
         <div class="container">
             <?php the_content(); ?>
-            <!-- <div class="title">
-                Nuestras <span>vacantes</span>
-            </div> -->
 
             <?php $slug = get_post_field('post_name', get_post());
 if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
@@ -79,6 +82,7 @@ if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
             </div>
             <?php endif; ?>
             <p>Comienza realizando una búsqueda mediante palabras clave o ubicación para mostrar resultados</p>
+
             <div class="row <?php if (!is_user_logged_in()) {
                 echo 'wide-column';
             }?>">
@@ -88,13 +92,13 @@ if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
                     <input type="text" placeholder="Ingresa palabras clave del puesto" class="search-input">
                     <ul class="suggestions-list hidden">
                         <?php
-                         foreach ($unique_titles as $title) {
-                             echo '<li><label>';
-                             echo '<input type="checkbox" name="title[]" id="'. esc_html($title).'" value="'. esc_html($title).'">';
-                             echo '<span class="checkbox"></span>';
-                             echo '<span class="text">' . esc_html($title) . '</span>';
-                             echo '</label></li>';
-                         }
+                        foreach ($unique_titles as $title) {
+                            echo '<li><label>';
+                            echo '<input type="checkbox" name="title[]" id="'. esc_html($title).'" value="'. esc_html($title).'">';
+                            echo '<span class="checkbox"></span>';
+                            echo '<span class="text">' . esc_html($title) . '</span>';
+                            echo '</label></li>';
+                        }
 ?>
                     </ul>
                 </div><!-- Search Input de vacantes -->
@@ -107,7 +111,7 @@ if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
                         <?php
 $processed_values = array(); // Para almacenar valores únicos
                         foreach ($ubicaciones as $ubicacion) {
-                            if (!in_array($ubicacion['value'], $processed_values)) {
+                            if (!in_array($ubicacion['value'], $processed_values, true)) {
                                 echo '<li><label>';
                                 echo '<input type="checkbox" name="ubicacion[]" value="' . esc_attr($ubicacion['value']) . '" id="ubicacion-' . esc_attr($ubicacion['value']) . '">';
                                 echo '<span class="checkbox"></span>';
@@ -121,7 +125,7 @@ $processed_values = array(); // Para almacenar valores únicos
                     <?php else: ?>
                     <ul class="suggestions-list hidden">
                         <?php
-                   $processed_values = array();
+                        $processed_values = array();
 
                         foreach ((array) $ubicaciones as $ubicacion) {
                             // Normalizar a label/value
@@ -129,7 +133,6 @@ $processed_values = array(); // Para almacenar valores únicos
                                 $label_raw = isset($ubicacion['label']) ? (string) $ubicacion['label'] : '';
                                 $value_raw = isset($ubicacion['value']) ? (string) $ubicacion['value'] : '';
                             } elseif (is_string($ubicacion) || is_numeric($ubicacion)) {
-                                // Por si llega directo como string (ACF Return: Value/Label)
                                 $label_raw = (string) $ubicacion;
                                 $value_raw = (string) $ubicacion;
                             } else {
@@ -147,6 +150,11 @@ $processed_values = array(); // Para almacenar valores únicos
 
                             // Label humano (si no hay label, usa el value)
                             $human = $label_raw !== '' ? $label_raw : $value_raw;
+
+                            // Si el value es NNNN-DD y existe en $loc_map, forzar label humano del catálogo
+                            if (preg_match('/^\d{3,5}-\d{1,3}$/', $value_raw) && isset($loc_map[$value_raw]) && $loc_map[$value_raw] !== '') {
+                                $human = $loc_map[$value_raw];
+                            }
 
                             // Title Case (UTF-8 si está disponible)
                             if (function_exists('mb_convert_case')) {
@@ -178,10 +186,10 @@ $processed_values = array(); // Para almacenar valores únicos
                 }?>">
                     <?php
                     $args = array(
-                        'post_type' => 'vacantes',
+                        'post_type'   => 'vacantes',
                         'post_status' => 'publish',
-                        'order' => 'ASC',
-                        'orderby' => 'title',
+                        'order'       => 'ASC',
+                        'orderby'     => 'title',
                     );
 
 if (!empty($term) && !empty($term->slug)) {
@@ -199,78 +207,82 @@ if ($query->have_posts()):
     ?>
                     <ul class="list job-list">
                         <?php
-while ($query->have_posts()):
-    $query->the_post();
+        while ($query->have_posts()):
+            $query->the_post();
 
-    $raw = get_field('ubicacion', get_the_ID());
-    $label = '';
-    $value = '';
+            $raw = get_field('ubicacion', get_the_ID());
+            $label = '';
+            $value = '';
 
-    if (is_array($raw)) {
-        $label = (string) ($raw['label'] ?? '');
-        $value = (string) ($raw['value'] ?? '');
-    } elseif (is_string($raw) || is_numeric($raw)) {
-        $value = (string) $raw;
-    }
+            if (is_array($raw)) {
+                $label = (string) ($raw['label'] ?? '');
+                $value = (string) ($raw['value'] ?? '');
+            } elseif (is_string($raw) || is_numeric($raw)) {
+                $value = (string) $raw;
+            }
 
-    $fobj    = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
-    $choices = (is_array($fobj) && isset($fobj['choices']) && is_array($fobj['choices'])) ? $fobj['choices'] : array();
+            /** --- normalización con $loc_map: si hay código NNNN-DD, usa label humano --- */
+            $source = $value !== '' ? $value : $label;
+            if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', (string)$source, $m)) {
+                $code = $m[1];
+                if (isset($loc_map[$code]) && $loc_map[$code] !== '') {
+                    $label = $loc_map[$code];
+                }
+            }
 
-    if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
-        if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
-            $label = trim((string) $choices[$value]);
-        }
-    }
+            /** --- fallbacks a choices y limpieza como ya tenías --- */
+            $fobj    = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
+            $choices = (is_array($fobj) && isset($fobj['choices']) && is_array($fobj['choices'])) ? $fobj['choices'] : array();
 
-    if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
-        $guess = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string) $value);
-        $guess = trim((string) $guess);
-        if ($guess !== '') {
-            $label = $guess;
-        }
-    }
+            if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+                if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
+                    $label = trim((string) $choices[$value]);
+                }
+            }
 
-    if ($label === '') {
-        $label = (string) $value;
-    }
+            if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+                $guess = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string) $value);
+                $guess = is_string($guess) ? trim($guess) : (string)$value; // fallback defensivo
+                if ($guess !== '') {
+                    $label = $guess;
+                }
+            }
 
-    $display = function_exists('mb_convert_case')
-        ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
-        : ucwords(strtolower($label));
-    ?>
-                        <li class="item" data-id="<?php echo get_the_ID(); ?>"
-                            data-tienda="<?php echo esc_attr(get_field('extra_data_data_tienda')); ?>"
-                            data-title="<?php echo esc_attr(get_the_title()); ?>">
-                            <a href="<?php the_permalink(); ?>">
-                                <div class="img">
-                                    <img src="<?php echo esc_url(get_template_directory_uri() . '/imgs/logo-thd.jpg'); ?>"
-                                        alt="">
-                                </div>
-                                <div class="desc">
-                                    <div class="job-title"><?php echo get_the_title(); ?></div>
-                                    <div class="icon-cont">
-                                        <img src="<?php echo esc_url(get_theme_file_uri('imgs/pin-de-ubicacion-2.png')); ?>"
-                                            alt="Location">
-                                        <div class="text"><?php echo esc_html($display); ?></div>
-                                    </div>
-                                </div>
-                                <div class="fav">
+            if ($label === '') {
+                $label = (string) $value;
+            }
+
+            $display = function_exists('mb_convert_case')
+                ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
+                : ucwords(strtolower($label));
+            ?>
+                            <li class="item" data-id="<?php echo esc_attr(get_the_ID()); ?>"
+                                data-tienda="<?php echo esc_attr(get_field('extra_data_data_tienda')); ?>"
+                                data-title="<?php echo esc_attr(get_the_title()); ?>">
+                                <a href="<?php the_permalink(); ?>">
                                     <div class="img">
-                                        <img src="<?php echo esc_url(get_theme_file_uri('imgs/me-gusta-2.png')); ?>"
-                                            alt="Like">
+                                        <img src="<?php echo esc_url(get_template_directory_uri() . '/imgs/logo-thd.jpg'); ?>" alt="">
                                     </div>
-                                </div>
-                            </a>
-                        </li>
-                        <?php
-endwhile; ?>
+                                    <div class="desc">
+                                        <div class="job-title"><?php echo get_the_title(); ?></div>
+                                        <div class="icon-cont">
+                                            <img src="<?php echo esc_url(get_theme_file_uri('imgs/pin-de-ubicacion-2.png')); ?>" alt="Location">
+                                            <div class="text"><?php echo esc_html($display); ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="fav">
+                                        <div class="img">
+                                            <img src="<?php echo esc_url(get_theme_file_uri('imgs/me-gusta-2.png')); ?>" alt="Like">
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        <?php endwhile; ?>
                     </ul>
                     <?php
-endif;
+                    endif;
 wp_reset_postdata();
-
 ?>
-                    </ul>
                 </div>
 
                 <?php if (is_user_logged_in()): ?>
@@ -293,11 +305,18 @@ wp_reset_postdata();
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const img = document.querySelector(".fav img");
-    img.addEventListener("click", function() {
+    // Delegación: funciona para todas las tarjetas
+    const list = document.querySelector(".list.job-list");
+    if (!list) return;
+
+    list.addEventListener("click", function(e) {
+        const img = e.target.closest(".fav img");
+        if (!img) return;
+        e.preventDefault();
+        e.stopPropagation();
         img.classList.toggle("active");
     });
 });
 </script>
 
-<?php get_footer();?>
+<?php get_footer(); ?>
