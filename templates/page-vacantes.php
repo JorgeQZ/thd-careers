@@ -9,19 +9,26 @@ $tax_name = "categorias_vacantes";
 $term = get_field($tax_name);
 $term_name = '';
 if ($term != '') {
-    $term_name = $term->name;
-    $ubicaciones = get_unique_locations_with_values($term->slug);
+    $term_name    = $term->name;
+    $ubicaciones  = get_unique_locations_with_values($term->slug);
     $unique_titles = get_unique_vacantes_titles_by_taxonomy($term->slug);
 } else {
     $unique_titles = get_unique_vacantes_titles();
-    $ubicaciones = get_unique_locations();
+    $ubicaciones   = get_unique_locations();
 }
 
-/** --- mapa código -> label humano desde $ubicaciones --- */
+/** --- mapa código -> label humano desde $ubicaciones (normalizado) --- */
 $loc_map = array();
 foreach ((array) $ubicaciones as $u) {
     if (is_array($u) && isset($u['value'], $u['label'])) {
-        $loc_map[(string)$u['value']] = (string)$u['label']; // value esperado: NNNN-DD
+        $raw_val = (string) $u['value'];
+        // Si el value trae más texto, extrae el patrón NNNN-DD
+        if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', $raw_val, $mm)) {
+            $raw_val = $mm[1];
+        }
+        // Normaliza clave: trim + minúsculas
+        $k = strtolower(trim($raw_val));
+        $loc_map[$k] = trim((string) $u['label']);
     }
 }
 
@@ -109,16 +116,24 @@ if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
                     <?php if ($term != ''): ?>
                     <ul class="suggestions-list hidden">
                         <?php
-$processed_values = array(); // Para almacenar valores únicos
+$processed_values = array(); // Para almacenar valores únicos (normalizados)
                         foreach ($ubicaciones as $ubicacion) {
-                            if (!in_array($ubicacion['value'], $processed_values, true)) {
-                                echo '<li><label>';
-                                echo '<input type="checkbox" name="ubicacion[]" value="' . esc_attr($ubicacion['value']) . '" id="ubicacion-' . esc_attr($ubicacion['value']) . '">';
-                                echo '<span class="checkbox"></span>';
-                                echo '<span class="text">' . esc_html($ubicacion['label']) . '</span>';
-                                echo '</label></li>';
-                                $processed_values[] = $ubicacion['value'];
+                            if (!is_array($ubicacion) || !isset($ubicacion['value'], $ubicacion['label'])) {
+                                continue;
                             }
+                            // Normaliza clave para dedupe
+                            $k = strtolower(trim((string)$ubicacion['value']));
+                            if ($k === '' || in_array($k, $processed_values, true)) {
+                                continue;
+                            }
+
+                            echo '<li><label>';
+                            echo '<input type="checkbox" name="ubicacion[]" value="' . esc_attr($ubicacion['value']) . '" id="ubicacion-' . esc_attr($ubicacion['value']) . '">';
+                            echo '<span class="checkbox"></span>';
+                            echo '<span class="text">' . esc_html($ubicacion['label']) . '</span>';
+                            echo '</label></li>';
+
+                            $processed_values[] = $k;
                         }
                         ?>
                     </ul>
@@ -152,8 +167,11 @@ $processed_values = array(); // Para almacenar valores únicos
                             $human = $label_raw !== '' ? $label_raw : $value_raw;
 
                             // Si el value es NNNN-DD y existe en $loc_map, forzar label humano del catálogo
-                            if (preg_match('/^\d{3,5}-\d{1,3}$/', $value_raw) && isset($loc_map[$value_raw]) && $loc_map[$value_raw] !== '') {
-                                $human = $loc_map[$value_raw];
+                            if (preg_match('/^\d{3,5}-\d{1,3}$/', $value_raw)) {
+                                $key = strtolower(trim($value_raw));
+                                if (isset($loc_map[$key]) && $loc_map[$key] !== '') {
+                                    $human = $loc_map[$key];
+                                }
                             }
 
                             // Title Case (UTF-8 si está disponible)
@@ -210,7 +228,7 @@ if ($query->have_posts()):
         while ($query->have_posts()):
             $query->the_post();
 
-            $raw = get_field('ubicacion', get_the_ID());
+            $raw   = get_field('ubicacion', get_the_ID());
             $label = '';
             $value = '';
 
@@ -224,9 +242,9 @@ if ($query->have_posts()):
             /** --- normalización con $loc_map: si hay código NNNN-DD, usa label humano --- */
             $source = $value !== '' ? $value : $label;
             if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', (string)$source, $m)) {
-                $code = $m[1];
-                if (isset($loc_map[$code]) && $loc_map[$code] !== '') {
-                    $label = $loc_map[$code];
+                $code_key = strtolower(trim($m[1]));
+                if (isset($loc_map[$code_key]) && $loc_map[$code_key] !== '') {
+                    $label = $loc_map[$code_key];
                 }
             }
 
