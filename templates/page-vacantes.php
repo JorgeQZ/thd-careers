@@ -162,7 +162,7 @@ if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
                     <?php else: ?>
                     <ul class="suggestions-list hidden">
                         <?php
-$processed_values = array();
+                        $processed_values = array();
                         foreach ((array)$ubicaciones as $ubicacion) {
                             if (is_array($ubicacion)) {
                                 $label_raw = isset($ubicacion['label']) ? (string)$ubicacion['label'] : '';
@@ -216,14 +216,15 @@ $processed_values = array();
                         'order'       => 'ASC',
                         'orderby'     => 'title',
                     );
+
 if (!empty($term) && !empty($term->slug)) {
     $args['tax_query'] = array(
-        array(
-            'taxonomy' => $tax_name,
-            'field'    => 'slug',
-            'terms'    => $term->slug,
-        ),
-    );
+    array(
+        'taxonomy' => $tax_name,
+        'field'    => 'slug',
+        'terms'    => $term->slug,
+    ),
+                    );
 }
 $query = new WP_Query($args);
 
@@ -331,6 +332,53 @@ wp_reset_postdata();
 document.addEventListener("DOMContentLoaded", function() {
   const list = document.querySelector(".list.job-list");
 
+  // ——— Helpers de normalización (acentos, mayúsculas, dashes, etc.) ———
+  function normJS(s) {
+    return (s || "")
+      .toString()
+      .normalize("NFD")                      // separa acentos
+      .replace(/\p{Diacritic}/gu, "")       // remueve acentos
+      .toLowerCase()
+      .replace(/[\u2013\u2014]/g, "-")      // dashes → '-'
+      .replace(/[^a-z0-9\-\/\s]/g, " ")     // solo básico
+      .replace(/\s+/g, " ")                 // colapsa espacios
+      .trim();
+  }
+  const codeRe = /\b\d{3,5}-\d{1,3}\b/;
+
+  // ——— Enriquecer LI con claves normalizadas derivadas del TEXTO VISIBLE ———
+  if (list) {
+    list.querySelectorAll("li.item").forEach(li => {
+      const titleText = li.querySelector(".job-title")?.textContent || "";
+      const locText   = li.querySelector(".icon-cont .text")?.textContent || "";
+
+      // claves normalizadas por texto mostrado
+      li.dataset.titleN = normJS(titleText);
+      li.dataset.locN   = normJS(locText);
+
+      // si hay código NNNN-N, guárdalo (desde data-loc o desde el texto visible)
+      const fromAttr = (li.dataset.loc || "");
+      const codeAttr = (fromAttr.match(codeRe) || [null])[0];
+      const codeText = (locText.match(codeRe) || [null])[0];
+      li.dataset.locCode = (codeAttr || codeText || "").toLowerCase();
+    });
+  }
+
+  // ——— Forzar que los checkboxes usen el TEXTO VISIBLE como valor (y guarden código si hay) ———
+  function syncCheckboxes(name) {
+    document.querySelectorAll('input[name="'+name+'"]').forEach(cb => {
+      const text = cb.closest("label")?.querySelector(".text")?.textContent || "";
+      const normalized = normJS(text);
+      if (normalized) cb.value = normalized;
+
+      const m = text.match(codeRe);
+      cb.dataset.code = m ? m[0].toLowerCase() : "";
+    });
+  }
+  syncCheckboxes("title[]");
+  syncCheckboxes("ubicacion[]");
+
+  // ——— Fav (igual que tenías) ———
   if (list) {
     list.addEventListener("click", function(e) {
       const img = e.target.closest(".fav img");
@@ -341,29 +389,44 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  // ——— Colección de seleccionados (incluye códigos como alternativa) ———
   function selected(name) {
-    return new Set(Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(el => (el.value || '').toLowerCase()));
+    const set = new Set();
+    document.querySelectorAll('input[name="'+name+'"]:checked').forEach(el => {
+      const v = (el.value || "").toLowerCase();
+      if (v) set.add(v);
+      const c = (el.dataset.code || "").toLowerCase();
+      if (c) set.add(c);
+    });
+    return set;
   }
 
+  // ——— Filtro robusto: por texto visible normalizado y/o por código NNNN-N ———
   function applyFilter() {
     if (!list) return;
-    const locs = selected('ubicacion[]');
-    const titles = selected('title[]');
-    const items = list.querySelectorAll("li.item");
-    items.forEach(li => {
-      const lk = (li.dataset.loc || '').toLowerCase();
-      const tk = (li.dataset.titleKey || '').toLowerCase();
-      const okLoc = locs.size === 0 || locs.has(lk);
-      const okTit = titles.size === 0 || titles.has(tk);
+    const locs   = selected('ubicacion[]'); // e.g. "san luis potosi", o "1234-56"
+    const titles = selected('title[]');     // e.g. "analista de inventarios"
+
+    list.querySelectorAll("li.item").forEach(li => {
+      const lk = (li.dataset.locN || "");       // ubicación visible normalizada
+      const lc = (li.dataset.locCode || "");    // código si existe
+      const tk = (li.dataset.titleN || "");     // título visible normalizado
+
+      const okLoc = (locs.size === 0) || locs.has(lk) || (lc && locs.has(lc));
+      const okTit = (titles.size === 0) || titles.has(tk);
+
       li.style.display = (okLoc && okTit) ? "" : "none";
     });
   }
 
   document.addEventListener("change", function(e){
     if (!e.target) return;
-    if (e.target.name === "ubicacion[]" || e.target.name === "title[]") applyFilter();
+    if (e.target.name === "ubicacion[]" || e.target.name === "title[]") {
+      applyFilter();
+    }
   });
 
+  // ——— Inicial ———
   applyFilter();
 });
 </script>
