@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Selecciona todos los inputs de email (login y register)
-    const emailFields = document.querySelectorAll('input[name="email"], input[name="reg_email"]');
+    const emailFields = document.querySelectorAll('input[name="log"], input[name="reg_email"]');
 
     emailFields.forEach(input => {
         // Antes de insertar
