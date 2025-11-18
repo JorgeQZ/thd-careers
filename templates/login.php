@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 /**
- * Funcion para saltar el SSO de SAML para QA
+ * Funcion para saltar el SSO de SAML para PROD
  */
 document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.querySelector('.login-form');
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const currentAction = loginForm.getAttribute('action') || window.location.href;
         const url = new URL(currentAction, window.location.href);
 
-        url.searchParams.set('saml_sso', 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f');
+        url.searchParams.set('saml_sso', '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65');
         loginForm.setAttribute('action', url.toString());
     }
 
