@@ -1,87 +1,112 @@
 <?php
 /*
 ==================
-    Ajax Search
-======================
+    Ajax Search (Corregido)
+==================
 */
 
-
-// add the ajax fetch js
-add_action( 'wp_footer', 'ajax_fetch' );
+// Inyectar JS
+add_action('wp_footer', 'ajax_fetch');
 function ajax_fetch() {
 ?>
-<script src="<?php echo get_template_directory_uri(  ).'/js/purify.js'?>"></script>
+<script src="<?php echo get_template_directory_uri() . '/js/purify.js' ?>"></script>
 
 <script type="text/javascript">
 function fetch(){
     jQuery.ajax({
-        url: '<?php echo admin_url('admin-ajax.php'); ?>',
-        type: 'post',
+        url: "<?php echo admin_url('admin-ajax.php'); ?>",
+        type: "post",
         data: {
-            action: 'data_fetch',
-            keyword: jQuery('#inputSearch').val()
+            action: "data_fetch",
+            keyword: jQuery("#inputSearch").val()
         },
         dataType: "json",
-        success: function (response) {
+        success: function(response) {
             if (response.success) {
-                // Usar DOMPurify para evitar XSS antes de insertar
-                let sanitizedHtml = DOMPurify.sanitize(response.data.html);
-                jQuery("#contenedor-resultados").html(sanitizedHtml);
+                let sanitized = DOMPurify.sanitize(response.data.html);
+                jQuery("#contenedor-resultados").html(sanitized);
             } else {
                 jQuery("#contenedor-resultados").text("No se encontraron resultados.");
             }
         },
-        error: function () {
+        error: function() {
             jQuery("#contenedor-resultados").text("Error en la búsqueda.");
-        },
+        }
     });
-
 }
 </script>
-
 <?php
 }
 
 
-// the ajax function
-add_action('wp_ajax_data_fetch' , 'data_fetch');
-add_action('wp_ajax_nopriv_data_fetch','data_fetch');
+// AJAX
+add_action('wp_ajax_data_fetch', 'data_fetch');
+add_action('wp_ajax_nopriv_data_fetch', 'data_fetch');
 
 function data_fetch() {
-    // Asegurar que WordPress ha sido cargado
-    if (!defined('ABSPATH')) {
-        exit;
-    }
 
-    // Verificar si el input está presente
+    if (!defined('ABSPATH')) exit;
+
     if (!isset($_POST['keyword'])) {
         wp_send_json_error(['message' => 'No keyword provided']);
         exit;
     }
 
-    // Sanitizar el input
     $keyword = sanitize_text_field($_POST['keyword']);
 
-    // Evitar consultas si el keyword está vacío
     if (empty($keyword)) {
         wp_send_json_error(['message' => 'Empty keyword']);
         exit;
     }
 
-    ob_start(); // Iniciar buffer de salida para evitar problemas de eco accidental
+    /* ------------------------------
+        Normalización y Global Map
+    ------------------------------ */
+
+    if (!function_exists('norm')) {
+        function norm($s) {
+            return strtolower(trim((string)$s));
+        }
+    }
+
+    // Construir global_map basado en TODOS los choices de ubicaciones
+    $global_map = array();
+    $all_locations = get_unique_locations();
+
+    foreach ((array)$all_locations as $g) {
+        if (is_array($g) && isset($g['value'], $g['label'])) {
+            $v = (string)$g['value'];
+
+            // Si viene código NNNN-N, extraerlo
+            if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', $v, $mm)) {
+                $v = $mm[1];
+            }
+
+            $k = norm($v);
+            if ($k !== '') {
+                $global_map[$k] = trim((string)$g['label']);
+            }
+        }
+    }
+
+
+    ob_start();
     echo '<div class="cont-result">';
 
-    // Consultas seguras a la base de datos
-    $args = array(
+
+    /* ------------------------------
+        Consultas
+    ------------------------------ */
+
+    // Búsqueda general por título
+    $titulo_query = new WP_Query(array(
         'posts_per_page' => -1,
         'post_type'      => 'vacantes',
         'post_status'    => 'publish',
-        's'             => esc_sql($keyword),
-    );
+        's'              => esc_sql($keyword),
+    ));
 
-    $titulo_query = new WP_Query($args);
-
-    // Buscar en los campos personalizados
+    // Búsqueda por campo personalizado
     $customfields_query = new WP_Query(array(
         'posts_per_page' => -1,
         'post_type'      => 'vacantes',
@@ -95,7 +120,7 @@ function data_fetch() {
         ),
     ));
 
-    // Buscar en las taxonomías
+    // Búsqueda por taxonomía
     $terms = get_terms(array(
         'taxonomy'   => 'categorias_vacantes',
         'hide_empty' => false,
@@ -104,7 +129,7 @@ function data_fetch() {
 
     $term_slugs = wp_list_pluck($terms, 'slug');
 
-    $taxonomies_query = new WP_Query(array(
+    $taxonomies_query = (!empty($term_slugs)) ? new WP_Query(array(
         'posts_per_page' => -1,
         'post_type'      => 'vacantes',
         'post_status'    => 'publish',
@@ -116,18 +141,71 @@ function data_fetch() {
                 'operator' => 'IN',
             ),
         ),
-    ));
+    )) : null;
 
-    // Si hay resultados en alguna consulta
-    if ($titulo_query->have_posts() || $customfields_query->have_posts() || $taxonomies_query->have_posts()) {
-        $merged_posts = array_merge($titulo_query->posts, $customfields_query->posts, $taxonomies_query->posts);
+
+    /* ------------------------------
+        Merge de resultados
+    ------------------------------ */
+
+    $merged_posts = array();
+
+    if ($titulo_query->have_posts())        $merged_posts = array_merge($merged_posts, $titulo_query->posts);
+    if ($customfields_query->have_posts()) $merged_posts = array_merge($merged_posts, $customfields_query->posts);
+    if ($taxonomies_query && $taxonomies_query->have_posts())
+        $merged_posts = array_merge($merged_posts, $taxonomies_query->posts);
+
+
+    if (!empty($merged_posts)) {
 
         foreach ($merged_posts as $post) {
             setup_postdata($post);
 
-            // Obtener y sanitizar la ubicación
-            $ubicacion = get_field("ubicacion", $post);
-            $ubicacion_label = isset($ubicacion['label']) ? esc_html($ubicacion['label']) : '';
+            /* ------------------------------------------
+                Resolución CORRECTA del label de ubicación
+            -------------------------------------------- */
+
+            $ubicacion = get_field("ubicacion", $post->ID);
+            $label = "";
+            $value = "";
+
+            // ACF retorna array
+            if (is_array($ubicacion)) {
+                $label = (string)($ubicacion['label'] ?? '');
+                $value = (string)($ubicacion['value'] ?? '');
+            } elseif (is_string($ubicacion) || is_numeric($ubicacion)) {
+                $value = (string)$ubicacion;
+            }
+
+            // Detectar código tipo NNNN-N
+            $source = $value !== '' ? $value : $label;
+
+            if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', (string)$source, $m)) {
+                $ck = norm($m[1]);
+                if (!empty($global_map[$ck])) {
+                    $label = $global_map[$ck];
+                }
+            }
+
+            // Fallback usando choices del ACF
+            $fobj = get_field_object("ubicacion", $post->ID);
+            $choices = (is_array($fobj) && isset($fobj['choices'])) ? $fobj['choices'] : array();
+
+            if (($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) && $value !== '') {
+                if (isset($choices[$value])) {
+                    $label = trim((string)$choices[$value]);
+                }
+            }
+
+            // Último fallback seguro
+            if ($label === '') {
+                $label = $value;
+            }
+
+            // Normalizar visual
+            $ubicacion_label = function_exists('mb_convert_case')
+                ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
+                : ucwords(strtolower($label));
 
             ?>
             <div class="resultado">
@@ -140,18 +218,16 @@ function data_fetch() {
         }
 
         wp_reset_postdata();
+
     } else {
         ?>
-        <div class="resultado">
-            <p>No se encontraron resultados.</p>
-        </div>
+        <div class="resultado"><p>No se encontraron resultados.</p></div>
         <?php
     }
 
     echo '</div>';
 
-    $output = ob_get_clean(); // Capturar la salida y almacenarla en una variable
-    wp_send_json_success(['html' => $output]); // Enviar respuesta en JSON
-
+    $output = ob_get_clean();
+    wp_send_json_success(['html' => $output]);
     exit;
 }
