@@ -104,20 +104,21 @@ get_header();
         <input type="hidden" name="redirect_to" value="<?php echo home_url(); ?>" />
         <p>
             <label for="username">Correo electrónico</label>
-            <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
+            <input type="text" id="username" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
         </p>
         <p>
-            <label for="password">Contraseña</label>
-        <div style="position: relative;">
-            <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required
-                style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
+            <label for="password">Contraseña
+                <div style="position: relative;">
+                    <input type="password" name="pwd" id="password" autocomplete="off" placeholder="Contraseña" required
+                        style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
 
-            <button type="button" class="toggle-password" data-target="password"
-                style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
-                    style="width: 20px; height: 20px;" />
-            </button>
-        </div>
+                    <button type="button" class="toggle-password" data-target="password"
+                        style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                        <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
+                            style="width: 20px; height: 20px;" />
+                    </button>
+                </div>
+            </label>
         </p>
         <p style="display: flex; justify-content: space-between; align-items: center;">
             <label>
@@ -154,16 +155,18 @@ get_header();
                 style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box">
         </p>
         <p style="margin-bottom: 0;">
-            <label for="reg_password">Contraseña</label>
-        <div style="position: relative;">
-            <input type="password" name="reg_password" id="reg_password" required
-                style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
-            <button type="button" class="toggle-password" data-target="reg_password"
-                style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
-                    style="width: 20px; height: 20px;">
-            </button>
-        </div>
+            <label for="reg_password">Contraseña
+                <div style="position: relative;">
+                    <input type="password" name="reg_password" id="reg_password" required
+                        style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
+
+                    <button type="button" class="toggle-password" data-target="reg_password"
+                        style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                        <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
+                            style="width: 20px; height: 20px;">
+                    </button>
+                </div>
+            </label>
         </p>
         <?php if (!empty($register_error_message)) : ?>
         <div class="error-message" style="color: red;">
@@ -186,8 +189,10 @@ document.addEventListener("DOMContentLoaded", function() {
     let hide_icon = "<?php echo get_template_directory_uri().'/img/pwd-open-eye.png'; ?>";
     let show_icon = "<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>";
 
+
     document.querySelectorAll(".toggle-password").forEach(button => {
         button.addEventListener("click", function() {
+
             let target = document.getElementById(this.dataset.target);
             let icon = this.querySelector(".password-icon");
 
