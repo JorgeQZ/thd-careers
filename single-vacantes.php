@@ -62,22 +62,31 @@ $is_logged_in = is_user_logged_in();
             Para poder postularte, es necesario que inicies sesión. Si aún no cuentas con una cuenta, puedes registrarte
             de manera rápida y sencilla. <br><br>
         </div>
+
         <div class="login-form">
             <!-- Formulario de login -->
-            <form action="<?php echo esc_url(wp_login_url()); ?>" method="post">
+            <form id="popup-login-form" action="<?php echo esc_url(wp_login_url()); ?>" method="post">
                 <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off"
                     pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
 
                 <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
+
                 <input type="hidden" name="redirect_to" value="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" />
+
+                <!-- Contenedor para mensajes de error del login (AJAX) -->
+                <div id="popup-login-error"
+                    class="error-message"
+                    style="color:red; margin-top:8px; display:none;"></div>
+
                 <br>
-                <button type="submit" class="button_sub">Iniciar sesión</button>
+                <button type="submit" class="button_sub" id="popup-login-submit">Iniciar sesión</button>
             </form>
         </div>
         <hr>
         <div class="register-link">
             ¿No tienes cuenta? <a href="<?php echo site_url('/login/'); ?>" class="button_sub">Regístrate aquí</a>
         </div>
+
     </div>
 </div><!-- PopUp -->
 
@@ -290,50 +299,118 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-
     /**
-     * SAML SSO
+     * SAML SSO QA + LOGIN POR AJAX EN POPUP
      */
-
-    const popupLoginForm = document.querySelector('#popup-login form'); // El formulario dentro del popup
-    const popupLoginButton = popupLoginForm?.querySelector('button[type="submit"]');
+    const popupLoginForm  = document.getElementById('popup-login-form');
+    const popupLoginButton = document.getElementById('popup-login-submit');
+    const popupLoginError  = document.getElementById('popup-login-error');
 
     function addSaml(form) {
         const currentAction = form.getAttribute('action') || window.location.href;
         const url = new URL(currentAction, window.location.href);
 
-        url.searchParams.set('saml_sso', 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f');
+        // const SAML_TOKEN_QA   = 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f';
+        // const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';
+
+        url.searchParams.set(
+            'saml_sso',
+            'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f'
+        );
         form.setAttribute('action', url.toString());
     }
 
+    function mostrarErrorPopup(msg) {
+        if (popupLoginError) {
+            popupLoginError.textContent = msg;
+            popupLoginError.style.display = 'block';
+        } else {
+            alert(msg);
+        }
+    }
+
+    function limpiarErrorPopup() {
+        if (popupLoginError) {
+            popupLoginError.textContent = '';
+            popupLoginError.style.display = 'none';
+        }
+    }
+
     if (popupLoginForm && popupLoginButton) {
+        // Si dan click al botón, aseguramos que el action lleve el token de SAML (QA)
         popupLoginButton.addEventListener('click', function() {
             addSaml(popupLoginForm);
         });
+
+        // Interceptar el submit para hacer login por AJAX
+        popupLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // no recargar la página
+
+            limpiarErrorPopup();
+
+            popupLoginButton.disabled = true;
+
+            // Aseguramos que el action ya tenga el SAML (por si enviaron con Enter)
+            addSaml(popupLoginForm);
+
+            var formData = new FormData(popupLoginForm);
+            formData.append('action', 'custom_ajax_login');
+            formData.append('security', '<?php echo esc_js( wp_create_nonce("custom_login_nonce") ); ?>');
+
+            // Aseguramos redirect_to por si no hubiera valor
+            var redirInput = popupLoginForm.querySelector('input[name="redirect_to"]');
+            if (!redirInput || !redirInput.value) {
+                formData.append('redirect_to', window.location.href);
+            }
+
+            // Extraer el saml_sso del action y mandarlo también en el FormData
+            try {
+                var actionUrl = popupLoginForm.getAttribute('action') || window.location.href;
+                var urlObj    = new URL(actionUrl, window.location.href);
+                var samlParam = urlObj.searchParams.get('saml_sso');
+                if (samlParam) {
+                    formData.append('saml_sso', samlParam);
+                }
+            } catch (err) {
+                // si falla el parseo, simplemente no mandamos saml_sso extra
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '<?php echo esc_url( admin_url("admin-ajax.php") ); ?>', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    popupLoginButton.disabled = false;
+
+                    if (xhr.status === 200) {
+                        var response;
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+                            return;
+                        }
+
+                        if (response && response.success && response.data && response.data.redirect) {
+                            // Login correcto → redirige a la misma vacante (o donde indique redirect_to)
+                            window.location.href = response.data.redirect;
+                        } else if (response && !response.success && response.data && response.data.message) {
+                            // Mensaje que viene del PHP (correo inválido, no registrado, contraseña incorrecta, etc.)
+                            mostrarErrorPopup(response.data.message);
+                        } else {
+                            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+                        }
+                    } else {
+                        mostrarErrorPopup('Error de conexión. Inténtalo de nuevo.');
+                    }
+                }
+            };
+
+            xhr.send(formData);
+        });
     }
 
-    /**
-     * Función para saltar el SSO de SAML para PROD desde el popup
-     */
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';
-
-    //     const popupLoginForm = document.querySelector('#popup-login form');
-    //     const popupLoginButton = popupLoginForm?.querySelector('button[type="submit"]');
-
-    //     function addSaml(form) {
-    //         const currentAction = form.getAttribute('action') || window.location.href;
-    //         const url = new URL(currentAction, window.location.href);
-    //         url.searchParams.set('saml_sso', SAML_TOKEN_PROD);
-    //         form.setAttribute('action', url.toString());
-    //     }
-
-    //     if (popupLoginForm && popupLoginButton) {
-    //         popupLoginButton.addEventListener('click', function () {
-    //             addSaml(popupLoginForm);
-    //         });
-    //     }
-    // });
 
 });
 </script>

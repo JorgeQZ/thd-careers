@@ -24,12 +24,18 @@ foreach ((array) $ubicaciones as $u) {
         </div>
         <div class="login-form">
             <!-- Formulario de login -->
-            <form action="<?php echo wp_login_url(); ?>" method="post">
+            <form id="popup-login-form" action="<?php echo wp_login_url(); ?>" method="post">
                 <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
                 <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
                 <input type="hidden" name="redirect_to" value="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" />
+
+                <!-- Contenedor de errores para el popup (AJAX) -->
+                <div id="popup-login-error"
+                    class="error-message"
+                    style="color:red; margin-top:8px; display:none;"></div>
+
                 <br>
-                <button type="submit" class="button_sub">Iniciar sesión</button>
+                <button type="submit" class="button_sub" name="custom_login">Iniciar sesión</button>
             </form>
         </div>
         <hr>
@@ -255,12 +261,110 @@ foreach ((array) $ubicaciones as $ubicacion) {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    // Toggle de favoritos (como ya lo tenías)
     const img = document.querySelector(".fav img");
     if (img) {
         img.addEventListener("click", function(e) {
             e.preventDefault();
             e.stopPropagation();
             img.classList.toggle("active");
+        });
+    }
+
+    // ====== SAML + AJAX Login para el popup ======
+
+    const loginForm   = document.getElementById('popup-login-form');
+    const loginButton = loginForm ? loginForm.querySelector('button[name="custom_login"]') : null;
+    const errorBox    = document.getElementById('popup-login-error');
+
+    function mostrarErrorPopup(msg) {
+        if (errorBox) {
+            errorBox.textContent = msg;
+            errorBox.style.display = 'block';
+        } else {
+            alert(msg);
+        }
+    }
+
+    function limpiarErrorPopup() {
+        if (errorBox) {
+            errorBox.textContent = '';
+            errorBox.style.display = 'none';
+        }
+    }
+
+    // Igual estilo que tu snippet: funcion addSaml + listener en el botón
+    function addSaml(form) {
+        if (!form) return;
+        const currentAction = form.getAttribute('action') || window.location.href;
+        const url = new URL(currentAction, window.location.href);
+
+        url.searchParams.set(
+            'saml_sso',
+            'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f'
+        );
+        form.setAttribute('action', url.toString());
+    }
+
+    if (loginButton && loginForm) {
+        // Click en el botón: aseguramos que lleve SAML en el action
+        loginButton.addEventListener('click', function() {
+            addSaml(loginForm);
+        });
+
+        // Submit por AJAX: sin recargar, con mensajes de error
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // evita reload
+
+            limpiarErrorPopup();
+            loginButton.disabled = true;
+
+            // Por si envían con Enter: garantizamos SAML antes del AJAX
+            addSaml(loginForm);
+
+            const formData = new FormData(loginForm);
+            formData.append('action', 'custom_ajax_login');
+            formData.append('security', '<?php echo esc_js( wp_create_nonce("custom_login_nonce") ); ?>');
+
+            // Aseguramos redirect_to si viniera vacío
+            const redirInput = loginForm.querySelector('input[name="redirect_to"]');
+            if (!redirInput || !redirInput.value) {
+                formData.append('redirect_to', window.location.href);
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '<?php echo esc_url( admin_url("admin-ajax.php") ); ?>', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    loginButton.disabled = false;
+
+                    if (xhr.status === 200) {
+                        let response;
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch (err) {
+                            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+                            return;
+                        }
+
+                        if (response && response.success && response.data && response.data.redirect) {
+                            // Login correcto → redirige
+                            window.location.href = response.data.redirect;
+                        } else if (response && !response.success && response.data && response.data.message) {
+                            // Mensaje de PHP (correo inválido, no registrado, contraseña incorrecta, etc.)
+                            mostrarErrorPopup(response.data.message);
+                        } else {
+                            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+                        }
+                    } else {
+                        mostrarErrorPopup('Error de conexión. Inténtalo de nuevo.');
+                    }
+                }
+            };
+
+            xhr.send(formData);
         });
     }
 });

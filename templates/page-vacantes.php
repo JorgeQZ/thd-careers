@@ -72,13 +72,23 @@ $is_logged_in = is_user_logged_in();
         <div class="error-message" style="color: red; margin-bottom: 10px;">Usuario o contraseña incorrectos. Intenta de nuevo.</div>
         <?php endif; ?>
         <div class="login-form">
-            <form action="<?php echo esc_url(site_url('wp-login.php')); ?>" method="post">
+            <form id="popup-login-form" action="<?php echo esc_url(site_url('wp-login.php')); ?>" method="post">
                 <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
                 <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
-                <?php $redir = isset($_SERVER['REQUEST_URI']) ? esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'])) : home_url('/'); ?>
+                <?php
+                $redir = isset($_SERVER['REQUEST_URI'])
+                    ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+                    : home_url('/');
+                ?>
                 <input type="hidden" name="redirect_to" value="<?php echo esc_url($redir); ?>" />
+
+                <!-- Contenedor de errores para el popup (AJAX) -->
+                <div id="popup-login-error"
+                    class="error-message"
+                    style="color:red; margin-top:8px; display:none;"></div>
+
                 <br>
-                <button type="submit" class="button_sub">Iniciar sesión</button>
+                <button type="submit" class="button_sub" id="popup-login-submit">Iniciar sesión</button>
             </form>
         </div>
         <hr>
@@ -95,8 +105,9 @@ $is_logged_in = is_user_logged_in();
         <div class="container">
             <?php the_content(); ?>
 
-            <?php $slug = get_post_field('post_name', get_post());
-if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
+            <?php
+            $slug = get_post_field('post_name', get_post());
+            if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
             <div class="title">Nuestras <span>vacantes</span></div>
             <?php endif; ?>
             <p>Comienza realizando una búsqueda mediante palabras clave o ubicación para mostrar resultados</p>
@@ -157,7 +168,7 @@ if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
                             echo '</label></li>';
                             $processed_values[] = $k;
                         }
-?>
+                        ?>
                     </ul>
                     <?php else: ?>
                     <ul class="suggestions-list hidden">
@@ -217,72 +228,72 @@ if ($slug !== 'nuestras-vacantes' && $slug !== 'ver-todo') : ?>
                         'orderby'     => 'title',
                     );
 
-if (!empty($term) && !empty($term->slug)) {
-    $args['tax_query'] = array(
-    array(
-        'taxonomy' => $tax_name,
-        'field'    => 'slug',
-        'terms'    => $term->slug,
-    ),
-                    );
-}
-$query = new WP_Query($args);
+                    if (!empty($term) && !empty($term->slug)) {
+                        $args['tax_query'] = array(
+                            array(
+                                'taxonomy' => $tax_name,
+                                'field'    => 'slug',
+                                'terms'    => $term->slug,
+                            ),
+                        );
+                    }
+                    $query = new WP_Query($args);
 
-if ($query->have_posts()):
-    ?>
+                    if ($query->have_posts()):
+                    ?>
                     <ul class="list job-list">
                         <?php
-        while ($query->have_posts()):
-            $query->the_post();
+                        while ($query->have_posts()):
+                            $query->the_post();
 
-            $raw   = get_field('ubicacion', get_the_ID());
-            $label = '';
-            $value = '';
+                            $raw   = get_field('ubicacion', get_the_ID());
+                            $label = '';
+                            $value = '';
 
-            if (is_array($raw)) {
-                $label = (string)($raw['label'] ?? '');
-                $value = (string)($raw['value'] ?? '');
-            } elseif (is_string($raw) || is_numeric($raw)) {
-                $value = (string)$raw;
-            }
+                            if (is_array($raw)) {
+                                $label = (string)($raw['label'] ?? '');
+                                $value = (string)($raw['value'] ?? '');
+                            } elseif (is_string($raw) || is_numeric($raw)) {
+                                $value = (string)$raw;
+                            }
 
-            $source = $value !== '' ? $value : $label;
-            if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', (string)$source, $m)) {
-                $ck = norm($m[1]);
-                if (!empty($loc_map[$ck])) {
-                    $label = $loc_map[$ck];
-                } elseif (!empty($global_map[$ck])) {
-                    $label = $global_map[$ck];
-                }
-                $loc_key = $ck;
-            } else {
-                $loc_key = norm($label !== '' ? $label : $value);
-            }
+                            $source = $value !== '' ? $value : $label;
+                            if (preg_match('/\b(\d{3,5}-\d{1,3})\b/u', (string)$source, $m)) {
+                                $ck = norm($m[1]);
+                                if (!empty($loc_map[$ck])) {
+                                    $label = $loc_map[$ck];
+                                } elseif (!empty($global_map[$ck])) {
+                                    $label = $global_map[$ck];
+                                }
+                                $loc_key = $ck;
+                            } else {
+                                $loc_key = norm($label !== '' ? $label : $value);
+                            }
 
-            $fobj    = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
-            $choices = (is_array($fobj) && isset($fobj['choices']) && is_array($fobj['choices'])) ? $fobj['choices'] : array();
+                            $fobj    = function_exists('get_field_object') ? get_field_object('ubicacion', get_the_ID()) : null;
+                            $choices = (is_array($fobj) && isset($fobj['choices']) && is_array($fobj['choices'])) ? $fobj['choices'] : array();
 
-            if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
-                if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
-                    $label = trim((string)$choices[$value]);
-                }
-            }
+                            if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+                                if ($value !== '' && isset($choices[$value]) && is_string($choices[$value])) {
+                                    $label = trim((string)$choices[$value]);
+                                }
+                            }
 
-            if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
-                $guess = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string)$value);
-                $guess = is_string($guess) ? trim($guess) : (string)$value;
-                if ($guess !== '') {
-                    $label = $guess;
-                }
-            }
+                            if ($label === '' || preg_match('/^\d+(?:-\d+)?$/', $label)) {
+                                $guess = preg_replace('/^\s*\d+(?:-\d+)?\s*(?:[:\-\|\x{2013}\x{2014}])?\s*/u', '', (string)$value);
+                                $guess = is_string($guess) ? trim($guess) : (string)$value;
+                                if ($guess !== '') {
+                                    $label = $guess;
+                                }
+                            }
 
-            if ($label === '') {
-                $label = (string)$value;
-            }
+                            if ($label === '') {
+                                $label = (string)$value;
+                            }
 
-            $display = function_exists('mb_convert_case') ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8') : ucwords(strtolower($label));
-            $title_key = norm(get_the_title());
-            ?>
+                            $display = function_exists('mb_convert_case') ? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8') : ucwords(strtolower($label));
+                            $title_key = norm(get_the_title());
+                            ?>
                             <li class="item" data-id="<?php echo esc_attr(get_the_ID()); ?>"
                                 data-tienda="<?php echo esc_attr(get_field('extra_data_data_tienda')); ?>"
                                 data-title="<?php echo esc_attr(get_the_title()); ?>"
@@ -310,8 +321,8 @@ if ($query->have_posts()):
                     </ul>
                     <?php
                     endif;
-wp_reset_postdata();
-?>
+                    wp_reset_postdata();
+                    ?>
                 </div>
 
                 <?php if (is_user_logged_in()): ?>
@@ -332,7 +343,6 @@ wp_reset_postdata();
 document.addEventListener("DOMContentLoaded", function() {
   const list = document.querySelector(".list.job-list");
 
-  // ——— Helpers de normalización (acentos, mayúsculas, dashes, etc.) ———
   function normJS(s) {
     return (s || "")
       .toString()
@@ -346,7 +356,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   const codeRe = /\b\d{3,5}-\d{1,3}\b/;
 
-  // ——— Enriquecer LI con claves normalizadas derivadas del TEXTO VISIBLE ———
   if (list) {
     list.querySelectorAll("li.item").forEach(li => {
       const titleText = li.querySelector(".job-title")?.textContent || "";
@@ -364,7 +373,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // ——— Forzar que los checkboxes usen el TEXTO VISIBLE como valor (y guarden código si hay) ———
   function syncCheckboxes(name) {
     document.querySelectorAll('input[name="'+name+'"]').forEach(cb => {
       const text = cb.closest("label")?.querySelector(".text")?.textContent || "";
@@ -378,7 +386,6 @@ document.addEventListener("DOMContentLoaded", function() {
   syncCheckboxes("title[]");
   syncCheckboxes("ubicacion[]");
 
-  // ——— Fav (igual que tenías) ———
   if (list) {
     list.addEventListener("click", function(e) {
       const img = e.target.closest(".fav img");
@@ -389,7 +396,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // ——— Colección de seleccionados (incluye códigos como alternativa) ———
   function selected(name) {
     const set = new Set();
     document.querySelectorAll('input[name="'+name+'"]:checked').forEach(el => {
@@ -401,7 +407,6 @@ document.addEventListener("DOMContentLoaded", function() {
     return set;
   }
 
-  // ——— Filtro robusto: por texto visible normalizado y/o por código NNNN-N ———
   function applyFilter() {
     if (!list) return;
     const locs   = selected('ubicacion[]'); // e.g. "san luis potosi", o "1234-56"
@@ -426,8 +431,156 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // ——— Inicial ———
   applyFilter();
+
+  function bindInputCheckboxSync() {
+    document.querySelectorAll('.input-search').forEach(function(block) {
+      var input = block.querySelector('.search-input');
+      if (!input) return;
+
+      var checkboxes = block.querySelectorAll('input[type="checkbox"]');
+      if (!checkboxes.length) return;
+
+      function refreshInputFromChecks() {
+        var labels = [];
+        checkboxes.forEach(function(cb) {
+          if (cb.checked) {
+            var labelEl = cb.closest('label');
+            var textEl  = labelEl ? labelEl.querySelector('.text') : null;
+            var txt     = textEl ? textEl.textContent.trim() : '';
+            if (txt) {
+              labels.push(txt);
+            }
+          }
+        });
+        // Rellenar el input con los textos seleccionados, separados por coma
+        input.value = labels.join(', ');
+      }
+
+      // Cuando se selecciona/deselecciona un checkbox, actualizamos el input
+      checkboxes.forEach(function(cb) {
+        cb.addEventListener('change', refreshInputFromChecks);
+      });
+
+      // Estado inicial (por si vienen seleccionados de antes)
+      refreshInputFromChecks();
+    });
+  }
+
+  // Llamamos a la función después de tener todo listo
+  bindInputCheckboxSync();
+
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Igual al snippet que usas en el template de login, adaptado al popup
+  const loginForm    = document.querySelector('#popup-login-form');
+  const loginButton  = loginForm ? document.querySelector('#popup-login-submit') : null;
+  const registerForm = null;
+  const registerButton = null;
+
+  function addSaml(form) {
+    if (!form) return;
+    const currentAction = form.getAttribute('action') || window.location.href;
+    const url = new URL(currentAction, window.location.href);
+
+    // Token QA (igual que en tu snippet)
+    url.searchParams.set(
+      'saml_sso',
+      'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f'
+    );
+    form.setAttribute('action', url.toString());
+  }
+
+  if (loginButton && loginForm) {
+    loginButton.addEventListener('click', function() {
+      addSaml(loginForm);
+    });
+  }
+
+  // En este template el popup no tiene registro, pero dejamos la firma igual
+  if (registerButton && loginForm) {
+    registerButton.addEventListener('click', function() {
+      addSaml(loginForm);
+    });
+  }
+
+  // ---- Login por AJAX, sin recargar y usando el mismo form ----
+  var popupForm   = loginForm;
+  if (!popupForm || !loginButton) return;
+
+  var errorBox = document.getElementById('popup-login-error');
+
+  function mostrarErrorPopup(msg) {
+    if (errorBox) {
+      errorBox.textContent = msg;
+      errorBox.style.display = 'block';
+    } else {
+      alert(msg);
+    }
+  }
+
+  function limpiarErrorPopup() {
+    if (errorBox) {
+      errorBox.textContent = '';
+      errorBox.style.display = 'none';
+    }
+  }
+
+  popupForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // evita recargar la página
+
+    limpiarErrorPopup();
+
+    loginButton.disabled = true;
+
+    // Por si envían con Enter y no con click, garantizamos SAML
+    addSaml(popupForm);
+
+    var formData = new FormData(popupForm);
+    formData.append('action', 'custom_ajax_login');
+    formData.append('security', '<?php echo esc_js( wp_create_nonce("custom_login_nonce") ); ?>');
+
+    // Aseguramos redirect_to por si faltara
+    var redirInput = popupForm.querySelector('input[name="redirect_to"]');
+    if (!redirInput || !redirInput.value) {
+      formData.append('redirect_to', window.location.href);
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '<?php echo esc_url( admin_url("admin-ajax.php") ); ?>', true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        loginButton.disabled = false;
+
+        if (xhr.status === 200) {
+          var response;
+          try {
+            response = JSON.parse(xhr.responseText);
+          } catch (e) {
+            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+            return;
+          }
+
+          if (response && response.success && response.data && response.data.redirect) {
+            // Login correcto → redirige (normalmente a la misma página de Vacantes)
+            window.location.href = response.data.redirect;
+          } else if (response && !response.success && response.data && response.data.message) {
+            // Mensaje de PHP (correo inválido, no registrado, contraseña incorrecta, etc.)
+            mostrarErrorPopup(response.data.message);
+          } else {
+            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+          }
+        } else {
+          mostrarErrorPopup('Error de conexión. Inténtalo de nuevo.');
+        }
+      }
+    };
+
+    xhr.send(formData);
+  });
 });
 </script>
 

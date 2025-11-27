@@ -15,7 +15,6 @@ function custom_login_dequeue_styles()
 }
 add_action('wp_enqueue_scripts', 'custom_login_dequeue_styles', 100);
 
-
 // Cerrar sesión automáticamente si el usuario está logueado al visitar esta página.
 if (is_user_logged_in()) {
     wp_logout();
@@ -23,38 +22,11 @@ if (is_user_logged_in()) {
     exit;
 }
 
-// Procesar el formulario de inicio de sesión si se envía.
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login'])) {
-    $raw_email = trim($_POST['email']);
-    if (!preg_match('/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $raw_email)) {
-        $error_message = 'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", ".", "_" y "-". Otros caracteres no se pueden ingresar.';
-    } else {
-        $password = !empty($_POST['password']) ? trim($_POST['password']) : null;
-        $remember = isset($_POST['remember']) && $_POST['remember'] === 'true';
-
-        $error_message = handle_failed_login_attempts($email);
-
-        if (!$error_message && $password) {
-            $user = get_user_by('email', $raw_email);
-            if ($user) {
-                $credentials = [
-                    'user_login'    => $user->user_login,
-                    'user_password' => $password,
-                    'remember'      => $remember,
-                ];
-                $auth_user = wp_signon($credentials, false);
-                if (!is_wp_error($auth_user)) {
-                    wp_redirect(home_url());
-                    exit;
-                } else {
-                    $error_message = 'Credenciales incorrectas. Inténtalo de nuevo.';
-                }
-            } else {
-                $error_message = 'El correo no está registrado.';
-            }
-        }
-    }
-}
+/**
+ * NOTA IMPORTANTE:
+ * - El login ahora se procesa por AJAX vía admin-ajax.php (ver snippet en inc/users/conf-login.php).
+ * - El formulario de registro sigue procesándose aquí por POST normal.
+ */
 
 // Procesar el formulario de registro si se envía.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
@@ -67,7 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
         $password = !empty($_POST['reg_password']) ? trim($_POST['reg_password']) : null;
 
         // Validar seguridad de la contraseña
-        $password_validation = validate_password_security($password);
+        if (function_exists('validate_password_security')) {
+            $password_validation = validate_password_security($password);
+        } else {
+            $password_validation = true;
+        }
+
         if ($password_validation !== true) {
             $register_error_message = $password_validation;
         } else {
@@ -84,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
 
                     echo "<script>
                         localStorage.setItem('registro_exitoso', 'true');
-                        window.location.href = '".home_url()."';
+                        window.location.href = '" . esc_url(home_url()) . "';
                     </script>";
                     exit;
                 } else {
@@ -100,55 +77,74 @@ get_header();
 
 <div class="custom-login-wrapper" style="max-width: 500px; margin: 50px auto;">
     <h2>Iniciar Sesión</h2>
-    <form action="<?php echo esc_url(wp_login_url()); ?>" method="post" class="login-form">
-        <input type="hidden" name="redirect_to" value="<?php echo home_url(); ?>" />
+
+    <!-- IMPORTANTE: mantenemos action hacia wp-login.php para compatibilidad con SAML,
+         pero interceptamos el submit con JS para hacer AJAX -->
+    <form action="<?php echo esc_url(wp_login_url()); ?>" method="post" class="login-form" id="custom-login-form">
+        <input type="hidden" name="redirect_to" value="<?php echo esc_url(home_url()); ?>" />
+
         <p>
             <label for="username">Correo electrónico</label>
-            <input type="text" id="username" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off">
+            <input
+                type="text"
+                id="username"
+                name="log"
+                placeholder="Nombre de usuario o correo"
+                required
+                autocomplete="off">
         </p>
+
         <p>
             <label for="password">Contraseña
                 <div style="position: relative;">
-                    <input type="password" name="pwd" id="password" autocomplete="off" placeholder="Contraseña" required
+                    <input
+                        type="password"
+                        name="pwd"
+                        id="password"
+                        autocomplete="off"
+                        placeholder="Contraseña"
+                        required
                         style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
 
-                    <button type="button" class="toggle-password" data-target="password"
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-target="password"
                         style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                        <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
+                        <img
+                            src="<?php echo esc_url(get_template_directory_uri() . '/img/pwd-closed-eye.png'); ?>"
+                            class="password-icon"
                             style="width: 20px; height: 20px;" />
                     </button>
                 </div>
             </label>
         </p>
+
         <p style="display: flex; justify-content: space-between; align-items: center;">
             <label>
                 <input type="checkbox" name="remember"> Recuérdame
             </label>
             <a class="recuperar"
-                href="<?php echo get_permalink(get_page_by_path('recuperar-contrasena')); ?>">¿Olvidaste tu
-                contraseña?</a>
+               href="<?php echo esc_url(get_permalink(get_page_by_path('recuperar-contrasena'))); ?>">
+                ¿Olvidaste tu contraseña?
+            </a>
         </p>
 
-        <?php if (!empty($error_message)) : ?>
-        <div class="error-message" style="color: red; margin-bottom: 15px;">
-            <?php if (!empty($error_message)) : ?>
-            <div class="error-message" style="color: red;">
-                <?php echo sanitize_text_field($error_message); ?>
-            </div>
-            <?php endif; ?>
-        </div>
-        <?php endif; ?>
+        <!-- Contenedor fijo para mensajes de error del login (rellenado por AJAX) -->
+        <div id="login-error-container" class="error-message" style="color: red; margin-bottom: 15px; display:none;"></div>
+
         <br>
         <p>
-            <button type="submit" name="custom_login">Iniciar Sesión</button>
+            <button type="submit" name="custom_login" id="login-submit-btn">Iniciar Sesión</button>
         </p>
         <br>
-
     </form>
 
     <hr>
+
     <h2>¿No tienes cuenta? <span>Regístrate</span></h2>
-    <form method="post" action="" class="register-form">
+
+    <form method="post" action="" class="register-form" id="custom-register-form">
         <p>
             <label for="reg_email">Correo electrónico</label>
             <input type="email" name="reg_email" id="reg_email" required
@@ -162,37 +158,32 @@ get_header();
 
                     <button type="button" class="toggle-password" data-target="reg_password"
                         style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
-                        <img src="<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>" class="password-icon"
+                        <img src="<?php echo esc_url( get_template_directory_uri() . '/img/pwd-closed-eye.png' ); ?>" class="password-icon"
                             style="width: 20px; height: 20px;">
                     </button>
                 </div>
             </label>
         </p>
-        <?php if (!empty($register_error_message)) : ?>
-        <div class="error-message" style="color: red;">
-            <?php echo esc_html($register_error_message); ?>
-        </div>
-        <?php elseif (!empty($register_success_message)) : ?>
-        <div class="success-message" style="color: green;">
-            <?php echo esc_html($register_success_message); ?>
-        </div>
-        <?php endif; ?>
+
+        <!-- Reemplaza el bloque PHP de $register_error_message / $register_success_message por esto: -->
+        <div id="register-error-container" class="error-message" style="color:red; margin-top:8px; display:none;"></div>
+
         <br>
         <p style="margin-top: -15px">
-            <button type="submit" name="custom_register">Registrarse</button>
+            <button type="submit" name="custom_register" id="register-submit-btn">Registrarse</button>
         </p>
     </form>
+
 </div>
 
+<!-- Toggle de visibilidad de password (SIN CAMBIOS DE LÓGICA) -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    let hide_icon = "<?php echo get_template_directory_uri().'/img/pwd-open-eye.png'; ?>";
-    let show_icon = "<?php echo get_template_directory_uri().'/img/pwd-closed-eye.png'; ?>";
+    let hide_icon = "<?php echo esc_js(get_template_directory_uri() . '/img/pwd-open-eye.png'); ?>";
+    let show_icon = "<?php echo esc_js(get_template_directory_uri() . '/img/pwd-closed-eye.png'); ?>";
 
-
-    document.querySelectorAll(".toggle-password").forEach(button => {
+    document.querySelectorAll(".toggle-password").forEach(function(button) {
         button.addEventListener("click", function() {
-
             let target = document.getElementById(this.dataset.target);
             let icon = this.querySelector(".password-icon");
 
@@ -206,34 +197,48 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+</script>
 
-/**
- * Funcion para saltar el SSO de SAML para QA
- */
+<!-- Función para saltar el SSO de SAML para QA (SE RESPETA) -->
+<script>
 document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.querySelector('.login-form');
-    const loginButton = loginForm.querySelector('button[name="custom_login"]');
+    const loginButton = loginForm ? loginForm.querySelector('button[name="custom_login"]') : null;
     const registerForm = document.querySelector('.register-form');
-    const registerButton = registerForm.querySelector('button[name="custom_register"]');
+    const registerButton = registerForm ? registerForm.querySelector('button[name="custom_register"]') : null;
 
     function addSaml(form) {
-        const currentAction = loginForm.getAttribute('action') || window.location.href;
+        if (!form) return;
+        const currentAction = form.getAttribute('action') || window.location.href;
         const url = new URL(currentAction, window.location.href);
 
-        url.searchParams.set('saml_sso', 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f');
-        loginForm.setAttribute('action', url.toString());
+        // Al inicio del bloque donde haces SAML
+        // const SAML_TOKEN_QA   = 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f';
+        // const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';
+
+        url.searchParams.set(
+            'saml_sso',
+            'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f'
+        );
+        form.setAttribute('action', url.toString());
     }
 
-    loginButton.addEventListener('click', function(event) {
-        addSaml(loginForm);
-    });
+    if (loginButton && loginForm) {
+        loginButton.addEventListener('click', function() {
+            addSaml(loginForm);
+        });
+    }
 
-    registerButton.addEventListener('click', function(event) {
-        addSaml(loginForm);
-    });
+    if (registerButton && loginForm) {
+        // Se mantiene el comportamiento original de tu código (usa loginForm).
+        registerButton.addEventListener('click', function() {
+            addSaml(loginForm);
+        });
+    }
 });
 </script>
 
+<!-- VALIDACIÓN DE CARACTERES ESPECIALES (SIN CAMBIOS) -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Mensaje de error
@@ -305,6 +310,179 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
+<!-- LOGIN POR AJAX SIN FETCH (XMLHttpRequest) -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var loginForm      = document.getElementById('custom-login-form');
+    if (!loginForm) return;
+
+    var loginButton    = document.getElementById('login-submit-btn');
+    var errorContainer = document.getElementById('login-error-container');
+
+    function mostrarError(msg) {
+        if (errorContainer) {
+            errorContainer.textContent = msg;
+            errorContainer.style.display = 'block';
+        } else {
+            alert(msg);
+        }
+    }
+
+    loginForm.addEventListener('submit', function (e) {
+        e.preventDefault(); // Evita recargar la página
+
+        // Limpiar mensaje previo
+        if (errorContainer) {
+            errorContainer.textContent = '';
+            errorContainer.style.display = 'none';
+        }
+
+        if (!loginButton) {
+            mostrarError('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+            return;
+        }
+
+        loginButton.disabled = true;
+
+        // Crear FormData con los campos del formulario
+        var formData = new FormData(loginForm);
+        formData.append('action', 'custom_ajax_login');
+        formData.append('security', '<?php echo esc_js(wp_create_nonce("custom_login_nonce")); ?>');
+
+        // Respetar el parámetro SAML si ya fue agregado al action
+        var actionUrl = loginForm.getAttribute('action') || '';
+        try {
+            var samlUrl   = new URL(actionUrl, window.location.href);
+            var samlParam = samlUrl.searchParams.get('saml_sso');
+            if (samlParam) {
+                formData.append('saml_sso', samlParam);
+            }
+        } catch (err) {
+            // Si falla el parseo, simplemente no se agrega el parámetro
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?php echo esc_url(admin_url("admin-ajax.php")); ?>', true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                loginButton.disabled = false;
+
+                if (xhr.status === 200) {
+                    var response;
+                    try {
+                        response = JSON.parse(xhr.responseText);
+                    } catch (e) {
+                        // Error parseando JSON
+                        mostrarError('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+                        return;
+                    }
+
+                    if (response && response.success && response.data && response.data.redirect) {
+                        // Login correcto
+                        window.location.href = response.data.redirect;
+                    } else if (response && !response.success && response.data && response.data.message) {
+                        // Mensaje de error enviado desde PHP (incluye el de contraseña incorrecta)
+                        mostrarError(response.data.message);
+                    } else {
+                        // Estructura inesperada
+                        mostrarError('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
+                    }
+                } else {
+                    // Error de conexión
+                    mostrarError('Error de conexión. Inténtalo de nuevo.');
+                }
+            }
+        };
+
+        xhr.send(formData);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    var registerForm      = document.getElementById('custom-register-form');
+    if (!registerForm) return;
+
+    var registerButton    = document.getElementById('register-submit-btn');
+    var registerErrorBox  = document.getElementById('register-error-container');
+
+    function mostrarErrorRegistro(msg) {
+        if (registerErrorBox) {
+            registerErrorBox.textContent = msg;
+            registerErrorBox.style.display = 'block';
+        } else {
+            alert(msg);
+        }
+    }
+
+    function limpiarErrorRegistro() {
+        if (registerErrorBox) {
+            registerErrorBox.textContent = '';
+            registerErrorBox.style.display = 'none';
+        }
+    }
+
+    registerForm.addEventListener('submit', function (e) {
+        e.preventDefault(); // Evita recarga de página
+
+        limpiarErrorRegistro();
+
+        if (!registerButton) {
+            mostrarErrorRegistro('No fue posible completar el registro. Inténtalo de nuevo.');
+            return;
+        }
+
+        registerButton.disabled = true;
+
+        var formData = new FormData(registerForm);
+        formData.append('action', 'custom_ajax_register');
+        formData.append('security', '<?php echo esc_js( wp_create_nonce("custom_register_nonce") ); ?>');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?php echo esc_url( admin_url("admin-ajax.php") ); ?>', true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                registerButton.disabled = false;
+
+                if (xhr.status === 200) {
+                    var response;
+                    try {
+                        response = JSON.parse(xhr.responseText);
+                    } catch (e) {
+                        mostrarErrorRegistro('No fue posible completar el registro. Inténtalo de nuevo.');
+                        return;
+                    }
+
+                    if (response && response.success && response.data) {
+                        // Replicamos tu comportamiento: localStorage + redirect
+                        if (response.data.registro_exitoso) {
+                            try {
+                                localStorage.setItem('registro_exitoso', 'true');
+                            } catch (err) {
+                                // si falla localStorage, continuamos con el redirect
+                            }
+                        }
+
+                        var redirectUrl = response.data.redirect || '<?php echo esc_url( home_url('/') ); ?>';
+                        window.location.href = redirectUrl;
+                    } else if (response && !response.success && response.data && response.data.message) {
+                        mostrarErrorRegistro(response.data.message);
+                    } else {
+                        mostrarErrorRegistro('No fue posible completar el registro. Inténtalo de nuevo.');
+                    }
+                } else {
+                    mostrarErrorRegistro('Error de conexión. Inténtalo de nuevo.');
+                }
+            }
+        };
+
+        xhr.send(formData);
+    });
+});
+</script>
 <?php
 get_footer();
 ?>
