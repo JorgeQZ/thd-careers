@@ -13,9 +13,6 @@ function validate_password_security($password) {
     if (!preg_match('/[0-9]/', $password)) {
         return 'La contraseña debe incluir al menos un número.';
     }
-    if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)) {
-        return 'La contraseña debe incluir al menos un carácter especial.';
-    }
 
     return true;
 }
@@ -75,7 +72,6 @@ function thd_custom_ajax_login() {
 
     // Contraseña
     $password = isset($_POST['pwd']) ? (string) wp_unslash($_POST['pwd']) : '';
-
     if ($password === '') {
         wp_send_json_error(array(
             'message' => 'La contraseña es obligatoria.',
@@ -88,20 +84,9 @@ function thd_custom_ajax_login() {
     // SAML: se respeta el parámetro si viene en la petición (aunque aquí no se use directamente)
     $saml_sso = isset($_POST['saml_sso']) ? sanitize_text_field(wp_unslash($_POST['saml_sso'])) : '';
 
-    // Manejo de intentos fallidos, misma función que ya usas en el template original
-    $error_message = '';
-    if (function_exists('handle_failed_login_attempts')) {
-        $error_message = handle_failed_login_attempts($raw_email);
-    }
-
-    if (!empty($error_message)) {
-        wp_send_json_error(array(
-            'message' => $error_message,
-        ));
-    }
-
     // Buscar usuario por correo
     $user = get_user_by('email', $raw_email);
+
     if (! $user) {
         wp_send_json_error(array(
             'message' => 'El correo no está registrado.',
@@ -115,13 +100,18 @@ function thd_custom_ajax_login() {
         'remember'      => $remember,
     );
 
-       // Autenticar
+    // Autenticar
     $auth_user = wp_signon($credentials, false);
 
     if (is_wp_error($auth_user)) {
         $error_code = $auth_user->get_error_code();
         $message = 'No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.';
 
+         // Manejo de intentos fallidos, misma función que ya usas en el template original
+        $error_message = '';
+        if (function_exists('handle_failed_login_attempts')) {
+            $error_message = handle_failed_login_attempts($raw_email);
+        }
         switch ($error_code) {
             case 'incorrect_password':
                 // Contraseña no coincide con el usuario/correo
@@ -146,10 +136,27 @@ function thd_custom_ajax_login() {
     }
 
 
-    // Redirección (usa redirect_to si viene desde el formulario, si no home)
+    // Usuario autenticado correctamente
+    $user_id = $auth_user->ID;
+
+    // Verificar si el perfil está completo
+    $complete = thd_get_profile_complete($user_id);
+
+
+    // redirect_to (si viene desde el form)
     $redirect_to = isset($_POST['redirect_to'])
         ? esc_url_raw(wp_unslash($_POST['redirect_to']))
-        : home_url('/');
+        : '';
+
+    // Sanitizar/validar redirect (evitar open-redirect)
+    $redirect_to = wp_validate_redirect($redirect_to, home_url('/'));
+
+    // Regla de negocio del flujo B:
+    // - Incompleto: forzar Mi Perfil
+    // - Completo: respetar redirect_to
+    if (!$complete) {
+        $redirect_to = get_permalink(get_page_by_path('mi-perfil'));
+    }
 
     wp_send_json_success(array(
         'redirect' => $redirect_to,

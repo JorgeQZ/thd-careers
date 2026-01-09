@@ -8,8 +8,10 @@ if (!function_exists('wp_handle_upload')) {
     require_once(ABSPATH . 'wp-admin/includes/file.php');
 }
 
+
 $user_id = get_current_user_id();
 $errores = [];
+$is_complete = thd_is_profile_complete(get_current_user_id());
 
 // --- FUNCIÓN DE VALIDACIÓN DE CARACTERES ---
 if (!function_exists('es_valido')) {
@@ -190,6 +192,8 @@ if (is_user_logged_in() && $_SERVER['REQUEST_METHOD'] === 'POST' && empty($error
             update_field($acf_key, $valor, 'user_' . $user_id);
         }
     }
+
+    thd_update_profile_complete(get_current_user_id());
 
     $_SESSION['mensaje_exito'] = 'Datos actualizados correctamente.';
 }

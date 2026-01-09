@@ -4,15 +4,13 @@ Template Name: Mi Perfil
 */
 
 get_header();
-
-// Incluir el archivo con la lógica del perfil.
+$user_id = get_current_user_id();
 include_once get_template_directory() . '/inc/users/miperfil.php';
 
 // Verificar si hay un mensaje de éxito en la sesión.
 $mensaje_exito = '';
 if (isset($_SESSION['mensaje_exito'])) {
     $mensaje_exito = $_SESSION['mensaje_exito'];
-
 
     unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
 
@@ -27,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $mensaje_exito = '';
 }
+
 
 if (isset($_POST['submit'])) {
     if (isset($_FILES['file_to_upload']) && $_FILES['file_to_upload']['error'] === UPLOAD_ERR_OK) {
@@ -53,7 +52,7 @@ if (isset($_POST['submit'])) {
                 $gcs_url_name = $decoded_response['name'];
 
                 // Obtener el ID del usuario actual
-                $user_id = get_current_user_id();
+
 
                 // Guardar la URL del archivo de GCS como metadato del usuario
                 update_user_meta($user_id, 'cv_gcs_url', esc_url_raw($gcs_url));
@@ -95,10 +94,15 @@ if (isset($_POST['submit'])) {
 
 <div class="miperfil">
 
+
     <form method="POST" action="" enctype="multipart/form-data">
 
-        <div class="contenedor-form">
-
+            <div class="contenedor-form">
+            <?php
+                if($is_complete !== true):?>
+                    <h1 class="h1-top" style="text-decoration: underline; color: #000;">Por favor, <span style="color: #f96302">Completa tu perfil</span> </h1>
+                    <br>
+            <?php endif;?>
             <h1 class="h1-top">DATOS GENERALES</h1>
 
             <div class="contenedor detres">
@@ -123,10 +127,10 @@ if (isset($_POST['submit'])) {
                     <label for="correo">Correo electrónico</label>
                     <?php
                     $current_user = wp_get_current_user();
-$user_email   = $current_user->user_email;
-$correo_acf   = get_field('correo_general', 'user_' . $user_id);
-$correo_val   = $correo_acf !== '' && $correo_acf !== null ? $correo_acf : $user_email;
-?>
+                    $user_email   = $current_user->user_email;
+                    $correo_acf   = get_field('correo_general', 'user_' . $user_id);
+                    $correo_val   = $correo_acf !== '' && $correo_acf !== null ? $correo_acf : $user_email;
+                    ?>
                     <input type="email" id="correo" name="correo" value="<?php echo esc_attr($correo_val); ?>">
                 </div>
             </div>
@@ -230,10 +234,10 @@ $correo_val   = $correo_acf !== '' && $correo_acf !== null ? $correo_acf : $user
                     <div class="custom-file">
                         <label for="cv">CV</label>
                         <?php
-        $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
-$gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
-$link_cv = obtener_url_archivo($gcs_url_name);
-?>
+                        $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                        $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
+                        $link_cv = obtener_url_archivo($gcs_url_name);
+                        ?>
                         <div class="file-wrapper">
                             <input type="file" id="cv" name="file_to_upload" class="file-input"
                                 accept=".pdf,.doc,.docx">
@@ -242,13 +246,13 @@ $link_cv = obtener_url_archivo($gcs_url_name);
                         </div>
                         <span class="file-name <?php echo !$cv_gcs_url ? 'noactive' : ''; ?>">
                             <?php
-        $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
-$link_cv = obtener_url_archivo($gcs_url_name);
+                            $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
+                            $link_cv = obtener_url_archivo($gcs_url_name);
 
-echo $link_cv
-    ? '<a class="a-cvguardado" rel="noopener noreferrer" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
-    : 'Sin archivo seleccionado';
-?>
+                            echo $link_cv
+                                ? '<a class="a-cvguardado" rel="noopener noreferrer" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
+                                : 'Sin archivo seleccionado';
+                            ?>
                         </span>
                     </div>
                 </div>
@@ -294,7 +298,7 @@ echo $link_cv
                     <label for="estado">Estado</label>
                     <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
                 </div>
--->
+                -->
             </div>
 
             <h1>INFORMACIÓN DE CONTACTO</h1>
@@ -762,7 +766,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php  get_footer(); ?>
-</body>
-
-</html>
+<?php get_footer(); ?>

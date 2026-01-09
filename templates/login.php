@@ -156,11 +156,21 @@ get_header();
                     <input type="password" name="reg_password" id="reg_password" required
                         style="width: 100%; padding: 8px; padding-right: 40px; margin-top: 5px; box-sizing: border-box;">
 
+
                     <button type="button" class="toggle-password" data-target="reg_password"
-                        style="position: absolute; right: 0; top: 26%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
+                        style="position: absolute; right: 0; top: 10px; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding-right: 10px;">
                         <img src="<?php echo esc_url( get_template_directory_uri() . '/img/pwd-closed-eye.png' ); ?>" class="password-icon"
                             style="width: 20px; height: 20px;">
                     </button>
+                    <div class="password-rules" id="password-rules">
+                            <p class="rule" data-rule="length">• Mínimo 8 caracteres</p>
+                            <p class="rule" data-rule="lower">• Al menos una letra minúscula</p>
+                            <p class="rule" data-rule="upper">• Al menos una letra mayúscula</p>
+                            <p class="rule" data-rule="number">• Al menos un número</p>
+                            <p class="rule" data-rule="special">• Al menos un carácter especial</p>
+                        </div>
+
+                        <p id="password-status" class="password-status"></p>
                 </div>
             </label>
         </p>
@@ -175,6 +185,65 @@ get_header();
     </form>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput  = document.getElementById("reg_password");
+    const submitBtn      = document.getElementById("register-submit-btn");
+    const statusText     = document.getElementById("password-status");
+
+    if (!passwordInput || !submitBtn) return;
+
+    const rules = {
+        length:  val => val.length >= 8,
+        lower:   val => /[a-z]/.test(val),
+        upper:   val => /[A-Z]/.test(val),
+        number:  val => /[0-9]/.test(val),
+        special: val => /[^A-Za-z0-9]/.test(val)
+    };
+
+    function updateRules(value) {
+        let valid = true;
+
+        Object.keys(rules).forEach(rule => {
+            const ruleEl = document.querySelector(`[data-rule="${rule}"]`);
+            if (!ruleEl) return;
+
+            if (rules[rule](value)) {
+                ruleEl.classList.add("valid");
+                ruleEl.classList.remove("invalid");
+            } else {
+                ruleEl.classList.add("invalid");
+                ruleEl.classList.remove("valid");
+                valid = false;
+            }
+        });
+
+        if (value.length === 0) {
+            statusText.textContent = "";
+            submitBtn.disabled = true;
+            return;
+        }
+
+        if (valid) {
+            statusText.textContent = "Contraseña válida";
+            statusText.className = "password-status valid";
+            submitBtn.disabled = false;
+        } else {
+            statusText.textContent = "La contraseña no cumple con los requisitos";
+            statusText.className = "password-status invalid";
+            submitBtn.disabled = true;
+        }
+    }
+
+    passwordInput.addEventListener("input", function () {
+        updateRules(this.value);
+    });
+
+    // Estado inicial
+    submitBtn.disabled = true;
+});
+</script>
 
 <!-- Toggle de visibilidad de password (SIN CAMBIOS DE LÓGICA) -->
 <script>

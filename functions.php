@@ -15,11 +15,13 @@ require_once "inc/vacantes/mis_vacantes.php";
 /**
  * Users
  */
+require_once "inc/users/helpers.php";
 require_once "inc/users/fields.php";
 require_once "inc/users/roles.php";
 require_once "inc/users/config-login.php";
 require_once "inc/users/favs.php";
-require_once get_template_directory() . '/inc/users/miperfil.php';
+
+// require_once get_template_directory() . '/inc/users/miperfil.php';
 
 /**
  * Postulaciones

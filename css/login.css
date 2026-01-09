@@ -62,6 +62,37 @@
   font-style: normal;
   font-display: swap;
 }
+.password-rules {
+  margin-top: 8px;
+  font-size: 10px;
+}
+
+.password-rules .rule {
+  color: #666;
+  margin: 0;
+}
+
+.password-rules .rule.valid {
+  color: #2e7d32; /* verde accesible */
+}
+
+.password-rules .rule.invalid {
+  color: #c62828; /* rojo accesible */
+}
+
+.password-status {
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.password-status.valid {
+  color: #2e7d32;
+}
+
+.password-status.invalid {
+  color: #c62828;
+}
+
 .recuperar {
   color: #f96302;
 }
@@ -124,4 +155,8 @@
   color: #fff;
   background-color: #C14C00;
   border-color: #C14C00;
+}
+.custom-login-wrapper button:disabled {
+  background-color: #a6a6a6;
+  border-color: #a6a6a6;
 }

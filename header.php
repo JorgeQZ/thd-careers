@@ -9,6 +9,15 @@ header("Content-Security-Policy: frame-ancestors 'self';");
 
 
 <head>
+     <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?
+    id=G-1YL22NQM50"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1YL22NQM50');
+    </script>
     <script>
         if (window.top !== window.self) {
             document.body.innerHTML = "";
@@ -19,6 +28,8 @@ header("Content-Security-Policy: frame-ancestors 'self';");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php bloginfo();?></title>
     <?php wp_head();?>
+
+
 </head>
 
 <script>
@@ -34,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var closeRegistro = document.getElementsByClassName("closebtnpopupRegistro");
 
         var cerrarPopupRegistro = function() {
-            //localStorage.removeItem("registro_exitoso");
+            localStorage.removeItem("registro_exitoso");
             pop_reg.style.display = "none";
         };
 
@@ -68,7 +79,8 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="container">
             <div class="close closebtnpopupRegistro" id="close-reg">+</div>
             <div class="title">¡Tu registro ha sido <br> <span>exitoso!</span></div>
-            <button id="close-reg-button" class="button closebtnpopupRegistro">Cerrar</button>
+            <!-- <button id="close-reg-button" class="button closebtnpopupRegistro">Cerrar</button> -->
+             <a href="<?php echo home_url( ).'/mi-perfil' ?>" class="button closebtnpopupRegistro">Completar tu perfil</a>
         </div>
     </div><!-- PopUp -->
 
