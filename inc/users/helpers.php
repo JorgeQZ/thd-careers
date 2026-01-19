@@ -27,19 +27,12 @@ function thd_is_profile_complete($user_id) {
         'apellido_paterno_general',
         'apellido_materno_general',
         'correo_general',
-        'correo_general_2',
-
         'fecha_de_nacimiento_general',
         'calle_general',
         'colonia_general',
         'codigo_postal_general',
         'municipiociudad_general',
         'estado_general',
-        'linkedin_general',
-        'facebook_general',
-        'instagram_general',
-        'telefono_celular_general',
-        'telefono_fijo_general',
         'grado_escolaridad_general',
         'estado_civil_general',
         'nacionalidad_general',
@@ -103,4 +96,57 @@ function thd_update_profile_complete($user_id) {
     );
 
     return $is_complete;
+}
+
+function thd_get_profile_missing_fields($user_id) {
+
+    if (!$user_id) {
+        return [];
+    }
+
+    $missing = [];
+
+    // Usuario
+    $user = get_userdata($user_id);
+    if (!$user || empty($user->user_email)) {
+        $missing[] = 'correo';
+    }
+
+    // Campos ACF requeridos (mapa campo => input name)
+    $required_acf_fields = [
+        'nombre_general'              => 'nombre',
+        'apellido_paterno_general'    => 'apellido_paterno',
+        'apellido_materno_general'    => 'apellido_materno',
+        'correo_general'              => 'correo',
+        'fecha_de_nacimiento_general' => 'fecha_de_nacimiento',
+        'calle_general'               => 'calle',
+        'colonia_general'             => 'colonia',
+        'codigo_postal_general'       => 'codigo_postal',
+        'municipiociudad_general'     => 'municipiociudad',
+        'estado_general'              => 'estado',
+        'grado_escolaridad_general'   => 'grado_escolaridad',
+        'estado_civil_general'        => 'estado_civil',
+        'nacionalidad_general'        => 'nacionalidad',
+        'pr1'                         => 'pr1',
+    ];
+
+    foreach ($required_acf_fields as $acf_field => $input_name) {
+        $value = get_field($acf_field, 'user_' . $user_id);
+
+        if (
+            $value === null ||
+            $value === false ||
+            (is_string($value) && trim($value) === '') ||
+            (is_array($value) && empty($value))
+        ) {
+            $missing[] = $input_name;
+        }
+    }
+
+    // CV obligatorio
+    if (!get_user_meta($user_id, 'gcs_url_name', true)) {
+        $missing[] = 'cv';
+    }
+
+    return array_unique($missing);
 }

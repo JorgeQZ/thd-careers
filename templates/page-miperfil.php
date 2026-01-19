@@ -4,6 +4,7 @@ Template Name: Mi Perfil
 */
 
 get_header();
+
 $user_id = get_current_user_id();
 include_once get_template_directory() . '/inc/users/miperfil.php';
 
@@ -15,21 +16,24 @@ if (isset($_SESSION['mensaje_exito'])) {
     unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrarlo.
 
     if ($mensaje_exito): ?>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('mensajeExito').style.display = 'flex';
-});
-</script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var msg = document.getElementById('mensajeExito');
+            if (msg) {
+                msg.style.display = 'flex';
+            }
+        });
+        </script>
 <?php
     endif;
 
     $mensaje_exito = '';
 }
 
-
+// Procesar subida de CV si se envió el formulario
 if (isset($_POST['submit'])) {
     if (isset($_FILES['file_to_upload']) && $_FILES['file_to_upload']['error'] === UPLOAD_ERR_OK) {
-        $file = $_FILES['file_to_upload'];
+        $file         = $_FILES['file_to_upload'];
         $gcs_response = upload_to_gcp($file); // Llamar a la función que sube el archivo
 
         if ($gcs_response) {
@@ -48,18 +52,12 @@ if (isset($_POST['submit'])) {
                 }
 
                 // Asignar la URL del archivo
-                $gcs_url = $decoded_response['mediaLink'];
+                $gcs_url      = $decoded_response['mediaLink'];
                 $gcs_url_name = $decoded_response['name'];
-
-                // Obtener el ID del usuario actual
-
 
                 // Guardar la URL del archivo de GCS como metadato del usuario
                 update_user_meta($user_id, 'cv_gcs_url', esc_url_raw($gcs_url));
                 update_user_meta($user_id, 'gcs_url_name', sanitize_text_field($gcs_url_name));
-
-                // Mensaje de éxito (puedes activarlo si lo necesitas)
-                // echo '<p>Archivo subido exitosamente y URL guardada.</p>';
 
             } catch (JsonException $e) {
                 // Registrar el error en los logs
@@ -82,6 +80,10 @@ if (isset($_POST['submit'])) {
     }
     // No se hace nada si no se selecciona un archivo
 }
+
+// Después de subir CV (si aplica), calcular campos faltantes
+$missing_fields = thd_get_profile_missing_fields($user_id);
+$is_complete    = empty($missing_fields);
 ?>
 
 <div class="popup-cont" id="mensajeExito">
@@ -94,30 +96,45 @@ if (isset($_POST['submit'])) {
 
 <div class="miperfil">
 
-
     <form method="POST" action="" enctype="multipart/form-data">
 
-            <div class="contenedor-form">
-            <?php
-                if($is_complete !== true):?>
-                    <h1 class="h1-top" style="text-decoration: underline; color: #000;">Por favor, <span style="color: #f96302">Completa tu perfil</span> </h1>
-                    <br>
-            <?php endif;?>
+        <div class="contenedor-form">
+
+            <?php if ($is_complete !== true): ?>
+                <div class="alerta-perfil">
+                    Algunos campos obligatorios están incompletos. Por favor complétalos para continuar.
+                </div>
+                <h1 class="h1-top" style="text-decoration: underline; color: #000;">
+                    Por favor, <span style="color: #f96302">Completa tu perfil</span>
+                </h1>
+                <br>
+            <?php endif; ?>
+
             <h1 class="h1-top">DATOS GENERALES</h1>
 
             <div class="contenedor detres">
                 <div>
                     <label for="nombre">Nombre(s)</label>
-                    <input type="text" class="validar" name="nombre" value="<?php echo esc_attr($nombre_actual); ?>">
+                    <input
+                        type="text"
+                        class="validar <?php echo in_array('nombre', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        name="nombre"
+                        value="<?php echo esc_attr($nombre_actual); ?>">
                 </div>
                 <div>
                     <label for="apellido_paterno">Apellido paterno</label>
-                    <input type="text" class="validar" name="apellido_paterno"
+                    <input
+                        type="text"
+                        class="validar <?php echo in_array('apellido_paterno', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        name="apellido_paterno"
                         value="<?php echo esc_attr($apellido_paterno_actual); ?>">
                 </div>
                 <div>
                     <label for="apellido_materno">Apellido materno</label>
-                    <input type="text" class="validar" name="apellido_materno"
+                    <input
+                        type="text"
+                        class="validar <?php echo in_array('apellido_materno', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        name="apellido_materno"
                         value="<?php echo esc_attr($apellido_materno_actual); ?>">
                 </div>
             </div>
@@ -131,7 +148,12 @@ if (isset($_POST['submit'])) {
                     $correo_acf   = get_field('correo_general', 'user_' . $user_id);
                     $correo_val   = $correo_acf !== '' && $correo_acf !== null ? $correo_acf : $user_email;
                     ?>
-                    <input type="email" id="correo" name="correo" value="<?php echo esc_attr($correo_val); ?>">
+                    <input
+                        type="email"
+                        id="correo"
+                        name="correo"
+                        class="<?php echo in_array('correo', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        value="<?php echo esc_attr($correo_val); ?>">
                 </div>
             </div>
 
@@ -139,14 +161,20 @@ if (isset($_POST['submit'])) {
                 <div>
                     <label for="fecha_de_nacimiento">Fecha de nacimiento</label>
                     <div class="custom-date-input">
-                        <input type="date" name="fecha_de_nacimiento"
+                        <input
+                            type="date"
+                            name="fecha_de_nacimiento"
+                            class="<?php echo in_array('fecha_de_nacimiento', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
                             value="<?php echo esc_attr($fecha_de_nacimiento_actual); ?>">
                         <span class="icon-calendar"></span>
                     </div>
                 </div>
                 <div>
                     <label for="nacionalidad">Nacionalidad</label>
-                    <input class="input-nacionalidad validar" type="text" name="nacionalidad"
+                    <input
+                        class="input-nacionalidad validar <?php echo in_array('nacionalidad', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        type="text"
+                        name="nacionalidad"
                         value="<?php echo esc_attr($nacionalidad_actual); ?>">
                 </div>
             </div>
@@ -154,42 +182,37 @@ if (isset($_POST['submit'])) {
             <div class="contenedor dedos">
                 <div>
                     <label for="grado_escolaridad">Elige tu grado de escolaridad</label>
-                    <select id="grado_escolaridad" name="grado_escolaridad">
+                    <select
+                        id="grado_escolaridad"
+                        name="grado_escolaridad"
+                        class="<?php echo in_array('grado_escolaridad', $missing_fields, true) ? 'campo-faltante' : ''; ?>">
                         <option value="">Selecciona una opción</option>
-                        <option value="Primaria" <?php selected($grado_escolaridad_actual, 'Primaria'); ?>>Primaria
-                        </option>
-                        <option value="Secundaria" <?php selected($grado_escolaridad_actual, 'Secundaria'); ?>>
-                            Secundaria
-                        </option>
-                        <option value="Preparatoria" <?php selected($grado_escolaridad_actual, 'Preparatoria'); ?>>
-                            Preparatoria</option>
-                        <option value="Carrera técnica"
-                            <?php selected($grado_escolaridad_actual, 'Carrera técnica'); ?>>
-                            Carrera técnica</option>
-                        <option value="Licenciatura" <?php selected($grado_escolaridad_actual, 'Licenciatura'); ?>>
-                            Licenciatura</option>
-                        <option value="Posgrado" <?php selected($grado_escolaridad_actual, 'Posgrado'); ?>>Posgrado
-                        </option>
-                        <option value="Maestría" <?php selected($grado_escolaridad_actual, 'Maestría'); ?>>Maestría
-                        </option>
-                        <option value="Doctorado" <?php selected($grado_escolaridad_actual, 'Doctorado'); ?>>Doctorado
-                        </option>
+                        <option value="Primaria" <?php selected($grado_escolaridad_actual, 'Primaria'); ?>>Primaria</option>
+                        <option value="Secundaria" <?php selected($grado_escolaridad_actual, 'Secundaria'); ?>>Secundaria</option>
+                        <option value="Preparatoria" <?php selected($grado_escolaridad_actual, 'Preparatoria'); ?>>Preparatoria</option>
+                        <option value="Carrera técnica" <?php selected($grado_escolaridad_actual, 'Carrera técnica'); ?>>Carrera técnica</option>
+                        <option value="Licenciatura" <?php selected($grado_escolaridad_actual, 'Licenciatura'); ?>>Licenciatura</option>
+                        <option value="Posgrado" <?php selected($grado_escolaridad_actual, 'Posgrado'); ?>>Posgrado</option>
+                        <option value="Maestría" <?php selected($grado_escolaridad_actual, 'Maestría'); ?>>Maestría</option>
+                        <option value="Doctorado" <?php selected($grado_escolaridad_actual, 'Doctorado'); ?>>Doctorado</option>
                     </select>
                 </div>
                 <div>
                     <label for="estado_civil">Estado civil</label>
-                    <select id="estado_civil" name="estado_civil">
+                    <select
+                        id="estado_civil"
+                        name="estado_civil"
+                        class="<?php echo in_array('estado_civil', $missing_fields, true) ? 'campo-faltante' : ''; ?>">
                         <option value="">Selecciona una opción</option>
                         <option value="soltero" <?php selected($estado_civil_actual, 'soltero'); ?>>Soltero/a</option>
                         <option value="casado" <?php selected($estado_civil_actual, 'casado'); ?>>Casado/a</option>
-                        <option value="divorciado" <?php selected($estado_civil_actual, 'divorciado'); ?>>Divorciado/a
-                        </option>
+                        <option value="divorciado" <?php selected($estado_civil_actual, 'divorciado'); ?>>Divorciado/a</option>
                         <option value="viudo" <?php selected($estado_civil_actual, 'viudo'); ?>>Viudo/a</option>
                     </select>
                 </div>
             </div>
 
-            <div class="contenedor-cdt">
+            <div class="contenedor-cdt <?php echo in_array('pr1', $missing_fields, true) ? 'campo-faltante' : ''; ?>">
                 <p>¿En qué centro de trabajo estás interesado(a)?</p>
 
                 <label>
@@ -231,12 +254,12 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div class="contenedor">
-                    <div class="custom-file">
+                    <div class="custom-file <?php echo in_array('cv', $missing_fields, true) ? 'campo-faltante' : ''; ?>">
                         <label for="cv">CV</label>
                         <?php
-                        $cv_gcs_url = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
+                        $cv_gcs_url   = get_user_meta(get_current_user_id(), 'cv_gcs_url', true);
                         $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
-                        $link_cv = obtener_url_archivo($gcs_url_name);
+                        $link_cv      = obtener_url_archivo($gcs_url_name);
                         ?>
                         <div class="file-wrapper">
                             <input type="file" id="cv" name="file_to_upload" class="file-input"
@@ -247,7 +270,7 @@ if (isset($_POST['submit'])) {
                         <span class="file-name <?php echo !$cv_gcs_url ? 'noactive' : ''; ?>">
                             <?php
                             $gcs_url_name = get_user_meta(get_current_user_id(), 'gcs_url_name', true);
-                            $link_cv = obtener_url_archivo($gcs_url_name);
+                            $link_cv      = obtener_url_archivo($gcs_url_name);
 
                             echo $link_cv
                                 ? '<a class="a-cvguardado" rel="noopener noreferrer" href="' . esc_url($link_cv) . '" target="_blank">Haz click aquí para ver el CV actual</a>'
@@ -263,17 +286,29 @@ if (isset($_POST['submit'])) {
             <div class="contenedor detres">
                 <div>
                     <label for="calle">Calle y número interior</label>
-                    <input type="text" name="calle" value="<?php echo esc_attr($calle_actual); ?>">
+                    <input
+                        type="text"
+                        name="calle"
+                        class="<?php echo in_array('calle', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        value="<?php echo esc_attr($calle_actual); ?>">
                 </div>
 
                 <div>
                     <label for="colonia">Colonia</label>
-                    <input type="text" name="colonia" value="<?php echo esc_attr($colonia_actual); ?>">
+                    <input
+                        type="text"
+                        name="colonia"
+                        class="<?php echo in_array('colonia', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        value="<?php echo esc_attr($colonia_actual); ?>">
                 </div>
 
                 <div>
                     <label for="codigo_postal">Código postal</label>
-                    <input type="text" name="codigo_postal" value="<?php echo esc_attr($codigo_postal_actual); ?>">
+                    <input
+                        type="text"
+                        name="codigo_postal"
+                        class="<?php echo in_array('codigo_postal', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        value="<?php echo esc_attr($codigo_postal_actual); ?>">
                 </div>
 
             </div>
@@ -282,23 +317,23 @@ if (isset($_POST['submit'])) {
 
                 <div>
                     <label for="municipiociudad">Ciudad</label>
-                    <input type="text" class="validar_ubi" name="municipiociudad"
+                    <input
+                        type="text"
+                        class="validar_ubi <?php echo in_array('municipiociudad', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        name="municipiociudad"
                         value="<?php echo esc_attr($municipiociudad_actual); ?>">
                 </div>
 
                 <div>
                     <label for="estado">Estado</label>
-                    <input type="text" class="validar_ubi" name="estado"
+                    <input
+                        type="text"
+                        class="validar_ubi <?php echo in_array('estado', $missing_fields, true) ? 'campo-faltante' : ''; ?>"
+                        name="estado"
                         value="<?php echo esc_attr($estado_actual); ?>">
                 </div>
 
                 <div></div>
-                <!--
-                <div style="visibility: hidden;">
-                    <label for="estado">Estado</label>
-                    <input type="text" name="estado" value="<?php echo esc_attr($estado_actual); ?>">
-                </div>
-                -->
             </div>
 
             <h1>INFORMACIÓN DE CONTACTO</h1>
@@ -425,50 +460,54 @@ if (isset($_POST['submit'])) {
     </form>
 </div>
 
+<style>
+    .campo-faltante {
+        border: 2px solid #f96302 !important;
+        background-color: #fff6f0;
+    }
+    .alerta-perfil {
+        background: #fff3e8;
+        border-left: 4px solid #f96302;
+        padding: 15px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const fileInput = document.querySelector("#cv");
     const spanPlace = document.querySelector(".span-place");
 
-    fileInput.addEventListener("change", function() {
-        if (fileInput.files.length > 0) {
-            // Obtener el nombre del archivo subido
-            const fileName = fileInput.files[0].name;
-            // Actualizar el texto de span-place con el nombre del archivo
-            spanPlace.textContent = fileName;
-        } else {
-            // Restaurar el texto original si no hay archivo
-            spanPlace.textContent = "Haz clic aquí para subir un CV";
-        }
-    });
+    if (fileInput && spanPlace) {
+        fileInput.addEventListener("change", function() {
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                spanPlace.textContent = fileName;
+            } else {
+                spanPlace.textContent = "Haz clic aquí para subir un CV";
+            }
+        });
+    }
 });
 </script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Mostrar el mensaje de éxito por 5 segundos
-
-    //const close = document.getElementById("close-mensaje");
 
     const mensaje = document.getElementById('mensajeExito');
-
-    var close = document.getElementsByClassName("closebtnpopup");
+    const close = document.getElementsByClassName("closebtnpopup");
 
     var cerrarPopup = function() {
-        mensaje.style.display = "none";
+        if (mensaje) {
+            mensaje.style.display = "none";
+        }
     };
 
     for (var i = 0; i < close.length; i++) {
         close[i].addEventListener('click', cerrarPopup, false);
     }
-    /*
-            if(close){
-                close.addEventListener("clic", function() {
-                    mensaje.style.display = "none";
-                });
-            }
-    */
-    // Configurar visibilidad inicial según los valores actuales
+
     const pregunta1Actual = "<?php echo esc_js($pregunta1_actual); ?>";
     const pregunta2Actual = "<?php echo esc_js($pregunta2_actual); ?>";
     const cajaTextoOtro = document.getElementById("cajaTextoOtro");
@@ -479,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
     mostrarSegundaPregunta(pregunta1Actual === "Sí");
 
     // Mostrar caja de texto "Otro" si está seleccionado
-    if (pregunta2Actual === "Otro") {
+    if (pregunta2Actual === "Otro" && cajaTextoOtro) {
         cajaTextoOtro.style.display = "block";
         const otroRadio = document.querySelector('input[name="pregunta2"][value="Otro"]');
         if (otroRadio) {
@@ -489,22 +528,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Configurar visibilidad inicial para "Oficinas de apoyo a tiendas"
     radioButtonsPr1.forEach(radio => {
-        if (radio.value === "Oficinas de apoyo a tiendas" && radio.checked) {
-            contenedorCdt2.style.display =
-                "flex"; // Mostrar contenedor-cdt2 si está seleccionado inicialmente
+        if (radio.value === "Oficinas de Apoyo a Tiendas" && radio.checked && contenedorCdt2) {
+            contenedorCdt2.style.display = "flex";
         }
     });
 
-    // Configurar eventos para la primera pregunta (mostrar/ocultar segunda pregunta)
+    // Configurar eventos para la primera pregunta
     document.querySelectorAll('input[name="pregunta1"]').forEach(radio => {
         radio.addEventListener('change', function() {
             mostrarSegundaPregunta(this.value === "Sí");
         });
     });
 
-    // Configurar eventos para la segunda pregunta (mostrar/ocultar caja de texto "Otro")
+    // Configurar eventos para la segunda pregunta (mostrar/ocultar caja "Otro")
     document.querySelectorAll('input[name="pregunta2"]').forEach(radio => {
         radio.addEventListener('change', function() {
+            if (!cajaTextoOtro) return;
             cajaTextoOtro.style.display = this.value === "Otro" ? "block" : "none";
         });
     });
@@ -512,8 +551,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configurar eventos para mostrar/ocultar contenedor-cdt2
     radioButtonsPr1.forEach(radio => {
         radio.addEventListener('change', () => {
-            contenedorCdt2.style.display = (radio.value === "Oficinas de apoyo a tiendas" &&
-                radio.checked) ? "flex" : "none";
+            if (!contenedorCdt2) return;
+            contenedorCdt2.style.display = (radio.value === "Oficinas de Apoyo a Tiendas" && radio.checked)
+                ? "flex"
+                : "none";
         });
     });
 });
@@ -537,7 +578,7 @@ $(document).ready(function() {
         let todosLlenos = true;
 
         $('.contenedorgeneralcampos input.req, .contenedorgeneralcampos input.req, .contenedorgeneralcampos textarea.req')
-            .each(function(index) {
+            .each(function() {
                 if ($(this).val() === '') {
                     todosLlenos = false;
                 }
@@ -547,13 +588,6 @@ $(document).ready(function() {
             todosLlenos = false;
         }
 
-        /*
-                    $('.contenedorgeneralcampos select').each(function(index) {
-                        if ($(this).children('option:first-child').is(':selected')) {
-                            todosLlenos = false;
-                        }
-                    });
-        */
         if (todosLlenos) {
             $('.boton-postulacion').prop('disabled', false);
         } else {
@@ -566,35 +600,8 @@ $(document).ready(function() {
             verificarCampos();
         });
 
-    // $('.validar').on('keypress', function(e) {
-    //     var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
-    //     var key = String.fromCharCode(event.which);
-
-    //     if (!regex.test(key)) {
-    //         event.preventDefault();
-    //     }
-    // });
-
-    // $('.validar_tel').on('keypress', function(e) {
-    //     var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ+()0-9 ]+$/;
-    //     var key = String.fromCharCode(event.which);
-
-    //     if (!regex.test(key)) {
-    //         event.preventDefault();
-    //     }
-    // });
-
-    // $('.validar_ubi').on('keypress', function(e) {
-    //     var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
-    //     var key = String.fromCharCode(event.which);
-
-    //     if (!regex.test(key)) {
-    //         event.preventDefault();
-    //     }
-    // });
-
     var hoy = new Date().toISOString().split('T')[0];
-    $('.contenedorgeneralcampos input[type="date"]').each(function(index) {
+    $('.contenedorgeneralcampos input[type="date"]').each(function() {
         $(this).attr('max', hoy);
         $(this).attr('min', "1965-01-01");
     });
@@ -603,11 +610,6 @@ $(document).ready(function() {
         $('#mensajeExito').hide();
     });
 
-    /*
-            $('select').change(function() {
-                verificarCampos();
-            });
-    */
     verificarCampos();
 
 });
@@ -622,18 +624,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const MSG_EMAIL = 'El correo solo acepta letras, números y los símbolos: "@", ".", "_" y "-".';
     const MSG_URL = 'Ingresa una URL válida (https). No se permiten espacios ni los caracteres <, >, \' o ".';
 
-    // Reglas
-    // Texto general: letras (Unicode) + marcas combinadas (acentos), dígitos, espacio y . _ - @ ´
-    const permitido = /^[\p{L}\p{M}0-9 ._\-@´]+$/u;
-    // Teléfono: 0-9 + ( ) espacio
+    const permitido    = /^[\p{L}\p{M}0-9 ._\-@´]+$/u;
     const permitidoTel = /^[0-9+() ]+$/;
-    // Email (en vivo): letras, números y . _ - @
     const permitidoEmail = /^[A-Za-z0-9._@-]+$/;
-    // URL: bloquear espacios, comillas y < >
     const URL_CHARS = /^[^\s"'<>]+$/;
 
-    // Teclas muertas (para componer á, é, etc.)
-    const deadKeys = /[\u00B4\u0060\u005E\u007E\u02C6\u02DC]/; // ´ ` ^ ~ ˆ ˜
+    const deadKeys = /[\u00B4\u0060\u005E\u007E\u02C6\u02DC]/;
 
     function mostrarError(input, mensaje) {
         const prev = input.parentElement.querySelector('.error-msg');
@@ -692,8 +688,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // === Asignación por tipo de campo ===
-
     // 1) Texto general (excluye teléfonos, emails y URLs)
     const generalSelector =
         'input[type="text"]:not([name="telefono_celular"]):not([name="telefono_fijo"]):not([name="correo"]):not([name="correo2"]):not([type="url"]), textarea';
@@ -751,7 +745,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const hostOk = domains.some(dom => host === dom || host.endsWith('.' + dom));
 
                 if (!hostOk) {
-                    mostrarError(el, MSG_SOCIAL_DOMAIN);
+                    // MSG_SOCIAL_DOMAIN no estaba definido en tu snippet original;
+                    // si lo tienes definido en otro archivo, se respetará.
+                    mostrarError(el, MSG_URL);
                     el.value = '';
                     return;
                 }
@@ -765,5 +761,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<?php if (!$is_complete && !empty($missing_fields)): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const first = document.querySelector('.campo-faltante');
+    if (first) {
+        first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (typeof first.focus === 'function') {
+            first.focus({ preventScroll: true });
+        }
+    }
+});
+</script>
+<?php endif; ?>
 
 <?php get_footer(); ?>
