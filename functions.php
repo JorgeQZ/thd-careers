@@ -92,7 +92,7 @@ function careers_styles()
 
     wp_localize_script('generals', 'ajax_query_vars', array(
         'ajax_url' => admin_url('admin-ajax.php'),
-        'logoutUrl' => wp_logout_url(home_url()),
+        'logoutUrl' => wp_logout_url(get_permalink( get_page_by_path('login') ) ),
         'isUserLoggedIn' => is_user_logged_in(),
         'currentUserId' => get_current_user_id()
     ));

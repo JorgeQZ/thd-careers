@@ -17,8 +17,7 @@ add_action('wp_enqueue_scripts', 'custom_login_dequeue_styles', 100);
 
 // Cerrar sesión automáticamente si el usuario está logueado al visitar esta página.
 if (is_user_logged_in()) {
-    wp_logout();
-    wp_redirect(get_permalink()); // Redirigir a esta misma página para evitar el acceso previo.
+    wp_safe_redirect( home_url('/') );
     exit;
 }
 

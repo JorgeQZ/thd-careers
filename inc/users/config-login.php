@@ -45,13 +45,16 @@ function handle_failed_login_attempts($username) {
  */
 function thd_custom_ajax_login() {
     // Verificar nonce
-    if (
-        ! isset($_POST['security']) ||
-        ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['security'])), 'custom_login_nonce')
-    ) {
-        wp_send_json_error(array(
+    $nonce        = isset($_POST['security'])
+        ? sanitize_text_field( wp_unslash( $_POST['security'] ) )
+        : '';
+    $nonce_is_ok  = $nonce && wp_verify_nonce( $nonce, 'custom_login_nonce' );
+
+    // Si el usuario ya está logueado y el nonce falla, sí bloqueamos
+    if ( is_user_logged_in() && ! $nonce_is_ok ) {
+        wp_send_json_error( array(
             'message' => 'Sesión no válida. Recarga la página e inténtalo de nuevo.',
-        ));
+        ) );
     }
 
     // Email desde el formulario (campo name="log")
@@ -140,8 +143,7 @@ function thd_custom_ajax_login() {
     $user_id = $auth_user->ID;
 
     // Verificar si el perfil está completo
-    $complete = thd_get_profile_complete($user_id);
-
+    $complete = function_exists('thd_get_profile_complete') ? thd_get_profile_complete($user_id) : false;
 
     // redirect_to (si viene desde el form)
     $redirect_to = isset($_POST['redirect_to'])
