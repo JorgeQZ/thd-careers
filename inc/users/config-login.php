@@ -19,8 +19,8 @@ function validate_password_security($password) {
 
 // Manejar intentos fallidos de inicio de sesión y bloqueo de cuentas.
 function handle_failed_login_attempts($username) {
-    $transient_name = 'failed_login_' . hash('sha256', $username);
-    $failed_attempts = get_transient($transient_name);
+    $transient_name   = 'failed_login_' . hash('sha256', $username);
+    $failed_attempts  = get_transient($transient_name);
 
     if ($failed_attempts === false) {
         $failed_attempts = 0;
@@ -29,7 +29,8 @@ function handle_failed_login_attempts($username) {
     $failed_attempts++;
 
     if ($failed_attempts >= 5) {
-        set_transient($transient_name, $failed_attempts, 15 * MINUTE_IN_SECONDS); // Bloquear por 15 minutos.
+        // Bloquear por 15 minutos.
+        set_transient($transient_name, $failed_attempts, 15 * MINUTE_IN_SECONDS);
         return 'Demasiados intentos fallidos. Inténtalo de nuevo en 15 minutos.';
     } else {
         set_transient($transient_name, $failed_attempts, 15 * MINUTE_IN_SECONDS);
@@ -38,144 +39,12 @@ function handle_failed_login_attempts($username) {
     return null;
 }
 
-
-/**
- * Login por AJAX (sin recargar página)
- * Acción: custom_ajax_login
- */
-function thd_custom_ajax_login() {
-    // Verificar nonce
-    $nonce        = isset($_POST['security'])
-        ? sanitize_text_field( wp_unslash( $_POST['security'] ) )
-        : '';
-    $nonce_is_ok  = $nonce && wp_verify_nonce( $nonce, 'custom_login_nonce' );
-
-    // Si el usuario ya está logueado y el nonce falla, sí bloqueamos
-    if ( is_user_logged_in() && ! $nonce_is_ok ) {
-        wp_send_json_error( array(
-            'message' => 'Sesión no válida. Recarga la página e inténtalo de nuevo.',
-        ) );
-    }
-
-    // Email desde el formulario (campo name="log")
-    $raw_email = isset($_POST['log']) ? trim(wp_unslash($_POST['log'])) : '';
-
-    if ($raw_email === '') {
-        wp_send_json_error(array(
-            'message' => 'El correo electrónico es obligatorio.',
-        ));
-    }
-
-    // Validación del formato de correo (mismo regex / mensaje que ya usas)
-    if (!preg_match('/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $raw_email)) {
-        wp_send_json_error(array(
-            'message' => 'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", ".", "_" y "-". Otros caracteres no se pueden ingresar.',
-        ));
-    }
-
-    // Contraseña
-    $password = isset($_POST['pwd']) ? (string) wp_unslash($_POST['pwd']) : '';
-    if ($password === '') {
-        wp_send_json_error(array(
-            'message' => 'La contraseña es obligatoria.',
-        ));
-    }
-
-    // Recordar sesión
-    $remember = ! empty($_POST['remember']);
-
-    // SAML: se respeta el parámetro si viene en la petición (aunque aquí no se use directamente)
-    $saml_sso = isset($_POST['saml_sso']) ? sanitize_text_field(wp_unslash($_POST['saml_sso'])) : '';
-
-    // Buscar usuario por correo
-    $user = get_user_by('email', $raw_email);
-
-    if (! $user) {
-        wp_send_json_error(array(
-            'message' => 'El correo no está registrado.',
-        ));
-    }
-
-    // Credenciales para wp_signon
-    $credentials = array(
-        'user_login'    => $user->user_login,
-        'user_password' => $password,
-        'remember'      => $remember,
-    );
-
-    // Autenticar
-    $auth_user = wp_signon($credentials, false);
-
-    if (is_wp_error($auth_user)) {
-        $error_code = $auth_user->get_error_code();
-        $message = 'No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.';
-
-         // Manejo de intentos fallidos, misma función que ya usas en el template original
-        $error_message = '';
-        if (function_exists('handle_failed_login_attempts')) {
-            $error_message = handle_failed_login_attempts($raw_email);
-        }
-        switch ($error_code) {
-            case 'incorrect_password':
-                // Contraseña no coincide con el usuario/correo
-                $message = 'La contraseña no coincide con la cuenta ingresada.';
-                break;
-
-            case 'invalid_username':
-            case 'invalid_email':
-                // Usuario/correo no existe
-                $message = 'El correo no está registrado.';
-                break;
-
-            default:
-                // Otros errores de WP_Login (bloqueos, etc.)
-                $message = 'No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.';
-                break;
-        }
-
-        wp_send_json_error(array(
-            'message' => $message,
-        ));
-    }
-
-
-    // Usuario autenticado correctamente
-    $user_id = $auth_user->ID;
-
-    // Verificar si el perfil está completo
-    $complete = function_exists('thd_get_profile_complete') ? thd_get_profile_complete($user_id) : false;
-
-    // redirect_to (si viene desde el form)
-    $redirect_to = isset($_POST['redirect_to'])
-        ? esc_url_raw(wp_unslash($_POST['redirect_to']))
-        : '';
-
-    // Sanitizar/validar redirect (evitar open-redirect)
-    $redirect_to = wp_validate_redirect($redirect_to, home_url('/'));
-
-    // Regla de negocio del flujo B:
-    // - Incompleto: forzar Mi Perfil
-    // - Completo: respetar redirect_to
-    if (!$complete) {
-        $redirect_to = get_permalink(get_page_by_path('mi-perfil'));
-    }
-
-    wp_send_json_success(array(
-        'redirect' => $redirect_to,
-    ));
-}
-
-// Hooks AJAX (para usuarios no logueados y logueados)
-add_action('wp_ajax_nopriv_custom_ajax_login', 'thd_custom_ajax_login');
-add_action('wp_ajax_custom_ajax_login', 'thd_custom_ajax_login');
-
-/**
- * Registro por AJAX (sin recargar página)
- * Acción: custom_ajax_register
- */
+// ======================================
+// REGISTRO (AJAX)
+// ======================================
 function thd_custom_ajax_register() {
 
-    // Verificar nonce
+    // Verificar nonce.
     if (
         ! isset($_POST['security']) ||
         ! wp_verify_nonce(
@@ -188,7 +57,7 @@ function thd_custom_ajax_register() {
         ) );
     }
 
-    // Email del formulario (reg_email)
+    // Email del formulario (reg_email).
     $raw_email = isset($_POST['reg_email']) ? trim( wp_unslash( $_POST['reg_email'] ) ) : '';
 
     if ( '' === $raw_email ) {
@@ -197,14 +66,14 @@ function thd_custom_ajax_register() {
         ) );
     }
 
-    // Misma validación estricta de correo que ya usas
+    // Validación estricta de correo.
     if ( ! preg_match( '/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $raw_email ) ) {
         wp_send_json_error( array(
-            'message' => 'El campo de correo electrónico solo acepta letras, números y los siguientes símbolos: "@", "." "_" y "-". Otros caracteres no se pueden ingresar.',
+            'message' => 'El correo solo puede contener letras, números y los siguientes símbolos: "@", ".", "_" y "-". Otros caracteres no se pueden ingresar.',
         ) );
     }
 
-    // Contraseña
+    // Contraseña.
     $password = isset($_POST['reg_password']) ? (string) wp_unslash( $_POST['reg_password'] ) : '';
 
     if ( '' === $password ) {
@@ -213,24 +82,24 @@ function thd_custom_ajax_register() {
         ) );
     }
 
-    // Validar seguridad de la contraseña si existe la función
+    // Validar seguridad de la contraseña.
     if ( function_exists( 'validate_password_security' ) ) {
         $password_validation = validate_password_security( $password );
         if ( true !== $password_validation ) {
             wp_send_json_error( array(
-                'message' => $password_validation, // mensaje que ya devuelve tu función
+                'message' => $password_validation,
             ) );
         }
     }
 
-    // Verificar si el correo ya existe
+    // Verificar si el correo ya existe.
     if ( email_exists( $raw_email ) ) {
         wp_send_json_error( array(
             'message' => 'Este correo ya está registrado.',
         ) );
     }
 
-    // Crear usuario
+    // Crear usuario.
     $user_id = wp_create_user( $raw_email, $password, $raw_email );
 
     if ( is_wp_error( $user_id ) ) {
@@ -239,19 +108,126 @@ function thd_custom_ajax_register() {
         ) );
     }
 
-    // Loguear al usuario recién creado
+    // Loguear al usuario recién creado.
     wp_set_current_user( $user_id );
     wp_set_auth_cookie( $user_id );
 
-    // Redirección (igual que antes: a home por defecto)
+    // Redirección después del registro (home por defecto).
     $redirect_to = home_url( '/' );
 
     wp_send_json_success( array(
         'redirect'         => $redirect_to,
-        // para replicar tu comportamiento actual:
         'registro_exitoso' => true,
     ) );
 }
 
 add_action( 'wp_ajax_nopriv_custom_ajax_register', 'thd_custom_ajax_register' );
 add_action( 'wp_ajax_custom_ajax_register', 'thd_custom_ajax_register' );
+
+// ======================================
+// LOGIN (POST NORMAL, SIN AJAX)
+// ======================================
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login']) ) {
+
+    // =========================
+    // 1. Correo
+    // =========================
+    $raw_email = isset($_POST['log'])
+        ? trim( wp_unslash( $_POST['log'] ) )
+        : '';
+
+    if ( $raw_email === '' ) {
+        $login_error = 'El correo electrónico es obligatorio.';
+        return;
+    }
+
+    // Regex ESTRICTO (mismo criterio que antes).
+    if ( ! preg_match( '/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $raw_email ) ) {
+        $login_error = 'El correo solo puede contener letras, números y los caracteres especiales permitidos: "@", ".", "_" y "-".';
+        return;
+    }
+
+    // =========================
+    // 2. Contraseña
+    // =========================
+    $password = isset($_POST['pwd'])
+        ? (string) wp_unslash( $_POST['pwd'] )
+        : '';
+
+    if ( $password === '' ) {
+        $login_error = 'La contraseña es obligatoria.';
+        return;
+    }
+
+    // =========================
+    // 3. Usuario por correo
+    // =========================
+    $user = get_user_by( 'email', $raw_email );
+
+    if ( ! $user ) {
+        $login_error = 'El correo no está registrado.';
+        return;
+    }
+
+    // =========================
+    // 4. Autenticación
+    // =========================
+    $creds = array(
+        'user_login'    => $user->user_login,
+        'user_password' => $password,
+        'remember'      => true,
+    );
+
+    $auth_user = wp_signon( $creds, false );
+
+    if ( is_wp_error( $auth_user ) ) {
+
+        $code         = $auth_user->get_error_code();
+        $login_error  = 'No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.';
+
+        // Manejo de intentos fallidos (bloqueos).
+        if ( function_exists( 'handle_failed_login_attempts' ) ) {
+            $lock_message = handle_failed_login_attempts( $raw_email );
+            if ( $lock_message ) {
+                $login_error = $lock_message;
+                return;
+            }
+        }
+
+        switch ( $code ) {
+            case 'incorrect_password':
+                $login_error = 'La contraseña no coincide con la cuenta ingresada.';
+                break;
+            default:
+                // Otros errores: mantenemos el mensaje genérico.
+                break;
+        }
+
+        return;
+    }
+
+    // =========================
+    // 5. Redirección post-login
+    // =========================
+    $user_id = $auth_user->ID;
+
+    // Helper existente para perfil completo.
+    $profile_complete = function_exists( 'thd_is_profile_complete' )
+        ? thd_is_profile_complete( $user_id )
+        : true;
+
+    // redirect_to: viene del formulario (login normal o popup).
+    $redirect_to = isset($_POST['redirect_to'])
+        ? wp_validate_redirect( wp_unslash( $_POST['redirect_to'] ), home_url( '/' ) )
+        : home_url( '/' );
+
+    // Si el perfil NO está completo, forzamos Mi Perfil.
+    if ( ! $profile_complete ) {
+        wp_safe_redirect( home_url( '/mi-perfil' ) );
+        exit;
+    }
+
+    // Perfil completo → redirección normal (home o vacante, etc.).
+    wp_safe_redirect( $redirect_to );
+    exit;
+}

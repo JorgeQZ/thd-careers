@@ -63,15 +63,31 @@ $is_logged_in = is_user_logged_in();
             de manera rápida y sencilla. <br><br>
         </div>
 
+            <!--// const SAML_TOKEN_QA   = 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f';
+        // const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';-->
         <div class="login-form">
             <!-- Formulario de login -->
-            <form id="popup-login-form" action="<?php echo esc_url(wp_login_url()); ?>" method="post">
+            <form
+                id="popup-login-form"
+                method="post"
+                action="<?php echo esc_url(
+                    add_query_arg(
+                        'saml_sso',
+                        'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f',
+                        home_url('/login/')
+                    )
+                ); ?>"
+                >
+
                 <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off"
                     pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
 
                 <input type="password" name="pwd" autocomplete="off" placeholder="Contraseña" required>
 
-                <input type="hidden" name="redirect_to" value="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" />
+                <input type="hidden" name="redirect_to" value="<?php echo esc_url( get_permalink() ); ?>" />
+
+                <!-- Flag visual -->
+                <input type="hidden" name="from_vacante" value="1">
 
                 <!-- Contenedor para mensajes de error del login (AJAX) -->
                 <div id="popup-login-error"
@@ -79,7 +95,7 @@ $is_logged_in = is_user_logged_in();
                     style="color:red; margin-top:8px; display:none;"></div>
 
                 <br>
-                <button type="submit" class="button_sub" id="popup-login-submit">Iniciar sesión</button>
+                <button type="submit" class="button_sub" name="custom_login" id="popup-login-submit">Iniciar sesión</button>
             </form>
         </div>
         <hr>
@@ -126,9 +142,7 @@ $is_logged_in = is_user_logged_in();
                 </div>
             </div>
             <div class="column">
-                <?php
-                echo get_field('video');
-?>
+                <?php echo get_field('video'); ?>
 
                 <div class="title_b">
                     Beneficios
@@ -136,285 +150,154 @@ $is_logged_in = is_user_logged_in();
 
                 <div class="desc">
                     <?php
-    $benefits = get_field('beneficios');
-// Asociación entre los valores y su contenido HTML
-$icons = array(
-    'Prestaciones superiores a la ley' => '<img src="'.get_template_directory_uri().'/imgs/prestaciones_superiores.png" >Prestaciones superiores a la ley',
-    'Bono por objetivos' => '<img src="'.get_template_directory_uri().'/imgs/bono_por_objetivos.png" >Bono por objetivos',
-    'Fondo de Ahorro' => '<img src="'.get_template_directory_uri().'/imgs/fondo_de_ahorro.png" >Fondo de Ahorro',
-    'Flexibilidad Laboral' => '<img src="'.get_template_directory_uri().'/imgs/flexibilidad_laboral.png" >Flexibilidad Laboral',
-    'Caja de Ahorro' => '<img src="'.get_template_directory_uri().'/imgs/caja_de_ahorro.png" >Caja de Ahorro',
-    'Seguros y Apoyos económicos' => '<img src="'.get_template_directory_uri().'/imgs/seguro_y_apoyos_econonicos.png" >Seguros y Apoyos económicos',
-    'Compra de acciones' => '<img src="'.get_template_directory_uri().'/imgs/compra_de_acciones.png" >Compra de acciones',
-    'Vales de despensa' => '<img src="'.get_template_directory_uri().'/imgs/vales_de_despensa.png" >Vales de despensa',
-);
-// Recorrer el array y generar HTML para los valores existentes
-foreach ($benefits as $benefit) {
-    if (array_key_exists($benefit, $icons)) {
-        echo '<div class="benefit-item">' . $icons[$benefit] . '</div>';
-    }
-}
-?>
+                    $benefits = get_field('beneficios');
+                    // Asociación entre los valores y su contenido HTML
+                    $icons = array(
+                        'Prestaciones superiores a la ley' => '<img src="'.get_template_directory_uri().'/imgs/prestaciones_superiores.png" >Prestaciones superiores a la ley',
+                        'Bono por objetivos' => '<img src="'.get_template_directory_uri().'/imgs/bono_por_objetivos.png" >Bono por objetivos',
+                        'Fondo de Ahorro' => '<img src="'.get_template_directory_uri().'/imgs/fondo_de_ahorro.png" >Fondo de Ahorro',
+                        'Flexibilidad Laboral' => '<img src="'.get_template_directory_uri().'/imgs/flexibilidad_laboral.png" >Flexibilidad Laboral',
+                        'Caja de Ahorro' => '<img src="'.get_template_directory_uri().'/imgs/caja_de_ahorro.png" >Caja de Ahorro',
+                        'Seguros y Apoyos económicos' => '<img src="'.get_template_directory_uri().'/imgs/seguro_y_apoyos_econonicos.png" >Seguros y Apoyos económicos',
+                        'Compra de acciones' => '<img src="'.get_template_directory_uri().'/imgs/compra_de_acciones.png" >Compra de acciones',
+                        'Vales de despensa' => '<img src="'.get_template_directory_uri().'/imgs/vales_de_despensa.png" >Vales de despensa',
+                    );
+                    // Recorrer el array y generar HTML para los valores existentes
+                    foreach ($benefits as $benefit) {
+                        if (array_key_exists($benefit, $icons)) {
+                            echo '<div class="benefit-item">' . $icons[$benefit] . '</div>';
+                        }
+                    }
+                    ?>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="form-post">
-        <?php
-        include get_template_directory() . '/templates/page-postulaciones.php';
-?>
+        <?php include get_template_directory() . '/templates/page-postulaciones.php'; ?>
     </div>
 </main>
 
-
 <script>
-// Esperar a que el DOM esté cargado
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
+    /* ===============================
+     * 1. RESTORE UI POST-LOGIN
+     * =============================== */
+    if (document.body.classList.contains('logged-in')) {
 
-    const close_mensaje = document.getElementById("close-mensaje");
-    const mensaje = document.getElementById('mensajeExito');
-    const form = document.getElementById('formularioPostulacion');
+        if (document.cookie.indexOf('thd_from_vacante=1') !== -1) {
 
-    if (close_mensaje) {
-        close_mensaje.addEventListener("click", function() {
+            // borrar cookie
+            document.cookie = "thd_from_vacante=; path=/; max-age=0";
+
+            const openFormBtn = document.getElementById("open-form");
+            if (openFormBtn) {
+                openFormBtn.click();
+            }
+        }
+    }
+
+    /* ===============================
+     * 2. MENSAJE DE ÉXITO POSTULACIÓN
+     * =============================== */
+    const mensaje       = document.getElementById("mensajeExito");
+    const closeMensaje  = document.getElementById("close-mensaje");
+    const formPostulacion = document.getElementById("formularioPostulacion");
+
+    if (closeMensaje && mensaje) {
+        closeMensaje.addEventListener("click", function () {
             mensaje.style.display = "none";
         });
     }
 
-    if (localStorage.getItem('formSubmitted') === 'true') {
+    if (localStorage.getItem("formSubmitted") === "true") {
         if (mensaje) {
-            mensaje.style.display = 'flex';
+            mensaje.style.display = "flex";
         }
-        localStorage.removeItem('formSubmitted');
+        localStorage.removeItem("formSubmitted");
     }
 
-    if (form) {
-        form.addEventListener("submit", function() {
-            localStorage.setItem('formSubmitted', 'true');
+    if (formPostulacion) {
+        formPostulacion.addEventListener("submit", function () {
+            localStorage.setItem("formSubmitted", "true");
         });
     }
 
-    const button = document.getElementById("open-form");
-    const formDiv = document.querySelector(".form-post");
+    /* ===============================
+     * 3. ABRIR FORMULARIO POSTULACIÓN
+     * =============================== */
+    const openFormBtn = document.getElementById("open-form");
+    const formDiv     = document.querySelector(".form-post");
 
-    if (button) {
-        button.addEventListener("click", function() {
-            // Asegurarse de que el div sea visible
+    if (openFormBtn && formDiv) {
+        openFormBtn.addEventListener("click", function () {
+
             formDiv.style.display = "block";
-            // Agregar la clase para la animación
             formDiv.classList.add("fade-in");
-            const formPost = document.querySelector('.form-post');
-            if (formPost) {
-                // Función para calcular dinámicamente el offset
-                const calculateOffset = () => {
-                    const navHeight = document.querySelector('#header') ? document.querySelector(
-                        '#header').offsetHeight : 0;
-                    const bannerHeight = document.querySelector('.banner') ? document.querySelector(
-                        '.banner').offsetHeight : 0;
-                    return navHeight + bannerHeight;
-                };
 
-                // Calcular el offset inicial
-                const initialOffset = calculateOffset();
-
-                // Calcular la posición de la sección .form-post con el offset
-                const scrollToPosition = formPost.offsetTop - initialOffset;
-
-                // Desplazamiento con scroll
-                window.scrollTo({
-                    top: scrollToPosition,
-                    behavior: 'smooth' // Desplazamiento suave
-                });
-
-                // Opcional: Recalcular el offset después de un pequeño retraso si el tamaño cambia de nuevo
-                setTimeout(() => {
-                    const recalculatedOffset = calculateOffset();
-                    const recalculatedScrollPosition = formPost.offsetTop - recalculatedOffset;
-
-                    window.scrollTo({
-                        top: recalculatedScrollPosition,
-                        behavior: 'smooth' // Asegurarse de que el desplazamiento se ajusta correctamente
-                    });
-                }, 300); // Ajusta este tiempo si es necesario para la transición de tamaño
-            }
-        });
-    }
-
-    const button_emi = document.getElementById("open-emi-form");
-    const emi = document.getElementById("popup-emi");
-    const butto_login = document.getElementById("login-prompt");
-    const login = document.getElementById("popup-login");
-
-
-    if (button_emi) {
-
-        button_emi.addEventListener("click", function() {
-            emi.style.display = "flex";
-        });
-    }
-
-    if (butto_login) {
-        butto_login.addEventListener("click", function() {
-            login.style.display = "flex";
-        });
-    }
-
-    const close = document.getElementById("close");
-    if (close) {
-
-
-        close.addEventListener("click", function() {
-            emi.style.display = "none";
-        });
-    }
-
-    const close_login = document.getElementById("close-login");
-    if (close_login) {
-        close_login.addEventListener("click", function() {
-            login.style.display = "none";
-        });
-    }
-
-
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-    const formDiv = document.querySelector("div.form-post");
-
-    // Verifica si el formulario debe estar visible
-    if (localStorage.getItem("formVisible") === "true") {
-        formDiv.style.display = "block";
-        formDiv.classList.add("fade-in");
-    }
-
-    // Manejar el evento submit del formulario
-    const form = document.querySelector("form");
-    form.addEventListener("submit", function(e) {
-        // Aquí se podría validar o enviar datos antes
-        localStorage.setItem("formVisible", "true");
-        formDiv.style.display = "block"; // Asegurarse de que sea visible
-        formDiv.classList.add("fade-in");
-    });
-
-
-    /**
-     * SAML SSO QA + LOGIN POR AJAX EN POPUP
-     */
-    const popupLoginForm  = document.getElementById('popup-login-form');
-    const popupLoginButton = document.getElementById('popup-login-submit');
-    const popupLoginError  = document.getElementById('popup-login-error');
-
-    function addSaml(form) {
-        const currentAction = form.getAttribute('action') || window.location.href;
-        const url = new URL(currentAction, window.location.href);
-
-        // const SAML_TOKEN_QA   = 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f';
-        // const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';
-
-        url.searchParams.set(
-            'saml_sso',
-            'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f'
-        );
-        form.setAttribute('action', url.toString());
-    }
-
-    function mostrarErrorPopup(msg) {
-        if (popupLoginError) {
-            popupLoginError.textContent = msg;
-            popupLoginError.style.display = 'block';
-        } else {
-            alert(msg);
-        }
-    }
-
-    function limpiarErrorPopup() {
-        if (popupLoginError) {
-            popupLoginError.textContent = '';
-            popupLoginError.style.display = 'none';
-        }
-    }
-
-    if (popupLoginForm && popupLoginButton) {
-        // Si dan click al botón, aseguramos que el action lleve el token de SAML (QA)
-        popupLoginButton.addEventListener('click', function() {
-            addSaml(popupLoginForm);
-        });
-
-        // Interceptar el submit para hacer login por AJAX
-        popupLoginForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // no recargar la página
-
-            limpiarErrorPopup();
-
-            popupLoginButton.disabled = true;
-
-            // Aseguramos que el action ya tenga el SAML (por si enviaron con Enter)
-            addSaml(popupLoginForm);
-
-            var formData = new FormData(popupLoginForm);
-            formData.append('action', 'custom_ajax_login');
-            formData.append('security', '<?php echo esc_js( wp_create_nonce("custom_login_nonce") ); ?>');
-
-            // Aseguramos redirect_to por si no hubiera valor
-            var redirInput = popupLoginForm.querySelector('input[name="redirect_to"]');
-            if (!redirInput || !redirInput.value) {
-                formData.append('redirect_to', window.location.href);
-            }
-
-            // Extraer el saml_sso del action y mandarlo también en el FormData
-            try {
-                var actionUrl = popupLoginForm.getAttribute('action') || window.location.href;
-                var urlObj    = new URL(actionUrl, window.location.href);
-                var samlParam = urlObj.searchParams.get('saml_sso');
-                if (samlParam) {
-                    formData.append('saml_sso', samlParam);
-                }
-            } catch (err) {
-                // si falla el parseo, simplemente no mandamos saml_sso extra
-            }
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '<?php echo esc_url( admin_url("admin-ajax.php") ); ?>', true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    popupLoginButton.disabled = false;
-
-                    if (xhr.status === 200) {
-                        var response;
-                        try {
-                            response = JSON.parse(xhr.responseText);
-                        } catch (e) {
-                            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
-                            return;
-                        }
-
-                        if (response && response.success && response.data && response.data.redirect) {
-                            // Login correcto → redirige a la misma vacante (o donde indique redirect_to)
-                            window.location.href = response.data.redirect;
-                        } else if (response && !response.success && response.data && response.data.message) {
-                            // Mensaje que viene del PHP (correo inválido, no registrado, contraseña incorrecta, etc.)
-                            mostrarErrorPopup(response.data.message);
-                        } else {
-                            mostrarErrorPopup('No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.');
-                        }
-                    } else {
-                        mostrarErrorPopup('Error de conexión. Inténtalo de nuevo.');
-                    }
-                }
+            const calculateOffset = () => {
+                const navHeight    = document.querySelector("#header")?.offsetHeight || 0;
+                const bannerHeight = document.querySelector(".banner")?.offsetHeight || 0;
+                return navHeight + bannerHeight;
             };
 
-            xhr.send(formData);
+            const scrollToForm = () => {
+                const offset = calculateOffset();
+                window.scrollTo({
+                    top: formDiv.offsetTop - offset,
+                    behavior: "smooth"
+                });
+            };
+
+            scrollToForm();
+            setTimeout(scrollToForm, 300);
         });
     }
 
+    /* ===============================
+     * 4. POPUP EMI
+     * =============================== */
+    const openEmiBtn = document.getElementById("open-emi-form");
+    const emiPopup   = document.getElementById("popup-emi");
+    const closeEmi   = document.getElementById("close");
+
+    if (openEmiBtn && emiPopup) {
+        openEmiBtn.addEventListener("click", function () {
+            emiPopup.style.display = "flex";
+        });
+    }
+
+    if (closeEmi && emiPopup) {
+        closeEmi.addEventListener("click", function () {
+            emiPopup.style.display = "none";
+        });
+    }
+
+    /* ===============================
+     * 5. POPUP LOGIN
+     * =============================== */
+    const loginPrompt = document.getElementById("login-prompt");
+    const loginPopup  = document.getElementById("popup-login");
+    const closeLogin  = document.getElementById("close-login");
+
+    if (loginPrompt && loginPopup) {
+        loginPrompt.addEventListener("click", function () {
+            // guardar intención (cookie corta)
+            document.cookie = "thd_from_vacante=1; path=/; max-age=300";
+            loginPopup.style.display = "flex";
+        });
+    }
+
+    if (closeLogin && loginPopup) {
+        closeLogin.addEventListener("click", function () {
+            loginPopup.style.display = "none";
+        });
+    }
 
 });
 </script>
-
 <?php
 get_footer();
 ?>

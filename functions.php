@@ -318,6 +318,21 @@ function modify_menu_items($items, $args)
 add_filter('wp_nav_menu_objects', 'modify_menu_items', 10, 2);
 
 
+function thd_mark_profile_menu_item($items, $args) {
+
+    if ($args->menu !== 'Header') {
+        return $items;
+    }
+
+    foreach ($items as &$item) {
+        if (trim($item->title) === 'MI PERFIL') {
+            $item->classes[] = 'menu-item-mi-perfil';
+        }
+    }
+
+    return $items;
+}
+add_filter('wp_nav_menu_objects', 'thd_mark_profile_menu_item', 10, 2);
 
 
 function limitar_busqueda_a_post_types($query)
@@ -484,24 +499,6 @@ function set_security_headers()
     header("Content-Security-Policy: frame-ancestors 'self';");
 }
 add_action('send_headers', 'set_security_headers');
-
-// // Mantener al usuario en la misma página después de iniciar sesión exitosamente
-// add_filter('login_redirect', function($redirect_to, $request, $user) {
-//     // Si hay un error, mantenemos la misma URL
-//     if (isset($_GET['login']) && $_GET['login'] == 'failed') {
-//         return wp_get_referer();
-//     }
-
-//     // Si el inicio de sesión es exitoso
-//     if (isset($user->roles) && is_array($user->roles)) {
-//         // Redireccionar a la misma página desde la que se envió el formulario
-//         return wp_get_referer() ? wp_get_referer() : home_url();
-//     }
-
-//     // Redirección por defecto
-//     return $redirect_to;
-// }, 10, 3);
-
 
 add_filter('login_redirect', 'custom_login_redirect', 10, 3);
 function custom_login_redirect($redirect_to, $requested_redirect_to, $user)
