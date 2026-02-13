@@ -231,3 +231,24 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login']) ) {
     wp_safe_redirect( $redirect_to );
     exit;
 }
+
+/***
+ * Configuración nueva de reset de password a useres generales
+ */
+
+add_filter('retrieve_password_message', function ($message, $key, $user_login, $user_data) {
+
+    $custom_url = home_url(
+        '/recuperar-contrasena/?key=' . $key . '&login=' . rawurlencode($user_login)
+    );
+
+    // Reemplaza cualquier URL que contenga wp-login.php?... por la personalizada
+    $message = preg_replace(
+        '/https?:\/\/[^\s]+wp-login\.php[^\s]*/',
+        $custom_url,
+        $message
+    );
+
+    return $message;
+
+}, 10, 4);

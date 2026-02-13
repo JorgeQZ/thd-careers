@@ -1,61 +1,90 @@
 <?php
+function get_gcp_credentials() {
+    try {
+        $client_email = getenv('GCP_CLIENT_EMAIL');
+        $private_key  = getenv('GCP_PRIVATE_KEY');
+
+        if ( empty($client_email) || empty($private_key)) {
+            throw new RuntimeException('Credenciales GCP no configuradas.');
+        }
+
+        if (!is_email($client_email)) {
+            throw new RuntimeException('Email de servicio inválido.');
+        }
+
+        // Normalizar saltos de línea
+        $private_key = str_replace("\\n", "\n", $private_key);
+
+        if (strpos($private_key, 'BEGIN PRIVATE KEY') === false) {
+            throw new RuntimeException('Formato de clave privada inválido.');
+        }
+
+        return [
+            'client_email' => sanitize_email($client_email),
+            'private_key'  => $private_key,
+        ];
+    } catch (Throwable $e) {
+        error_log('[GCP] Error get_gcp_credentials: ' . $e->getMessage());
+        throw new RuntimeException('Error interno de configuración.');
+    }
+}
+
 function generate_jwt($credentials) {
-    // Cabecera del JWT (Header)
-    $header = [
-        'alg' => 'RS256',
-        'typ' => 'JWT'
-    ];
+    try {
+        // Carga útil (Payload) del JWT
+        $issuedAt = time(); // Hora de emisión
 
-    // Carga útil (Payload) del JWT
-    $issuedAt = time(); // Hora de emisión
-    $expirationTime = $issuedAt + 3600;  // Expira en una hora
-    $payload = [
-        'iss' => $credentials['client_email'],
-        'scope' => 'https://www.googleapis.com/auth/devstorage.read_write',
-        'aud' => 'https://oauth2.googleapis.com/token',
-        'iat' => $issuedAt,
-        'exp' => $expirationTime,
-    ];
+        // Cabecera del JWT (Header)
+        $header = [
+            'alg' => 'RS256',
+            'typ' => 'JWT'
+        ];
 
-    // Codificar el encabezado y la carga útil en base64url
-    $encodedHeader = base64url_encode(json_encode($header, JSON_THROW_ON_ERROR));
-    $encodedPayload = base64url_encode(json_encode($payload, JSON_THROW_ON_ERROR));
+        $expirationTime = $issuedAt + 3600;  // Expira en una hora
 
-    // Concatenar el encabezado y la carga útil
-    $message = $encodedHeader . '.' . $encodedPayload;
+        $payload = [
+            'iss'   => $credentials['client_email'],
+            'scope' => 'https://www.googleapis.com/auth/devstorage.read_write',
+            'aud'   => 'https://oauth2.googleapis.com/token',
+            'iat'   => $issuedAt,
+            'exp'   => $expirationTime,
+        ];
 
-    // Generar la firma
-    // $privateKey = file_get_contents(get_template_directory() . '/json/thd-careers-447904-b68e48031aa6.json');
-    $privateKey = file_get_contents(get_template_directory() . '/json/thdmx-careers-bucket-test-daa3254feacf.json');
+        // Codificar el encabezado y la carga útil en base64url
+        $encodedHeader  = base64url_encode(json_encode($header, JSON_THROW_ON_ERROR));
+        $encodedPayload = base64url_encode(json_encode($payload, JSON_THROW_ON_ERROR));
 
-    $decodedPrivateKey = json_decode($privateKey, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception('Error al decodificar el JSON de la clave privada: ' . json_last_error_msg());
+        // Concatenar el encabezado y la carga útil
+        $message   = $encodedHeader . '.' . $encodedPayload;
+        $signature = sign_message($message, $credentials['private_key']);
+
+        // Codificar la firma en base64url
+        $encodedSignature = base64url_encode($signature);
+
+        // Retornar el JWT
+        return $message . '.' . $encodedSignature;
+    } catch (Throwable $e) {
+        error_log('[GCP] Error generate_jwt: ' . $e->getMessage());
+        throw new RuntimeException('Error generando token.');
     }
-
-    $privateKey = $decodedPrivateKey['private_key'] ?? null;
-
-    if (is_null($privateKey)) {
-        throw new Exception('La clave privada no se encontró en el JSON proporcionado.');
-    }
-    $signature = sign_message($message, $privateKey);
-
-    // Codificar la firma en base64url
-    $encodedSignature = base64url_encode($signature);
-
-    // Retornar el JWT
-    return $message . '.' . $encodedSignature;
 }
 
 function sign_message($message, $privateKey) {
+
     // Firmar el mensaje con la clave privada utilizando SHA256 y RSA
-    $privateKeyResource = openssl_pkey_get_private($privateKey);
-    if (!$privateKeyResource) {
-        die('No se pudo cargar la clave privada');
+    $key = openssl_pkey_get_private($privateKey);
+    if (!$key) {
+        error_log('[GCP] Clave privada inválida');
+        throw new RuntimeException('Error criptográfico.');
     }
 
     $signature = '';
-    openssl_sign($message, $signature, $privateKeyResource, OPENSSL_ALGO_SHA256);
+    if (!openssl_sign($message, $signature, $key, OPENSSL_ALGO_SHA256)) {
+        error_log('[GCP] Fallo al firmar mensaje');
+        throw new RuntimeException('Error criptográfico.');
+    }
+
+    openssl_pkey_free($key);
     return $signature;
 }
 
@@ -65,146 +94,183 @@ function base64url_encode($data) {
 }
 
 function upload_to_gcp($file) {
-    // Ruta a las credenciales de tu cuenta de servicio
-    // $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json';
-    $json_key_file = get_template_directory_uri(  ).'/json/thdmx-careers-bucket-test-daa3254feacf.json';
     try {
-        $jsonContent = file_get_contents($json_key_file);
+        // Límite de tamaño (5MB)
+        $max_size = 5 * 1024 * 1024; // 5MB
 
-        if ($jsonContent === false) {
-            throw new Exception('Error al leer el archivo JSON: ' . $json_key_file);
+        if (!isset($file['size']) || $file['size'] > $max_size) {
+            throw new RuntimeException('Archivo excede tamaño permitido.');
         }
 
-        $credentials = json_decode($jsonContent, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Error al decodificar el archivo JSON: ' . json_last_error_msg());
-        }
-    } catch (Exception $e) {
-        error_log('Error en upload_to_gcp: ' . $e->getMessage());
-        throw $e; // Opcional: volver a lanzar la excepción para manejarla en otro nivel
-    }
-
-    // Generar el JWT para la autenticación
-    $jwt = generate_jwt($credentials);
-
-    // Obtener el nombre del bucket y el archivo
-    // $bucket_name = 'thdcareers';
-    $bucket_name = 'thdmx-bucket-test-careers_docs';
-    $object_name = $file['name'];
-    $object_content = file_get_contents($file['tmp_name']);
-
-    // Solicitar el token de acceso usando el JWT
-    $auth_url = 'https://oauth2.googleapis.com/token';
-    $data = [
-        'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        'assertion' => $jwt
-    ];
-
-    // Realizar la solicitud de autenticación
-    $response = wp_remote_post($auth_url, [
-        'body' => $data
-    ]);
-    try {
-        $body = wp_remote_retrieve_body($response);
-
-        if (empty($body)) {
-            throw new Exception('La respuesta del servidor está vacía.');
+        if (empty($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+            throw new RuntimeException('Archivo inválido.');
         }
 
-        $auth_response = json_decode($body, true);
+        $bucket_name = getenv('GCP_BUCKET_NAME');
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Error al decodificar el JSON de la respuesta: ' . json_last_error_msg());
+        if (empty($bucket_name)) {
+            throw new RuntimeException('Bucket no configurado.');
         }
-    } catch (Exception $e) {
-        error_log('Error en upload_to_gcp: ' . $e->getMessage());
-        throw $e; // Opcional: volver a lanzar la excepción para manejarla en otro nivel
-    }
 
-    if (isset($auth_response['access_token'])) {
-        // Usar el token de acceso para subir el archivo
-        $upload_url = "https://storage.googleapis.com/upload/storage/v1/b/{$bucket_name}/o?uploadType=media&name={$object_name}";
+        // Generar el JWT para la autenticación
+        $credentials = get_gcp_credentials();
+        $jwt         = generate_jwt($credentials);
 
-        $headers = [
-            'Authorization' => 'Bearer ' . $auth_response['access_token'],
-            'Content-Type' => mime_content_type($file['tmp_name']),
+        // Solicitar token OAuth
+        $auth = wp_remote_post(
+            'https://oauth2.googleapis.com/token',
+            [
+                'timeout' => 20,
+                'body'    => [
+                    'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                    'assertion'  => $jwt,
+                ]
+            ]
+        );
+
+        if (is_wp_error($auth)) {
+            throw new RuntimeException('Error de conexión OAuth.');
+        }
+
+        $auth_status = wp_remote_retrieve_response_code($auth);
+        if ($auth_status !== 200) {
+            throw new RuntimeException('OAuth rechazado por el proveedor.');
+        }
+
+        $auth_body = json_decode(
+            wp_remote_retrieve_body($auth),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        if (empty($auth_body['access_token'])) {
+            throw new RuntimeException('No se recibió access_token.');
+        }
+
+        // Sanitizar nombre de objeto
+        $object_name = sanitize_file_name($file['name']);
+        $object_name = rawurlencode($object_name);
+
+        $content = file_get_contents($file['tmp_name']);
+
+        if ($content === false) {
+            throw new RuntimeException('No se pudo leer el archivo.');
+        }
+
+        $mime = function_exists('mime_content_type')
+            ? mime_content_type($file['tmp_name'])
+            : 'application/octet-stream';
+
+        $allowed_mimes = [
+            'application/pdf',
+            'image/jpeg',
+            'image/png'
         ];
 
-        $file_upload_response = wp_remote_post($upload_url, [
-            'headers' => $headers,
-            'body' => $object_content
-        ]);
+        if (!in_array($mime, $allowed_mimes, true)) {
+            throw new RuntimeException('Tipo de archivo no permitido.');
+        }
 
-        return wp_remote_retrieve_body($file_upload_response);
-    } else {
-        return 'Error en la autenticación';
+        $upload_url = sprintf(
+            'https://storage.googleapis.com/upload/storage/v1/b/%s/o?uploadType=media&name=%s',
+            rawurlencode($bucket_name),
+            $object_name
+        );
+
+        $response = wp_remote_post(
+            $upload_url,
+            [
+                'timeout' => 30,
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $auth_body['access_token'],
+                    'Content-Type'  => $mime,
+                ],
+                'body' => $content
+            ]
+        );
+
+        if (is_wp_error($response)) {
+            throw new RuntimeException('Error subiendo archivo.');
+        }
+
+        $status_code = wp_remote_retrieve_response_code($response);
+
+        if ($status_code < 200 || $status_code >= 300) {
+            throw new RuntimeException('Respuesta inválida de GCP.');
+        }
+
+        return wp_remote_retrieve_body($response);
+    } catch (Throwable $e) {
+        error_log('[GCP] upload_to_gcp: ' . $e->getMessage());
+        return false; // nunca exponer error técnico
     }
 }
-
-function permitir_archivos_json($mime_types) {
-    $mime_types['json'] = 'application/json'; // Permite la subida de archivos .json
-    return $mime_types;
-}
-add_filter('upload_mimes', 'permitir_archivos_json');
-
 
 // Genera un nuevo token de acceso para ver archivos en el bucket
 function generar_token_acceso() {
-    $json_key_file = get_template_directory() . '/json/thdmx-careers-bucket-test-daa3254feacf.json';
+    try {
+        $credentials = get_gcp_credentials();
+        $jwt         = generate_jwt($credentials);
 
-    // Leer las credenciales desde el archivo JSON
-    $jsonContent = file_get_contents($json_key_file);
-    if ($jsonContent === false) {
-        throw new Exception('Error al leer el archivo JSON: ' . $json_key_file);
-    }
+        // Solicitar el token de acceso usando el JWT
+        $response = wp_remote_post(
+            'https://oauth2.googleapis.com/token',
+            [
+                'timeout' => 20,
+                'body' => [
+                    'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                    'assertion'  => $jwt,
+                ]
+            ]
+        );
 
-    $credentials = json_decode($jsonContent, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception('Error al decodificar el archivo JSON: ' . json_last_error_msg());
-    }
+        if (is_wp_error($response)) {
+            throw new RuntimeException('Error OAuth.');
+        }
 
-    // Generar el JWT utilizando la función existente
-    $jwt = generate_jwt($credentials);
+        $status_code = wp_remote_retrieve_response_code($response);
+        if ($status_code !== 200) {
+            throw new RuntimeException('OAuth rechazado por el proveedor.');
+        }
 
-    // Solicitar el token de acceso usando el JWT
-    $auth_url = 'https://oauth2.googleapis.com/token';
-    $data = [
-        'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        'assertion' => $jwt
-    ];
+        $data = json_decode(
+            wp_remote_retrieve_body($response),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
-    // Realizar la solicitud para obtener el token de acceso
-    $response = wp_remote_post($auth_url, [
-        'body' => $data
-    ]);
+        if (empty($data['access_token'])) {
+            throw new RuntimeException('Token inválido.');
+        }
 
-    $body = wp_remote_retrieve_body($response);
-    if (empty($body)) {
-        throw new Exception('La respuesta del servidor está vacía.');
-    }
-
-    $auth_response = json_decode($body, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception('Error al decodificar el JSON de la respuesta: ' . json_last_error_msg());
-    }
-
-    // Retornar el token de acceso
-    if (isset($auth_response['access_token'])) {
-        return $auth_response['access_token'];
-    } else {
-        throw new Exception('Error al obtener el token de acceso.');
+        return $data['access_token'];
+    } catch (Throwable $e) {
+        error_log('[GCP] generar_token_acceso: ' . $e->getMessage());
+        throw new RuntimeException('No se pudo generar token.');
     }
 }
 
 function obtener_url_archivo($file_name) {
     try {
-        $access_token = generar_token_acceso(); // Generar un nuevo token de acceso
-        $bucket_name = 'thdmx-bucket-test-careers_docs';
-        $url = "https://storage.googleapis.com/download/storage/v1/b/{$bucket_name}/o/{$file_name}?alt=media&access_token={$access_token}";
-        return $url;
-    } catch (Exception $e) {
-        error_log('Error al generar la URL del archivo: ' . $e->getMessage());
-        return 'Error al generar la URL del archivo.';
+        $bucket = getenv('GCP_BUCKET_NAME');
+
+        if (empty($bucket)) {
+            throw new RuntimeException('Bucket no configurado.');
+        }
+
+        $file_name = rawurlencode(sanitize_file_name($file_name));
+        $token     = generar_token_acceso();
+
+        return sprintf(
+            'https://storage.googleapis.com/download/storage/v1/b/%s/o/%s?alt=media&access_token=%s',
+            rawurlencode($bucket),
+            $file_name,
+            rawurlencode($token)
+        );
+    } catch (Throwable $e) {
+        error_log('[GCP] obtener_url_archivo: ' . $e->getMessage());
+        return false;
     }
 }
