@@ -74,10 +74,12 @@ $is_logged_in = is_user_logged_in();
                     add_query_arg(
                         'saml_sso',
                         'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f',
-                        home_url('/login/')
+                        wp_login_url()
                     )
                 ); ?>"
                 >
+
+
 
                 <input type="text" name="log" placeholder="Nombre de usuario o correo" required autocomplete="off"
                     pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">

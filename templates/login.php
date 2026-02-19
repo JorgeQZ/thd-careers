@@ -81,7 +81,17 @@ get_header();
     <!-- ======================================================
          LOGIN FORM
     ======================================================= -->
-    <form action="<?php echo esc_url( wp_login_url().'?saml_sso=e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f' ); ?>" method="post" class="login-form" id="custom-login-form">
+    <?php
+     // const SAML_TOKEN_QA   = 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f';
+    // const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';
+    ?>
+    <form  action="<?php echo esc_url(
+        add_query_arg(
+            'saml_sso',
+            'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f',
+            wp_login_url()
+        )
+        ); ?>" method="post" class="login-form" id="custom-login-form">
 
         <input type="hidden" name="redirect_to" value="<?php echo esc_url(home_url()); ?>" />
 
