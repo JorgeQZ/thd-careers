@@ -81,7 +81,7 @@ get_header();
     <!-- ======================================================
          LOGIN FORM
     ======================================================= -->
-    <form action="" method="post" class="login-form" id="custom-login-form">
+    <form action="<?php echo esc_url( wp_login_url().'?saml_sso=e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f' ); ?>" method="post" class="login-form" id="custom-login-form">
 
         <input type="hidden" name="redirect_to" value="<?php echo esc_url(home_url()); ?>" />
 
@@ -303,11 +303,11 @@ document.addEventListener("DOMContentLoaded", function() {
             'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f'
         );
         form.setAttribute('action', url.toString());
+
+        console.log(form);
+
     }
 
-    if (loginButton) {
-        loginButton.addEventListener('click', () => addSaml(loginForm));
-    }
     if (registerButton) {
         registerButton.addEventListener('click', () => addSaml(loginForm));
     }

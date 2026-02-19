@@ -227,13 +227,26 @@ add_filter('login_redirect', 'redirect_general_users', 10, 3);
 
 // Oculta la barra de administración para usuarios con el rol 'General'
 add_filter('show_admin_bar', function ($show) {
-
-    if ( ! current_user_can('manage_options') ) {
+    if ( ! is_user_logged_in() ) {
         return false;
     }
 
-    return $show;
+    $allowed_roles = [
+        'administrator',
+        'rh_admin',
+        'rh_general',
+        'rh_oat',
+    ];
 
+    $user = wp_get_current_user();
+
+    foreach ( $allowed_roles as $role ) {
+        if ( in_array( $role, (array) $user->roles, true ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }, 999);
 // Evita el acceso al área administrativa para usuarios con el rol 'General'
 function restrict_admin_access_by_capabilities() {
