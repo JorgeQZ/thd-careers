@@ -226,13 +226,15 @@ function redirect_general_users($redirect_to, $request, $user) {
 add_filter('login_redirect', 'redirect_general_users', 10, 3);
 
 // Oculta la barra de administración para usuarios con el rol 'General'
-function hide_admin_bar_for_general_users() {
-    if (current_user_can('subscriber')) {
-        show_admin_bar(false);
-    }
-}
-add_action('after_setup_theme', 'hide_admin_bar_for_general_users');
+add_filter('show_admin_bar', function ($show) {
 
+    if ( ! current_user_can('manage_options') ) {
+        return false;
+    }
+
+    return $show;
+
+}, 999);
 // Evita el acceso al área administrativa para usuarios con el rol 'General'
 function restrict_admin_access_by_capabilities() {
     if (is_admin() && !defined('DOING_AJAX') && !current_user_can('edit_posts')) {
