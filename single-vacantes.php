@@ -63,8 +63,10 @@ $is_logged_in = is_user_logged_in();
             de manera rápida y sencilla. <br><br>
         </div>
 
-            <!--// const SAML_TOKEN_QA   = 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f';
-        // const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';-->
+        <?php
+        // const SAML_TOKEN_QA   = 'e2cfc6d3517de87577eaa735b870490966faf04a4e2e96b1d51ca0b5b6919b2f';
+        // const SAML_TOKEN_PROD = '719652f1df11814efaad458e9aa79d6f10fd2bcc81acf2b620a1063fe5537b65';
+        ?>
         <div class="login-form">
             <!-- Formulario de login -->
             <form
