@@ -14,8 +14,7 @@ function get_gcp_credentials() {
 
         // Normalizar saltos de línea
         $private_key = str_replace("\\n", "\n", $private_key);
-
-        if (strpos($private_key, 'BEGIN PRIVATE KEY') === false) {
+        if ( strpos($private_key, '-----BEGIN PRIVATE KEY-----') !== 0 ) {
             throw new RuntimeException('Formato de clave privada inválido.');
         }
 
@@ -32,7 +31,7 @@ function get_gcp_credentials() {
 function generate_jwt($credentials) {
     try {
         // Carga útil (Payload) del JWT
-        $issuedAt = time(); // Hora de emisión
+        $issuedAt = time() - 60;  // Hora de emisión
 
         // Cabecera del JWT (Header)
         $header = [
@@ -106,7 +105,7 @@ function upload_to_gcp($file) {
             throw new RuntimeException('Archivo inválido.');
         }
 
-        $bucket_name =  "thdmx-careers-bucket-test";
+        $bucket_name = vip_get_env_var('CARRERAS_BUCKET_NAME');
 
         if (empty($bucket_name)) {
             throw new RuntimeException('Bucket no configurado.');
@@ -149,7 +148,7 @@ function upload_to_gcp($file) {
         }
 
         // Sanitizar nombre de objeto
-        $object_name = sanitize_file_name($file['name']);
+        $object_name = time() . '-' . wp_generate_uuid4() . '-' . sanitize_file_name($file['name']);
         $object_name = rawurlencode($object_name);
 
         $content = file_get_contents($file['tmp_name']);
@@ -254,7 +253,7 @@ function generar_token_acceso() {
 
 function obtener_url_archivo($file_name) {
     try {
-        $bucket = "thdmx-careers-bucket-test";
+        $bucket = vip_get_env_var('CARRERAS_BUCKET_NAME');
 
         if (empty($bucket)) {
             throw new RuntimeException('Bucket no configurado.');
