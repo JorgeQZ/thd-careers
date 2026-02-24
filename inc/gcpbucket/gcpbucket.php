@@ -1,8 +1,8 @@
 <?php
 function get_gcp_credentials() {
     try {
-        $client_email = getenv('GCP_CLIENT_EMAIL');
-        $private_key  = getenv('GCP_PRIVATE_KEY');
+        $client_email = vip_get_env_var('CARRERAS_CLIENT_EMAIL');
+        $private_key  = vip_get_env_var('CARRERAS_PRIVATE_KEY');
 
         if ( empty($client_email) || empty($private_key)) {
             throw new RuntimeException('Credenciales GCP no configuradas.');
@@ -106,7 +106,7 @@ function upload_to_gcp($file) {
             throw new RuntimeException('Archivo inválido.');
         }
 
-        $bucket_name = getenv('GCP_BUCKET_NAME');
+        $bucket_name =  "thdmx-careers-bucket-test";
 
         if (empty($bucket_name)) {
             throw new RuntimeException('Bucket no configurado.');
@@ -254,7 +254,7 @@ function generar_token_acceso() {
 
 function obtener_url_archivo($file_name) {
     try {
-        $bucket = getenv('GCP_BUCKET_NAME');
+        $bucket = "thdmx-careers-bucket-test";
 
         if (empty($bucket)) {
             throw new RuntimeException('Bucket no configurado.');
