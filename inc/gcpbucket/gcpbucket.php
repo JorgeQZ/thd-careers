@@ -47,12 +47,16 @@ function get_gcp_credentials() {
 
     } catch (Throwable $e) {
 
-        echo '<pre style="background:#111;color:#0f0;padding:20px;">';
-        echo "GCP DEBUG\n\n";
-        echo implode("\n", $debug_output);
-        echo "\n\nERROR:\n" . $e->getMessage();
-        echo '</pre>';
-        exit;
+        // Registrar error en logs del servidor
+        error_log('GCP ERROR: ' . $e->getMessage());
+        error_log('GCP DEBUG: ' . print_r($debug_output, true));
+
+        // Respuesta genérica al cliente
+        wp_die(
+            'Ocurrió un error al procesar la solicitud.',
+            'Error',
+            ['response' => 500]
+        );
     }
 }
 function generate_jwt($credentials) {

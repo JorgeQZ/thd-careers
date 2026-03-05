@@ -34,7 +34,7 @@ add_action('wp_login_failed', function ($username) {
 
     // guardar error temporal
     set_transient(
-        'thd_login_error_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']),
+        'thd_login_error_' . hash('sha256', $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']),
         $error,
         60
     );
