@@ -68,6 +68,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_register'])) {
     }
 }
 
+
+$login_error = '';
+$error_key = 'thd_login_error_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+$error_msg = get_transient($error_key);
+
+if ($error_msg) {
+    $login_error = $error_msg;
+    delete_transient($error_key);
+}
 get_header();
 ?>
 
@@ -186,7 +195,7 @@ get_header();
                     </button>
 
                     <div class="password-rules" id="password-rules">
-                        <p class="rule" data-rule="length">• Mínimo 8 caracteres</p>
+                        <p class="rule" data-rule="length">• Mínimo 12 caracteres</p>
                         <p class="rule" data-rule="lower">• Al menos una letra minúscula</p>
                         <p class="rule" data-rule="upper">• Al menos una letra mayúscula</p>
                         <p class="rule" data-rule="number">• Al menos un número</p>
@@ -225,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!passwordInput || !submitBtn) return;
 
     const rules = {
-        length:  val => val.length >= 8,
+        length:  val => val.length >= 12,
         lower:   val => /[a-z]/.test(val),
         upper:   val => /[A-Z]/.test(val),
         number:  val => /[0-9]/.test(val),

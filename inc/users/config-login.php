@@ -1,4 +1,6 @@
 <?php
+
+
 // Función para validar la seguridad de las contraseñas.
 function validate_password_security($password) {
     if (strlen($password) < 12) {
@@ -16,6 +18,35 @@ function validate_password_security($password) {
 
     return true;
 }
+
+add_action('wp_login_failed', function ($username) {
+
+    $error = 'El correo o la contraseña son incorrectos.';
+
+    if (isset($_POST['pwd'])) {
+
+        $user = get_user_by('login', $username);
+
+        if ($user) {
+            $error = 'El correo o la contraseña son incorrectos.';
+        }
+    }
+
+    // guardar error temporal
+    set_transient(
+        'thd_login_error_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']),
+        $error,
+        60
+    );
+
+    // redirigir a la página desde donde vino
+    $redirect = isset($_POST['redirect_to'])
+        ? esc_url_raw($_POST['redirect_to'])
+        : home_url('/login');
+
+    wp_safe_redirect($redirect);
+    exit;
+});
 
 // Manejar intentos fallidos de inicio de sesión y bloqueo de cuentas.
 function handle_failed_login_attempts($username) {
@@ -196,7 +227,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login']) ) {
 
         switch ( $code ) {
             case 'incorrect_password':
-                $login_error = 'La contraseña no coincide con la cuenta ingresada.';
+                $login_error = 'El correo o la contraseña son incorrectos.';
                 break;
             default:
                 // Otros errores: mantenemos el mensaje genérico.

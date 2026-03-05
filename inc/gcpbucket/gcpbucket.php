@@ -1,33 +1,60 @@
 <?php
 function get_gcp_credentials() {
-    try {
-        $client_email = vip_get_env_var('CARRERAS_CLIENT_EMAIL');
-        $private_key  = vip_get_env_var('CARRERAS_PRIVATE_KEY');
 
-        if ( empty($client_email) || empty($private_key)) {
-            throw new RuntimeException('Credenciales GCP no configuradas.');
+    $debug_output = [];
+
+    try {
+
+        $client_email = vip_get_env_var('CARRERAS_CLIENT_EMAIL', '');
+        $private_key  = vip_get_env_var('CARRERAS_PRIVATE_KEY', '');
+        $bucket_name  = vip_get_env_var('CARRERAS_BUCKET_NAME', '');
+
+        $debug_output[] = 'EMAIL LENGTH: ' . strlen($client_email);
+        $debug_output[] = 'KEY RAW LENGTH: ' . strlen($private_key);
+        $debug_output[] = 'BUCKET: ' . $bucket_name;
+
+        if (empty($client_email) || empty($private_key) || empty($bucket_name)) {
+            throw new Exception('Alguna env var está vacía.');
         }
+
+        // 🔧 Normalización robusta
+        $private_key = str_replace(["\\r\\n", "\\n", "\\r"], "\n", $private_key);
+        $private_key = trim($private_key);
+
+        $debug_output[] = 'KEY NORMALIZED LENGTH: ' . strlen($private_key);
+        $debug_output[] = 'STARTS WITH BEGIN: ' . (strpos($private_key, '-----BEGIN PRIVATE KEY-----') === 0 ? 'YES' : 'NO');
+        $debug_output[] = 'ENDS WITH END: ' . (substr($private_key, -25) === '-----END PRIVATE KEY-----' ? 'YES' : 'NO');
 
         if (!is_email($client_email)) {
-            throw new RuntimeException('Email de servicio inválido.');
+            throw new Exception('Email inválido.');
         }
 
-        // Normalizar saltos de línea
-        $private_key = str_replace("\\n", "\n", $private_key);
-        if ( strpos($private_key, '-----BEGIN PRIVATE KEY-----') !== 0 ) {
-            throw new RuntimeException('Formato de clave privada inválido.');
+        // 🔎 Validación real OpenSSL
+        $res = openssl_pkey_get_private($private_key);
+
+        if (!$res) {
+            throw new Exception('OpenSSL no pudo parsear la clave privada.');
         }
+
+        $debug_output[] = 'OpenSSL: KEY VALID ✔';
 
         return [
             'client_email' => sanitize_email($client_email),
             'private_key'  => $private_key,
+            'bucket_name'  => $bucket_name,
+            'debug'        => $debug_output
         ];
+
     } catch (Throwable $e) {
-        error_log('[GCP] Error get_gcp_credentials: ' . $e->getMessage());
-        throw new RuntimeException('Error interno de configuración.');
+
+        echo '<pre style="background:#111;color:#0f0;padding:20px;">';
+        echo "GCP DEBUG\n\n";
+        echo implode("\n", $debug_output);
+        echo "\n\nERROR:\n" . $e->getMessage();
+        echo '</pre>';
+        exit;
     }
 }
-
 function generate_jwt($credentials) {
     try {
         // Carga útil (Payload) del JWT

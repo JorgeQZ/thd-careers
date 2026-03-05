@@ -1,4 +1,14 @@
 <?php
+$login_error = '';
+
+$error_key = 'thd_login_error_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+$error_msg = get_transient($error_key);
+
+if ($error_msg) {
+    $login_error = $error_msg;
+    delete_transient($error_key);
+}
+
 get_header();
 
 $current_post_id = get_the_ID();
@@ -96,7 +106,13 @@ $is_logged_in = is_user_logged_in();
                 <!-- Contenedor para mensajes de error del login (AJAX) -->
                 <div id="popup-login-error"
                     class="error-message"
-                    style="color:red; margin-top:8px; display:none;"></div>
+                    style="color:red; margin-top:8px; <?php echo $login_error ? '' : 'display:none;'; ?>">
+
+                    <?php if ($login_error): ?>
+                    <?php echo esc_html($login_error); ?>
+                    <?php endif; ?>
+
+                    </div>
 
                 <br>
                 <button type="submit" class="button_sub" name="custom_login" id="popup-login-submit">Iniciar sesión</button>
@@ -298,6 +314,22 @@ document.addEventListener("DOMContentLoaded", function () {
         closeLogin.addEventListener("click", function () {
             loginPopup.style.display = "none";
         });
+    }
+
+    /* ===============================
+    * 6. REABRIR POPUP SI HAY ERROR
+    * =============================== */
+
+    const loginError = document.getElementById("popup-login-error");
+
+    if (loginError && loginError.textContent.trim() !== "") {
+
+        const popup = document.getElementById("popup-login");
+
+        if (popup) {
+            popup.style.display = "flex";
+        }
+
     }
 
 });
