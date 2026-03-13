@@ -1,7 +1,7 @@
 <?php
 $login_error = '';
 
-$error_key = 'thd_login_error_' . hash('sha256', $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+$error_key = 'thd_login_error_' . hash_hmac('sha256', $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'],  wp_salt());
 
 $error_msg = get_transient($error_key);
 

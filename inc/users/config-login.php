@@ -18,39 +18,25 @@ function validate_password_security($password) {
 
     return true;
 }
-
 add_action('wp_login_failed', function ($username) {
+    $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+    $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
 
-    $error = 'El correo o la contraseña son incorrectos.';
-
-    if (isset($_POST['pwd'])) {
-
-        $user = get_user_by('login', $username);
-
-        if ($user) {
-            $error = 'El correo o la contraseña son incorrectos.';
-        }
-    }
-
-    // guardar error temporal
-    set_transient(
-        'thd_login_error_' . hash('sha256', $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']),
-        $error,
-        60
+    $error_key = 'thd_login_error_' . hash_hmac(
+        'sha256',
+        $remote_addr . $user_agent,
+        wp_salt('auth')
     );
 
-    // redirigir a la página desde donde vino
-    $redirect = isset($_POST['redirect_to'])
-        ? esc_url_raw($_POST['redirect_to'])
-        : home_url('/login');
+    set_transient($error_key, 'Correo o contraseña incorrectos.', 60);
 
-    wp_safe_redirect($redirect);
+    wp_safe_redirect(home_url('/login'));
     exit;
-});
+}, 10, 1);
 
 // Manejar intentos fallidos de inicio de sesión y bloqueo de cuentas.
 function handle_failed_login_attempts($username) {
-    $transient_name   = 'failed_login_' . hash('sha256', $username);
+    $transient_name   = 'failed_login_' . hash_hmac('sha256', $username, wp_salt('auth'));
     $failed_attempts  = get_transient($transient_name);
 
     if ($failed_attempts === false) {

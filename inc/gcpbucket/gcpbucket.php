@@ -109,7 +109,7 @@ function sign_message($message, $privateKey) {
     }
 
     $signature = '';
-    if (!openssl_sign($message, $signature, $key, OPENSSL_ALGO_SHA256)) {
+    if (!openssl_sign($message, $signature, $key, OPENSSL_ALGO_SHA256)) {echo
         error_log('[GCP] Fallo al firmar mensaje');
         throw new RuntimeException('Error criptográfico.');
     }
