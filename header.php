@@ -9,6 +9,12 @@ header("Content-Security-Policy: frame-ancestors 'self';");
 
 
 <head>
+     <script>
+        if (window.top !== window.self) {
+            document.body.innerHTML = "";
+            window.top.location = window.self.location;
+        }
+    </script>
      <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?
     id=G-1YL22NQM50"></script>

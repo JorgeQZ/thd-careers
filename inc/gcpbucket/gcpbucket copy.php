@@ -66,6 +66,22 @@ function base64url_encode($data) {
 
 function upload_to_gcp($file) {
     // Ruta a las credenciales de tu cuenta de servicio
+    $mime = function_exists('mime_content_type')
+        ? mime_content_type($file['tmp_name'])
+        : 'application/octet-stream';
+
+    $allowed_mimes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/png',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/msword'
+    ];
+
+
+    if (!in_array($mime, $allowed_mimes, true)) {
+        throw new RuntimeException('Tipo de archivo no permitido.');
+    }
     // $json_key_file = get_template_directory_uri(  ).'/json/thd-careers-447904-b68e48031aa6.json';
     $json_key_file = get_template_directory_uri(  ).'/json/thdmx-careers-bucket-test-daa3254feacf.json';
     try {

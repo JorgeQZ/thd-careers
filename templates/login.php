@@ -158,6 +158,7 @@ get_header();
                 <?php echo esc_html($login_error); ?>
             </div>
         </div>
+
         <?php endif; ?>
 
         <br>
@@ -165,6 +166,7 @@ get_header();
             <button type="submit" name="custom_login" id="login-submit-btn">Iniciar Sesión</button>
         </p>
         <br>
+        <?php echo do_shortcode( '[miniorange_social_login]'); ?>
     </form>
 
     <hr>

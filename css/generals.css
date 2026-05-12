@@ -326,6 +326,13 @@ iframe {
   border-color: #C14C00;
 }
 
+.login-form .mo-openid-app-icons {
+  text-align: center;
+}
+.login-form .mo-openid-app-icons > p {
+  margin: 0 auto !important;
+}
+
 body.admin-bar {
   --admin-bar-offset: 32px;
 }
@@ -599,10 +606,6 @@ header .container .menu {
   position: relative;
   padding: 0;
   margin: 0;
-  /* Estilos para el contenedor del sub-menú */
-  /* Mostrar el sub-menú al pasar el cursor por el elemento principal */
-  /* Estilos para cada enlace del sub-menú */
-  /* Hover en los enlaces del sub-menú */
 }
 header .container .menu-item {
   list-style: none;
@@ -625,6 +628,9 @@ header .container .menu-item a {
 header .container .menu-item a:hover {
   color: #f96302;
 }
+header .container .menu {
+  /* Estilos para el contenedor del sub-menú */
+}
 header .container .menu .sub-menu {
   display: none;
   position: absolute;
@@ -641,8 +647,14 @@ header .container .menu .sub-menu .menu-item {
 header .container .menu .menu-item .menu-item-type-custom .menu-item-object-custom .current-menu-ancestor .current-menu-parent .menu-item-has-children .menu-item-80 {
   position: relative;
 }
+header .container .menu {
+  /* Mostrar el sub-menú al pasar el cursor por el elemento principal */
+}
 header .container .menu .menu-item:hover .sub-menu {
   display: block;
+}
+header .container .menu {
+  /* Estilos para cada enlace del sub-menú */
 }
 header .container .menu .sub-menu a {
   display: block;
@@ -651,6 +663,9 @@ header .container .menu .sub-menu a {
   text-decoration: none;
   border-top: solid white;
   text-align: right;
+}
+header .container .menu {
+  /* Hover en los enlaces del sub-menú */
 }
 header .container .menu .sub-menu a:hover {
   color: #f96302;
@@ -743,8 +758,6 @@ header.sticky .menu-item span {
   .menu-wrapper.active .menu {
     list-style-type: none;
     padding: 0;
-    /* Mostrar el sub-menú al pasar el cursor por el elemento principal */
-    /* Selecciona solo los elementos de menú que contienen un sub-menú */
   }
   .menu-wrapper.active .menu ul {
     padding: 0;
@@ -758,8 +771,14 @@ header.sticky .menu-item span {
     padding: 0px 0;
     z-index: 100000;
   }
+  .menu-wrapper.active .menu {
+    /* Mostrar el sub-menú al pasar el cursor por el elemento principal */
+  }
   .menu-wrapper.active .menu .menu-item:hover .sub-menu {
     display: block;
+  }
+  .menu-wrapper.active .menu {
+    /* Selecciona solo los elementos de menú que contienen un sub-menú */
   }
   .menu-wrapper.active .menu .menu-item-has-children > a::after {
     content: "";

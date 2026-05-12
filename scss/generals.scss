@@ -244,8 +244,14 @@ iframe {
 }
 
 
-
-
+.login-form{
+    .mo-openid-app-icons{
+        text-align: center;
+        >p{
+            margin: 0 auto !important;
+        }
+    }
+}
 // Header
 @import "header";
 

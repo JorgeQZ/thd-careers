@@ -195,7 +195,9 @@ function upload_to_gcp($file) {
         $allowed_mimes = [
             'application/pdf',
             'image/jpeg',
-            'image/png'
+            'image/png',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ];
 
         if (!in_array($mime, $allowed_mimes, true)) {
