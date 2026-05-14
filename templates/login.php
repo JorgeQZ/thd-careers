@@ -22,6 +22,16 @@ add_action('wp_enqueue_scripts', 'custom_login_dequeue_styles', 100);
  * REDIRECCIÓN SI YA ESTÁ LOGUEADO
  * ========================================================== */
 if (is_user_logged_in()) {
+    $user_id = get_current_user_id();
+    $is_complete = function_exists('thd_is_profile_complete')
+        ? thd_is_profile_complete($user_id)
+        : true;
+
+    if (!$is_complete) {
+        wp_safe_redirect(home_url('/mi-perfil/'));
+        exit;
+    }
+
     wp_safe_redirect(home_url('/'));
     exit;
 }

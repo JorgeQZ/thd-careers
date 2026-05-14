@@ -150,3 +150,161 @@ function thd_get_profile_missing_fields($user_id) {
 
     return array_unique($missing);
 }
+
+function thd_set_profile_redirect_pending( $user_id ) {
+    if ( ! $user_id ) {
+        return;
+    }
+    update_user_meta( $user_id, 'thd_profile_redirect_pending', 1 );
+}
+
+function thd_clear_profile_redirect_pending( $user_id ) {
+    if ( ! $user_id ) {
+        return;
+    }
+    delete_user_meta( $user_id, 'thd_profile_redirect_pending' );
+}
+
+/**
+ * Marca redirección pendiente justo después del login si el perfil sigue incompleto.
+ */
+function thd_mark_incomplete_profile_redirect_pending( $user_login, $user ) {
+
+    if ( ! ( $user instanceof WP_User ) || empty( $user->ID ) ) {
+        return;
+    }
+
+    $user_id = (int) $user->ID;
+    $is_complete = function_exists( 'thd_is_profile_complete' )
+        ? thd_is_profile_complete( $user_id )
+        : true;
+
+    if ( $is_complete ) {
+        thd_clear_profile_redirect_pending( $user_id );
+        return;
+    }
+
+    thd_set_profile_redirect_pending( $user_id );
+}
+add_action( 'wp_login', 'thd_mark_incomplete_profile_redirect_pending', 20, 2 );
+
+/**
+ * Fuerza Mi Perfil en post-login cuando el perfil está incompleto.
+ * Actúa como respaldo cuando el flujo de login respeta login_redirect.
+ */
+function thd_login_redirect_incomplete_profile( $redirect_to, $requested_redirect_to, $user ) {
+
+    if ( ! ( $user instanceof WP_User ) || empty( $user->ID ) ) {
+        return $redirect_to;
+    }
+
+    $user_id = (int) $user->ID;
+    $is_complete = function_exists( 'thd_is_profile_complete' )
+        ? thd_is_profile_complete( $user_id )
+        : true;
+
+    if ( $is_complete ) {
+        return $redirect_to;
+    }
+
+    thd_set_profile_redirect_pending( $user_id );
+    return home_url( '/mi-perfil/' );
+}
+add_filter( 'login_redirect', 'thd_login_redirect_incomplete_profile', 999, 3 );
+
+/**
+ * Ejecuta redirección one-shot a Mi Perfil solo cuando hay bandera pendiente.
+ */
+function thd_enforce_complete_profile_redirect() {
+
+    if ( ! is_user_logged_in() ) {
+        return;
+    }
+
+    // Skip non-frontend and non-interactive contexts.
+    if ( is_admin() || wp_doing_ajax() || wp_doing_cron() ) {
+        return;
+    }
+
+    if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+        return;
+    }
+
+    if ( function_exists( 'wp_is_json_request' ) && wp_is_json_request() ) {
+        return;
+    }
+
+    if ( defined( 'WP_CLI' ) && WP_CLI ) {
+        return;
+    }
+
+    $action = isset( $_REQUEST['action'] )
+        ? sanitize_key( wp_unslash( $_REQUEST['action'] ) )
+        : '';
+
+    // Keep auth edge flows untouched.
+    if ( in_array( $action, array( 'logout', 'lostpassword', 'rp', 'resetpass' ), true ) ) {
+        return;
+    }
+
+    // Keep password reset page untouched.
+    if ( is_page_template( 'templates/lost-password.php' ) ) {
+        return;
+    }
+
+    $user_id = get_current_user_id();
+
+    if ( ! $user_id ) {
+        return;
+    }
+
+    $is_complete = function_exists( 'thd_is_profile_complete' )
+        ? thd_is_profile_complete( $user_id )
+        : true;
+
+    // Respaldo para social callbacks: primera request frontend de sesión nueva.
+    $current_session_token = function_exists( 'wp_get_session_token' ) ? (string) wp_get_session_token() : '';
+    $known_session_token   = (string) get_user_meta( $user_id, 'thd_profile_redirect_session_token', true );
+    $is_new_session        = ( $current_session_token !== '' && ! hash_equals( $known_session_token, $current_session_token ) );
+
+    if ( $is_new_session ) {
+        update_user_meta( $user_id, 'thd_profile_redirect_session_token', $current_session_token );
+
+        if ( ! $is_complete ) {
+            thd_set_profile_redirect_pending( $user_id );
+        } else {
+            thd_clear_profile_redirect_pending( $user_id );
+        }
+    }
+
+    $pending_redirect = (int) get_user_meta( $user_id, 'thd_profile_redirect_pending', true ) === 1;
+    if ( ! $pending_redirect ) {
+        return;
+    }
+
+    $current_path = isset( $_SERVER['REQUEST_URI'] )
+        ? wp_parse_url( home_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ), PHP_URL_PATH )
+        : '';
+
+    $profile_path = wp_parse_url( home_url( '/mi-perfil/' ), PHP_URL_PATH );
+
+    if (
+        is_string( $current_path ) &&
+        is_string( $profile_path ) &&
+        untrailingslashit( $current_path ) === untrailingslashit( $profile_path )
+    ) {
+        // Ya llegó a Mi Perfil: consumimos la bandera para no encerrar al usuario.
+        thd_clear_profile_redirect_pending( $user_id );
+        return;
+    }
+
+    if ( $is_complete ) {
+        thd_clear_profile_redirect_pending( $user_id );
+        return;
+    }
+
+    thd_clear_profile_redirect_pending( $user_id );
+    wp_safe_redirect( home_url( '/mi-perfil/' ) );
+    exit;
+}
+add_action( 'template_redirect', 'thd_enforce_complete_profile_redirect', 1 );

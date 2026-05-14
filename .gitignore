@@ -1,13 +1,54 @@
-*.json
-node_modules/*
-node_modules
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
 
-bs-config.js
-package-lock.json
-package.json
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-json
-video
+# Node dependencies
+node_modules/
 
+# Node logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build / cache
+dist/
+build/
+.cache/
+.tmp/
+.sass-cache/
+
+# Sass / source maps
+*.map
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Backups / exports
 *.zip
-*.DS_Store
+*.tar
+*.tar.gz
+*.sql
+*.bak
+*.backup
+*.orig
+
+# Local screenshots / temporary files
+screenshot-local.png
+# Secrets / credentials
+json/*.json
+.env
+*.pem
+*.key
