@@ -253,17 +253,49 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login']) ) {
  * Configuración nueva de reset de password a useres generales
  */
 
-add_filter('retrieve_password_message', function ($message, $key, $user_login, $user_data) {
+add_filter( 'retrieve_password_title', function( $title, $user_login, $user_data ) {
+    return sprintf(
+        '[%s] Reinicio de contraseña',
+        thd_get_public_site_name()
+    );
+}, 10, 3 );
 
-    $custom_url = home_url(
-        '/recuperar-contrasena/?key=' . $key . '&login=' . rawurlencode($user_login)
+add_filter('retrieve_password_message', function ($message, $key, $user_login, $user_data) {
+    $public_site_name = thd_get_public_site_name();
+
+    $custom_url = add_query_arg(
+        array(
+            'key'   => $key,
+            'login' => $user_login,
+        ),
+        trailingslashit( thd_get_public_site_url() ) . 'recuperar-contrasena/'
     );
 
-    // Reemplaza cualquier URL que contenga wp-login.php?... por la personalizada
-    $message = preg_replace(
-        '/https?:\/\/[^\s]+wp-login\.php[^\s]*/',
-        $custom_url,
-        $message
+    $default_reset_url = network_site_url(
+        'wp-login.php?action=rp&key=' . $key . '&login=' . rawurlencode( $user_login ),
+        'login'
+    );
+
+    // Reemplazo principal por coincidencia exacta al link nativo de WordPress.
+    $message = str_replace( $default_reset_url, $custom_url, $message );
+
+    // Fallback: cubre variantes del link en el mensaje.
+    if ( false === strpos( $message, $custom_url ) ) {
+        $message = preg_replace(
+            '/https?:\/\/[^\s<>"\']*wp-login\.php\?action=rp[^\s<>"\']*/',
+            $custom_url,
+            $message,
+            1
+        );
+    }
+
+    $message = preg_replace_callback(
+        '/^(Nombre del sitio|Site Name):\s*.+$/mi',
+        function( $matches ) use ( $public_site_name ) {
+            return $matches[1] . ': ' . $public_site_name;
+        },
+        $message,
+        1
     );
 
     return $message;
