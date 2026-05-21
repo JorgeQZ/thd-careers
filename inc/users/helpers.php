@@ -36,48 +36,26 @@ function thd_get_public_site_url() {
     }
 
     $public_site_url = trim( $public_site_url );
+    $public_site_url = esc_url_raw( $public_site_url );
 
-    if ( '' !== $public_site_url && false !== wp_http_validate_url( $public_site_url ) ) {
-        return untrailingslashit( $public_site_url );
+    if ( '' === $public_site_url ) {
+        $public_site_url = home_url( '/' );
     }
 
-    return untrailingslashit( home_url( '/' ) );
+    return untrailingslashit( (string) $public_site_url );
 }
 
 /**
- * Obtiene el nombre público del micrositio para correos y textos visibles.
- *
- * Orden de resolución:
- * 1) vip_get_env_var()
- * 2) \Automattic\VIP\Environment::get_var()
- * 3) getenv()
- * 4) get_bloginfo( 'name' ) como fallback.
+ * Obtiene la etiqueta visible del sitio derivada de la URL pública.
  *
  * @return string
  */
-function thd_get_public_site_name() {
-    $public_site_name = '';
+function thd_get_public_site_label() {
+    $public_site_url = thd_get_public_site_url();
+    $host            = wp_parse_url( $public_site_url, PHP_URL_HOST );
 
-    if ( function_exists( 'vip_get_env_var' ) ) {
-        $public_site_name = (string) vip_get_env_var( 'CARRERAS_PUBLIC_SITE_NAME', '' );
-    }
-
-    if (
-        '' === $public_site_name &&
-        class_exists( '\Automattic\VIP\Environment' ) &&
-        method_exists( '\Automattic\VIP\Environment', 'get_var' )
-    ) {
-        $public_site_name = (string) \Automattic\VIP\Environment::get_var( 'CARRERAS_PUBLIC_SITE_NAME' );
-    }
-
-    if ( '' === $public_site_name ) {
-        $public_site_name = (string) getenv( 'CARRERAS_PUBLIC_SITE_NAME' );
-    }
-
-    $public_site_name = wp_strip_all_tags( trim( $public_site_name ) );
-
-    if ( '' !== $public_site_name ) {
-        return $public_site_name;
+    if ( ! empty( $host ) ) {
+        return wp_strip_all_tags( (string) $host );
     }
 
     return wp_strip_all_tags( (string) get_bloginfo( 'name' ) );

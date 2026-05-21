@@ -256,12 +256,12 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_login']) ) {
 add_filter( 'retrieve_password_title', function( $title, $user_login, $user_data ) {
     return sprintf(
         '[%s] Reinicio de contraseña',
-        thd_get_public_site_name()
+        thd_get_public_site_label()
     );
 }, 10, 3 );
 
 add_filter('retrieve_password_message', function ($message, $key, $user_login, $user_data) {
-    $public_site_name = thd_get_public_site_name();
+    $public_site_label = thd_get_public_site_label();
 
     $custom_url = add_query_arg(
         array(
@@ -273,7 +273,7 @@ add_filter('retrieve_password_message', function ($message, $key, $user_login, $
 
     // Reconstrucción completa para asegurar que no quede ningún link nativo wp-login.php.
     $message  = "Alguien ha solicitado un reinicio de contraseña para la siguiente cuenta:\r\n\r\n";
-    $message .= 'Nombre del sitio: ' . $public_site_name . "\r\n\r\n";
+    $message .= 'Nombre del sitio: ' . $public_site_label . "\r\n\r\n";
     $message .= 'Nombre de usuario: ' . $user_login . "\r\n\r\n";
     $message .= "Si ha sido un error, ignora este correo electrónico y no pasará nada.\r\n\r\n";
     $message .= "Para restaurar la contraseña, visita la siguiente dirección:\r\n\r\n";
