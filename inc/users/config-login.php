@@ -271,32 +271,13 @@ add_filter('retrieve_password_message', function ($message, $key, $user_login, $
         trailingslashit( thd_get_public_site_url() ) . 'recuperar-contrasena/'
     );
 
-    $default_reset_url = network_site_url(
-        'wp-login.php?action=rp&key=' . $key . '&login=' . rawurlencode( $user_login ),
-        'login'
-    );
-
-    // Reemplazo principal por coincidencia exacta al link nativo de WordPress.
-    $message = str_replace( $default_reset_url, $custom_url, $message );
-
-    // Fallback: cubre variantes del link en el mensaje.
-    if ( false === strpos( $message, $custom_url ) ) {
-        $message = preg_replace(
-            '/https?:\/\/[^\s<>"\']*wp-login\.php\?action=rp[^\s<>"\']*/',
-            $custom_url,
-            $message,
-            1
-        );
-    }
-
-    $message = preg_replace_callback(
-        '/^(Nombre del sitio|Site Name):\s*.+$/mi',
-        function( $matches ) use ( $public_site_name ) {
-            return $matches[1] . ': ' . $public_site_name;
-        },
-        $message,
-        1
-    );
+    // Reconstrucción completa para asegurar que no quede ningún link nativo wp-login.php.
+    $message  = "Alguien ha solicitado un reinicio de contraseña para la siguiente cuenta:\r\n\r\n";
+    $message .= 'Nombre del sitio: ' . $public_site_name . "\r\n\r\n";
+    $message .= 'Nombre de usuario: ' . $user_login . "\r\n\r\n";
+    $message .= "Si ha sido un error, ignora este correo electrónico y no pasará nada.\r\n\r\n";
+    $message .= "Para restaurar la contraseña, visita la siguiente dirección:\r\n\r\n";
+    $message .= $custom_url . "\r\n";
 
     return $message;
 

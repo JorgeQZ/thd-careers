@@ -9,8 +9,8 @@ if (!defined('ABSPATH')) {
 
 get_header();
 
-$key   = $_GET['key'] ?? '';
-$login = $_GET['login'] ?? '';
+$key   = isset( $_GET['key'] ) ? (string) wp_unslash( $_GET['key'] ) : '';
+$login = isset( $_GET['login'] ) ? (string) wp_unslash( $_GET['login'] ) : '';
 $is_reset_flow = (!empty($key) && !empty($login));
 
 $success_message = '';
