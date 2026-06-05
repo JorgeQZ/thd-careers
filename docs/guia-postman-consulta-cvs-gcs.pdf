@@ -1,0 +1,516 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R] /Count 7 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 7578 >>
+stream
+0 0 0 rg BT /F2 18 Tf 42.0 740.0 Td (Guia Postman - Consulta de CVs en Google Cloud Storage) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 697.0 Td (1. Alcance) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 672.0 Td (Esta guia explica como usar Postman para consultar archivos CV almacenados en Google Cloud Storage.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 654.0 Td (Incluye:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 636.0 Td (* Preparar un JWT firmado para OAuth 2.0.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 623.0 Td (* Obtener un access_token.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 610.0 Td (* Listar archivos del bucket.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 597.0 Td (* Consultar metadata de un archivo.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 584.0 Td (* Descargar o leer un archivo.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 566.0 Td (No incluye:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 548.0 Td (* Upload de archivos.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 535.0 Td (* Edicion de objetos.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 522.0 Td (* Borrado de objetos.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 509.0 Td (* Consultas a WordPress.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 496.0 Td (* SQL.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 483.0 Td (* Endpoints internos del sitio.) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 457.0 Td (2. Flujo En Postman) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 432.0 Td (El flujo recomendado en Postman es:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 414.0 Td (1. Preparar o recibir un JWT firmado con RS256.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 401.0 Td (2. Intercambiar el JWT por un access_token en Google OAuth.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 388.0 Td (3. Usar el access_token como Bearer token para llamar Google Cloud Storage.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 375.0 Td (4. Listar objetos del bucket, si se necesita ubicar archivos.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 362.0 Td (5. Consultar metadata de un objeto especifico.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 349.0 Td (6. Descargar el archivo usando el endpoint de descarga con alt=media.) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 323.0 Td (3. Variables De Entorno En Postman) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 298.0 Td (Crear un Environment en Postman con estas variables.) Tj ET
+0.86 0.90 0.95 rg 42.0 258.2 105.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 258.2 105.0 20.8 re S
+0.86 0.90 0.95 rg 147.0 258.2 205.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 258.2 205.0 20.8 re S
+0.86 0.90 0.95 rg 352.0 258.2 140.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 258.2 140.0 20.8 re S
+0.86 0.90 0.95 rg 492.0 258.2 78.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 258.2 78.0 20.8 re S
+0.05 0.08 0.12 rg BT /F2 7.8 Tf 46.0 264.2 Td (Variable) Tj ET
+0.05 0.08 0.12 rg BT /F2 7.8 Tf 151.0 264.2 Td (Descripcion) Tj ET
+0.05 0.08 0.12 rg BT /F2 7.8 Tf 356.0 264.2 Td (Ejemplo ficticio) Tj ET
+0.05 0.08 0.12 rg BT /F2 7.8 Tf 496.0 264.2 Td (Sensible) Tj ET
+1 1 1 rg 42.0 226.6 105.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 226.6 105.0 31.6 re S
+1 1 1 rg 147.0 226.6 205.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 226.6 205.0 31.6 re S
+1 1 1 rg 352.0 226.6 140.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 226.6 140.0 31.6 re S
+1 1 1 rg 492.0 226.6 78.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 226.6 78.0 31.6 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 243.4 Td (client_email) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 243.4 Td (Email de la service account.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 243.4 Td (service-account@project-) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 232.6 Td (id.iam.gserviceaccount.com) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 243.4 Td (Si) Tj ET
+1 1 1 rg 42.0 205.8 105.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 205.8 105.0 20.8 re S
+1 1 1 rg 147.0 205.8 205.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 205.8 205.0 20.8 re S
+1 1 1 rg 352.0 205.8 140.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 205.8 140.0 20.8 re S
+1 1 1 rg 492.0 205.8 78.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 205.8 78.0 20.8 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 211.8 Td (private_key) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 211.8 Td (Private key de la service account.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 211.8 Td (-----BEGIN PRIVATE KEY-----...) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 211.8 Td (Si, critica) Tj ET
+1 1 1 rg 42.0 185.0 105.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 185.0 105.0 20.8 re S
+1 1 1 rg 147.0 185.0 205.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 185.0 205.0 20.8 re S
+1 1 1 rg 352.0 185.0 140.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 185.0 140.0 20.8 re S
+1 1 1 rg 492.0 185.0 78.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 185.0 78.0 20.8 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 191.0 Td (jwt) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 191.0 Td (JWT firmado con RS256.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 191.0 Td (eyJhbGciOiJSUzI1NiIs...) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 191.0 Td (Si) Tj ET
+1 1 1 rg 42.0 164.2 105.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 164.2 105.0 20.8 re S
+1 1 1 rg 147.0 164.2 205.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 164.2 205.0 20.8 re S
+1 1 1 rg 352.0 164.2 140.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 164.2 140.0 20.8 re S
+1 1 1 rg 492.0 164.2 78.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 164.2 78.0 20.8 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 170.2 Td (access_token) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 170.2 Td (Token OAuth temporal devuelto por Google.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 170.2 Td (ya29...) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 170.2 Td (Si) Tj ET
+1 1 1 rg 42.0 132.6 105.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 132.6 105.0 31.6 re S
+1 1 1 rg 147.0 132.6 205.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 132.6 205.0 31.6 re S
+1 1 1 rg 352.0 132.6 140.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 132.6 140.0 31.6 re S
+1 1 1 rg 492.0 132.6 78.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 132.6 78.0 31.6 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 149.4 Td (bucket_name) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 149.4 Td (Nombre del bucket de Google Cloud Storage.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 149.4 Td (careers-cvs-bucket) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 149.4 Td (No, pero no) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 138.6 Td (publicar) Tj ET
+1 1 1 rg 42.0 101.0 105.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 101.0 105.0 31.6 re S
+1 1 1 rg 147.0 101.0 205.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 101.0 205.0 31.6 re S
+1 1 1 rg 352.0 101.0 140.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 101.0 140.0 31.6 re S
+1 1 1 rg 492.0 101.0 78.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 101.0 78.0 31.6 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 117.8 Td (object_name) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 117.8 Td (Nombre/ruta del archivo dentro del bucket.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 117.8 Td (1710000000-uuid-cv.pdf) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 117.8 Td (Puede ser) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 107.0 Td (sensible) Tj ET
+1 1 1 rg 42.0 69.4 105.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 69.4 105.0 31.6 re S
+1 1 1 rg 147.0 69.4 205.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 69.4 205.0 31.6 re S
+1 1 1 rg 352.0 69.4 140.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 69.4 140.0 31.6 re S
+1 1 1 rg 492.0 69.4 78.0 31.6 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 69.4 78.0 31.6 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 86.2 Td (object_name_encoded) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 86.2 Td (object_name codificado para URL.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 86.2 Td (folder%2Fcv.pdf) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 86.2 Td (Puede ser) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 75.4 Td (sensible) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 4045 >>
+stream
+1 1 1 rg 42.0 725.2 105.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 725.2 105.0 20.8 re S
+1 1 1 rg 147.0 725.2 205.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 147.0 725.2 205.0 20.8 re S
+1 1 1 rg 352.0 725.2 140.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 352.0 725.2 140.0 20.8 re S
+1 1 1 rg 492.0 725.2 78.0 20.8 re f
+0.55 0.62 0.70 RG 0.6 w 492.0 725.2 78.0 20.8 re S
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 46.0 731.2 Td (prefix) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 151.0 731.2 Td (Prefijo opcional para filtrar listado.) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 356.0 731.2 Td (171000) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.8 Tf 496.0 731.2 Td (No) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 711.2 Td (En las URLs de esta guia se usa la sintaxis de variables de Postman, por ejemplo:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 690.2 Td ({{bucket_name}}) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 680.2 Td ({{access_token}}) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 670.2 Td ({{object_name_encoded}}) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 642.2 Td (4. Request 1 - Preparar JWT Firmado) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 617.2 Td (Google OAuth requiere un JWT firmado con RS256 usando la private key de la service account.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 599.2 Td (Postman no debe recibir la private key completa salvo que sea estrictamente necesario. Para pruebas con) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 586.2 Td (cliente, la opcion mas segura es que el equipo tecnico entregue uno de estos valores temporales:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 568.2 Td (* Un access_token temporal listo para usar.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 555.2 Td (* O un jwt firmado temporal.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 537.2 Td (Si el cliente necesita generar el JWT por su cuenta, debe usar una libreria o script externo que firme) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 524.2 Td (RS256 con la private key de la service account. Este paso no es un request HTTP hacia Google Cloud) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 511.2 Td (Storage; es una preparacion previa para poder ejecutar el Request 2.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 488.2 Td (Header JWT) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 466.2 Td ({) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 456.2 Td (  "alg": "RS256",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 446.2 Td (  "typ": "JWT") Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 436.2 Td (}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 411.2 Td (Payload JWT) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 389.2 Td ({) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 379.2 Td (  "iss": "{{client_email}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 369.2 Td (  "scope": "https://www.googleapis.com/auth/devstorage.read_write",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 359.2 Td (  "aud": "https://oauth2.googleapis.com/token",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 349.2 Td (  "iat": 1710000000,) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 339.2 Td (  "exp": 1710003600) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 329.2 Td (}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 304.2 Td (Consideraciones) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 285.2 Td (* iss debe ser el email de la service account.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 272.2 Td (* scope debe permitir lectura de Cloud Storage. En esta guia se usa) Tj ET
+0 0 0 rg BT /F1 10 Tf 56.0 259.2 Td (https://www.googleapis.com/auth/devstorage.read_write.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 246.2 Td (* aud debe ser https://oauth2.googleapis.com/token.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 233.2 Td (* iat es la fecha/hora actual en Unix timestamp.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 220.2 Td (* exp debe ser una fecha/hora futura. Recomendado: no mas de 1 hora despues de iat.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 207.2 Td (* La firma debe usar RS256.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 194.2 Td (* El JWT final se guarda en la variable de Postman jwt.) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 168.2 Td (5. Request 2 - Obtener Access Token) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 143.2 Td (Este request intercambia el JWT firmado por un access_token de Google OAuth.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 120.2 Td (Method) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 98.2 Td (POST) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 73.2 Td (URL) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 3400 >>
+stream
+0 0 0 rg BT /F3 7.5 Tf 50.0 744.0 Td (https://oauth2.googleapis.com/token) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 719.0 Td (Headers) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 697.0 Td (Content-Type: application/x-www-form-urlencoded) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 672.0 Td (Body) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 653.0 Td (En Postman:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 635.0 Td (1. Ir a Body.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 622.0 Td (2. Seleccionar x-www-form-urlencoded.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 609.0 Td (3. Agregar los campos:) Tj ET
+0.86 0.90 0.95 rg 42.0 568.5 145.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 568.5 145.0 21.5 re S
+0.86 0.90 0.95 rg 187.0 568.5 383.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 187.0 568.5 383.0 21.5 re S
+0.05 0.08 0.12 rg BT /F2 8.5 Tf 46.0 574.5 Td (Key) Tj ET
+0.05 0.08 0.12 rg BT /F2 8.5 Tf 191.0 574.5 Td (Value) Tj ET
+1 1 1 rg 42.0 547.0 145.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 547.0 145.0 21.5 re S
+1 1 1 rg 187.0 547.0 383.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 187.0 547.0 383.0 21.5 re S
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 46.0 553.0 Td (grant_type) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 191.0 553.0 Td (urn:ietf:params:oauth:grant-type:jwt-bearer) Tj ET
+1 1 1 rg 42.0 525.5 145.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 525.5 145.0 21.5 re S
+1 1 1 rg 187.0 525.5 383.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 187.0 525.5 383.0 21.5 re S
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 46.0 531.5 Td (assertion) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 191.0 531.5 Td ({{jwt}}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 506.5 Td (Respuesta Esperada) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 484.5 Td ({) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 474.5 Td (  "access_token": "{{access_token}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 464.5 Td (  "expires_in": 3599,) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 454.5 Td (  "token_type": "Bearer") Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 444.5 Td (}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 419.5 Td (Tests) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 400.5 Td (Agregar este script en la pestana Tests del request para guardar automaticamente el token:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 379.5 Td (const data = pm.response.json\(\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 369.5 Td () Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 359.5 Td (pm.test\("Google OAuth devuelve access_token", function \(\) {) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 349.5 Td (  pm.expect\(data.access_token\).to.be.a\("string"\).and.not.empty;) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 339.5 Td (}\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 329.5 Td () Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 319.5 Td (if \(data.access_token\) {) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 309.5 Td (  pm.environment.set\("access_token", data.access_token\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 299.5 Td (}) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 271.5 Td (6. Request 3 - Listar Archivos Del Bucket) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 246.5 Td (Este request lista objetos almacenados en el bucket.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 223.5 Td (Method) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 201.5 Td (GET) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 176.5 Td (URL) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 154.5 Td (https://storage.googleapis.com/storage/v1/b/{{bucket_name}}/o) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 129.5 Td (Headers) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 107.5 Td (Authorization: Bearer {{access_token}}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 82.5 Td (Params) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 63.5 Td (Opcionales:) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 4631 >>
+stream
+0.86 0.90 0.95 rg 42.0 716.5 95.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 716.5 95.0 21.5 re S
+0.86 0.90 0.95 rg 137.0 716.5 115.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 137.0 716.5 115.0 21.5 re S
+0.86 0.90 0.95 rg 252.0 716.5 318.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 252.0 716.5 318.0 21.5 re S
+0.05 0.08 0.12 rg BT /F2 8.5 Tf 46.0 722.5 Td (Param) Tj ET
+0.05 0.08 0.12 rg BT /F2 8.5 Tf 141.0 722.5 Td (Value) Tj ET
+0.05 0.08 0.12 rg BT /F2 8.5 Tf 256.0 722.5 Td (Descripcion) Tj ET
+1 1 1 rg 42.0 695.0 95.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 695.0 95.0 21.5 re S
+1 1 1 rg 137.0 695.0 115.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 137.0 695.0 115.0 21.5 re S
+1 1 1 rg 252.0 695.0 318.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 252.0 695.0 318.0 21.5 re S
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 46.0 701.0 Td (prefix) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 141.0 701.0 Td ({{prefix}}) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 256.0 701.0 Td (Lista solo objetos cuyo nombre inicia con ese prefijo.) Tj ET
+1 1 1 rg 42.0 673.5 95.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 673.5 95.0 21.5 re S
+1 1 1 rg 137.0 673.5 115.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 137.0 673.5 115.0 21.5 re S
+1 1 1 rg 252.0 673.5 318.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 252.0 673.5 318.0 21.5 re S
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 46.0 679.5 Td (maxResults) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 141.0 679.5 Td (100) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 256.0 679.5 Td (Limita el numero de objetos devueltos.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 654.5 Td (Como Usar prefix) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 635.5 Td (Si los objetos tienen nombres como:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 614.5 Td (2026/cv-001.pdf) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 604.5 Td (2026/cv-002.pdf) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 594.5 Td (2025/cv-999.pdf) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 574.5 Td (Usar:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 553.5 Td (prefix=2026/) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 533.5 Td (Para endpoints de listado, el prefix puede enviarse como texto normal en Params. Postman se encarga de) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 520.5 Td (codificarlo al enviar el request.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 497.5 Td (Respuesta Esperada) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 475.5 Td ({) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 465.5 Td (  "kind": "storage#objects",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 455.5 Td (  "items": [) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 445.5 Td (    {) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 435.5 Td (      "kind": "storage#object",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 425.5 Td (      "id": "{{bucket_name}}/{{object_name}}/{{generation}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 415.5 Td (      "name": "{{object_name}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 405.5 Td (      "bucket": "{{bucket_name}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 395.5 Td (      "generation": "{{generation}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 385.5 Td (      "contentType": "application/pdf",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 375.5 Td (      "size": "12345",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 365.5 Td (      "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/{{bucket_name}}/o/{{object_) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 355.5 Td (name_encoded}}?generation={{generation}}&alt=media") Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 345.5 Td (    }) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 335.5 Td (  ]) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 325.5 Td (}) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 305.5 Td (El campo importante para identificar cada archivo es:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 284.5 Td (items[].name) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 264.5 Td (Ese valor es el object_name.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 241.5 Td (Tests Opcional) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 222.5 Td (Guardar el primer object name encontrado:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 201.5 Td (const data = pm.response.json\(\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 191.5 Td () Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 181.5 Td (pm.test\("La respuesta contiene items", function \(\) {) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 171.5 Td (  pm.expect\(data.items\).to.be.an\("array"\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 161.5 Td (}\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 151.5 Td () Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 141.5 Td (if \(data.items && data.items.length > 0\) {) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 131.5 Td (  pm.environment.set\("object_name", data.items[0].name\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 121.5 Td (  pm.environment.set\("object_name_encoded", encodeURIComponent\(data.items[0].name\)\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 111.5 Td (}) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 83.5 Td (7. Request 4 - Consultar Metadata De Un Archivo) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 3421 >>
+stream
+0 0 0 rg BT /F1 10 Tf 42.0 744.0 Td (Este request consulta los datos tecnicos de un archivo especifico sin descargar el contenido.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 721.0 Td (Method) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 699.0 Td (GET) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 674.0 Td (URL) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 652.0 Td (https://storage.googleapis.com/storage/v1/b/{{bucket_name}}/o/{{object_name_encoded}}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 627.0 Td (Headers) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 605.0 Td (Authorization: Bearer {{access_token}}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 580.0 Td (Como Preparar object_name_encoded) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 561.0 Td (El object name debe codificarse para URL.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 543.0 Td (Ejemplo:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 522.0 Td (object_name         = carpeta/cv-postulante.pdf) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 512.0 Td (object_name_encoded = carpeta%2Fcv-postulante.pdf) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 492.0 Td (La diagonal / debe convertirse en %2F cuando forma parte del nombre del objeto.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 474.0 Td (En Postman se puede generar desde Tests o Pre-request Script:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 453.0 Td (const objectName = pm.environment.get\("object_name"\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 443.0 Td () Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 433.0 Td (if \(objectName\) {) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 423.0 Td (  pm.environment.set\("object_name_encoded", encodeURIComponent\(objectName\)\);) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 413.0 Td (}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 388.0 Td (Respuesta Esperada) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 366.0 Td ({) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 356.0 Td (  "kind": "storage#object",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 346.0 Td (  "id": "{{bucket_name}}/{{object_name}}/{{generation}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 336.0 Td (  "selfLink": "https://www.googleapis.com/storage/v1/b/{{bucket_name}}/o/{{object_name_encoded}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 326.0 Td (  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/{{bucket_name}}/o/{{object_name) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 316.0 Td (_encoded}}?generation={{generation}}&alt=media",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 306.0 Td (  "name": "{{object_name}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 296.0 Td (  "bucket": "{{bucket_name}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 286.0 Td (  "generation": "{{generation}}",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 276.0 Td (  "contentType": "application/pdf",) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 266.0 Td (  "size": "12345") Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 256.0 Td (}) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 236.0 Td (Campos utiles:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 218.0 Td (* name: nombre del objeto.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 205.0 Td (* bucket: bucket donde esta almacenado.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 192.0 Td (* contentType: tipo MIME.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 179.0 Td (* size: tamano en bytes.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 166.0 Td (* mediaLink: URL de descarga generada por GCS.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 153.0 Td (* generation: version/generacion del objeto.) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 127.0 Td (8. Request 5 - Descargar O Leer Archivo) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 102.0 Td (Este request descarga el contenido del archivo.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 79.0 Td (Method) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 3686 >>
+stream
+0 0 0 rg BT /F3 7.5 Tf 50.0 744.0 Td (GET) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 719.0 Td (URL) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 697.0 Td (https://storage.googleapis.com/download/storage/v1/b/{{bucket_name}}/o/{{object_name_encoded}}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 672.0 Td (Params) Tj ET
+0.86 0.90 0.95 rg 42.0 630.5 145.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 630.5 145.0 21.5 re S
+0.86 0.90 0.95 rg 187.0 630.5 383.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 187.0 630.5 383.0 21.5 re S
+0.05 0.08 0.12 rg BT /F2 8.5 Tf 46.0 636.5 Td (Param) Tj ET
+0.05 0.08 0.12 rg BT /F2 8.5 Tf 191.0 636.5 Td (Value) Tj ET
+1 1 1 rg 42.0 609.0 145.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 609.0 145.0 21.5 re S
+1 1 1 rg 187.0 609.0 383.0 21.5 re f
+0.55 0.62 0.70 RG 0.6 w 187.0 609.0 383.0 21.5 re S
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 46.0 615.0 Td (alt) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.5 Tf 191.0 615.0 Td (media) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 590.0 Td (Headers) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 568.0 Td (Authorization: Bearer {{access_token}}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 543.0 Td (Como Probarlo En Postman) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 524.0 Td (1. Ejecutar Request 2 para obtener access_token.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 511.0 Td (2. Definir bucket_name.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 498.0 Td (3. Definir object_name.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 485.0 Td (4. Generar object_name_encoded.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 472.0 Td (5. Ejecutar Request 5.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 459.0 Td (6. Usar Send para previsualizar si Postman soporta el tipo de archivo.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 446.0 Td (7. Usar Send and Download para guardar el archivo localmente.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 423.0 Td (Variante Con Token En Query Param) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 404.0 Td (Tambien es posible enviar el token como query param:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 383.0 Td (https://storage.googleapis.com/download/storage/v1/b/{{bucket_name}}/o/{{object_name_encoded}}?alt=m) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 373.0 Td (edia&access_token={{access_token}}) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 353.0 Td (Para pruebas en Postman se recomienda usar el header Authorization en lugar de poner el token en la URL.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 340.0 Td (Esto reduce el riesgo de exponer tokens en capturas, historiales, logs o links compartidos.) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 314.0 Td (9. Orden Recomendado De Ejecucion) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 289.0 Td (Ejecutar los requests en este orden:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 271.0 Td (1. Request 1 - Preparar JWT firmado, o recibir un JWT/access token temporal.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 258.0 Td (2. Request 2 - Obtener access_token.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 245.0 Td (3. Request 3 - Listar archivos del bucket, si no se conoce el object_name.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 232.0 Td (4. Request 4 - Consultar metadata del archivo.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 219.0 Td (5. Request 5 - Descargar o leer el archivo.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 201.0 Td (Si el cliente ya tiene un access_token temporal, puede empezar directamente desde Request 3, Request 4 o) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 188.0 Td (Request 5.) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 162.0 Td (10. Manejo De Errores Comunes) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 132.0 Td (401 Unauthorized) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 113.0 Td (Posibles causas:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 95.0 Td (* access_token expirado.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 82.0 Td (* Token no guardado correctamente en Postman.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 69.0 Td (* Header Authorization ausente o mal formado.) Tj ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 2190 >>
+stream
+0 0 0 rg BT /F1 10 Tf 42.0 744.0 Td (Validar:) Tj ET
+0 0 0 rg BT /F3 7.5 Tf 50.0 723.0 Td (Authorization: Bearer {{access_token}}) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 698.0 Td (403 Forbidden) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 679.0 Td (Posibles causas:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 661.0 Td (* La service account no tiene permisos suficientes sobre el bucket.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 648.0 Td (* El scope del token no permite la operacion.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 635.0 Td (* El bucket pertenece a otro proyecto o politica de acceso.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 612.0 Td (404 Not Found) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 593.0 Td (Posibles causas:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 575.0 Td (* bucket_name incorrecto.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 562.0 Td (* object_name_encoded incorrecto.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 549.0 Td (* El objeto no existe.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 536.0 Td (* El object name contiene / y no se codifico como %2F.) Tj ET
+0 0 0 rg BT /F2 11 Tf 42.0 513.0 Td (400 Bad Request) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 494.0 Td (Posibles causas:) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 476.0 Td (* JWT mal formado.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 463.0 Td (* grant_type incorrecto.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 450.0 Td (* assertion vacio.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 437.0 Td (* iat o exp fuera de rango.) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 411.0 Td (11. Recomendaciones De Seguridad) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 386.0 Td (* No compartir private_key por canales inseguros.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 373.0 Td (* Preferir un access_token temporal para pruebas.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 360.0 Td (* No dejar tokens, JWTs ni private keys en capturas de pantalla.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 347.0 Td (* No guardar secretos reales en colecciones compartidas de Postman.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 334.0 Td (* Usar ambientes separados para pruebas y produccion.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 321.0 Td (* Revocar o rotar credenciales si se comparten por error.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 308.0 Td (* Evitar URLs con access_token en query param cuando se compartan evidencias.) Tj ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 18 0 R >>
+endobj
+xref
+0 20
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000162 00000 n 
+0000000259 00000 n 
+0000000361 00000 n 
+0000000456 00000 n 
+0000008086 00000 n 
+0000008232 00000 n 
+0000012329 00000 n 
+0000012475 00000 n 
+0000015928 00000 n 
+0000016076 00000 n 
+0000020760 00000 n 
+0000020908 00000 n 
+0000024382 00000 n 
+0000024530 00000 n 
+0000028269 00000 n 
+0000028417 00000 n 
+0000030660 00000 n 
+trailer
+<< /Size 20 /Root 1 0 R >>
+startxref
+30808
+%%EOF
