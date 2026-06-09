@@ -1,0 +1,303 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 8699 >>
+stream
+0 0 0 rg BT /F2 18 Tf 42.0 740.0 Td (Consultas SQL - Usuarios Y CVs En WordPress) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 697.0 Td (Uso Del Prefijo De Tablas) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 672.0 Td (Estas consultas usan placeholders porque el prefijo real de tablas puede cambiar entre ambientes y) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 659.0 Td (tambien puede variar si el sitio esta dentro de un WordPress Network / Multisite.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 641.0 Td (Reemplaza los placeholders por los prefijos reales de tu base de datos. Incluye el guion bajo final) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 628.0 Td (cuando el prefijo lo tenga.) Tj ET
+0.86 0.90 0.95 rg 42.0 588.0 115.0 21.0 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 588.0 115.0 21.0 re S
+0.86 0.90 0.95 rg 157.0 588.0 160.0 21.0 re f
+0.55 0.62 0.70 RG 0.6 w 157.0 588.0 160.0 21.0 re S
+0.86 0.90 0.95 rg 317.0 588.0 120.0 21.0 re f
+0.55 0.62 0.70 RG 0.6 w 317.0 588.0 120.0 21.0 re S
+0.86 0.90 0.95 rg 437.0 588.0 133.0 21.0 re f
+0.55 0.62 0.70 RG 0.6 w 437.0 588.0 133.0 21.0 re S
+0.05 0.08 0.12 rg BT /F2 8.0 Tf 46.0 594.0 Td (Placeholder) Tj ET
+0.05 0.08 0.12 rg BT /F2 8.0 Tf 161.0 594.0 Td (Uso) Tj ET
+0.05 0.08 0.12 rg BT /F2 8.0 Tf 321.0 594.0 Td (Ejemplo sitio principal) Tj ET
+0.05 0.08 0.12 rg BT /F2 8.0 Tf 441.0 594.0 Td (Ejemplo micrositio en network) Tj ET
+1 1 1 rg 42.0 556.0 115.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 556.0 115.0 32.0 re S
+1 1 1 rg 157.0 556.0 160.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 157.0 556.0 160.0 32.0 re S
+1 1 1 rg 317.0 556.0 120.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 317.0 556.0 120.0 32.0 re S
+1 1 1 rg 437.0 556.0 133.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 437.0 556.0 133.0 32.0 re S
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 46.0 573.0 Td ({USER_TABLE_PREFIX}) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 161.0 573.0 Td (Tablas globales de usuarios: users,) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 161.0 562.0 Td (usermeta.) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 321.0 573.0 Td (wp_) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 441.0 573.0 Td (wp_) Tj ET
+1 1 1 rg 42.0 524.0 115.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 524.0 115.0 32.0 re S
+1 1 1 rg 157.0 524.0 160.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 157.0 524.0 160.0 32.0 re S
+1 1 1 rg 317.0 524.0 120.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 317.0 524.0 120.0 32.0 re S
+1 1 1 rg 437.0 524.0 133.0 32.0 re f
+0.55 0.62 0.70 RG 0.6 w 437.0 524.0 133.0 32.0 re S
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 46.0 541.0 Td ({SITE_TABLE_PREFIX}) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 161.0 541.0 Td (Tablas del sitio/micrositio: posts,) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 161.0 530.0 Td (postmeta.) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 321.0 541.0 Td (wp_) Tj ET
+0.10 0.12 0.16 rg BT /F1 8.0 Tf 441.0 541.0 Td (wp_2_) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 510.0 Td (En WordPress Multisite, normalmente users y usermeta quedan con el prefijo base del network, mientras que) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 497.0 Td (posts y postmeta usan el prefijo del sitio. Por eso las consultas separan ambos placeholders.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 479.0 Td (Ejemplos:) Tj ET
+0.86 0.90 0.95 rg 42.0 439.6 118.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 439.6 118.0 20.4 re S
+0.86 0.90 0.95 rg 160.0 439.6 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 160.0 439.6 100.0 20.4 re S
+0.86 0.90 0.95 rg 260.0 439.6 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 260.0 439.6 100.0 20.4 re S
+0.86 0.90 0.95 rg 360.0 439.6 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 360.0 439.6 105.0 20.4 re S
+0.86 0.90 0.95 rg 465.0 439.6 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 465.0 439.6 105.0 20.4 re S
+0.05 0.08 0.12 rg BT /F2 7.4 Tf 46.0 445.6 Td (Contexto) Tj ET
+0.05 0.08 0.12 rg BT /F2 7.4 Tf 164.0 445.6 Td (Tabla usuarios) Tj ET
+0.05 0.08 0.12 rg BT /F2 7.4 Tf 264.0 445.6 Td (Tabla usermeta) Tj ET
+0.05 0.08 0.12 rg BT /F2 7.4 Tf 364.0 445.6 Td (Tabla posts) Tj ET
+0.05 0.08 0.12 rg BT /F2 7.4 Tf 469.0 445.6 Td (Tabla postmeta) Tj ET
+1 1 1 rg 42.0 419.2 118.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 419.2 118.0 20.4 re S
+1 1 1 rg 160.0 419.2 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 160.0 419.2 100.0 20.4 re S
+1 1 1 rg 260.0 419.2 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 260.0 419.2 100.0 20.4 re S
+1 1 1 rg 360.0 419.2 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 360.0 419.2 105.0 20.4 re S
+1 1 1 rg 465.0 419.2 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 465.0 419.2 105.0 20.4 re S
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 46.0 425.2 Td (Sitio principal con wp_) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 164.0 425.2 Td (wp_users) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 264.0 425.2 Td (wp_usermeta) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 364.0 425.2 Td (wp_posts) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 469.0 425.2 Td (wp_postmeta) Tj ET
+1 1 1 rg 42.0 398.8 118.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 398.8 118.0 20.4 re S
+1 1 1 rg 160.0 398.8 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 160.0 398.8 100.0 20.4 re S
+1 1 1 rg 260.0 398.8 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 260.0 398.8 100.0 20.4 re S
+1 1 1 rg 360.0 398.8 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 360.0 398.8 105.0 20.4 re S
+1 1 1 rg 465.0 398.8 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 465.0 398.8 105.0 20.4 re S
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 46.0 404.8 Td (Micrositio con blog ID 2) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 164.0 404.8 Td (wp_users) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 264.0 404.8 Td (wp_usermeta) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 364.0 404.8 Td (wp_2_posts) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 469.0 404.8 Td (wp_2_postmeta) Tj ET
+1 1 1 rg 42.0 378.4 118.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 378.4 118.0 20.4 re S
+1 1 1 rg 160.0 378.4 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 160.0 378.4 100.0 20.4 re S
+1 1 1 rg 260.0 378.4 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 260.0 378.4 100.0 20.4 re S
+1 1 1 rg 360.0 378.4 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 360.0 378.4 105.0 20.4 re S
+1 1 1 rg 465.0 378.4 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 465.0 378.4 105.0 20.4 re S
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 46.0 384.4 Td (Sitio principal con thd_) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 164.0 384.4 Td (thd_users) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 264.0 384.4 Td (thd_usermeta) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 364.0 384.4 Td (thd_posts) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 469.0 384.4 Td (thd_postmeta) Tj ET
+1 1 1 rg 42.0 358.0 118.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 42.0 358.0 118.0 20.4 re S
+1 1 1 rg 160.0 358.0 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 160.0 358.0 100.0 20.4 re S
+1 1 1 rg 260.0 358.0 100.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 260.0 358.0 100.0 20.4 re S
+1 1 1 rg 360.0 358.0 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 360.0 358.0 105.0 20.4 re S
+1 1 1 rg 465.0 358.0 105.0 20.4 re f
+0.55 0.62 0.70 RG 0.6 w 465.0 358.0 105.0 20.4 re S
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 46.0 364.0 Td (Micrositio con blog ID 3) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 164.0 364.0 Td (thd_users) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 264.0 364.0 Td (thd_usermeta) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 364.0 364.0 Td (thd_3_posts) Tj ET
+0.10 0.12 0.16 rg BT /F1 7.4 Tf 469.0 364.0 Td (thd_3_postmeta) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 336.0 Td (SQL 1 - Usuarios Con Nombre De Archivo CV En GCS) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 311.0 Td (Consulta principal para obtener usuario y nombre de archivo/objeto guardado en gcs_url_name.) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 290.0 Td (SELECT) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 280.6 Td (    u.ID AS user_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 271.2 Td (    u.user_login,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 261.8 Td (    u.user_email,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 252.4 Td (    gcs.meta_value AS gcs_object_name,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 243.0 Td (    cv.meta_value AS cv_gcs_url) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 233.6 Td (FROM {USER_TABLE_PREFIX}users u) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 224.2 Td (INNER JOIN {USER_TABLE_PREFIX}usermeta gcs) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 214.8 Td (    ON gcs.user_id = u.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 205.4 Td (    AND gcs.meta_key = 'gcs_url_name') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 196.0 Td (LEFT JOIN {USER_TABLE_PREFIX}usermeta cv) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 186.6 Td (    ON cv.user_id = u.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 177.2 Td (    AND cv.meta_key = 'cv_gcs_url') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 167.8 Td (WHERE gcs.meta_value IS NOT NULL) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 158.4 Td (  AND gcs.meta_value <> '') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 149.0 Td (ORDER BY u.ID ASC;) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 129.6 Td (El campo que identifica el archivo en el bucket es:) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 108.6 Td (gcs_object_name) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 81.2 Td (SQL 2 - Buscar Un Usuario Especifico Por Email) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 4672 >>
+stream
+0 0 0 rg BT /F3 7.2 Tf 50.0 744.0 Td (SELECT) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 734.6 Td (    u.ID AS user_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 725.2 Td (    u.user_login,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 715.8 Td (    u.user_email,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 706.4 Td (    gcs.meta_value AS gcs_object_name,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 697.0 Td (    cv.meta_value AS cv_gcs_url) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 687.6 Td (FROM {USER_TABLE_PREFIX}users u) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 678.2 Td (LEFT JOIN {USER_TABLE_PREFIX}usermeta gcs) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 668.8 Td (    ON gcs.user_id = u.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 659.4 Td (    AND gcs.meta_key = 'gcs_url_name') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 650.0 Td (LEFT JOIN {USER_TABLE_PREFIX}usermeta cv) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 640.6 Td (    ON cv.user_id = u.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 631.2 Td (    AND cv.meta_key = 'cv_gcs_url') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 621.8 Td (WHERE u.user_email = 'correo@ejemplo.com') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 612.4 Td (ORDER BY u.ID ASC;) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 585.0 Td (SQL 3 - Usuarios Con URL De CV Pero Sin Object Name) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 560.0 Td (Sirve para detectar registros que tienen cv_gcs_url, pero no tienen gcs_url_name.) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 539.0 Td (SELECT) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 529.6 Td (    u.ID AS user_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 520.2 Td (    u.user_login,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 510.8 Td (    u.user_email,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 501.4 Td (    cv.meta_value AS cv_gcs_url,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 492.0 Td (    gcs.meta_value AS gcs_object_name) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 482.6 Td (FROM {USER_TABLE_PREFIX}users u) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 473.2 Td (INNER JOIN {USER_TABLE_PREFIX}usermeta cv) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 463.8 Td (    ON cv.user_id = u.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 454.4 Td (    AND cv.meta_key = 'cv_gcs_url') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 445.0 Td (LEFT JOIN {USER_TABLE_PREFIX}usermeta gcs) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 435.6 Td (    ON gcs.user_id = u.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 426.2 Td (    AND gcs.meta_key = 'gcs_url_name') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 416.8 Td (WHERE cv.meta_value IS NOT NULL) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 407.4 Td (  AND cv.meta_value <> '') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 398.0 Td (  AND \(gcs.meta_value IS NULL OR gcs.meta_value = ''\)) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 388.6 Td (ORDER BY u.ID ASC;) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 361.2 Td (SQL 4 - CVs Guardados En Postulaciones) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 336.2 Td (Algunas postulaciones pueden guardar un CV especifico en el meta nombre_de_cv.) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 315.2 Td (SELECT) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 305.8 Td (    p.ID AS postulacion_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 296.4 Td (    p.post_title AS postulacion,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 287.0 Td (    user_id_meta.meta_value AS user_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 277.6 Td (    u.user_login,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 268.2 Td (    u.user_email,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 258.8 Td (    cv_post.meta_value AS gcs_object_name) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 249.4 Td (FROM {SITE_TABLE_PREFIX}posts p) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 240.0 Td (INNER JOIN {SITE_TABLE_PREFIX}postmeta cv_post) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 230.6 Td (    ON cv_post.post_id = p.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 221.2 Td (    AND cv_post.meta_key = 'nombre_de_cv') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 211.8 Td (LEFT JOIN {SITE_TABLE_PREFIX}postmeta user_id_meta) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 202.4 Td (    ON user_id_meta.post_id = p.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 193.0 Td (    AND user_id_meta.meta_key = 'id_postulante') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 183.6 Td (LEFT JOIN {USER_TABLE_PREFIX}users u) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 174.2 Td (    ON u.ID = CAST\(user_id_meta.meta_value AS UNSIGNED\)) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 164.8 Td (WHERE p.post_type = 'postulaciones') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 155.4 Td (  AND cv_post.meta_value IS NOT NULL) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 146.0 Td (  AND cv_post.meta_value <> '') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 136.6 Td (ORDER BY p.ID ASC;) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 109.2 Td (SQL 5 - Vista Consolidada De CVs Por Usuario) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 84.2 Td (Une el CV del perfil \(gcs_url_name\) con CVs cargados en postulaciones \(nombre_de_cv\).) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 63.2 Td (SELECT) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 3218 >>
+stream
+0 0 0 rg BT /F3 7.2 Tf 50.0 744.0 Td (    'perfil' AS source_type,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 734.6 Td (    u.ID AS user_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 725.2 Td (    u.user_login,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 715.8 Td (    u.user_email,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 706.4 Td (    NULL AS postulacion_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 697.0 Td (    gcs.meta_value AS gcs_object_name) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 687.6 Td (FROM {USER_TABLE_PREFIX}users u) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 678.2 Td (INNER JOIN {USER_TABLE_PREFIX}usermeta gcs) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 668.8 Td (    ON gcs.user_id = u.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 659.4 Td (    AND gcs.meta_key = 'gcs_url_name') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 650.0 Td (WHERE gcs.meta_value IS NOT NULL) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 640.6 Td (  AND gcs.meta_value <> '') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 631.2 Td () Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 621.8 Td (UNION ALL) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 612.4 Td () Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 603.0 Td (SELECT) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 593.6 Td (    'postulacion' AS source_type,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 584.2 Td (    u.ID AS user_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 574.8 Td (    u.user_login,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 565.4 Td (    u.user_email,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 556.0 Td (    p.ID AS postulacion_id,) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 546.6 Td (    cv_post.meta_value AS gcs_object_name) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 537.2 Td (FROM {SITE_TABLE_PREFIX}posts p) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 527.8 Td (INNER JOIN {SITE_TABLE_PREFIX}postmeta cv_post) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 518.4 Td (    ON cv_post.post_id = p.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 509.0 Td (    AND cv_post.meta_key = 'nombre_de_cv') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 499.6 Td (LEFT JOIN {SITE_TABLE_PREFIX}postmeta user_id_meta) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 490.2 Td (    ON user_id_meta.post_id = p.ID) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 480.8 Td (    AND user_id_meta.meta_key = 'id_postulante') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 471.4 Td (LEFT JOIN {USER_TABLE_PREFIX}users u) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 462.0 Td (    ON u.ID = CAST\(user_id_meta.meta_value AS UNSIGNED\)) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 452.6 Td (WHERE p.post_type = 'postulaciones') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 443.2 Td (  AND cv_post.meta_value IS NOT NULL) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 433.8 Td (  AND cv_post.meta_value <> '') Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 424.4 Td () Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 415.0 Td (ORDER BY user_id ASC, source_type ASC, postulacion_id ASC;) Tj ET
+0 0 0 rg BT /F2 13 Tf 42.0 387.6 Td (Nota Sobre El Nombre Del Objeto) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 362.6 Td (El valor de gcs_object_name corresponde al nombre del archivo/objeto guardado en el bucket.) Tj ET
+0 0 0 rg BT /F1 10 Tf 42.0 344.6 Td (Si el nombre contiene /, debe codificarse como %2F antes de usarlo en una URL de metadata o descarga:) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 323.6 Td (object_name         = carpeta/cv.pdf) Tj ET
+0 0 0 rg BT /F3 7.2 Tf 50.0 314.2 Td (object_name_encoded = carpeta%2Fcv.pdf) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000134 00000 n 
+0000000231 00000 n 
+0000000333 00000 n 
+0000000428 00000 n 
+0000009179 00000 n 
+0000009325 00000 n 
+0000014049 00000 n 
+0000014195 00000 n 
+0000017466 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+17614
+%%EOF
